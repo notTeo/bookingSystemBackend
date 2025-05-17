@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
-  registerBarberOwner,
-  loginBarberOwner,
+  registerOwner,
+  loginOwner,
 } from "../controllers/authController";
 import {
   registerValidation,
@@ -15,8 +15,8 @@ router.post(
   "/register",
   registerValidation,
   validateRequest,
-  registerBarberOwner
+  registerOwner
 );
-router.post("/login", loginValidation, validateRequest, loginBarberOwner);
+router.post("/login", loginValidation, validateRequest, loginOwner);
 
 export default router;

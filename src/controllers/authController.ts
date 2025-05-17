@@ -37,7 +37,7 @@ export const registerOwner = async (req: Request, res: Response): Promise<void> 
   }
 };
 
-export const loginBarberOwner = async (req: Request, res: Response): Promise<void> => {
+export const loginOwner = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
 
