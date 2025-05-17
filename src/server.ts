@@ -4,7 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { PrismaClient } from './generated/prisma';
 import authRoutes from './routes/auth';
-import barberRoutes from './routes/barbers';
+import barberRoutes from './routes/employees';
 import serviceRoutes from './routes/services';
 
 dotenv.config();
@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/auth', authRoutes);
-app.use('/barbers', barberRoutes);
+app.use('/employees', barberRoutes);
 app.use('/services', serviceRoutes);
 
 const PORT = process.env.PORT || 5000;

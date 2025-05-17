@@ -29,10 +29,10 @@ export type Customer = $Result.DefaultSelection<Prisma.$CustomerPayload>
  */
 export type Service = $Result.DefaultSelection<Prisma.$ServicePayload>
 /**
- * Model BarberService
+ * Model EmployeeService
  * 
  */
-export type BarberService = $Result.DefaultSelection<Prisma.$BarberServicePayload>
+export type EmployeeService = $Result.DefaultSelection<Prisma.$EmployeeServicePayload>
 /**
  * Model Booking
  * 
@@ -65,7 +65,7 @@ export type RecurringSlot = $Result.DefaultSelection<Prisma.$RecurringSlotPayloa
 export namespace $Enums {
   export const Role: {
   ADMIN: 'ADMIN',
-  BARBER_OWNER: 'BARBER_OWNER',
+  OWNER: 'OWNER',
   EMPLOYEE: 'EMPLOYEE'
 };
 
@@ -264,14 +264,14 @@ export class PrismaClient<
   get service(): Prisma.ServiceDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.barberService`: Exposes CRUD operations for the **BarberService** model.
+   * `prisma.employeeService`: Exposes CRUD operations for the **EmployeeService** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more BarberServices
-    * const barberServices = await prisma.barberService.findMany()
+    * // Fetch zero or more EmployeeServices
+    * const employeeServices = await prisma.employeeService.findMany()
     * ```
     */
-  get barberService(): Prisma.BarberServiceDelegate<ExtArgs, ClientOptions>;
+  get employeeService(): Prisma.EmployeeServiceDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.booking`: Exposes CRUD operations for the **Booking** model.
@@ -765,7 +765,7 @@ export namespace Prisma {
     User: 'User',
     Customer: 'Customer',
     Service: 'Service',
-    BarberService: 'BarberService',
+    EmployeeService: 'EmployeeService',
     Booking: 'Booking',
     WorkingHours: 'WorkingHours',
     WorkingSlot: 'WorkingSlot',
@@ -789,7 +789,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "customer" | "service" | "barberService" | "booking" | "workingHours" | "workingSlot" | "workingHourRange" | "recurringSlot"
+      modelProps: "user" | "customer" | "service" | "employeeService" | "booking" | "workingHours" | "workingSlot" | "workingHourRange" | "recurringSlot"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1015,77 +1015,77 @@ export namespace Prisma {
           }
         }
       }
-      BarberService: {
-        payload: Prisma.$BarberServicePayload<ExtArgs>
-        fields: Prisma.BarberServiceFieldRefs
+      EmployeeService: {
+        payload: Prisma.$EmployeeServicePayload<ExtArgs>
+        fields: Prisma.EmployeeServiceFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.BarberServiceFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BarberServicePayload> | null
+            args: Prisma.EmployeeServiceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeServicePayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.BarberServiceFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BarberServicePayload>
+            args: Prisma.EmployeeServiceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeServicePayload>
           }
           findFirst: {
-            args: Prisma.BarberServiceFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BarberServicePayload> | null
+            args: Prisma.EmployeeServiceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeServicePayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.BarberServiceFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BarberServicePayload>
+            args: Prisma.EmployeeServiceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeServicePayload>
           }
           findMany: {
-            args: Prisma.BarberServiceFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BarberServicePayload>[]
+            args: Prisma.EmployeeServiceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeServicePayload>[]
           }
           create: {
-            args: Prisma.BarberServiceCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BarberServicePayload>
+            args: Prisma.EmployeeServiceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeServicePayload>
           }
           createMany: {
-            args: Prisma.BarberServiceCreateManyArgs<ExtArgs>
+            args: Prisma.EmployeeServiceCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.BarberServiceCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BarberServicePayload>[]
+            args: Prisma.EmployeeServiceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeServicePayload>[]
           }
           delete: {
-            args: Prisma.BarberServiceDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BarberServicePayload>
+            args: Prisma.EmployeeServiceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeServicePayload>
           }
           update: {
-            args: Prisma.BarberServiceUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BarberServicePayload>
+            args: Prisma.EmployeeServiceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeServicePayload>
           }
           deleteMany: {
-            args: Prisma.BarberServiceDeleteManyArgs<ExtArgs>
+            args: Prisma.EmployeeServiceDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.BarberServiceUpdateManyArgs<ExtArgs>
+            args: Prisma.EmployeeServiceUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.BarberServiceUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BarberServicePayload>[]
+            args: Prisma.EmployeeServiceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeServicePayload>[]
           }
           upsert: {
-            args: Prisma.BarberServiceUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BarberServicePayload>
+            args: Prisma.EmployeeServiceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmployeeServicePayload>
           }
           aggregate: {
-            args: Prisma.BarberServiceAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateBarberService>
+            args: Prisma.EmployeeServiceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEmployeeService>
           }
           groupBy: {
-            args: Prisma.BarberServiceGroupByArgs<ExtArgs>
-            result: $Utils.Optional<BarberServiceGroupByOutputType>[]
+            args: Prisma.EmployeeServiceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EmployeeServiceGroupByOutputType>[]
           }
           count: {
-            args: Prisma.BarberServiceCountArgs<ExtArgs>
-            result: $Utils.Optional<BarberServiceCountAggregateOutputType> | number
+            args: Prisma.EmployeeServiceCountArgs<ExtArgs>
+            result: $Utils.Optional<EmployeeServiceCountAggregateOutputType> | number
           }
         }
       }
@@ -1546,7 +1546,7 @@ export namespace Prisma {
     user?: UserOmit
     customer?: CustomerOmit
     service?: ServiceOmit
-    barberService?: BarberServiceOmit
+    employeeService?: EmployeeServiceOmit
     booking?: BookingOmit
     workingHours?: WorkingHoursOmit
     workingSlot?: WorkingSlotOmit
@@ -1678,7 +1678,7 @@ export namespace Prisma {
    * UserCountOutputType without action
    */
   export type UserCountOutputTypeCountServicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BarberServiceWhereInput
+    where?: EmployeeServiceWhereInput
   }
 
   /**
@@ -1753,12 +1753,12 @@ export namespace Prisma {
    */
 
   export type ServiceCountOutputType = {
-    barbers: number
+    employees: number
     bookings: number
   }
 
   export type ServiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    barbers?: boolean | ServiceCountOutputTypeCountBarbersArgs
+    employees?: boolean | ServiceCountOutputTypeCountEmployeesArgs
     bookings?: boolean | ServiceCountOutputTypeCountBookingsArgs
   }
 
@@ -1776,8 +1776,8 @@ export namespace Prisma {
   /**
    * ServiceCountOutputType without action
    */
-  export type ServiceCountOutputTypeCountBarbersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BarberServiceWhereInput
+  export type ServiceCountOutputTypeCountEmployeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmployeeServiceWhereInput
   }
 
   /**
@@ -2092,7 +2092,7 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      services: Prisma.$BarberServicePayload<ExtArgs>[]
+      services: Prisma.$EmployeeServicePayload<ExtArgs>[]
       servicesCreated: Prisma.$ServicePayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
       workingHours: Prisma.$WorkingHoursPayload<ExtArgs>[]
@@ -2501,7 +2501,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    services<T extends User$servicesArgs<ExtArgs> = {}>(args?: Subset<T, User$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BarberServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    services<T extends User$servicesArgs<ExtArgs> = {}>(args?: Subset<T, User$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     servicesCreated<T extends User$servicesCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$servicesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookings<T extends User$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workingHours<T extends User$workingHoursArgs<ExtArgs> = {}>(args?: Subset<T, User$workingHoursArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkingHoursPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2935,23 +2935,23 @@ export namespace Prisma {
    */
   export type User$servicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BarberService
+     * Select specific fields to fetch from the EmployeeService
      */
-    select?: BarberServiceSelect<ExtArgs> | null
+    select?: EmployeeServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the BarberService
+     * Omit specific fields from the EmployeeService
      */
-    omit?: BarberServiceOmit<ExtArgs> | null
+    omit?: EmployeeServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BarberServiceInclude<ExtArgs> | null
-    where?: BarberServiceWhereInput
-    orderBy?: BarberServiceOrderByWithRelationInput | BarberServiceOrderByWithRelationInput[]
-    cursor?: BarberServiceWhereUniqueInput
+    include?: EmployeeServiceInclude<ExtArgs> | null
+    where?: EmployeeServiceWhereInput
+    orderBy?: EmployeeServiceOrderByWithRelationInput | EmployeeServiceOrderByWithRelationInput[]
+    cursor?: EmployeeServiceWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: BarberServiceScalarFieldEnum | BarberServiceScalarFieldEnum[]
+    distinct?: EmployeeServiceScalarFieldEnum | EmployeeServiceScalarFieldEnum[]
   }
 
   /**
@@ -4408,7 +4408,7 @@ export namespace Prisma {
     price?: boolean
     createdById?: boolean
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
-    barbers?: boolean | Service$barbersArgs<ExtArgs>
+    employees?: boolean | Service$employeesArgs<ExtArgs>
     bookings?: boolean | Service$bookingsArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
@@ -4442,7 +4442,7 @@ export namespace Prisma {
   export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "duration" | "price" | "createdById", ExtArgs["result"]["service"]>
   export type ServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
-    barbers?: boolean | Service$barbersArgs<ExtArgs>
+    employees?: boolean | Service$employeesArgs<ExtArgs>
     bookings?: boolean | Service$bookingsArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -4457,7 +4457,7 @@ export namespace Prisma {
     name: "Service"
     objects: {
       createdBy: Prisma.$UserPayload<ExtArgs>
-      barbers: Prisma.$BarberServicePayload<ExtArgs>[]
+      employees: Prisma.$EmployeeServicePayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -4861,7 +4861,7 @@ export namespace Prisma {
   export interface Prisma__ServiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     createdBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    barbers<T extends Service$barbersArgs<ExtArgs> = {}>(args?: Subset<T, Service$barbersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BarberServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    employees<T extends Service$employeesArgs<ExtArgs> = {}>(args?: Subset<T, Service$employeesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookings<T extends Service$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Service$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -5293,27 +5293,27 @@ export namespace Prisma {
   }
 
   /**
-   * Service.barbers
+   * Service.employees
    */
-  export type Service$barbersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Service$employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BarberService
+     * Select specific fields to fetch from the EmployeeService
      */
-    select?: BarberServiceSelect<ExtArgs> | null
+    select?: EmployeeServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the BarberService
+     * Omit specific fields from the EmployeeService
      */
-    omit?: BarberServiceOmit<ExtArgs> | null
+    omit?: EmployeeServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BarberServiceInclude<ExtArgs> | null
-    where?: BarberServiceWhereInput
-    orderBy?: BarberServiceOrderByWithRelationInput | BarberServiceOrderByWithRelationInput[]
-    cursor?: BarberServiceWhereUniqueInput
+    include?: EmployeeServiceInclude<ExtArgs> | null
+    where?: EmployeeServiceWhereInput
+    orderBy?: EmployeeServiceOrderByWithRelationInput | EmployeeServiceOrderByWithRelationInput[]
+    cursor?: EmployeeServiceWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: BarberServiceScalarFieldEnum | BarberServiceScalarFieldEnum[]
+    distinct?: EmployeeServiceScalarFieldEnum | EmployeeServiceScalarFieldEnum[]
   }
 
   /**
@@ -5360,360 +5360,360 @@ export namespace Prisma {
 
 
   /**
-   * Model BarberService
+   * Model EmployeeService
    */
 
-  export type AggregateBarberService = {
-    _count: BarberServiceCountAggregateOutputType | null
-    _avg: BarberServiceAvgAggregateOutputType | null
-    _sum: BarberServiceSumAggregateOutputType | null
-    _min: BarberServiceMinAggregateOutputType | null
-    _max: BarberServiceMaxAggregateOutputType | null
+  export type AggregateEmployeeService = {
+    _count: EmployeeServiceCountAggregateOutputType | null
+    _avg: EmployeeServiceAvgAggregateOutputType | null
+    _sum: EmployeeServiceSumAggregateOutputType | null
+    _min: EmployeeServiceMinAggregateOutputType | null
+    _max: EmployeeServiceMaxAggregateOutputType | null
   }
 
-  export type BarberServiceAvgAggregateOutputType = {
-    barberId: number | null
+  export type EmployeeServiceAvgAggregateOutputType = {
+    employeeId: number | null
     serviceId: number | null
   }
 
-  export type BarberServiceSumAggregateOutputType = {
-    barberId: number | null
+  export type EmployeeServiceSumAggregateOutputType = {
+    employeeId: number | null
     serviceId: number | null
   }
 
-  export type BarberServiceMinAggregateOutputType = {
-    barberId: number | null
+  export type EmployeeServiceMinAggregateOutputType = {
+    employeeId: number | null
     serviceId: number | null
   }
 
-  export type BarberServiceMaxAggregateOutputType = {
-    barberId: number | null
+  export type EmployeeServiceMaxAggregateOutputType = {
+    employeeId: number | null
     serviceId: number | null
   }
 
-  export type BarberServiceCountAggregateOutputType = {
-    barberId: number
+  export type EmployeeServiceCountAggregateOutputType = {
+    employeeId: number
     serviceId: number
     _all: number
   }
 
 
-  export type BarberServiceAvgAggregateInputType = {
-    barberId?: true
+  export type EmployeeServiceAvgAggregateInputType = {
+    employeeId?: true
     serviceId?: true
   }
 
-  export type BarberServiceSumAggregateInputType = {
-    barberId?: true
+  export type EmployeeServiceSumAggregateInputType = {
+    employeeId?: true
     serviceId?: true
   }
 
-  export type BarberServiceMinAggregateInputType = {
-    barberId?: true
+  export type EmployeeServiceMinAggregateInputType = {
+    employeeId?: true
     serviceId?: true
   }
 
-  export type BarberServiceMaxAggregateInputType = {
-    barberId?: true
+  export type EmployeeServiceMaxAggregateInputType = {
+    employeeId?: true
     serviceId?: true
   }
 
-  export type BarberServiceCountAggregateInputType = {
-    barberId?: true
+  export type EmployeeServiceCountAggregateInputType = {
+    employeeId?: true
     serviceId?: true
     _all?: true
   }
 
-  export type BarberServiceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which BarberService to aggregate.
+     * Filter which EmployeeService to aggregate.
      */
-    where?: BarberServiceWhereInput
+    where?: EmployeeServiceWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of BarberServices to fetch.
+     * Determine the order of EmployeeServices to fetch.
      */
-    orderBy?: BarberServiceOrderByWithRelationInput | BarberServiceOrderByWithRelationInput[]
+    orderBy?: EmployeeServiceOrderByWithRelationInput | EmployeeServiceOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: BarberServiceWhereUniqueInput
+    cursor?: EmployeeServiceWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` BarberServices from the position of the cursor.
+     * Take `±n` EmployeeServices from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` BarberServices.
+     * Skip the first `n` EmployeeServices.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned BarberServices
+     * Count returned EmployeeServices
     **/
-    _count?: true | BarberServiceCountAggregateInputType
+    _count?: true | EmployeeServiceCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: BarberServiceAvgAggregateInputType
+    _avg?: EmployeeServiceAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: BarberServiceSumAggregateInputType
+    _sum?: EmployeeServiceSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: BarberServiceMinAggregateInputType
+    _min?: EmployeeServiceMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: BarberServiceMaxAggregateInputType
+    _max?: EmployeeServiceMaxAggregateInputType
   }
 
-  export type GetBarberServiceAggregateType<T extends BarberServiceAggregateArgs> = {
-        [P in keyof T & keyof AggregateBarberService]: P extends '_count' | 'count'
+  export type GetEmployeeServiceAggregateType<T extends EmployeeServiceAggregateArgs> = {
+        [P in keyof T & keyof AggregateEmployeeService]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateBarberService[P]>
-      : GetScalarType<T[P], AggregateBarberService[P]>
+        : GetScalarType<T[P], AggregateEmployeeService[P]>
+      : GetScalarType<T[P], AggregateEmployeeService[P]>
   }
 
 
 
 
-  export type BarberServiceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BarberServiceWhereInput
-    orderBy?: BarberServiceOrderByWithAggregationInput | BarberServiceOrderByWithAggregationInput[]
-    by: BarberServiceScalarFieldEnum[] | BarberServiceScalarFieldEnum
-    having?: BarberServiceScalarWhereWithAggregatesInput
+  export type EmployeeServiceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmployeeServiceWhereInput
+    orderBy?: EmployeeServiceOrderByWithAggregationInput | EmployeeServiceOrderByWithAggregationInput[]
+    by: EmployeeServiceScalarFieldEnum[] | EmployeeServiceScalarFieldEnum
+    having?: EmployeeServiceScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: BarberServiceCountAggregateInputType | true
-    _avg?: BarberServiceAvgAggregateInputType
-    _sum?: BarberServiceSumAggregateInputType
-    _min?: BarberServiceMinAggregateInputType
-    _max?: BarberServiceMaxAggregateInputType
+    _count?: EmployeeServiceCountAggregateInputType | true
+    _avg?: EmployeeServiceAvgAggregateInputType
+    _sum?: EmployeeServiceSumAggregateInputType
+    _min?: EmployeeServiceMinAggregateInputType
+    _max?: EmployeeServiceMaxAggregateInputType
   }
 
-  export type BarberServiceGroupByOutputType = {
-    barberId: number
+  export type EmployeeServiceGroupByOutputType = {
+    employeeId: number
     serviceId: number
-    _count: BarberServiceCountAggregateOutputType | null
-    _avg: BarberServiceAvgAggregateOutputType | null
-    _sum: BarberServiceSumAggregateOutputType | null
-    _min: BarberServiceMinAggregateOutputType | null
-    _max: BarberServiceMaxAggregateOutputType | null
+    _count: EmployeeServiceCountAggregateOutputType | null
+    _avg: EmployeeServiceAvgAggregateOutputType | null
+    _sum: EmployeeServiceSumAggregateOutputType | null
+    _min: EmployeeServiceMinAggregateOutputType | null
+    _max: EmployeeServiceMaxAggregateOutputType | null
   }
 
-  type GetBarberServiceGroupByPayload<T extends BarberServiceGroupByArgs> = Prisma.PrismaPromise<
+  type GetEmployeeServiceGroupByPayload<T extends EmployeeServiceGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<BarberServiceGroupByOutputType, T['by']> &
+      PickEnumerable<EmployeeServiceGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof BarberServiceGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof EmployeeServiceGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], BarberServiceGroupByOutputType[P]>
-            : GetScalarType<T[P], BarberServiceGroupByOutputType[P]>
+              : GetScalarType<T[P], EmployeeServiceGroupByOutputType[P]>
+            : GetScalarType<T[P], EmployeeServiceGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type BarberServiceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    barberId?: boolean
+  export type EmployeeServiceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    employeeId?: boolean
     serviceId?: boolean
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["barberService"]>
+  }, ExtArgs["result"]["employeeService"]>
 
-  export type BarberServiceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    barberId?: boolean
+  export type EmployeeServiceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    employeeId?: boolean
     serviceId?: boolean
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["barberService"]>
+  }, ExtArgs["result"]["employeeService"]>
 
-  export type BarberServiceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    barberId?: boolean
+  export type EmployeeServiceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    employeeId?: boolean
     serviceId?: boolean
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["barberService"]>
+  }, ExtArgs["result"]["employeeService"]>
 
-  export type BarberServiceSelectScalar = {
-    barberId?: boolean
+  export type EmployeeServiceSelectScalar = {
+    employeeId?: boolean
     serviceId?: boolean
   }
 
-  export type BarberServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"barberId" | "serviceId", ExtArgs["result"]["barberService"]>
-  export type BarberServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+  export type EmployeeServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"employeeId" | "serviceId", ExtArgs["result"]["employeeService"]>
+  export type EmployeeServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
   }
-  export type BarberServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+  export type EmployeeServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
   }
-  export type BarberServiceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+  export type EmployeeServiceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
   }
 
-  export type $BarberServicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "BarberService"
+  export type $EmployeeServicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EmployeeService"
     objects: {
-      barber: Prisma.$UserPayload<ExtArgs>
+      employee: Prisma.$UserPayload<ExtArgs>
       service: Prisma.$ServicePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      barberId: number
+      employeeId: number
       serviceId: number
-    }, ExtArgs["result"]["barberService"]>
+    }, ExtArgs["result"]["employeeService"]>
     composites: {}
   }
 
-  type BarberServiceGetPayload<S extends boolean | null | undefined | BarberServiceDefaultArgs> = $Result.GetResult<Prisma.$BarberServicePayload, S>
+  type EmployeeServiceGetPayload<S extends boolean | null | undefined | EmployeeServiceDefaultArgs> = $Result.GetResult<Prisma.$EmployeeServicePayload, S>
 
-  type BarberServiceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<BarberServiceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: BarberServiceCountAggregateInputType | true
+  type EmployeeServiceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EmployeeServiceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EmployeeServiceCountAggregateInputType | true
     }
 
-  export interface BarberServiceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BarberService'], meta: { name: 'BarberService' } }
+  export interface EmployeeServiceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EmployeeService'], meta: { name: 'EmployeeService' } }
     /**
-     * Find zero or one BarberService that matches the filter.
-     * @param {BarberServiceFindUniqueArgs} args - Arguments to find a BarberService
+     * Find zero or one EmployeeService that matches the filter.
+     * @param {EmployeeServiceFindUniqueArgs} args - Arguments to find a EmployeeService
      * @example
-     * // Get one BarberService
-     * const barberService = await prisma.barberService.findUnique({
+     * // Get one EmployeeService
+     * const employeeService = await prisma.employeeService.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends BarberServiceFindUniqueArgs>(args: SelectSubset<T, BarberServiceFindUniqueArgs<ExtArgs>>): Prisma__BarberServiceClient<$Result.GetResult<Prisma.$BarberServicePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends EmployeeServiceFindUniqueArgs>(args: SelectSubset<T, EmployeeServiceFindUniqueArgs<ExtArgs>>): Prisma__EmployeeServiceClient<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one BarberService that matches the filter or throw an error with `error.code='P2025'`
+     * Find one EmployeeService that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {BarberServiceFindUniqueOrThrowArgs} args - Arguments to find a BarberService
+     * @param {EmployeeServiceFindUniqueOrThrowArgs} args - Arguments to find a EmployeeService
      * @example
-     * // Get one BarberService
-     * const barberService = await prisma.barberService.findUniqueOrThrow({
+     * // Get one EmployeeService
+     * const employeeService = await prisma.employeeService.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends BarberServiceFindUniqueOrThrowArgs>(args: SelectSubset<T, BarberServiceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BarberServiceClient<$Result.GetResult<Prisma.$BarberServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends EmployeeServiceFindUniqueOrThrowArgs>(args: SelectSubset<T, EmployeeServiceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EmployeeServiceClient<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first BarberService that matches the filter.
+     * Find the first EmployeeService that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BarberServiceFindFirstArgs} args - Arguments to find a BarberService
+     * @param {EmployeeServiceFindFirstArgs} args - Arguments to find a EmployeeService
      * @example
-     * // Get one BarberService
-     * const barberService = await prisma.barberService.findFirst({
+     * // Get one EmployeeService
+     * const employeeService = await prisma.employeeService.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends BarberServiceFindFirstArgs>(args?: SelectSubset<T, BarberServiceFindFirstArgs<ExtArgs>>): Prisma__BarberServiceClient<$Result.GetResult<Prisma.$BarberServicePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends EmployeeServiceFindFirstArgs>(args?: SelectSubset<T, EmployeeServiceFindFirstArgs<ExtArgs>>): Prisma__EmployeeServiceClient<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first BarberService that matches the filter or
+     * Find the first EmployeeService that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BarberServiceFindFirstOrThrowArgs} args - Arguments to find a BarberService
+     * @param {EmployeeServiceFindFirstOrThrowArgs} args - Arguments to find a EmployeeService
      * @example
-     * // Get one BarberService
-     * const barberService = await prisma.barberService.findFirstOrThrow({
+     * // Get one EmployeeService
+     * const employeeService = await prisma.employeeService.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends BarberServiceFindFirstOrThrowArgs>(args?: SelectSubset<T, BarberServiceFindFirstOrThrowArgs<ExtArgs>>): Prisma__BarberServiceClient<$Result.GetResult<Prisma.$BarberServicePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends EmployeeServiceFindFirstOrThrowArgs>(args?: SelectSubset<T, EmployeeServiceFindFirstOrThrowArgs<ExtArgs>>): Prisma__EmployeeServiceClient<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more BarberServices that matches the filter.
+     * Find zero or more EmployeeServices that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BarberServiceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {EmployeeServiceFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all BarberServices
-     * const barberServices = await prisma.barberService.findMany()
+     * // Get all EmployeeServices
+     * const employeeServices = await prisma.employeeService.findMany()
      * 
-     * // Get first 10 BarberServices
-     * const barberServices = await prisma.barberService.findMany({ take: 10 })
+     * // Get first 10 EmployeeServices
+     * const employeeServices = await prisma.employeeService.findMany({ take: 10 })
      * 
-     * // Only select the `barberId`
-     * const barberServiceWithBarberIdOnly = await prisma.barberService.findMany({ select: { barberId: true } })
+     * // Only select the `employeeId`
+     * const employeeServiceWithEmployeeIdOnly = await prisma.employeeService.findMany({ select: { employeeId: true } })
      * 
      */
-    findMany<T extends BarberServiceFindManyArgs>(args?: SelectSubset<T, BarberServiceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BarberServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends EmployeeServiceFindManyArgs>(args?: SelectSubset<T, EmployeeServiceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a BarberService.
-     * @param {BarberServiceCreateArgs} args - Arguments to create a BarberService.
+     * Create a EmployeeService.
+     * @param {EmployeeServiceCreateArgs} args - Arguments to create a EmployeeService.
      * @example
-     * // Create one BarberService
-     * const BarberService = await prisma.barberService.create({
+     * // Create one EmployeeService
+     * const EmployeeService = await prisma.employeeService.create({
      *   data: {
-     *     // ... data to create a BarberService
+     *     // ... data to create a EmployeeService
      *   }
      * })
      * 
      */
-    create<T extends BarberServiceCreateArgs>(args: SelectSubset<T, BarberServiceCreateArgs<ExtArgs>>): Prisma__BarberServiceClient<$Result.GetResult<Prisma.$BarberServicePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends EmployeeServiceCreateArgs>(args: SelectSubset<T, EmployeeServiceCreateArgs<ExtArgs>>): Prisma__EmployeeServiceClient<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many BarberServices.
-     * @param {BarberServiceCreateManyArgs} args - Arguments to create many BarberServices.
+     * Create many EmployeeServices.
+     * @param {EmployeeServiceCreateManyArgs} args - Arguments to create many EmployeeServices.
      * @example
-     * // Create many BarberServices
-     * const barberService = await prisma.barberService.createMany({
+     * // Create many EmployeeServices
+     * const employeeService = await prisma.employeeService.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends BarberServiceCreateManyArgs>(args?: SelectSubset<T, BarberServiceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends EmployeeServiceCreateManyArgs>(args?: SelectSubset<T, EmployeeServiceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many BarberServices and returns the data saved in the database.
-     * @param {BarberServiceCreateManyAndReturnArgs} args - Arguments to create many BarberServices.
+     * Create many EmployeeServices and returns the data saved in the database.
+     * @param {EmployeeServiceCreateManyAndReturnArgs} args - Arguments to create many EmployeeServices.
      * @example
-     * // Create many BarberServices
-     * const barberService = await prisma.barberService.createManyAndReturn({
+     * // Create many EmployeeServices
+     * const employeeService = await prisma.employeeService.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many BarberServices and only return the `barberId`
-     * const barberServiceWithBarberIdOnly = await prisma.barberService.createManyAndReturn({
-     *   select: { barberId: true },
+     * // Create many EmployeeServices and only return the `employeeId`
+     * const employeeServiceWithEmployeeIdOnly = await prisma.employeeService.createManyAndReturn({
+     *   select: { employeeId: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -5722,28 +5722,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends BarberServiceCreateManyAndReturnArgs>(args?: SelectSubset<T, BarberServiceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BarberServicePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends EmployeeServiceCreateManyAndReturnArgs>(args?: SelectSubset<T, EmployeeServiceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a BarberService.
-     * @param {BarberServiceDeleteArgs} args - Arguments to delete one BarberService.
+     * Delete a EmployeeService.
+     * @param {EmployeeServiceDeleteArgs} args - Arguments to delete one EmployeeService.
      * @example
-     * // Delete one BarberService
-     * const BarberService = await prisma.barberService.delete({
+     * // Delete one EmployeeService
+     * const EmployeeService = await prisma.employeeService.delete({
      *   where: {
-     *     // ... filter to delete one BarberService
+     *     // ... filter to delete one EmployeeService
      *   }
      * })
      * 
      */
-    delete<T extends BarberServiceDeleteArgs>(args: SelectSubset<T, BarberServiceDeleteArgs<ExtArgs>>): Prisma__BarberServiceClient<$Result.GetResult<Prisma.$BarberServicePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends EmployeeServiceDeleteArgs>(args: SelectSubset<T, EmployeeServiceDeleteArgs<ExtArgs>>): Prisma__EmployeeServiceClient<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one BarberService.
-     * @param {BarberServiceUpdateArgs} args - Arguments to update one BarberService.
+     * Update one EmployeeService.
+     * @param {EmployeeServiceUpdateArgs} args - Arguments to update one EmployeeService.
      * @example
-     * // Update one BarberService
-     * const barberService = await prisma.barberService.update({
+     * // Update one EmployeeService
+     * const employeeService = await prisma.employeeService.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5753,30 +5753,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends BarberServiceUpdateArgs>(args: SelectSubset<T, BarberServiceUpdateArgs<ExtArgs>>): Prisma__BarberServiceClient<$Result.GetResult<Prisma.$BarberServicePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends EmployeeServiceUpdateArgs>(args: SelectSubset<T, EmployeeServiceUpdateArgs<ExtArgs>>): Prisma__EmployeeServiceClient<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more BarberServices.
-     * @param {BarberServiceDeleteManyArgs} args - Arguments to filter BarberServices to delete.
+     * Delete zero or more EmployeeServices.
+     * @param {EmployeeServiceDeleteManyArgs} args - Arguments to filter EmployeeServices to delete.
      * @example
-     * // Delete a few BarberServices
-     * const { count } = await prisma.barberService.deleteMany({
+     * // Delete a few EmployeeServices
+     * const { count } = await prisma.employeeService.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends BarberServiceDeleteManyArgs>(args?: SelectSubset<T, BarberServiceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends EmployeeServiceDeleteManyArgs>(args?: SelectSubset<T, EmployeeServiceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more BarberServices.
+     * Update zero or more EmployeeServices.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BarberServiceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {EmployeeServiceUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many BarberServices
-     * const barberService = await prisma.barberService.updateMany({
+     * // Update many EmployeeServices
+     * const employeeService = await prisma.employeeService.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5786,14 +5786,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends BarberServiceUpdateManyArgs>(args: SelectSubset<T, BarberServiceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends EmployeeServiceUpdateManyArgs>(args: SelectSubset<T, EmployeeServiceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more BarberServices and returns the data updated in the database.
-     * @param {BarberServiceUpdateManyAndReturnArgs} args - Arguments to update many BarberServices.
+     * Update zero or more EmployeeServices and returns the data updated in the database.
+     * @param {EmployeeServiceUpdateManyAndReturnArgs} args - Arguments to update many EmployeeServices.
      * @example
-     * // Update many BarberServices
-     * const barberService = await prisma.barberService.updateManyAndReturn({
+     * // Update many EmployeeServices
+     * const employeeService = await prisma.employeeService.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5802,9 +5802,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more BarberServices and only return the `barberId`
-     * const barberServiceWithBarberIdOnly = await prisma.barberService.updateManyAndReturn({
-     *   select: { barberId: true },
+     * // Update zero or more EmployeeServices and only return the `employeeId`
+     * const employeeServiceWithEmployeeIdOnly = await prisma.employeeService.updateManyAndReturn({
+     *   select: { employeeId: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5816,56 +5816,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends BarberServiceUpdateManyAndReturnArgs>(args: SelectSubset<T, BarberServiceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BarberServicePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends EmployeeServiceUpdateManyAndReturnArgs>(args: SelectSubset<T, EmployeeServiceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one BarberService.
-     * @param {BarberServiceUpsertArgs} args - Arguments to update or create a BarberService.
+     * Create or update one EmployeeService.
+     * @param {EmployeeServiceUpsertArgs} args - Arguments to update or create a EmployeeService.
      * @example
-     * // Update or create a BarberService
-     * const barberService = await prisma.barberService.upsert({
+     * // Update or create a EmployeeService
+     * const employeeService = await prisma.employeeService.upsert({
      *   create: {
-     *     // ... data to create a BarberService
+     *     // ... data to create a EmployeeService
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the BarberService we want to update
+     *     // ... the filter for the EmployeeService we want to update
      *   }
      * })
      */
-    upsert<T extends BarberServiceUpsertArgs>(args: SelectSubset<T, BarberServiceUpsertArgs<ExtArgs>>): Prisma__BarberServiceClient<$Result.GetResult<Prisma.$BarberServicePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends EmployeeServiceUpsertArgs>(args: SelectSubset<T, EmployeeServiceUpsertArgs<ExtArgs>>): Prisma__EmployeeServiceClient<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of BarberServices.
+     * Count the number of EmployeeServices.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BarberServiceCountArgs} args - Arguments to filter BarberServices to count.
+     * @param {EmployeeServiceCountArgs} args - Arguments to filter EmployeeServices to count.
      * @example
-     * // Count the number of BarberServices
-     * const count = await prisma.barberService.count({
+     * // Count the number of EmployeeServices
+     * const count = await prisma.employeeService.count({
      *   where: {
-     *     // ... the filter for the BarberServices we want to count
+     *     // ... the filter for the EmployeeServices we want to count
      *   }
      * })
     **/
-    count<T extends BarberServiceCountArgs>(
-      args?: Subset<T, BarberServiceCountArgs>,
+    count<T extends EmployeeServiceCountArgs>(
+      args?: Subset<T, EmployeeServiceCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], BarberServiceCountAggregateOutputType>
+          : GetScalarType<T['select'], EmployeeServiceCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a BarberService.
+     * Allows you to perform aggregations operations on a EmployeeService.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BarberServiceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {EmployeeServiceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -5885,13 +5885,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends BarberServiceAggregateArgs>(args: Subset<T, BarberServiceAggregateArgs>): Prisma.PrismaPromise<GetBarberServiceAggregateType<T>>
+    aggregate<T extends EmployeeServiceAggregateArgs>(args: Subset<T, EmployeeServiceAggregateArgs>): Prisma.PrismaPromise<GetEmployeeServiceAggregateType<T>>
 
     /**
-     * Group by BarberService.
+     * Group by EmployeeService.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BarberServiceGroupByArgs} args - Group by arguments.
+     * @param {EmployeeServiceGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -5906,14 +5906,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends BarberServiceGroupByArgs,
+      T extends EmployeeServiceGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: BarberServiceGroupByArgs['orderBy'] }
-        : { orderBy?: BarberServiceGroupByArgs['orderBy'] },
+        ? { orderBy: EmployeeServiceGroupByArgs['orderBy'] }
+        : { orderBy?: EmployeeServiceGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -5962,22 +5962,22 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, BarberServiceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBarberServiceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, EmployeeServiceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEmployeeServiceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the BarberService model
+   * Fields of the EmployeeService model
    */
-  readonly fields: BarberServiceFieldRefs;
+  readonly fields: EmployeeServiceFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for BarberService.
+   * The delegate class that acts as a "Promise-like" for EmployeeService.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__BarberServiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__EmployeeServiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    barber<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    employee<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     service<T extends ServiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceDefaultArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6005,422 +6005,422 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the BarberService model
+   * Fields of the EmployeeService model
    */
-  interface BarberServiceFieldRefs {
-    readonly barberId: FieldRef<"BarberService", 'Int'>
-    readonly serviceId: FieldRef<"BarberService", 'Int'>
+  interface EmployeeServiceFieldRefs {
+    readonly employeeId: FieldRef<"EmployeeService", 'Int'>
+    readonly serviceId: FieldRef<"EmployeeService", 'Int'>
   }
     
 
   // Custom InputTypes
   /**
-   * BarberService findUnique
+   * EmployeeService findUnique
    */
-  export type BarberServiceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BarberService
+     * Select specific fields to fetch from the EmployeeService
      */
-    select?: BarberServiceSelect<ExtArgs> | null
+    select?: EmployeeServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the BarberService
+     * Omit specific fields from the EmployeeService
      */
-    omit?: BarberServiceOmit<ExtArgs> | null
+    omit?: EmployeeServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BarberServiceInclude<ExtArgs> | null
+    include?: EmployeeServiceInclude<ExtArgs> | null
     /**
-     * Filter, which BarberService to fetch.
+     * Filter, which EmployeeService to fetch.
      */
-    where: BarberServiceWhereUniqueInput
+    where: EmployeeServiceWhereUniqueInput
   }
 
   /**
-   * BarberService findUniqueOrThrow
+   * EmployeeService findUniqueOrThrow
    */
-  export type BarberServiceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BarberService
+     * Select specific fields to fetch from the EmployeeService
      */
-    select?: BarberServiceSelect<ExtArgs> | null
+    select?: EmployeeServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the BarberService
+     * Omit specific fields from the EmployeeService
      */
-    omit?: BarberServiceOmit<ExtArgs> | null
+    omit?: EmployeeServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BarberServiceInclude<ExtArgs> | null
+    include?: EmployeeServiceInclude<ExtArgs> | null
     /**
-     * Filter, which BarberService to fetch.
+     * Filter, which EmployeeService to fetch.
      */
-    where: BarberServiceWhereUniqueInput
+    where: EmployeeServiceWhereUniqueInput
   }
 
   /**
-   * BarberService findFirst
+   * EmployeeService findFirst
    */
-  export type BarberServiceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BarberService
+     * Select specific fields to fetch from the EmployeeService
      */
-    select?: BarberServiceSelect<ExtArgs> | null
+    select?: EmployeeServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the BarberService
+     * Omit specific fields from the EmployeeService
      */
-    omit?: BarberServiceOmit<ExtArgs> | null
+    omit?: EmployeeServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BarberServiceInclude<ExtArgs> | null
+    include?: EmployeeServiceInclude<ExtArgs> | null
     /**
-     * Filter, which BarberService to fetch.
+     * Filter, which EmployeeService to fetch.
      */
-    where?: BarberServiceWhereInput
+    where?: EmployeeServiceWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of BarberServices to fetch.
+     * Determine the order of EmployeeServices to fetch.
      */
-    orderBy?: BarberServiceOrderByWithRelationInput | BarberServiceOrderByWithRelationInput[]
+    orderBy?: EmployeeServiceOrderByWithRelationInput | EmployeeServiceOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for BarberServices.
+     * Sets the position for searching for EmployeeServices.
      */
-    cursor?: BarberServiceWhereUniqueInput
+    cursor?: EmployeeServiceWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` BarberServices from the position of the cursor.
+     * Take `±n` EmployeeServices from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` BarberServices.
+     * Skip the first `n` EmployeeServices.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of BarberServices.
+     * Filter by unique combinations of EmployeeServices.
      */
-    distinct?: BarberServiceScalarFieldEnum | BarberServiceScalarFieldEnum[]
+    distinct?: EmployeeServiceScalarFieldEnum | EmployeeServiceScalarFieldEnum[]
   }
 
   /**
-   * BarberService findFirstOrThrow
+   * EmployeeService findFirstOrThrow
    */
-  export type BarberServiceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BarberService
+     * Select specific fields to fetch from the EmployeeService
      */
-    select?: BarberServiceSelect<ExtArgs> | null
+    select?: EmployeeServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the BarberService
+     * Omit specific fields from the EmployeeService
      */
-    omit?: BarberServiceOmit<ExtArgs> | null
+    omit?: EmployeeServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BarberServiceInclude<ExtArgs> | null
+    include?: EmployeeServiceInclude<ExtArgs> | null
     /**
-     * Filter, which BarberService to fetch.
+     * Filter, which EmployeeService to fetch.
      */
-    where?: BarberServiceWhereInput
+    where?: EmployeeServiceWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of BarberServices to fetch.
+     * Determine the order of EmployeeServices to fetch.
      */
-    orderBy?: BarberServiceOrderByWithRelationInput | BarberServiceOrderByWithRelationInput[]
+    orderBy?: EmployeeServiceOrderByWithRelationInput | EmployeeServiceOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for BarberServices.
+     * Sets the position for searching for EmployeeServices.
      */
-    cursor?: BarberServiceWhereUniqueInput
+    cursor?: EmployeeServiceWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` BarberServices from the position of the cursor.
+     * Take `±n` EmployeeServices from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` BarberServices.
+     * Skip the first `n` EmployeeServices.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of BarberServices.
+     * Filter by unique combinations of EmployeeServices.
      */
-    distinct?: BarberServiceScalarFieldEnum | BarberServiceScalarFieldEnum[]
+    distinct?: EmployeeServiceScalarFieldEnum | EmployeeServiceScalarFieldEnum[]
   }
 
   /**
-   * BarberService findMany
+   * EmployeeService findMany
    */
-  export type BarberServiceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BarberService
+     * Select specific fields to fetch from the EmployeeService
      */
-    select?: BarberServiceSelect<ExtArgs> | null
+    select?: EmployeeServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the BarberService
+     * Omit specific fields from the EmployeeService
      */
-    omit?: BarberServiceOmit<ExtArgs> | null
+    omit?: EmployeeServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BarberServiceInclude<ExtArgs> | null
+    include?: EmployeeServiceInclude<ExtArgs> | null
     /**
-     * Filter, which BarberServices to fetch.
+     * Filter, which EmployeeServices to fetch.
      */
-    where?: BarberServiceWhereInput
+    where?: EmployeeServiceWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of BarberServices to fetch.
+     * Determine the order of EmployeeServices to fetch.
      */
-    orderBy?: BarberServiceOrderByWithRelationInput | BarberServiceOrderByWithRelationInput[]
+    orderBy?: EmployeeServiceOrderByWithRelationInput | EmployeeServiceOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing BarberServices.
+     * Sets the position for listing EmployeeServices.
      */
-    cursor?: BarberServiceWhereUniqueInput
+    cursor?: EmployeeServiceWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` BarberServices from the position of the cursor.
+     * Take `±n` EmployeeServices from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` BarberServices.
+     * Skip the first `n` EmployeeServices.
      */
     skip?: number
-    distinct?: BarberServiceScalarFieldEnum | BarberServiceScalarFieldEnum[]
+    distinct?: EmployeeServiceScalarFieldEnum | EmployeeServiceScalarFieldEnum[]
   }
 
   /**
-   * BarberService create
+   * EmployeeService create
    */
-  export type BarberServiceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BarberService
+     * Select specific fields to fetch from the EmployeeService
      */
-    select?: BarberServiceSelect<ExtArgs> | null
+    select?: EmployeeServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the BarberService
+     * Omit specific fields from the EmployeeService
      */
-    omit?: BarberServiceOmit<ExtArgs> | null
+    omit?: EmployeeServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BarberServiceInclude<ExtArgs> | null
+    include?: EmployeeServiceInclude<ExtArgs> | null
     /**
-     * The data needed to create a BarberService.
+     * The data needed to create a EmployeeService.
      */
-    data: XOR<BarberServiceCreateInput, BarberServiceUncheckedCreateInput>
+    data: XOR<EmployeeServiceCreateInput, EmployeeServiceUncheckedCreateInput>
   }
 
   /**
-   * BarberService createMany
+   * EmployeeService createMany
    */
-  export type BarberServiceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many BarberServices.
+     * The data used to create many EmployeeServices.
      */
-    data: BarberServiceCreateManyInput | BarberServiceCreateManyInput[]
+    data: EmployeeServiceCreateManyInput | EmployeeServiceCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * BarberService createManyAndReturn
+   * EmployeeService createManyAndReturn
    */
-  export type BarberServiceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BarberService
+     * Select specific fields to fetch from the EmployeeService
      */
-    select?: BarberServiceSelectCreateManyAndReturn<ExtArgs> | null
+    select?: EmployeeServiceSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the BarberService
+     * Omit specific fields from the EmployeeService
      */
-    omit?: BarberServiceOmit<ExtArgs> | null
+    omit?: EmployeeServiceOmit<ExtArgs> | null
     /**
-     * The data used to create many BarberServices.
+     * The data used to create many EmployeeServices.
      */
-    data: BarberServiceCreateManyInput | BarberServiceCreateManyInput[]
+    data: EmployeeServiceCreateManyInput | EmployeeServiceCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BarberServiceIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: EmployeeServiceIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * BarberService update
+   * EmployeeService update
    */
-  export type BarberServiceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BarberService
+     * Select specific fields to fetch from the EmployeeService
      */
-    select?: BarberServiceSelect<ExtArgs> | null
+    select?: EmployeeServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the BarberService
+     * Omit specific fields from the EmployeeService
      */
-    omit?: BarberServiceOmit<ExtArgs> | null
+    omit?: EmployeeServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BarberServiceInclude<ExtArgs> | null
+    include?: EmployeeServiceInclude<ExtArgs> | null
     /**
-     * The data needed to update a BarberService.
+     * The data needed to update a EmployeeService.
      */
-    data: XOR<BarberServiceUpdateInput, BarberServiceUncheckedUpdateInput>
+    data: XOR<EmployeeServiceUpdateInput, EmployeeServiceUncheckedUpdateInput>
     /**
-     * Choose, which BarberService to update.
+     * Choose, which EmployeeService to update.
      */
-    where: BarberServiceWhereUniqueInput
+    where: EmployeeServiceWhereUniqueInput
   }
 
   /**
-   * BarberService updateMany
+   * EmployeeService updateMany
    */
-  export type BarberServiceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update BarberServices.
+     * The data used to update EmployeeServices.
      */
-    data: XOR<BarberServiceUpdateManyMutationInput, BarberServiceUncheckedUpdateManyInput>
+    data: XOR<EmployeeServiceUpdateManyMutationInput, EmployeeServiceUncheckedUpdateManyInput>
     /**
-     * Filter which BarberServices to update
+     * Filter which EmployeeServices to update
      */
-    where?: BarberServiceWhereInput
+    where?: EmployeeServiceWhereInput
     /**
-     * Limit how many BarberServices to update.
+     * Limit how many EmployeeServices to update.
      */
     limit?: number
   }
 
   /**
-   * BarberService updateManyAndReturn
+   * EmployeeService updateManyAndReturn
    */
-  export type BarberServiceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BarberService
+     * Select specific fields to fetch from the EmployeeService
      */
-    select?: BarberServiceSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: EmployeeServiceSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the BarberService
+     * Omit specific fields from the EmployeeService
      */
-    omit?: BarberServiceOmit<ExtArgs> | null
+    omit?: EmployeeServiceOmit<ExtArgs> | null
     /**
-     * The data used to update BarberServices.
+     * The data used to update EmployeeServices.
      */
-    data: XOR<BarberServiceUpdateManyMutationInput, BarberServiceUncheckedUpdateManyInput>
+    data: XOR<EmployeeServiceUpdateManyMutationInput, EmployeeServiceUncheckedUpdateManyInput>
     /**
-     * Filter which BarberServices to update
+     * Filter which EmployeeServices to update
      */
-    where?: BarberServiceWhereInput
+    where?: EmployeeServiceWhereInput
     /**
-     * Limit how many BarberServices to update.
+     * Limit how many EmployeeServices to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BarberServiceIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: EmployeeServiceIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * BarberService upsert
+   * EmployeeService upsert
    */
-  export type BarberServiceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BarberService
+     * Select specific fields to fetch from the EmployeeService
      */
-    select?: BarberServiceSelect<ExtArgs> | null
+    select?: EmployeeServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the BarberService
+     * Omit specific fields from the EmployeeService
      */
-    omit?: BarberServiceOmit<ExtArgs> | null
+    omit?: EmployeeServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BarberServiceInclude<ExtArgs> | null
+    include?: EmployeeServiceInclude<ExtArgs> | null
     /**
-     * The filter to search for the BarberService to update in case it exists.
+     * The filter to search for the EmployeeService to update in case it exists.
      */
-    where: BarberServiceWhereUniqueInput
+    where: EmployeeServiceWhereUniqueInput
     /**
-     * In case the BarberService found by the `where` argument doesn't exist, create a new BarberService with this data.
+     * In case the EmployeeService found by the `where` argument doesn't exist, create a new EmployeeService with this data.
      */
-    create: XOR<BarberServiceCreateInput, BarberServiceUncheckedCreateInput>
+    create: XOR<EmployeeServiceCreateInput, EmployeeServiceUncheckedCreateInput>
     /**
-     * In case the BarberService was found with the provided `where` argument, update it with this data.
+     * In case the EmployeeService was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<BarberServiceUpdateInput, BarberServiceUncheckedUpdateInput>
+    update: XOR<EmployeeServiceUpdateInput, EmployeeServiceUncheckedUpdateInput>
   }
 
   /**
-   * BarberService delete
+   * EmployeeService delete
    */
-  export type BarberServiceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BarberService
+     * Select specific fields to fetch from the EmployeeService
      */
-    select?: BarberServiceSelect<ExtArgs> | null
+    select?: EmployeeServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the BarberService
+     * Omit specific fields from the EmployeeService
      */
-    omit?: BarberServiceOmit<ExtArgs> | null
+    omit?: EmployeeServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BarberServiceInclude<ExtArgs> | null
+    include?: EmployeeServiceInclude<ExtArgs> | null
     /**
-     * Filter which BarberService to delete.
+     * Filter which EmployeeService to delete.
      */
-    where: BarberServiceWhereUniqueInput
+    where: EmployeeServiceWhereUniqueInput
   }
 
   /**
-   * BarberService deleteMany
+   * EmployeeService deleteMany
    */
-  export type BarberServiceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which BarberServices to delete
+     * Filter which EmployeeServices to delete
      */
-    where?: BarberServiceWhereInput
+    where?: EmployeeServiceWhereInput
     /**
-     * Limit how many BarberServices to delete.
+     * Limit how many EmployeeServices to delete.
      */
     limit?: number
   }
 
   /**
-   * BarberService without action
+   * EmployeeService without action
    */
-  export type BarberServiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeServiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the BarberService
+     * Select specific fields to fetch from the EmployeeService
      */
-    select?: BarberServiceSelect<ExtArgs> | null
+    select?: EmployeeServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the BarberService
+     * Omit specific fields from the EmployeeService
      */
-    omit?: BarberServiceOmit<ExtArgs> | null
+    omit?: EmployeeServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BarberServiceInclude<ExtArgs> | null
+    include?: EmployeeServiceInclude<ExtArgs> | null
   }
 
 
@@ -6440,14 +6440,14 @@ export namespace Prisma {
     id: number | null
     customerId: number | null
     serviceId: number | null
-    barberId: number | null
+    employeeId: number | null
   }
 
   export type BookingSumAggregateOutputType = {
     id: number | null
     customerId: number | null
     serviceId: number | null
-    barberId: number | null
+    employeeId: number | null
   }
 
   export type BookingMinAggregateOutputType = {
@@ -6455,7 +6455,7 @@ export namespace Prisma {
     date: Date | null
     customerId: number | null
     serviceId: number | null
-    barberId: number | null
+    employeeId: number | null
     status: $Enums.BookingStatus | null
     notes: string | null
     createdAt: Date | null
@@ -6466,7 +6466,7 @@ export namespace Prisma {
     date: Date | null
     customerId: number | null
     serviceId: number | null
-    barberId: number | null
+    employeeId: number | null
     status: $Enums.BookingStatus | null
     notes: string | null
     createdAt: Date | null
@@ -6477,7 +6477,7 @@ export namespace Prisma {
     date: number
     customerId: number
     serviceId: number
-    barberId: number
+    employeeId: number
     status: number
     notes: number
     createdAt: number
@@ -6489,14 +6489,14 @@ export namespace Prisma {
     id?: true
     customerId?: true
     serviceId?: true
-    barberId?: true
+    employeeId?: true
   }
 
   export type BookingSumAggregateInputType = {
     id?: true
     customerId?: true
     serviceId?: true
-    barberId?: true
+    employeeId?: true
   }
 
   export type BookingMinAggregateInputType = {
@@ -6504,7 +6504,7 @@ export namespace Prisma {
     date?: true
     customerId?: true
     serviceId?: true
-    barberId?: true
+    employeeId?: true
     status?: true
     notes?: true
     createdAt?: true
@@ -6515,7 +6515,7 @@ export namespace Prisma {
     date?: true
     customerId?: true
     serviceId?: true
-    barberId?: true
+    employeeId?: true
     status?: true
     notes?: true
     createdAt?: true
@@ -6526,7 +6526,7 @@ export namespace Prisma {
     date?: true
     customerId?: true
     serviceId?: true
-    barberId?: true
+    employeeId?: true
     status?: true
     notes?: true
     createdAt?: true
@@ -6624,7 +6624,7 @@ export namespace Prisma {
     date: Date
     customerId: number
     serviceId: number
-    barberId: number
+    employeeId: number
     status: $Enums.BookingStatus
     notes: string | null
     createdAt: Date
@@ -6654,13 +6654,13 @@ export namespace Prisma {
     date?: boolean
     customerId?: boolean
     serviceId?: boolean
-    barberId?: boolean
+    employeeId?: boolean
     status?: boolean
     notes?: boolean
     createdAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6668,13 +6668,13 @@ export namespace Prisma {
     date?: boolean
     customerId?: boolean
     serviceId?: boolean
-    barberId?: boolean
+    employeeId?: boolean
     status?: boolean
     notes?: boolean
     createdAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6682,13 +6682,13 @@ export namespace Prisma {
     date?: boolean
     customerId?: boolean
     serviceId?: boolean
-    barberId?: boolean
+    employeeId?: boolean
     status?: boolean
     notes?: boolean
     createdAt?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectScalar = {
@@ -6696,27 +6696,27 @@ export namespace Prisma {
     date?: boolean
     customerId?: boolean
     serviceId?: boolean
-    barberId?: boolean
+    employeeId?: boolean
     status?: boolean
     notes?: boolean
     createdAt?: boolean
   }
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "date" | "customerId" | "serviceId" | "barberId" | "status" | "notes" | "createdAt", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "date" | "customerId" | "serviceId" | "employeeId" | "status" | "notes" | "createdAt", ExtArgs["result"]["booking"]>
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type BookingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type BookingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $BookingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6724,14 +6724,14 @@ export namespace Prisma {
     objects: {
       customer: Prisma.$CustomerPayload<ExtArgs>
       service: Prisma.$ServicePayload<ExtArgs>
-      barber: Prisma.$UserPayload<ExtArgs>
+      employee: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       date: Date
       customerId: number
       serviceId: number
-      barberId: number
+      employeeId: number
       status: $Enums.BookingStatus
       notes: string | null
       createdAt: Date
@@ -7131,7 +7131,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     service<T extends ServiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceDefaultArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    barber<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    employee<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7165,7 +7165,7 @@ export namespace Prisma {
     readonly date: FieldRef<"Booking", 'DateTime'>
     readonly customerId: FieldRef<"Booking", 'Int'>
     readonly serviceId: FieldRef<"Booking", 'Int'>
-    readonly barberId: FieldRef<"Booking", 'Int'>
+    readonly employeeId: FieldRef<"Booking", 'Int'>
     readonly status: FieldRef<"Booking", 'BookingStatus'>
     readonly notes: FieldRef<"Booking", 'String'>
     readonly createdAt: FieldRef<"Booking", 'DateTime'>
@@ -7597,12 +7597,12 @@ export namespace Prisma {
 
   export type WorkingHoursAvgAggregateOutputType = {
     id: number | null
-    barberId: number | null
+    employeeId: number | null
   }
 
   export type WorkingHoursSumAggregateOutputType = {
     id: number | null
-    barberId: number | null
+    employeeId: number | null
   }
 
   export type WorkingHoursMinAggregateOutputType = {
@@ -7610,7 +7610,7 @@ export namespace Prisma {
     day: $Enums.WeekDay | null
     startTime: string | null
     endTime: string | null
-    barberId: number | null
+    employeeId: number | null
   }
 
   export type WorkingHoursMaxAggregateOutputType = {
@@ -7618,7 +7618,7 @@ export namespace Prisma {
     day: $Enums.WeekDay | null
     startTime: string | null
     endTime: string | null
-    barberId: number | null
+    employeeId: number | null
   }
 
   export type WorkingHoursCountAggregateOutputType = {
@@ -7626,19 +7626,19 @@ export namespace Prisma {
     day: number
     startTime: number
     endTime: number
-    barberId: number
+    employeeId: number
     _all: number
   }
 
 
   export type WorkingHoursAvgAggregateInputType = {
     id?: true
-    barberId?: true
+    employeeId?: true
   }
 
   export type WorkingHoursSumAggregateInputType = {
     id?: true
-    barberId?: true
+    employeeId?: true
   }
 
   export type WorkingHoursMinAggregateInputType = {
@@ -7646,7 +7646,7 @@ export namespace Prisma {
     day?: true
     startTime?: true
     endTime?: true
-    barberId?: true
+    employeeId?: true
   }
 
   export type WorkingHoursMaxAggregateInputType = {
@@ -7654,7 +7654,7 @@ export namespace Prisma {
     day?: true
     startTime?: true
     endTime?: true
-    barberId?: true
+    employeeId?: true
   }
 
   export type WorkingHoursCountAggregateInputType = {
@@ -7662,7 +7662,7 @@ export namespace Prisma {
     day?: true
     startTime?: true
     endTime?: true
-    barberId?: true
+    employeeId?: true
     _all?: true
   }
 
@@ -7757,7 +7757,7 @@ export namespace Prisma {
     day: $Enums.WeekDay
     startTime: string
     endTime: string
-    barberId: number
+    employeeId: number
     _count: WorkingHoursCountAggregateOutputType | null
     _avg: WorkingHoursAvgAggregateOutputType | null
     _sum: WorkingHoursSumAggregateOutputType | null
@@ -7784,8 +7784,8 @@ export namespace Prisma {
     day?: boolean
     startTime?: boolean
     endTime?: boolean
-    barberId?: boolean
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employeeId?: boolean
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workingHours"]>
 
   export type WorkingHoursSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7793,8 +7793,8 @@ export namespace Prisma {
     day?: boolean
     startTime?: boolean
     endTime?: boolean
-    barberId?: boolean
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employeeId?: boolean
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workingHours"]>
 
   export type WorkingHoursSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7802,8 +7802,8 @@ export namespace Prisma {
     day?: boolean
     startTime?: boolean
     endTime?: boolean
-    barberId?: boolean
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employeeId?: boolean
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workingHours"]>
 
   export type WorkingHoursSelectScalar = {
@@ -7811,31 +7811,31 @@ export namespace Prisma {
     day?: boolean
     startTime?: boolean
     endTime?: boolean
-    barberId?: boolean
+    employeeId?: boolean
   }
 
-  export type WorkingHoursOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "day" | "startTime" | "endTime" | "barberId", ExtArgs["result"]["workingHours"]>
+  export type WorkingHoursOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "day" | "startTime" | "endTime" | "employeeId", ExtArgs["result"]["workingHours"]>
   export type WorkingHoursInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type WorkingHoursIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type WorkingHoursIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $WorkingHoursPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "WorkingHours"
     objects: {
-      barber: Prisma.$UserPayload<ExtArgs>
+      employee: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       day: $Enums.WeekDay
       startTime: string
       endTime: string
-      barberId: number
+      employeeId: number
     }, ExtArgs["result"]["workingHours"]>
     composites: {}
   }
@@ -8230,7 +8230,7 @@ export namespace Prisma {
    */
   export interface Prisma__WorkingHoursClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    barber<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    employee<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8264,7 +8264,7 @@ export namespace Prisma {
     readonly day: FieldRef<"WorkingHours", 'WeekDay'>
     readonly startTime: FieldRef<"WorkingHours", 'String'>
     readonly endTime: FieldRef<"WorkingHours", 'String'>
-    readonly barberId: FieldRef<"WorkingHours", 'Int'>
+    readonly employeeId: FieldRef<"WorkingHours", 'Int'>
   }
     
 
@@ -8693,17 +8693,17 @@ export namespace Prisma {
 
   export type WorkingSlotAvgAggregateOutputType = {
     id: number | null
-    barberId: number | null
+    employeeId: number | null
   }
 
   export type WorkingSlotSumAggregateOutputType = {
     id: number | null
-    barberId: number | null
+    employeeId: number | null
   }
 
   export type WorkingSlotMinAggregateOutputType = {
     id: number | null
-    barberId: number | null
+    employeeId: number | null
     date: Date | null
     startTime: string | null
     endTime: string | null
@@ -8712,7 +8712,7 @@ export namespace Prisma {
 
   export type WorkingSlotMaxAggregateOutputType = {
     id: number | null
-    barberId: number | null
+    employeeId: number | null
     date: Date | null
     startTime: string | null
     endTime: string | null
@@ -8721,7 +8721,7 @@ export namespace Prisma {
 
   export type WorkingSlotCountAggregateOutputType = {
     id: number
-    barberId: number
+    employeeId: number
     date: number
     startTime: number
     endTime: number
@@ -8732,17 +8732,17 @@ export namespace Prisma {
 
   export type WorkingSlotAvgAggregateInputType = {
     id?: true
-    barberId?: true
+    employeeId?: true
   }
 
   export type WorkingSlotSumAggregateInputType = {
     id?: true
-    barberId?: true
+    employeeId?: true
   }
 
   export type WorkingSlotMinAggregateInputType = {
     id?: true
-    barberId?: true
+    employeeId?: true
     date?: true
     startTime?: true
     endTime?: true
@@ -8751,7 +8751,7 @@ export namespace Prisma {
 
   export type WorkingSlotMaxAggregateInputType = {
     id?: true
-    barberId?: true
+    employeeId?: true
     date?: true
     startTime?: true
     endTime?: true
@@ -8760,7 +8760,7 @@ export namespace Prisma {
 
   export type WorkingSlotCountAggregateInputType = {
     id?: true
-    barberId?: true
+    employeeId?: true
     date?: true
     startTime?: true
     endTime?: true
@@ -8856,7 +8856,7 @@ export namespace Prisma {
 
   export type WorkingSlotGroupByOutputType = {
     id: number
-    barberId: number
+    employeeId: number
     date: Date
     startTime: string
     endTime: string
@@ -8884,62 +8884,62 @@ export namespace Prisma {
 
   export type WorkingSlotSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    barberId?: boolean
+    employeeId?: boolean
     date?: boolean
     startTime?: boolean
     endTime?: boolean
     createdAt?: boolean
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workingSlot"]>
 
   export type WorkingSlotSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    barberId?: boolean
+    employeeId?: boolean
     date?: boolean
     startTime?: boolean
     endTime?: boolean
     createdAt?: boolean
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workingSlot"]>
 
   export type WorkingSlotSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    barberId?: boolean
+    employeeId?: boolean
     date?: boolean
     startTime?: boolean
     endTime?: boolean
     createdAt?: boolean
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workingSlot"]>
 
   export type WorkingSlotSelectScalar = {
     id?: boolean
-    barberId?: boolean
+    employeeId?: boolean
     date?: boolean
     startTime?: boolean
     endTime?: boolean
     createdAt?: boolean
   }
 
-  export type WorkingSlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "barberId" | "date" | "startTime" | "endTime" | "createdAt", ExtArgs["result"]["workingSlot"]>
+  export type WorkingSlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "date" | "startTime" | "endTime" | "createdAt", ExtArgs["result"]["workingSlot"]>
   export type WorkingSlotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type WorkingSlotIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type WorkingSlotIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $WorkingSlotPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "WorkingSlot"
     objects: {
-      barber: Prisma.$UserPayload<ExtArgs>
+      employee: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      barberId: number
+      employeeId: number
       date: Date
       startTime: string
       endTime: string
@@ -9338,7 +9338,7 @@ export namespace Prisma {
    */
   export interface Prisma__WorkingSlotClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    barber<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    employee<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9369,7 +9369,7 @@ export namespace Prisma {
    */
   interface WorkingSlotFieldRefs {
     readonly id: FieldRef<"WorkingSlot", 'Int'>
-    readonly barberId: FieldRef<"WorkingSlot", 'Int'>
+    readonly employeeId: FieldRef<"WorkingSlot", 'Int'>
     readonly date: FieldRef<"WorkingSlot", 'DateTime'>
     readonly startTime: FieldRef<"WorkingSlot", 'String'>
     readonly endTime: FieldRef<"WorkingSlot", 'String'>
@@ -9802,17 +9802,17 @@ export namespace Prisma {
 
   export type WorkingHourRangeAvgAggregateOutputType = {
     id: number | null
-    barberId: number | null
+    employeeId: number | null
   }
 
   export type WorkingHourRangeSumAggregateOutputType = {
     id: number | null
-    barberId: number | null
+    employeeId: number | null
   }
 
   export type WorkingHourRangeMinAggregateOutputType = {
     id: number | null
-    barberId: number | null
+    employeeId: number | null
     startDate: Date | null
     endDate: Date | null
     createdAt: Date | null
@@ -9820,7 +9820,7 @@ export namespace Prisma {
 
   export type WorkingHourRangeMaxAggregateOutputType = {
     id: number | null
-    barberId: number | null
+    employeeId: number | null
     startDate: Date | null
     endDate: Date | null
     createdAt: Date | null
@@ -9828,7 +9828,7 @@ export namespace Prisma {
 
   export type WorkingHourRangeCountAggregateOutputType = {
     id: number
-    barberId: number
+    employeeId: number
     startDate: number
     endDate: number
     createdAt: number
@@ -9838,17 +9838,17 @@ export namespace Prisma {
 
   export type WorkingHourRangeAvgAggregateInputType = {
     id?: true
-    barberId?: true
+    employeeId?: true
   }
 
   export type WorkingHourRangeSumAggregateInputType = {
     id?: true
-    barberId?: true
+    employeeId?: true
   }
 
   export type WorkingHourRangeMinAggregateInputType = {
     id?: true
-    barberId?: true
+    employeeId?: true
     startDate?: true
     endDate?: true
     createdAt?: true
@@ -9856,7 +9856,7 @@ export namespace Prisma {
 
   export type WorkingHourRangeMaxAggregateInputType = {
     id?: true
-    barberId?: true
+    employeeId?: true
     startDate?: true
     endDate?: true
     createdAt?: true
@@ -9864,7 +9864,7 @@ export namespace Prisma {
 
   export type WorkingHourRangeCountAggregateInputType = {
     id?: true
-    barberId?: true
+    employeeId?: true
     startDate?: true
     endDate?: true
     createdAt?: true
@@ -9959,7 +9959,7 @@ export namespace Prisma {
 
   export type WorkingHourRangeGroupByOutputType = {
     id: number
-    barberId: number
+    employeeId: number
     startDate: Date
     endDate: Date
     createdAt: Date
@@ -9986,63 +9986,63 @@ export namespace Prisma {
 
   export type WorkingHourRangeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    barberId?: boolean
+    employeeId?: boolean
     startDate?: boolean
     endDate?: boolean
     createdAt?: boolean
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
     slots?: boolean | WorkingHourRange$slotsArgs<ExtArgs>
     _count?: boolean | WorkingHourRangeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workingHourRange"]>
 
   export type WorkingHourRangeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    barberId?: boolean
+    employeeId?: boolean
     startDate?: boolean
     endDate?: boolean
     createdAt?: boolean
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workingHourRange"]>
 
   export type WorkingHourRangeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    barberId?: boolean
+    employeeId?: boolean
     startDate?: boolean
     endDate?: boolean
     createdAt?: boolean
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workingHourRange"]>
 
   export type WorkingHourRangeSelectScalar = {
     id?: boolean
-    barberId?: boolean
+    employeeId?: boolean
     startDate?: boolean
     endDate?: boolean
     createdAt?: boolean
   }
 
-  export type WorkingHourRangeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "barberId" | "startDate" | "endDate" | "createdAt", ExtArgs["result"]["workingHourRange"]>
+  export type WorkingHourRangeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "startDate" | "endDate" | "createdAt", ExtArgs["result"]["workingHourRange"]>
   export type WorkingHourRangeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
     slots?: boolean | WorkingHourRange$slotsArgs<ExtArgs>
     _count?: boolean | WorkingHourRangeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WorkingHourRangeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type WorkingHourRangeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    barber?: boolean | UserDefaultArgs<ExtArgs>
+    employee?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $WorkingHourRangePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "WorkingHourRange"
     objects: {
-      barber: Prisma.$UserPayload<ExtArgs>
+      employee: Prisma.$UserPayload<ExtArgs>
       slots: Prisma.$RecurringSlotPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      barberId: number
+      employeeId: number
       startDate: Date
       endDate: Date
       createdAt: Date
@@ -10440,7 +10440,7 @@ export namespace Prisma {
    */
   export interface Prisma__WorkingHourRangeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    barber<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    employee<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     slots<T extends WorkingHourRange$slotsArgs<ExtArgs> = {}>(args?: Subset<T, WorkingHourRange$slotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecurringSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -10472,7 +10472,7 @@ export namespace Prisma {
    */
   interface WorkingHourRangeFieldRefs {
     readonly id: FieldRef<"WorkingHourRange", 'Int'>
-    readonly barberId: FieldRef<"WorkingHourRange", 'Int'>
+    readonly employeeId: FieldRef<"WorkingHourRange", 'Int'>
     readonly startDate: FieldRef<"WorkingHourRange", 'DateTime'>
     readonly endDate: FieldRef<"WorkingHourRange", 'DateTime'>
     readonly createdAt: FieldRef<"WorkingHourRange", 'DateTime'>
@@ -12059,12 +12059,12 @@ export namespace Prisma {
   export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
 
 
-  export const BarberServiceScalarFieldEnum: {
-    barberId: 'barberId',
+  export const EmployeeServiceScalarFieldEnum: {
+    employeeId: 'employeeId',
     serviceId: 'serviceId'
   };
 
-  export type BarberServiceScalarFieldEnum = (typeof BarberServiceScalarFieldEnum)[keyof typeof BarberServiceScalarFieldEnum]
+  export type EmployeeServiceScalarFieldEnum = (typeof EmployeeServiceScalarFieldEnum)[keyof typeof EmployeeServiceScalarFieldEnum]
 
 
   export const BookingScalarFieldEnum: {
@@ -12072,7 +12072,7 @@ export namespace Prisma {
     date: 'date',
     customerId: 'customerId',
     serviceId: 'serviceId',
-    barberId: 'barberId',
+    employeeId: 'employeeId',
     status: 'status',
     notes: 'notes',
     createdAt: 'createdAt'
@@ -12086,7 +12086,7 @@ export namespace Prisma {
     day: 'day',
     startTime: 'startTime',
     endTime: 'endTime',
-    barberId: 'barberId'
+    employeeId: 'employeeId'
   };
 
   export type WorkingHoursScalarFieldEnum = (typeof WorkingHoursScalarFieldEnum)[keyof typeof WorkingHoursScalarFieldEnum]
@@ -12094,7 +12094,7 @@ export namespace Prisma {
 
   export const WorkingSlotScalarFieldEnum: {
     id: 'id',
-    barberId: 'barberId',
+    employeeId: 'employeeId',
     date: 'date',
     startTime: 'startTime',
     endTime: 'endTime',
@@ -12106,7 +12106,7 @@ export namespace Prisma {
 
   export const WorkingHourRangeScalarFieldEnum: {
     id: 'id',
-    barberId: 'barberId',
+    employeeId: 'employeeId',
     startDate: 'startDate',
     endDate: 'endDate',
     createdAt: 'createdAt'
@@ -12274,7 +12274,7 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     createdAt?: DateTimeFilter<"User"> | Date | string
     isActive?: BoolFilter<"User"> | boolean
-    services?: BarberServiceListRelationFilter
+    services?: EmployeeServiceListRelationFilter
     servicesCreated?: ServiceListRelationFilter
     bookings?: BookingListRelationFilter
     workingHours?: WorkingHoursListRelationFilter
@@ -12290,7 +12290,7 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     isActive?: SortOrder
-    services?: BarberServiceOrderByRelationAggregateInput
+    services?: EmployeeServiceOrderByRelationAggregateInput
     servicesCreated?: ServiceOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
     workingHours?: WorkingHoursOrderByRelationAggregateInput
@@ -12309,7 +12309,7 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     createdAt?: DateTimeFilter<"User"> | Date | string
     isActive?: BoolFilter<"User"> | boolean
-    services?: BarberServiceListRelationFilter
+    services?: EmployeeServiceListRelationFilter
     servicesCreated?: ServiceListRelationFilter
     bookings?: BookingListRelationFilter
     workingHours?: WorkingHoursListRelationFilter
@@ -12412,7 +12412,7 @@ export namespace Prisma {
     price?: FloatFilter<"Service"> | number
     createdById?: IntFilter<"Service"> | number
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
-    barbers?: BarberServiceListRelationFilter
+    employees?: EmployeeServiceListRelationFilter
     bookings?: BookingListRelationFilter
   }
 
@@ -12423,7 +12423,7 @@ export namespace Prisma {
     price?: SortOrder
     createdById?: SortOrder
     createdBy?: UserOrderByWithRelationInput
-    barbers?: BarberServiceOrderByRelationAggregateInput
+    employees?: EmployeeServiceOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
   }
 
@@ -12437,7 +12437,7 @@ export namespace Prisma {
     price?: FloatFilter<"Service"> | number
     createdById?: IntFilter<"Service"> | number
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
-    barbers?: BarberServiceListRelationFilter
+    employees?: EmployeeServiceListRelationFilter
     bookings?: BookingListRelationFilter
   }, "id">
 
@@ -12465,50 +12465,50 @@ export namespace Prisma {
     createdById?: IntWithAggregatesFilter<"Service"> | number
   }
 
-  export type BarberServiceWhereInput = {
-    AND?: BarberServiceWhereInput | BarberServiceWhereInput[]
-    OR?: BarberServiceWhereInput[]
-    NOT?: BarberServiceWhereInput | BarberServiceWhereInput[]
-    barberId?: IntFilter<"BarberService"> | number
-    serviceId?: IntFilter<"BarberService"> | number
-    barber?: XOR<UserScalarRelationFilter, UserWhereInput>
+  export type EmployeeServiceWhereInput = {
+    AND?: EmployeeServiceWhereInput | EmployeeServiceWhereInput[]
+    OR?: EmployeeServiceWhereInput[]
+    NOT?: EmployeeServiceWhereInput | EmployeeServiceWhereInput[]
+    employeeId?: IntFilter<"EmployeeService"> | number
+    serviceId?: IntFilter<"EmployeeService"> | number
+    employee?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
   }
 
-  export type BarberServiceOrderByWithRelationInput = {
-    barberId?: SortOrder
+  export type EmployeeServiceOrderByWithRelationInput = {
+    employeeId?: SortOrder
     serviceId?: SortOrder
-    barber?: UserOrderByWithRelationInput
+    employee?: UserOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
   }
 
-  export type BarberServiceWhereUniqueInput = Prisma.AtLeast<{
-    barberId_serviceId?: BarberServiceBarberIdServiceIdCompoundUniqueInput
-    AND?: BarberServiceWhereInput | BarberServiceWhereInput[]
-    OR?: BarberServiceWhereInput[]
-    NOT?: BarberServiceWhereInput | BarberServiceWhereInput[]
-    barberId?: IntFilter<"BarberService"> | number
-    serviceId?: IntFilter<"BarberService"> | number
-    barber?: XOR<UserScalarRelationFilter, UserWhereInput>
+  export type EmployeeServiceWhereUniqueInput = Prisma.AtLeast<{
+    employeeId_serviceId?: EmployeeServiceEmployeeIdServiceIdCompoundUniqueInput
+    AND?: EmployeeServiceWhereInput | EmployeeServiceWhereInput[]
+    OR?: EmployeeServiceWhereInput[]
+    NOT?: EmployeeServiceWhereInput | EmployeeServiceWhereInput[]
+    employeeId?: IntFilter<"EmployeeService"> | number
+    serviceId?: IntFilter<"EmployeeService"> | number
+    employee?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
-  }, "barberId_serviceId">
+  }, "employeeId_serviceId">
 
-  export type BarberServiceOrderByWithAggregationInput = {
-    barberId?: SortOrder
+  export type EmployeeServiceOrderByWithAggregationInput = {
+    employeeId?: SortOrder
     serviceId?: SortOrder
-    _count?: BarberServiceCountOrderByAggregateInput
-    _avg?: BarberServiceAvgOrderByAggregateInput
-    _max?: BarberServiceMaxOrderByAggregateInput
-    _min?: BarberServiceMinOrderByAggregateInput
-    _sum?: BarberServiceSumOrderByAggregateInput
+    _count?: EmployeeServiceCountOrderByAggregateInput
+    _avg?: EmployeeServiceAvgOrderByAggregateInput
+    _max?: EmployeeServiceMaxOrderByAggregateInput
+    _min?: EmployeeServiceMinOrderByAggregateInput
+    _sum?: EmployeeServiceSumOrderByAggregateInput
   }
 
-  export type BarberServiceScalarWhereWithAggregatesInput = {
-    AND?: BarberServiceScalarWhereWithAggregatesInput | BarberServiceScalarWhereWithAggregatesInput[]
-    OR?: BarberServiceScalarWhereWithAggregatesInput[]
-    NOT?: BarberServiceScalarWhereWithAggregatesInput | BarberServiceScalarWhereWithAggregatesInput[]
-    barberId?: IntWithAggregatesFilter<"BarberService"> | number
-    serviceId?: IntWithAggregatesFilter<"BarberService"> | number
+  export type EmployeeServiceScalarWhereWithAggregatesInput = {
+    AND?: EmployeeServiceScalarWhereWithAggregatesInput | EmployeeServiceScalarWhereWithAggregatesInput[]
+    OR?: EmployeeServiceScalarWhereWithAggregatesInput[]
+    NOT?: EmployeeServiceScalarWhereWithAggregatesInput | EmployeeServiceScalarWhereWithAggregatesInput[]
+    employeeId?: IntWithAggregatesFilter<"EmployeeService"> | number
+    serviceId?: IntWithAggregatesFilter<"EmployeeService"> | number
   }
 
   export type BookingWhereInput = {
@@ -12519,13 +12519,13 @@ export namespace Prisma {
     date?: DateTimeFilter<"Booking"> | Date | string
     customerId?: IntFilter<"Booking"> | number
     serviceId?: IntFilter<"Booking"> | number
-    barberId?: IntFilter<"Booking"> | number
+    employeeId?: IntFilter<"Booking"> | number
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
     notes?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
-    barber?: XOR<UserScalarRelationFilter, UserWhereInput>
+    employee?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type BookingOrderByWithRelationInput = {
@@ -12533,13 +12533,13 @@ export namespace Prisma {
     date?: SortOrder
     customerId?: SortOrder
     serviceId?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     status?: SortOrder
     notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     customer?: CustomerOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
-    barber?: UserOrderByWithRelationInput
+    employee?: UserOrderByWithRelationInput
   }
 
   export type BookingWhereUniqueInput = Prisma.AtLeast<{
@@ -12550,13 +12550,13 @@ export namespace Prisma {
     date?: DateTimeFilter<"Booking"> | Date | string
     customerId?: IntFilter<"Booking"> | number
     serviceId?: IntFilter<"Booking"> | number
-    barberId?: IntFilter<"Booking"> | number
+    employeeId?: IntFilter<"Booking"> | number
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
     notes?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
-    barber?: XOR<UserScalarRelationFilter, UserWhereInput>
+    employee?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type BookingOrderByWithAggregationInput = {
@@ -12564,7 +12564,7 @@ export namespace Prisma {
     date?: SortOrder
     customerId?: SortOrder
     serviceId?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     status?: SortOrder
     notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -12583,7 +12583,7 @@ export namespace Prisma {
     date?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
     customerId?: IntWithAggregatesFilter<"Booking"> | number
     serviceId?: IntWithAggregatesFilter<"Booking"> | number
-    barberId?: IntWithAggregatesFilter<"Booking"> | number
+    employeeId?: IntWithAggregatesFilter<"Booking"> | number
     status?: EnumBookingStatusWithAggregatesFilter<"Booking"> | $Enums.BookingStatus
     notes?: StringNullableWithAggregatesFilter<"Booking"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
@@ -12597,8 +12597,8 @@ export namespace Prisma {
     day?: EnumWeekDayFilter<"WorkingHours"> | $Enums.WeekDay
     startTime?: StringFilter<"WorkingHours"> | string
     endTime?: StringFilter<"WorkingHours"> | string
-    barberId?: IntFilter<"WorkingHours"> | number
-    barber?: XOR<UserScalarRelationFilter, UserWhereInput>
+    employeeId?: IntFilter<"WorkingHours"> | number
+    employee?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type WorkingHoursOrderByWithRelationInput = {
@@ -12606,8 +12606,8 @@ export namespace Prisma {
     day?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    barberId?: SortOrder
-    barber?: UserOrderByWithRelationInput
+    employeeId?: SortOrder
+    employee?: UserOrderByWithRelationInput
   }
 
   export type WorkingHoursWhereUniqueInput = Prisma.AtLeast<{
@@ -12618,8 +12618,8 @@ export namespace Prisma {
     day?: EnumWeekDayFilter<"WorkingHours"> | $Enums.WeekDay
     startTime?: StringFilter<"WorkingHours"> | string
     endTime?: StringFilter<"WorkingHours"> | string
-    barberId?: IntFilter<"WorkingHours"> | number
-    barber?: XOR<UserScalarRelationFilter, UserWhereInput>
+    employeeId?: IntFilter<"WorkingHours"> | number
+    employee?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type WorkingHoursOrderByWithAggregationInput = {
@@ -12627,7 +12627,7 @@ export namespace Prisma {
     day?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     _count?: WorkingHoursCountOrderByAggregateInput
     _avg?: WorkingHoursAvgOrderByAggregateInput
     _max?: WorkingHoursMaxOrderByAggregateInput
@@ -12643,7 +12643,7 @@ export namespace Prisma {
     day?: EnumWeekDayWithAggregatesFilter<"WorkingHours"> | $Enums.WeekDay
     startTime?: StringWithAggregatesFilter<"WorkingHours"> | string
     endTime?: StringWithAggregatesFilter<"WorkingHours"> | string
-    barberId?: IntWithAggregatesFilter<"WorkingHours"> | number
+    employeeId?: IntWithAggregatesFilter<"WorkingHours"> | number
   }
 
   export type WorkingSlotWhereInput = {
@@ -12651,22 +12651,22 @@ export namespace Prisma {
     OR?: WorkingSlotWhereInput[]
     NOT?: WorkingSlotWhereInput | WorkingSlotWhereInput[]
     id?: IntFilter<"WorkingSlot"> | number
-    barberId?: IntFilter<"WorkingSlot"> | number
+    employeeId?: IntFilter<"WorkingSlot"> | number
     date?: DateTimeFilter<"WorkingSlot"> | Date | string
     startTime?: StringFilter<"WorkingSlot"> | string
     endTime?: StringFilter<"WorkingSlot"> | string
     createdAt?: DateTimeFilter<"WorkingSlot"> | Date | string
-    barber?: XOR<UserScalarRelationFilter, UserWhereInput>
+    employee?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type WorkingSlotOrderByWithRelationInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     date?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     createdAt?: SortOrder
-    barber?: UserOrderByWithRelationInput
+    employee?: UserOrderByWithRelationInput
   }
 
   export type WorkingSlotWhereUniqueInput = Prisma.AtLeast<{
@@ -12674,17 +12674,17 @@ export namespace Prisma {
     AND?: WorkingSlotWhereInput | WorkingSlotWhereInput[]
     OR?: WorkingSlotWhereInput[]
     NOT?: WorkingSlotWhereInput | WorkingSlotWhereInput[]
-    barberId?: IntFilter<"WorkingSlot"> | number
+    employeeId?: IntFilter<"WorkingSlot"> | number
     date?: DateTimeFilter<"WorkingSlot"> | Date | string
     startTime?: StringFilter<"WorkingSlot"> | string
     endTime?: StringFilter<"WorkingSlot"> | string
     createdAt?: DateTimeFilter<"WorkingSlot"> | Date | string
-    barber?: XOR<UserScalarRelationFilter, UserWhereInput>
+    employee?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type WorkingSlotOrderByWithAggregationInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     date?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
@@ -12701,7 +12701,7 @@ export namespace Prisma {
     OR?: WorkingSlotScalarWhereWithAggregatesInput[]
     NOT?: WorkingSlotScalarWhereWithAggregatesInput | WorkingSlotScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"WorkingSlot"> | number
-    barberId?: IntWithAggregatesFilter<"WorkingSlot"> | number
+    employeeId?: IntWithAggregatesFilter<"WorkingSlot"> | number
     date?: DateTimeWithAggregatesFilter<"WorkingSlot"> | Date | string
     startTime?: StringWithAggregatesFilter<"WorkingSlot"> | string
     endTime?: StringWithAggregatesFilter<"WorkingSlot"> | string
@@ -12713,21 +12713,21 @@ export namespace Prisma {
     OR?: WorkingHourRangeWhereInput[]
     NOT?: WorkingHourRangeWhereInput | WorkingHourRangeWhereInput[]
     id?: IntFilter<"WorkingHourRange"> | number
-    barberId?: IntFilter<"WorkingHourRange"> | number
+    employeeId?: IntFilter<"WorkingHourRange"> | number
     startDate?: DateTimeFilter<"WorkingHourRange"> | Date | string
     endDate?: DateTimeFilter<"WorkingHourRange"> | Date | string
     createdAt?: DateTimeFilter<"WorkingHourRange"> | Date | string
-    barber?: XOR<UserScalarRelationFilter, UserWhereInput>
+    employee?: XOR<UserScalarRelationFilter, UserWhereInput>
     slots?: RecurringSlotListRelationFilter
   }
 
   export type WorkingHourRangeOrderByWithRelationInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     createdAt?: SortOrder
-    barber?: UserOrderByWithRelationInput
+    employee?: UserOrderByWithRelationInput
     slots?: RecurringSlotOrderByRelationAggregateInput
   }
 
@@ -12736,17 +12736,17 @@ export namespace Prisma {
     AND?: WorkingHourRangeWhereInput | WorkingHourRangeWhereInput[]
     OR?: WorkingHourRangeWhereInput[]
     NOT?: WorkingHourRangeWhereInput | WorkingHourRangeWhereInput[]
-    barberId?: IntFilter<"WorkingHourRange"> | number
+    employeeId?: IntFilter<"WorkingHourRange"> | number
     startDate?: DateTimeFilter<"WorkingHourRange"> | Date | string
     endDate?: DateTimeFilter<"WorkingHourRange"> | Date | string
     createdAt?: DateTimeFilter<"WorkingHourRange"> | Date | string
-    barber?: XOR<UserScalarRelationFilter, UserWhereInput>
+    employee?: XOR<UserScalarRelationFilter, UserWhereInput>
     slots?: RecurringSlotListRelationFilter
   }, "id">
 
   export type WorkingHourRangeOrderByWithAggregationInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     createdAt?: SortOrder
@@ -12762,7 +12762,7 @@ export namespace Prisma {
     OR?: WorkingHourRangeScalarWhereWithAggregatesInput[]
     NOT?: WorkingHourRangeScalarWhereWithAggregatesInput | WorkingHourRangeScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"WorkingHourRange"> | number
-    barberId?: IntWithAggregatesFilter<"WorkingHourRange"> | number
+    employeeId?: IntWithAggregatesFilter<"WorkingHourRange"> | number
     startDate?: DateTimeWithAggregatesFilter<"WorkingHourRange"> | Date | string
     endDate?: DateTimeWithAggregatesFilter<"WorkingHourRange"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"WorkingHourRange"> | Date | string
@@ -12832,12 +12832,12 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
-    services?: BarberServiceCreateNestedManyWithoutBarberInput
+    services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
-    bookings?: BookingCreateNestedManyWithoutBarberInput
-    workingHours?: WorkingHoursCreateNestedManyWithoutBarberInput
-    workingSlots?: WorkingSlotCreateNestedManyWithoutBarberInput
-    workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutBarberInput
+    bookings?: BookingCreateNestedManyWithoutEmployeeInput
+    workingHours?: WorkingHoursCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutEmployeeInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -12848,12 +12848,12 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
-    services?: BarberServiceUncheckedCreateNestedManyWithoutBarberInput
+    services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
-    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutBarberInput
-    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutBarberInput
-    workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutBarberInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
+    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type UserUpdateInput = {
@@ -12863,12 +12863,12 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    services?: BarberServiceUpdateManyWithoutBarberNestedInput
+    services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
-    bookings?: BookingUpdateManyWithoutBarberNestedInput
-    workingHours?: WorkingHoursUpdateManyWithoutBarberNestedInput
-    workingSlots?: WorkingSlotUpdateManyWithoutBarberNestedInput
-    workingHourRanges?: WorkingHourRangeUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUpdateManyWithoutEmployeeNestedInput
+    workingHours?: WorkingHoursUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -12879,12 +12879,12 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    services?: BarberServiceUncheckedUpdateManyWithoutBarberNestedInput
+    services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
-    workingHours?: WorkingHoursUncheckedUpdateManyWithoutBarberNestedInput
-    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutBarberNestedInput
-    workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingHours?: WorkingHoursUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -12978,7 +12978,7 @@ export namespace Prisma {
     duration: number
     price: number
     createdBy: UserCreateNestedOneWithoutServicesCreatedInput
-    barbers?: BarberServiceCreateNestedManyWithoutServiceInput
+    employees?: EmployeeServiceCreateNestedManyWithoutServiceInput
     bookings?: BookingCreateNestedManyWithoutServiceInput
   }
 
@@ -12988,7 +12988,7 @@ export namespace Prisma {
     duration: number
     price: number
     createdById: number
-    barbers?: BarberServiceUncheckedCreateNestedManyWithoutServiceInput
+    employees?: EmployeeServiceUncheckedCreateNestedManyWithoutServiceInput
     bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
   }
 
@@ -12997,7 +12997,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdBy?: UserUpdateOneRequiredWithoutServicesCreatedNestedInput
-    barbers?: BarberServiceUpdateManyWithoutServiceNestedInput
+    employees?: EmployeeServiceUpdateManyWithoutServiceNestedInput
     bookings?: BookingUpdateManyWithoutServiceNestedInput
   }
 
@@ -13007,7 +13007,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdById?: IntFieldUpdateOperationsInput | number
-    barbers?: BarberServiceUncheckedUpdateManyWithoutServiceNestedInput
+    employees?: EmployeeServiceUncheckedUpdateManyWithoutServiceNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
   }
 
@@ -13033,37 +13033,37 @@ export namespace Prisma {
     createdById?: IntFieldUpdateOperationsInput | number
   }
 
-  export type BarberServiceCreateInput = {
-    barber: UserCreateNestedOneWithoutServicesInput
-    service: ServiceCreateNestedOneWithoutBarbersInput
+  export type EmployeeServiceCreateInput = {
+    employee: UserCreateNestedOneWithoutServicesInput
+    service: ServiceCreateNestedOneWithoutEmployeesInput
   }
 
-  export type BarberServiceUncheckedCreateInput = {
-    barberId: number
+  export type EmployeeServiceUncheckedCreateInput = {
+    employeeId: number
     serviceId: number
   }
 
-  export type BarberServiceUpdateInput = {
-    barber?: UserUpdateOneRequiredWithoutServicesNestedInput
-    service?: ServiceUpdateOneRequiredWithoutBarbersNestedInput
+  export type EmployeeServiceUpdateInput = {
+    employee?: UserUpdateOneRequiredWithoutServicesNestedInput
+    service?: ServiceUpdateOneRequiredWithoutEmployeesNestedInput
   }
 
-  export type BarberServiceUncheckedUpdateInput = {
-    barberId?: IntFieldUpdateOperationsInput | number
+  export type EmployeeServiceUncheckedUpdateInput = {
+    employeeId?: IntFieldUpdateOperationsInput | number
     serviceId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type BarberServiceCreateManyInput = {
-    barberId: number
+  export type EmployeeServiceCreateManyInput = {
+    employeeId: number
     serviceId: number
   }
 
-  export type BarberServiceUpdateManyMutationInput = {
+  export type EmployeeServiceUpdateManyMutationInput = {
 
   }
 
-  export type BarberServiceUncheckedUpdateManyInput = {
-    barberId?: IntFieldUpdateOperationsInput | number
+  export type EmployeeServiceUncheckedUpdateManyInput = {
+    employeeId?: IntFieldUpdateOperationsInput | number
     serviceId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -13074,7 +13074,7 @@ export namespace Prisma {
     createdAt?: Date | string
     customer: CustomerCreateNestedOneWithoutBookingsInput
     service: ServiceCreateNestedOneWithoutBookingsInput
-    barber: UserCreateNestedOneWithoutBookingsInput
+    employee: UserCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateInput = {
@@ -13082,7 +13082,7 @@ export namespace Prisma {
     date: Date | string
     customerId: number
     serviceId: number
-    barberId: number
+    employeeId: number
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
@@ -13095,7 +13095,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
     service?: ServiceUpdateOneRequiredWithoutBookingsNestedInput
-    barber?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    employee?: UserUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateInput = {
@@ -13103,7 +13103,7 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: IntFieldUpdateOperationsInput | number
     serviceId?: IntFieldUpdateOperationsInput | number
-    barberId?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13114,7 +13114,7 @@ export namespace Prisma {
     date: Date | string
     customerId: number
     serviceId: number
-    barberId: number
+    employeeId: number
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
@@ -13132,7 +13132,7 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: IntFieldUpdateOperationsInput | number
     serviceId?: IntFieldUpdateOperationsInput | number
-    barberId?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13142,7 +13142,7 @@ export namespace Prisma {
     day: $Enums.WeekDay
     startTime: string
     endTime: string
-    barber: UserCreateNestedOneWithoutWorkingHoursInput
+    employee: UserCreateNestedOneWithoutWorkingHoursInput
   }
 
   export type WorkingHoursUncheckedCreateInput = {
@@ -13150,14 +13150,14 @@ export namespace Prisma {
     day: $Enums.WeekDay
     startTime: string
     endTime: string
-    barberId: number
+    employeeId: number
   }
 
   export type WorkingHoursUpdateInput = {
     day?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
-    barber?: UserUpdateOneRequiredWithoutWorkingHoursNestedInput
+    employee?: UserUpdateOneRequiredWithoutWorkingHoursNestedInput
   }
 
   export type WorkingHoursUncheckedUpdateInput = {
@@ -13165,7 +13165,7 @@ export namespace Prisma {
     day?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
-    barberId?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
   }
 
   export type WorkingHoursCreateManyInput = {
@@ -13173,7 +13173,7 @@ export namespace Prisma {
     day: $Enums.WeekDay
     startTime: string
     endTime: string
-    barberId: number
+    employeeId: number
   }
 
   export type WorkingHoursUpdateManyMutationInput = {
@@ -13187,7 +13187,7 @@ export namespace Prisma {
     day?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
-    barberId?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
   }
 
   export type WorkingSlotCreateInput = {
@@ -13195,12 +13195,12 @@ export namespace Prisma {
     startTime: string
     endTime: string
     createdAt?: Date | string
-    barber: UserCreateNestedOneWithoutWorkingSlotsInput
+    employee: UserCreateNestedOneWithoutWorkingSlotsInput
   }
 
   export type WorkingSlotUncheckedCreateInput = {
     id?: number
-    barberId: number
+    employeeId: number
     date: Date | string
     startTime: string
     endTime: string
@@ -13212,12 +13212,12 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    barber?: UserUpdateOneRequiredWithoutWorkingSlotsNestedInput
+    employee?: UserUpdateOneRequiredWithoutWorkingSlotsNestedInput
   }
 
   export type WorkingSlotUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    barberId?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
@@ -13226,7 +13226,7 @@ export namespace Prisma {
 
   export type WorkingSlotCreateManyInput = {
     id?: number
-    barberId: number
+    employeeId: number
     date: Date | string
     startTime: string
     endTime: string
@@ -13242,7 +13242,7 @@ export namespace Prisma {
 
   export type WorkingSlotUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    barberId?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
@@ -13253,13 +13253,13 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     createdAt?: Date | string
-    barber: UserCreateNestedOneWithoutWorkingHourRangesInput
+    employee: UserCreateNestedOneWithoutWorkingHourRangesInput
     slots?: RecurringSlotCreateNestedManyWithoutRangeInput
   }
 
   export type WorkingHourRangeUncheckedCreateInput = {
     id?: number
-    barberId: number
+    employeeId: number
     startDate: Date | string
     endDate: Date | string
     createdAt?: Date | string
@@ -13270,13 +13270,13 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    barber?: UserUpdateOneRequiredWithoutWorkingHourRangesNestedInput
+    employee?: UserUpdateOneRequiredWithoutWorkingHourRangesNestedInput
     slots?: RecurringSlotUpdateManyWithoutRangeNestedInput
   }
 
   export type WorkingHourRangeUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    barberId?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13285,7 +13285,7 @@ export namespace Prisma {
 
   export type WorkingHourRangeCreateManyInput = {
     id?: number
-    barberId: number
+    employeeId: number
     startDate: Date | string
     endDate: Date | string
     createdAt?: Date | string
@@ -13299,7 +13299,7 @@ export namespace Prisma {
 
   export type WorkingHourRangeUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    barberId?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13406,10 +13406,10 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type BarberServiceListRelationFilter = {
-    every?: BarberServiceWhereInput
-    some?: BarberServiceWhereInput
-    none?: BarberServiceWhereInput
+  export type EmployeeServiceListRelationFilter = {
+    every?: EmployeeServiceWhereInput
+    some?: EmployeeServiceWhereInput
+    none?: EmployeeServiceWhereInput
   }
 
   export type ServiceListRelationFilter = {
@@ -13442,7 +13442,7 @@ export namespace Prisma {
     none?: WorkingHourRangeWhereInput
   }
 
-  export type BarberServiceOrderByRelationAggregateInput = {
+  export type EmployeeServiceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13715,33 +13715,33 @@ export namespace Prisma {
     isNot?: ServiceWhereInput
   }
 
-  export type BarberServiceBarberIdServiceIdCompoundUniqueInput = {
-    barberId: number
+  export type EmployeeServiceEmployeeIdServiceIdCompoundUniqueInput = {
+    employeeId: number
     serviceId: number
   }
 
-  export type BarberServiceCountOrderByAggregateInput = {
-    barberId?: SortOrder
+  export type EmployeeServiceCountOrderByAggregateInput = {
+    employeeId?: SortOrder
     serviceId?: SortOrder
   }
 
-  export type BarberServiceAvgOrderByAggregateInput = {
-    barberId?: SortOrder
+  export type EmployeeServiceAvgOrderByAggregateInput = {
+    employeeId?: SortOrder
     serviceId?: SortOrder
   }
 
-  export type BarberServiceMaxOrderByAggregateInput = {
-    barberId?: SortOrder
+  export type EmployeeServiceMaxOrderByAggregateInput = {
+    employeeId?: SortOrder
     serviceId?: SortOrder
   }
 
-  export type BarberServiceMinOrderByAggregateInput = {
-    barberId?: SortOrder
+  export type EmployeeServiceMinOrderByAggregateInput = {
+    employeeId?: SortOrder
     serviceId?: SortOrder
   }
 
-  export type BarberServiceSumOrderByAggregateInput = {
-    barberId?: SortOrder
+  export type EmployeeServiceSumOrderByAggregateInput = {
+    employeeId?: SortOrder
     serviceId?: SortOrder
   }
 
@@ -13762,7 +13762,7 @@ export namespace Prisma {
     date?: SortOrder
     customerId?: SortOrder
     serviceId?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     status?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
@@ -13772,7 +13772,7 @@ export namespace Prisma {
     id?: SortOrder
     customerId?: SortOrder
     serviceId?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type BookingMaxOrderByAggregateInput = {
@@ -13780,7 +13780,7 @@ export namespace Prisma {
     date?: SortOrder
     customerId?: SortOrder
     serviceId?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     status?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
@@ -13791,7 +13791,7 @@ export namespace Prisma {
     date?: SortOrder
     customerId?: SortOrder
     serviceId?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     status?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
@@ -13801,7 +13801,7 @@ export namespace Prisma {
     id?: SortOrder
     customerId?: SortOrder
     serviceId?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type EnumBookingStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -13826,12 +13826,12 @@ export namespace Prisma {
     day?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type WorkingHoursAvgOrderByAggregateInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type WorkingHoursMaxOrderByAggregateInput = {
@@ -13839,7 +13839,7 @@ export namespace Prisma {
     day?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type WorkingHoursMinOrderByAggregateInput = {
@@ -13847,12 +13847,12 @@ export namespace Prisma {
     day?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type WorkingHoursSumOrderByAggregateInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type EnumWeekDayWithAggregatesFilter<$PrismaModel = never> = {
@@ -13867,7 +13867,7 @@ export namespace Prisma {
 
   export type WorkingSlotCountOrderByAggregateInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     date?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
@@ -13876,12 +13876,12 @@ export namespace Prisma {
 
   export type WorkingSlotAvgOrderByAggregateInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type WorkingSlotMaxOrderByAggregateInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     date?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
@@ -13890,7 +13890,7 @@ export namespace Prisma {
 
   export type WorkingSlotMinOrderByAggregateInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     date?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
@@ -13899,7 +13899,7 @@ export namespace Prisma {
 
   export type WorkingSlotSumOrderByAggregateInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type RecurringSlotListRelationFilter = {
@@ -13914,7 +13914,7 @@ export namespace Prisma {
 
   export type WorkingHourRangeCountOrderByAggregateInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     createdAt?: SortOrder
@@ -13922,12 +13922,12 @@ export namespace Prisma {
 
   export type WorkingHourRangeAvgOrderByAggregateInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type WorkingHourRangeMaxOrderByAggregateInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     createdAt?: SortOrder
@@ -13935,7 +13935,7 @@ export namespace Prisma {
 
   export type WorkingHourRangeMinOrderByAggregateInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     createdAt?: SortOrder
@@ -13943,7 +13943,7 @@ export namespace Prisma {
 
   export type WorkingHourRangeSumOrderByAggregateInput = {
     id?: SortOrder
-    barberId?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type WorkingHourRangeScalarRelationFilter = {
@@ -13985,11 +13985,11 @@ export namespace Prisma {
     rangeId?: SortOrder
   }
 
-  export type BarberServiceCreateNestedManyWithoutBarberInput = {
-    create?: XOR<BarberServiceCreateWithoutBarberInput, BarberServiceUncheckedCreateWithoutBarberInput> | BarberServiceCreateWithoutBarberInput[] | BarberServiceUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: BarberServiceCreateOrConnectWithoutBarberInput | BarberServiceCreateOrConnectWithoutBarberInput[]
-    createMany?: BarberServiceCreateManyBarberInputEnvelope
-    connect?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
+  export type EmployeeServiceCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<EmployeeServiceCreateWithoutEmployeeInput, EmployeeServiceUncheckedCreateWithoutEmployeeInput> | EmployeeServiceCreateWithoutEmployeeInput[] | EmployeeServiceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: EmployeeServiceCreateOrConnectWithoutEmployeeInput | EmployeeServiceCreateOrConnectWithoutEmployeeInput[]
+    createMany?: EmployeeServiceCreateManyEmployeeInputEnvelope
+    connect?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
   }
 
   export type ServiceCreateNestedManyWithoutCreatedByInput = {
@@ -13999,39 +13999,39 @@ export namespace Prisma {
     connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
   }
 
-  export type BookingCreateNestedManyWithoutBarberInput = {
-    create?: XOR<BookingCreateWithoutBarberInput, BookingUncheckedCreateWithoutBarberInput> | BookingCreateWithoutBarberInput[] | BookingUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutBarberInput | BookingCreateOrConnectWithoutBarberInput[]
-    createMany?: BookingCreateManyBarberInputEnvelope
+  export type BookingCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<BookingCreateWithoutEmployeeInput, BookingUncheckedCreateWithoutEmployeeInput> | BookingCreateWithoutEmployeeInput[] | BookingUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutEmployeeInput | BookingCreateOrConnectWithoutEmployeeInput[]
+    createMany?: BookingCreateManyEmployeeInputEnvelope
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
   }
 
-  export type WorkingHoursCreateNestedManyWithoutBarberInput = {
-    create?: XOR<WorkingHoursCreateWithoutBarberInput, WorkingHoursUncheckedCreateWithoutBarberInput> | WorkingHoursCreateWithoutBarberInput[] | WorkingHoursUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: WorkingHoursCreateOrConnectWithoutBarberInput | WorkingHoursCreateOrConnectWithoutBarberInput[]
-    createMany?: WorkingHoursCreateManyBarberInputEnvelope
+  export type WorkingHoursCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<WorkingHoursCreateWithoutEmployeeInput, WorkingHoursUncheckedCreateWithoutEmployeeInput> | WorkingHoursCreateWithoutEmployeeInput[] | WorkingHoursUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: WorkingHoursCreateOrConnectWithoutEmployeeInput | WorkingHoursCreateOrConnectWithoutEmployeeInput[]
+    createMany?: WorkingHoursCreateManyEmployeeInputEnvelope
     connect?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
   }
 
-  export type WorkingSlotCreateNestedManyWithoutBarberInput = {
-    create?: XOR<WorkingSlotCreateWithoutBarberInput, WorkingSlotUncheckedCreateWithoutBarberInput> | WorkingSlotCreateWithoutBarberInput[] | WorkingSlotUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: WorkingSlotCreateOrConnectWithoutBarberInput | WorkingSlotCreateOrConnectWithoutBarberInput[]
-    createMany?: WorkingSlotCreateManyBarberInputEnvelope
+  export type WorkingSlotCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<WorkingSlotCreateWithoutEmployeeInput, WorkingSlotUncheckedCreateWithoutEmployeeInput> | WorkingSlotCreateWithoutEmployeeInput[] | WorkingSlotUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: WorkingSlotCreateOrConnectWithoutEmployeeInput | WorkingSlotCreateOrConnectWithoutEmployeeInput[]
+    createMany?: WorkingSlotCreateManyEmployeeInputEnvelope
     connect?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
   }
 
-  export type WorkingHourRangeCreateNestedManyWithoutBarberInput = {
-    create?: XOR<WorkingHourRangeCreateWithoutBarberInput, WorkingHourRangeUncheckedCreateWithoutBarberInput> | WorkingHourRangeCreateWithoutBarberInput[] | WorkingHourRangeUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: WorkingHourRangeCreateOrConnectWithoutBarberInput | WorkingHourRangeCreateOrConnectWithoutBarberInput[]
-    createMany?: WorkingHourRangeCreateManyBarberInputEnvelope
+  export type WorkingHourRangeCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<WorkingHourRangeCreateWithoutEmployeeInput, WorkingHourRangeUncheckedCreateWithoutEmployeeInput> | WorkingHourRangeCreateWithoutEmployeeInput[] | WorkingHourRangeUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: WorkingHourRangeCreateOrConnectWithoutEmployeeInput | WorkingHourRangeCreateOrConnectWithoutEmployeeInput[]
+    createMany?: WorkingHourRangeCreateManyEmployeeInputEnvelope
     connect?: WorkingHourRangeWhereUniqueInput | WorkingHourRangeWhereUniqueInput[]
   }
 
-  export type BarberServiceUncheckedCreateNestedManyWithoutBarberInput = {
-    create?: XOR<BarberServiceCreateWithoutBarberInput, BarberServiceUncheckedCreateWithoutBarberInput> | BarberServiceCreateWithoutBarberInput[] | BarberServiceUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: BarberServiceCreateOrConnectWithoutBarberInput | BarberServiceCreateOrConnectWithoutBarberInput[]
-    createMany?: BarberServiceCreateManyBarberInputEnvelope
-    connect?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
+  export type EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<EmployeeServiceCreateWithoutEmployeeInput, EmployeeServiceUncheckedCreateWithoutEmployeeInput> | EmployeeServiceCreateWithoutEmployeeInput[] | EmployeeServiceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: EmployeeServiceCreateOrConnectWithoutEmployeeInput | EmployeeServiceCreateOrConnectWithoutEmployeeInput[]
+    createMany?: EmployeeServiceCreateManyEmployeeInputEnvelope
+    connect?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
   }
 
   export type ServiceUncheckedCreateNestedManyWithoutCreatedByInput = {
@@ -14041,31 +14041,31 @@ export namespace Prisma {
     connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
   }
 
-  export type BookingUncheckedCreateNestedManyWithoutBarberInput = {
-    create?: XOR<BookingCreateWithoutBarberInput, BookingUncheckedCreateWithoutBarberInput> | BookingCreateWithoutBarberInput[] | BookingUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutBarberInput | BookingCreateOrConnectWithoutBarberInput[]
-    createMany?: BookingCreateManyBarberInputEnvelope
+  export type BookingUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<BookingCreateWithoutEmployeeInput, BookingUncheckedCreateWithoutEmployeeInput> | BookingCreateWithoutEmployeeInput[] | BookingUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutEmployeeInput | BookingCreateOrConnectWithoutEmployeeInput[]
+    createMany?: BookingCreateManyEmployeeInputEnvelope
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
   }
 
-  export type WorkingHoursUncheckedCreateNestedManyWithoutBarberInput = {
-    create?: XOR<WorkingHoursCreateWithoutBarberInput, WorkingHoursUncheckedCreateWithoutBarberInput> | WorkingHoursCreateWithoutBarberInput[] | WorkingHoursUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: WorkingHoursCreateOrConnectWithoutBarberInput | WorkingHoursCreateOrConnectWithoutBarberInput[]
-    createMany?: WorkingHoursCreateManyBarberInputEnvelope
+  export type WorkingHoursUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<WorkingHoursCreateWithoutEmployeeInput, WorkingHoursUncheckedCreateWithoutEmployeeInput> | WorkingHoursCreateWithoutEmployeeInput[] | WorkingHoursUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: WorkingHoursCreateOrConnectWithoutEmployeeInput | WorkingHoursCreateOrConnectWithoutEmployeeInput[]
+    createMany?: WorkingHoursCreateManyEmployeeInputEnvelope
     connect?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
   }
 
-  export type WorkingSlotUncheckedCreateNestedManyWithoutBarberInput = {
-    create?: XOR<WorkingSlotCreateWithoutBarberInput, WorkingSlotUncheckedCreateWithoutBarberInput> | WorkingSlotCreateWithoutBarberInput[] | WorkingSlotUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: WorkingSlotCreateOrConnectWithoutBarberInput | WorkingSlotCreateOrConnectWithoutBarberInput[]
-    createMany?: WorkingSlotCreateManyBarberInputEnvelope
+  export type WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<WorkingSlotCreateWithoutEmployeeInput, WorkingSlotUncheckedCreateWithoutEmployeeInput> | WorkingSlotCreateWithoutEmployeeInput[] | WorkingSlotUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: WorkingSlotCreateOrConnectWithoutEmployeeInput | WorkingSlotCreateOrConnectWithoutEmployeeInput[]
+    createMany?: WorkingSlotCreateManyEmployeeInputEnvelope
     connect?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
   }
 
-  export type WorkingHourRangeUncheckedCreateNestedManyWithoutBarberInput = {
-    create?: XOR<WorkingHourRangeCreateWithoutBarberInput, WorkingHourRangeUncheckedCreateWithoutBarberInput> | WorkingHourRangeCreateWithoutBarberInput[] | WorkingHourRangeUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: WorkingHourRangeCreateOrConnectWithoutBarberInput | WorkingHourRangeCreateOrConnectWithoutBarberInput[]
-    createMany?: WorkingHourRangeCreateManyBarberInputEnvelope
+  export type WorkingHourRangeUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<WorkingHourRangeCreateWithoutEmployeeInput, WorkingHourRangeUncheckedCreateWithoutEmployeeInput> | WorkingHourRangeCreateWithoutEmployeeInput[] | WorkingHourRangeUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: WorkingHourRangeCreateOrConnectWithoutEmployeeInput | WorkingHourRangeCreateOrConnectWithoutEmployeeInput[]
+    createMany?: WorkingHourRangeCreateManyEmployeeInputEnvelope
     connect?: WorkingHourRangeWhereUniqueInput | WorkingHourRangeWhereUniqueInput[]
   }
 
@@ -14085,18 +14085,18 @@ export namespace Prisma {
     set?: boolean
   }
 
-  export type BarberServiceUpdateManyWithoutBarberNestedInput = {
-    create?: XOR<BarberServiceCreateWithoutBarberInput, BarberServiceUncheckedCreateWithoutBarberInput> | BarberServiceCreateWithoutBarberInput[] | BarberServiceUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: BarberServiceCreateOrConnectWithoutBarberInput | BarberServiceCreateOrConnectWithoutBarberInput[]
-    upsert?: BarberServiceUpsertWithWhereUniqueWithoutBarberInput | BarberServiceUpsertWithWhereUniqueWithoutBarberInput[]
-    createMany?: BarberServiceCreateManyBarberInputEnvelope
-    set?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    disconnect?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    delete?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    connect?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    update?: BarberServiceUpdateWithWhereUniqueWithoutBarberInput | BarberServiceUpdateWithWhereUniqueWithoutBarberInput[]
-    updateMany?: BarberServiceUpdateManyWithWhereWithoutBarberInput | BarberServiceUpdateManyWithWhereWithoutBarberInput[]
-    deleteMany?: BarberServiceScalarWhereInput | BarberServiceScalarWhereInput[]
+  export type EmployeeServiceUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<EmployeeServiceCreateWithoutEmployeeInput, EmployeeServiceUncheckedCreateWithoutEmployeeInput> | EmployeeServiceCreateWithoutEmployeeInput[] | EmployeeServiceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: EmployeeServiceCreateOrConnectWithoutEmployeeInput | EmployeeServiceCreateOrConnectWithoutEmployeeInput[]
+    upsert?: EmployeeServiceUpsertWithWhereUniqueWithoutEmployeeInput | EmployeeServiceUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: EmployeeServiceCreateManyEmployeeInputEnvelope
+    set?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    disconnect?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    delete?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    connect?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    update?: EmployeeServiceUpdateWithWhereUniqueWithoutEmployeeInput | EmployeeServiceUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: EmployeeServiceUpdateManyWithWhereWithoutEmployeeInput | EmployeeServiceUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: EmployeeServiceScalarWhereInput | EmployeeServiceScalarWhereInput[]
   }
 
   export type ServiceUpdateManyWithoutCreatedByNestedInput = {
@@ -14113,59 +14113,59 @@ export namespace Prisma {
     deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
   }
 
-  export type BookingUpdateManyWithoutBarberNestedInput = {
-    create?: XOR<BookingCreateWithoutBarberInput, BookingUncheckedCreateWithoutBarberInput> | BookingCreateWithoutBarberInput[] | BookingUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutBarberInput | BookingCreateOrConnectWithoutBarberInput[]
-    upsert?: BookingUpsertWithWhereUniqueWithoutBarberInput | BookingUpsertWithWhereUniqueWithoutBarberInput[]
-    createMany?: BookingCreateManyBarberInputEnvelope
+  export type BookingUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<BookingCreateWithoutEmployeeInput, BookingUncheckedCreateWithoutEmployeeInput> | BookingCreateWithoutEmployeeInput[] | BookingUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutEmployeeInput | BookingCreateOrConnectWithoutEmployeeInput[]
+    upsert?: BookingUpsertWithWhereUniqueWithoutEmployeeInput | BookingUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: BookingCreateManyEmployeeInputEnvelope
     set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
     disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
     delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    update?: BookingUpdateWithWhereUniqueWithoutBarberInput | BookingUpdateWithWhereUniqueWithoutBarberInput[]
-    updateMany?: BookingUpdateManyWithWhereWithoutBarberInput | BookingUpdateManyWithWhereWithoutBarberInput[]
+    update?: BookingUpdateWithWhereUniqueWithoutEmployeeInput | BookingUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: BookingUpdateManyWithWhereWithoutEmployeeInput | BookingUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
-  export type WorkingHoursUpdateManyWithoutBarberNestedInput = {
-    create?: XOR<WorkingHoursCreateWithoutBarberInput, WorkingHoursUncheckedCreateWithoutBarberInput> | WorkingHoursCreateWithoutBarberInput[] | WorkingHoursUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: WorkingHoursCreateOrConnectWithoutBarberInput | WorkingHoursCreateOrConnectWithoutBarberInput[]
-    upsert?: WorkingHoursUpsertWithWhereUniqueWithoutBarberInput | WorkingHoursUpsertWithWhereUniqueWithoutBarberInput[]
-    createMany?: WorkingHoursCreateManyBarberInputEnvelope
+  export type WorkingHoursUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<WorkingHoursCreateWithoutEmployeeInput, WorkingHoursUncheckedCreateWithoutEmployeeInput> | WorkingHoursCreateWithoutEmployeeInput[] | WorkingHoursUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: WorkingHoursCreateOrConnectWithoutEmployeeInput | WorkingHoursCreateOrConnectWithoutEmployeeInput[]
+    upsert?: WorkingHoursUpsertWithWhereUniqueWithoutEmployeeInput | WorkingHoursUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: WorkingHoursCreateManyEmployeeInputEnvelope
     set?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
     disconnect?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
     delete?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
     connect?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
-    update?: WorkingHoursUpdateWithWhereUniqueWithoutBarberInput | WorkingHoursUpdateWithWhereUniqueWithoutBarberInput[]
-    updateMany?: WorkingHoursUpdateManyWithWhereWithoutBarberInput | WorkingHoursUpdateManyWithWhereWithoutBarberInput[]
+    update?: WorkingHoursUpdateWithWhereUniqueWithoutEmployeeInput | WorkingHoursUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: WorkingHoursUpdateManyWithWhereWithoutEmployeeInput | WorkingHoursUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: WorkingHoursScalarWhereInput | WorkingHoursScalarWhereInput[]
   }
 
-  export type WorkingSlotUpdateManyWithoutBarberNestedInput = {
-    create?: XOR<WorkingSlotCreateWithoutBarberInput, WorkingSlotUncheckedCreateWithoutBarberInput> | WorkingSlotCreateWithoutBarberInput[] | WorkingSlotUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: WorkingSlotCreateOrConnectWithoutBarberInput | WorkingSlotCreateOrConnectWithoutBarberInput[]
-    upsert?: WorkingSlotUpsertWithWhereUniqueWithoutBarberInput | WorkingSlotUpsertWithWhereUniqueWithoutBarberInput[]
-    createMany?: WorkingSlotCreateManyBarberInputEnvelope
+  export type WorkingSlotUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<WorkingSlotCreateWithoutEmployeeInput, WorkingSlotUncheckedCreateWithoutEmployeeInput> | WorkingSlotCreateWithoutEmployeeInput[] | WorkingSlotUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: WorkingSlotCreateOrConnectWithoutEmployeeInput | WorkingSlotCreateOrConnectWithoutEmployeeInput[]
+    upsert?: WorkingSlotUpsertWithWhereUniqueWithoutEmployeeInput | WorkingSlotUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: WorkingSlotCreateManyEmployeeInputEnvelope
     set?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
     disconnect?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
     delete?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
     connect?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
-    update?: WorkingSlotUpdateWithWhereUniqueWithoutBarberInput | WorkingSlotUpdateWithWhereUniqueWithoutBarberInput[]
-    updateMany?: WorkingSlotUpdateManyWithWhereWithoutBarberInput | WorkingSlotUpdateManyWithWhereWithoutBarberInput[]
+    update?: WorkingSlotUpdateWithWhereUniqueWithoutEmployeeInput | WorkingSlotUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: WorkingSlotUpdateManyWithWhereWithoutEmployeeInput | WorkingSlotUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: WorkingSlotScalarWhereInput | WorkingSlotScalarWhereInput[]
   }
 
-  export type WorkingHourRangeUpdateManyWithoutBarberNestedInput = {
-    create?: XOR<WorkingHourRangeCreateWithoutBarberInput, WorkingHourRangeUncheckedCreateWithoutBarberInput> | WorkingHourRangeCreateWithoutBarberInput[] | WorkingHourRangeUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: WorkingHourRangeCreateOrConnectWithoutBarberInput | WorkingHourRangeCreateOrConnectWithoutBarberInput[]
-    upsert?: WorkingHourRangeUpsertWithWhereUniqueWithoutBarberInput | WorkingHourRangeUpsertWithWhereUniqueWithoutBarberInput[]
-    createMany?: WorkingHourRangeCreateManyBarberInputEnvelope
+  export type WorkingHourRangeUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<WorkingHourRangeCreateWithoutEmployeeInput, WorkingHourRangeUncheckedCreateWithoutEmployeeInput> | WorkingHourRangeCreateWithoutEmployeeInput[] | WorkingHourRangeUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: WorkingHourRangeCreateOrConnectWithoutEmployeeInput | WorkingHourRangeCreateOrConnectWithoutEmployeeInput[]
+    upsert?: WorkingHourRangeUpsertWithWhereUniqueWithoutEmployeeInput | WorkingHourRangeUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: WorkingHourRangeCreateManyEmployeeInputEnvelope
     set?: WorkingHourRangeWhereUniqueInput | WorkingHourRangeWhereUniqueInput[]
     disconnect?: WorkingHourRangeWhereUniqueInput | WorkingHourRangeWhereUniqueInput[]
     delete?: WorkingHourRangeWhereUniqueInput | WorkingHourRangeWhereUniqueInput[]
     connect?: WorkingHourRangeWhereUniqueInput | WorkingHourRangeWhereUniqueInput[]
-    update?: WorkingHourRangeUpdateWithWhereUniqueWithoutBarberInput | WorkingHourRangeUpdateWithWhereUniqueWithoutBarberInput[]
-    updateMany?: WorkingHourRangeUpdateManyWithWhereWithoutBarberInput | WorkingHourRangeUpdateManyWithWhereWithoutBarberInput[]
+    update?: WorkingHourRangeUpdateWithWhereUniqueWithoutEmployeeInput | WorkingHourRangeUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: WorkingHourRangeUpdateManyWithWhereWithoutEmployeeInput | WorkingHourRangeUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: WorkingHourRangeScalarWhereInput | WorkingHourRangeScalarWhereInput[]
   }
 
@@ -14177,18 +14177,18 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type BarberServiceUncheckedUpdateManyWithoutBarberNestedInput = {
-    create?: XOR<BarberServiceCreateWithoutBarberInput, BarberServiceUncheckedCreateWithoutBarberInput> | BarberServiceCreateWithoutBarberInput[] | BarberServiceUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: BarberServiceCreateOrConnectWithoutBarberInput | BarberServiceCreateOrConnectWithoutBarberInput[]
-    upsert?: BarberServiceUpsertWithWhereUniqueWithoutBarberInput | BarberServiceUpsertWithWhereUniqueWithoutBarberInput[]
-    createMany?: BarberServiceCreateManyBarberInputEnvelope
-    set?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    disconnect?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    delete?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    connect?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    update?: BarberServiceUpdateWithWhereUniqueWithoutBarberInput | BarberServiceUpdateWithWhereUniqueWithoutBarberInput[]
-    updateMany?: BarberServiceUpdateManyWithWhereWithoutBarberInput | BarberServiceUpdateManyWithWhereWithoutBarberInput[]
-    deleteMany?: BarberServiceScalarWhereInput | BarberServiceScalarWhereInput[]
+  export type EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<EmployeeServiceCreateWithoutEmployeeInput, EmployeeServiceUncheckedCreateWithoutEmployeeInput> | EmployeeServiceCreateWithoutEmployeeInput[] | EmployeeServiceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: EmployeeServiceCreateOrConnectWithoutEmployeeInput | EmployeeServiceCreateOrConnectWithoutEmployeeInput[]
+    upsert?: EmployeeServiceUpsertWithWhereUniqueWithoutEmployeeInput | EmployeeServiceUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: EmployeeServiceCreateManyEmployeeInputEnvelope
+    set?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    disconnect?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    delete?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    connect?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    update?: EmployeeServiceUpdateWithWhereUniqueWithoutEmployeeInput | EmployeeServiceUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: EmployeeServiceUpdateManyWithWhereWithoutEmployeeInput | EmployeeServiceUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: EmployeeServiceScalarWhereInput | EmployeeServiceScalarWhereInput[]
   }
 
   export type ServiceUncheckedUpdateManyWithoutCreatedByNestedInput = {
@@ -14205,59 +14205,59 @@ export namespace Prisma {
     deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
   }
 
-  export type BookingUncheckedUpdateManyWithoutBarberNestedInput = {
-    create?: XOR<BookingCreateWithoutBarberInput, BookingUncheckedCreateWithoutBarberInput> | BookingCreateWithoutBarberInput[] | BookingUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutBarberInput | BookingCreateOrConnectWithoutBarberInput[]
-    upsert?: BookingUpsertWithWhereUniqueWithoutBarberInput | BookingUpsertWithWhereUniqueWithoutBarberInput[]
-    createMany?: BookingCreateManyBarberInputEnvelope
+  export type BookingUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<BookingCreateWithoutEmployeeInput, BookingUncheckedCreateWithoutEmployeeInput> | BookingCreateWithoutEmployeeInput[] | BookingUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutEmployeeInput | BookingCreateOrConnectWithoutEmployeeInput[]
+    upsert?: BookingUpsertWithWhereUniqueWithoutEmployeeInput | BookingUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: BookingCreateManyEmployeeInputEnvelope
     set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
     disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
     delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    update?: BookingUpdateWithWhereUniqueWithoutBarberInput | BookingUpdateWithWhereUniqueWithoutBarberInput[]
-    updateMany?: BookingUpdateManyWithWhereWithoutBarberInput | BookingUpdateManyWithWhereWithoutBarberInput[]
+    update?: BookingUpdateWithWhereUniqueWithoutEmployeeInput | BookingUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: BookingUpdateManyWithWhereWithoutEmployeeInput | BookingUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
-  export type WorkingHoursUncheckedUpdateManyWithoutBarberNestedInput = {
-    create?: XOR<WorkingHoursCreateWithoutBarberInput, WorkingHoursUncheckedCreateWithoutBarberInput> | WorkingHoursCreateWithoutBarberInput[] | WorkingHoursUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: WorkingHoursCreateOrConnectWithoutBarberInput | WorkingHoursCreateOrConnectWithoutBarberInput[]
-    upsert?: WorkingHoursUpsertWithWhereUniqueWithoutBarberInput | WorkingHoursUpsertWithWhereUniqueWithoutBarberInput[]
-    createMany?: WorkingHoursCreateManyBarberInputEnvelope
+  export type WorkingHoursUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<WorkingHoursCreateWithoutEmployeeInput, WorkingHoursUncheckedCreateWithoutEmployeeInput> | WorkingHoursCreateWithoutEmployeeInput[] | WorkingHoursUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: WorkingHoursCreateOrConnectWithoutEmployeeInput | WorkingHoursCreateOrConnectWithoutEmployeeInput[]
+    upsert?: WorkingHoursUpsertWithWhereUniqueWithoutEmployeeInput | WorkingHoursUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: WorkingHoursCreateManyEmployeeInputEnvelope
     set?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
     disconnect?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
     delete?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
     connect?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
-    update?: WorkingHoursUpdateWithWhereUniqueWithoutBarberInput | WorkingHoursUpdateWithWhereUniqueWithoutBarberInput[]
-    updateMany?: WorkingHoursUpdateManyWithWhereWithoutBarberInput | WorkingHoursUpdateManyWithWhereWithoutBarberInput[]
+    update?: WorkingHoursUpdateWithWhereUniqueWithoutEmployeeInput | WorkingHoursUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: WorkingHoursUpdateManyWithWhereWithoutEmployeeInput | WorkingHoursUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: WorkingHoursScalarWhereInput | WorkingHoursScalarWhereInput[]
   }
 
-  export type WorkingSlotUncheckedUpdateManyWithoutBarberNestedInput = {
-    create?: XOR<WorkingSlotCreateWithoutBarberInput, WorkingSlotUncheckedCreateWithoutBarberInput> | WorkingSlotCreateWithoutBarberInput[] | WorkingSlotUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: WorkingSlotCreateOrConnectWithoutBarberInput | WorkingSlotCreateOrConnectWithoutBarberInput[]
-    upsert?: WorkingSlotUpsertWithWhereUniqueWithoutBarberInput | WorkingSlotUpsertWithWhereUniqueWithoutBarberInput[]
-    createMany?: WorkingSlotCreateManyBarberInputEnvelope
+  export type WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<WorkingSlotCreateWithoutEmployeeInput, WorkingSlotUncheckedCreateWithoutEmployeeInput> | WorkingSlotCreateWithoutEmployeeInput[] | WorkingSlotUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: WorkingSlotCreateOrConnectWithoutEmployeeInput | WorkingSlotCreateOrConnectWithoutEmployeeInput[]
+    upsert?: WorkingSlotUpsertWithWhereUniqueWithoutEmployeeInput | WorkingSlotUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: WorkingSlotCreateManyEmployeeInputEnvelope
     set?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
     disconnect?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
     delete?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
     connect?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
-    update?: WorkingSlotUpdateWithWhereUniqueWithoutBarberInput | WorkingSlotUpdateWithWhereUniqueWithoutBarberInput[]
-    updateMany?: WorkingSlotUpdateManyWithWhereWithoutBarberInput | WorkingSlotUpdateManyWithWhereWithoutBarberInput[]
+    update?: WorkingSlotUpdateWithWhereUniqueWithoutEmployeeInput | WorkingSlotUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: WorkingSlotUpdateManyWithWhereWithoutEmployeeInput | WorkingSlotUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: WorkingSlotScalarWhereInput | WorkingSlotScalarWhereInput[]
   }
 
-  export type WorkingHourRangeUncheckedUpdateManyWithoutBarberNestedInput = {
-    create?: XOR<WorkingHourRangeCreateWithoutBarberInput, WorkingHourRangeUncheckedCreateWithoutBarberInput> | WorkingHourRangeCreateWithoutBarberInput[] | WorkingHourRangeUncheckedCreateWithoutBarberInput[]
-    connectOrCreate?: WorkingHourRangeCreateOrConnectWithoutBarberInput | WorkingHourRangeCreateOrConnectWithoutBarberInput[]
-    upsert?: WorkingHourRangeUpsertWithWhereUniqueWithoutBarberInput | WorkingHourRangeUpsertWithWhereUniqueWithoutBarberInput[]
-    createMany?: WorkingHourRangeCreateManyBarberInputEnvelope
+  export type WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<WorkingHourRangeCreateWithoutEmployeeInput, WorkingHourRangeUncheckedCreateWithoutEmployeeInput> | WorkingHourRangeCreateWithoutEmployeeInput[] | WorkingHourRangeUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: WorkingHourRangeCreateOrConnectWithoutEmployeeInput | WorkingHourRangeCreateOrConnectWithoutEmployeeInput[]
+    upsert?: WorkingHourRangeUpsertWithWhereUniqueWithoutEmployeeInput | WorkingHourRangeUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: WorkingHourRangeCreateManyEmployeeInputEnvelope
     set?: WorkingHourRangeWhereUniqueInput | WorkingHourRangeWhereUniqueInput[]
     disconnect?: WorkingHourRangeWhereUniqueInput | WorkingHourRangeWhereUniqueInput[]
     delete?: WorkingHourRangeWhereUniqueInput | WorkingHourRangeWhereUniqueInput[]
     connect?: WorkingHourRangeWhereUniqueInput | WorkingHourRangeWhereUniqueInput[]
-    update?: WorkingHourRangeUpdateWithWhereUniqueWithoutBarberInput | WorkingHourRangeUpdateWithWhereUniqueWithoutBarberInput[]
-    updateMany?: WorkingHourRangeUpdateManyWithWhereWithoutBarberInput | WorkingHourRangeUpdateManyWithWhereWithoutBarberInput[]
+    update?: WorkingHourRangeUpdateWithWhereUniqueWithoutEmployeeInput | WorkingHourRangeUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: WorkingHourRangeUpdateManyWithWhereWithoutEmployeeInput | WorkingHourRangeUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: WorkingHourRangeScalarWhereInput | WorkingHourRangeScalarWhereInput[]
   }
 
@@ -14313,11 +14313,11 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type BarberServiceCreateNestedManyWithoutServiceInput = {
-    create?: XOR<BarberServiceCreateWithoutServiceInput, BarberServiceUncheckedCreateWithoutServiceInput> | BarberServiceCreateWithoutServiceInput[] | BarberServiceUncheckedCreateWithoutServiceInput[]
-    connectOrCreate?: BarberServiceCreateOrConnectWithoutServiceInput | BarberServiceCreateOrConnectWithoutServiceInput[]
-    createMany?: BarberServiceCreateManyServiceInputEnvelope
-    connect?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
+  export type EmployeeServiceCreateNestedManyWithoutServiceInput = {
+    create?: XOR<EmployeeServiceCreateWithoutServiceInput, EmployeeServiceUncheckedCreateWithoutServiceInput> | EmployeeServiceCreateWithoutServiceInput[] | EmployeeServiceUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: EmployeeServiceCreateOrConnectWithoutServiceInput | EmployeeServiceCreateOrConnectWithoutServiceInput[]
+    createMany?: EmployeeServiceCreateManyServiceInputEnvelope
+    connect?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
   }
 
   export type BookingCreateNestedManyWithoutServiceInput = {
@@ -14327,11 +14327,11 @@ export namespace Prisma {
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
   }
 
-  export type BarberServiceUncheckedCreateNestedManyWithoutServiceInput = {
-    create?: XOR<BarberServiceCreateWithoutServiceInput, BarberServiceUncheckedCreateWithoutServiceInput> | BarberServiceCreateWithoutServiceInput[] | BarberServiceUncheckedCreateWithoutServiceInput[]
-    connectOrCreate?: BarberServiceCreateOrConnectWithoutServiceInput | BarberServiceCreateOrConnectWithoutServiceInput[]
-    createMany?: BarberServiceCreateManyServiceInputEnvelope
-    connect?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
+  export type EmployeeServiceUncheckedCreateNestedManyWithoutServiceInput = {
+    create?: XOR<EmployeeServiceCreateWithoutServiceInput, EmployeeServiceUncheckedCreateWithoutServiceInput> | EmployeeServiceCreateWithoutServiceInput[] | EmployeeServiceUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: EmployeeServiceCreateOrConnectWithoutServiceInput | EmployeeServiceCreateOrConnectWithoutServiceInput[]
+    createMany?: EmployeeServiceCreateManyServiceInputEnvelope
+    connect?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
   }
 
   export type BookingUncheckedCreateNestedManyWithoutServiceInput = {
@@ -14357,18 +14357,18 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutServicesCreatedInput, UserUpdateWithoutServicesCreatedInput>, UserUncheckedUpdateWithoutServicesCreatedInput>
   }
 
-  export type BarberServiceUpdateManyWithoutServiceNestedInput = {
-    create?: XOR<BarberServiceCreateWithoutServiceInput, BarberServiceUncheckedCreateWithoutServiceInput> | BarberServiceCreateWithoutServiceInput[] | BarberServiceUncheckedCreateWithoutServiceInput[]
-    connectOrCreate?: BarberServiceCreateOrConnectWithoutServiceInput | BarberServiceCreateOrConnectWithoutServiceInput[]
-    upsert?: BarberServiceUpsertWithWhereUniqueWithoutServiceInput | BarberServiceUpsertWithWhereUniqueWithoutServiceInput[]
-    createMany?: BarberServiceCreateManyServiceInputEnvelope
-    set?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    disconnect?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    delete?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    connect?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    update?: BarberServiceUpdateWithWhereUniqueWithoutServiceInput | BarberServiceUpdateWithWhereUniqueWithoutServiceInput[]
-    updateMany?: BarberServiceUpdateManyWithWhereWithoutServiceInput | BarberServiceUpdateManyWithWhereWithoutServiceInput[]
-    deleteMany?: BarberServiceScalarWhereInput | BarberServiceScalarWhereInput[]
+  export type EmployeeServiceUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<EmployeeServiceCreateWithoutServiceInput, EmployeeServiceUncheckedCreateWithoutServiceInput> | EmployeeServiceCreateWithoutServiceInput[] | EmployeeServiceUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: EmployeeServiceCreateOrConnectWithoutServiceInput | EmployeeServiceCreateOrConnectWithoutServiceInput[]
+    upsert?: EmployeeServiceUpsertWithWhereUniqueWithoutServiceInput | EmployeeServiceUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: EmployeeServiceCreateManyServiceInputEnvelope
+    set?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    disconnect?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    delete?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    connect?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    update?: EmployeeServiceUpdateWithWhereUniqueWithoutServiceInput | EmployeeServiceUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: EmployeeServiceUpdateManyWithWhereWithoutServiceInput | EmployeeServiceUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: EmployeeServiceScalarWhereInput | EmployeeServiceScalarWhereInput[]
   }
 
   export type BookingUpdateManyWithoutServiceNestedInput = {
@@ -14385,18 +14385,18 @@ export namespace Prisma {
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
-  export type BarberServiceUncheckedUpdateManyWithoutServiceNestedInput = {
-    create?: XOR<BarberServiceCreateWithoutServiceInput, BarberServiceUncheckedCreateWithoutServiceInput> | BarberServiceCreateWithoutServiceInput[] | BarberServiceUncheckedCreateWithoutServiceInput[]
-    connectOrCreate?: BarberServiceCreateOrConnectWithoutServiceInput | BarberServiceCreateOrConnectWithoutServiceInput[]
-    upsert?: BarberServiceUpsertWithWhereUniqueWithoutServiceInput | BarberServiceUpsertWithWhereUniqueWithoutServiceInput[]
-    createMany?: BarberServiceCreateManyServiceInputEnvelope
-    set?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    disconnect?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    delete?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    connect?: BarberServiceWhereUniqueInput | BarberServiceWhereUniqueInput[]
-    update?: BarberServiceUpdateWithWhereUniqueWithoutServiceInput | BarberServiceUpdateWithWhereUniqueWithoutServiceInput[]
-    updateMany?: BarberServiceUpdateManyWithWhereWithoutServiceInput | BarberServiceUpdateManyWithWhereWithoutServiceInput[]
-    deleteMany?: BarberServiceScalarWhereInput | BarberServiceScalarWhereInput[]
+  export type EmployeeServiceUncheckedUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<EmployeeServiceCreateWithoutServiceInput, EmployeeServiceUncheckedCreateWithoutServiceInput> | EmployeeServiceCreateWithoutServiceInput[] | EmployeeServiceUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: EmployeeServiceCreateOrConnectWithoutServiceInput | EmployeeServiceCreateOrConnectWithoutServiceInput[]
+    upsert?: EmployeeServiceUpsertWithWhereUniqueWithoutServiceInput | EmployeeServiceUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: EmployeeServiceCreateManyServiceInputEnvelope
+    set?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    disconnect?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    delete?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    connect?: EmployeeServiceWhereUniqueInput | EmployeeServiceWhereUniqueInput[]
+    update?: EmployeeServiceUpdateWithWhereUniqueWithoutServiceInput | EmployeeServiceUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: EmployeeServiceUpdateManyWithWhereWithoutServiceInput | EmployeeServiceUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: EmployeeServiceScalarWhereInput | EmployeeServiceScalarWhereInput[]
   }
 
   export type BookingUncheckedUpdateManyWithoutServiceNestedInput = {
@@ -14419,9 +14419,9 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type ServiceCreateNestedOneWithoutBarbersInput = {
-    create?: XOR<ServiceCreateWithoutBarbersInput, ServiceUncheckedCreateWithoutBarbersInput>
-    connectOrCreate?: ServiceCreateOrConnectWithoutBarbersInput
+  export type ServiceCreateNestedOneWithoutEmployeesInput = {
+    create?: XOR<ServiceCreateWithoutEmployeesInput, ServiceUncheckedCreateWithoutEmployeesInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutEmployeesInput
     connect?: ServiceWhereUniqueInput
   }
 
@@ -14433,12 +14433,12 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutServicesInput, UserUpdateWithoutServicesInput>, UserUncheckedUpdateWithoutServicesInput>
   }
 
-  export type ServiceUpdateOneRequiredWithoutBarbersNestedInput = {
-    create?: XOR<ServiceCreateWithoutBarbersInput, ServiceUncheckedCreateWithoutBarbersInput>
-    connectOrCreate?: ServiceCreateOrConnectWithoutBarbersInput
-    upsert?: ServiceUpsertWithoutBarbersInput
+  export type ServiceUpdateOneRequiredWithoutEmployeesNestedInput = {
+    create?: XOR<ServiceCreateWithoutEmployeesInput, ServiceUncheckedCreateWithoutEmployeesInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutEmployeesInput
+    upsert?: ServiceUpsertWithoutEmployeesInput
     connect?: ServiceWhereUniqueInput
-    update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutBarbersInput, ServiceUpdateWithoutBarbersInput>, ServiceUncheckedUpdateWithoutBarbersInput>
+    update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutEmployeesInput, ServiceUpdateWithoutEmployeesInput>, ServiceUncheckedUpdateWithoutEmployeesInput>
   }
 
   export type CustomerCreateNestedOneWithoutBookingsInput = {
@@ -14805,21 +14805,21 @@ export namespace Prisma {
     _max?: NestedEnumWeekDayFilter<$PrismaModel>
   }
 
-  export type BarberServiceCreateWithoutBarberInput = {
-    service: ServiceCreateNestedOneWithoutBarbersInput
+  export type EmployeeServiceCreateWithoutEmployeeInput = {
+    service: ServiceCreateNestedOneWithoutEmployeesInput
   }
 
-  export type BarberServiceUncheckedCreateWithoutBarberInput = {
+  export type EmployeeServiceUncheckedCreateWithoutEmployeeInput = {
     serviceId: number
   }
 
-  export type BarberServiceCreateOrConnectWithoutBarberInput = {
-    where: BarberServiceWhereUniqueInput
-    create: XOR<BarberServiceCreateWithoutBarberInput, BarberServiceUncheckedCreateWithoutBarberInput>
+  export type EmployeeServiceCreateOrConnectWithoutEmployeeInput = {
+    where: EmployeeServiceWhereUniqueInput
+    create: XOR<EmployeeServiceCreateWithoutEmployeeInput, EmployeeServiceUncheckedCreateWithoutEmployeeInput>
   }
 
-  export type BarberServiceCreateManyBarberInputEnvelope = {
-    data: BarberServiceCreateManyBarberInput | BarberServiceCreateManyBarberInput[]
+  export type EmployeeServiceCreateManyEmployeeInputEnvelope = {
+    data: EmployeeServiceCreateManyEmployeeInput | EmployeeServiceCreateManyEmployeeInput[]
     skipDuplicates?: boolean
   }
 
@@ -14827,7 +14827,7 @@ export namespace Prisma {
     name: string
     duration: number
     price: number
-    barbers?: BarberServiceCreateNestedManyWithoutServiceInput
+    employees?: EmployeeServiceCreateNestedManyWithoutServiceInput
     bookings?: BookingCreateNestedManyWithoutServiceInput
   }
 
@@ -14836,7 +14836,7 @@ export namespace Prisma {
     name: string
     duration: number
     price: number
-    barbers?: BarberServiceUncheckedCreateNestedManyWithoutServiceInput
+    employees?: EmployeeServiceUncheckedCreateNestedManyWithoutServiceInput
     bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
   }
 
@@ -14850,7 +14850,7 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type BookingCreateWithoutBarberInput = {
+  export type BookingCreateWithoutEmployeeInput = {
     date: Date | string
     status?: $Enums.BookingStatus
     notes?: string | null
@@ -14859,7 +14859,7 @@ export namespace Prisma {
     service: ServiceCreateNestedOneWithoutBookingsInput
   }
 
-  export type BookingUncheckedCreateWithoutBarberInput = {
+  export type BookingUncheckedCreateWithoutEmployeeInput = {
     id?: number
     date: Date | string
     customerId: number
@@ -14869,47 +14869,47 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type BookingCreateOrConnectWithoutBarberInput = {
+  export type BookingCreateOrConnectWithoutEmployeeInput = {
     where: BookingWhereUniqueInput
-    create: XOR<BookingCreateWithoutBarberInput, BookingUncheckedCreateWithoutBarberInput>
+    create: XOR<BookingCreateWithoutEmployeeInput, BookingUncheckedCreateWithoutEmployeeInput>
   }
 
-  export type BookingCreateManyBarberInputEnvelope = {
-    data: BookingCreateManyBarberInput | BookingCreateManyBarberInput[]
+  export type BookingCreateManyEmployeeInputEnvelope = {
+    data: BookingCreateManyEmployeeInput | BookingCreateManyEmployeeInput[]
     skipDuplicates?: boolean
   }
 
-  export type WorkingHoursCreateWithoutBarberInput = {
+  export type WorkingHoursCreateWithoutEmployeeInput = {
     day: $Enums.WeekDay
     startTime: string
     endTime: string
   }
 
-  export type WorkingHoursUncheckedCreateWithoutBarberInput = {
+  export type WorkingHoursUncheckedCreateWithoutEmployeeInput = {
     id?: number
     day: $Enums.WeekDay
     startTime: string
     endTime: string
   }
 
-  export type WorkingHoursCreateOrConnectWithoutBarberInput = {
+  export type WorkingHoursCreateOrConnectWithoutEmployeeInput = {
     where: WorkingHoursWhereUniqueInput
-    create: XOR<WorkingHoursCreateWithoutBarberInput, WorkingHoursUncheckedCreateWithoutBarberInput>
+    create: XOR<WorkingHoursCreateWithoutEmployeeInput, WorkingHoursUncheckedCreateWithoutEmployeeInput>
   }
 
-  export type WorkingHoursCreateManyBarberInputEnvelope = {
-    data: WorkingHoursCreateManyBarberInput | WorkingHoursCreateManyBarberInput[]
+  export type WorkingHoursCreateManyEmployeeInputEnvelope = {
+    data: WorkingHoursCreateManyEmployeeInput | WorkingHoursCreateManyEmployeeInput[]
     skipDuplicates?: boolean
   }
 
-  export type WorkingSlotCreateWithoutBarberInput = {
+  export type WorkingSlotCreateWithoutEmployeeInput = {
     date: Date | string
     startTime: string
     endTime: string
     createdAt?: Date | string
   }
 
-  export type WorkingSlotUncheckedCreateWithoutBarberInput = {
+  export type WorkingSlotUncheckedCreateWithoutEmployeeInput = {
     id?: number
     date: Date | string
     startTime: string
@@ -14917,24 +14917,24 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type WorkingSlotCreateOrConnectWithoutBarberInput = {
+  export type WorkingSlotCreateOrConnectWithoutEmployeeInput = {
     where: WorkingSlotWhereUniqueInput
-    create: XOR<WorkingSlotCreateWithoutBarberInput, WorkingSlotUncheckedCreateWithoutBarberInput>
+    create: XOR<WorkingSlotCreateWithoutEmployeeInput, WorkingSlotUncheckedCreateWithoutEmployeeInput>
   }
 
-  export type WorkingSlotCreateManyBarberInputEnvelope = {
-    data: WorkingSlotCreateManyBarberInput | WorkingSlotCreateManyBarberInput[]
+  export type WorkingSlotCreateManyEmployeeInputEnvelope = {
+    data: WorkingSlotCreateManyEmployeeInput | WorkingSlotCreateManyEmployeeInput[]
     skipDuplicates?: boolean
   }
 
-  export type WorkingHourRangeCreateWithoutBarberInput = {
+  export type WorkingHourRangeCreateWithoutEmployeeInput = {
     startDate: Date | string
     endDate: Date | string
     createdAt?: Date | string
     slots?: RecurringSlotCreateNestedManyWithoutRangeInput
   }
 
-  export type WorkingHourRangeUncheckedCreateWithoutBarberInput = {
+  export type WorkingHourRangeUncheckedCreateWithoutEmployeeInput = {
     id?: number
     startDate: Date | string
     endDate: Date | string
@@ -14942,38 +14942,38 @@ export namespace Prisma {
     slots?: RecurringSlotUncheckedCreateNestedManyWithoutRangeInput
   }
 
-  export type WorkingHourRangeCreateOrConnectWithoutBarberInput = {
+  export type WorkingHourRangeCreateOrConnectWithoutEmployeeInput = {
     where: WorkingHourRangeWhereUniqueInput
-    create: XOR<WorkingHourRangeCreateWithoutBarberInput, WorkingHourRangeUncheckedCreateWithoutBarberInput>
+    create: XOR<WorkingHourRangeCreateWithoutEmployeeInput, WorkingHourRangeUncheckedCreateWithoutEmployeeInput>
   }
 
-  export type WorkingHourRangeCreateManyBarberInputEnvelope = {
-    data: WorkingHourRangeCreateManyBarberInput | WorkingHourRangeCreateManyBarberInput[]
+  export type WorkingHourRangeCreateManyEmployeeInputEnvelope = {
+    data: WorkingHourRangeCreateManyEmployeeInput | WorkingHourRangeCreateManyEmployeeInput[]
     skipDuplicates?: boolean
   }
 
-  export type BarberServiceUpsertWithWhereUniqueWithoutBarberInput = {
-    where: BarberServiceWhereUniqueInput
-    update: XOR<BarberServiceUpdateWithoutBarberInput, BarberServiceUncheckedUpdateWithoutBarberInput>
-    create: XOR<BarberServiceCreateWithoutBarberInput, BarberServiceUncheckedCreateWithoutBarberInput>
+  export type EmployeeServiceUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: EmployeeServiceWhereUniqueInput
+    update: XOR<EmployeeServiceUpdateWithoutEmployeeInput, EmployeeServiceUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<EmployeeServiceCreateWithoutEmployeeInput, EmployeeServiceUncheckedCreateWithoutEmployeeInput>
   }
 
-  export type BarberServiceUpdateWithWhereUniqueWithoutBarberInput = {
-    where: BarberServiceWhereUniqueInput
-    data: XOR<BarberServiceUpdateWithoutBarberInput, BarberServiceUncheckedUpdateWithoutBarberInput>
+  export type EmployeeServiceUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: EmployeeServiceWhereUniqueInput
+    data: XOR<EmployeeServiceUpdateWithoutEmployeeInput, EmployeeServiceUncheckedUpdateWithoutEmployeeInput>
   }
 
-  export type BarberServiceUpdateManyWithWhereWithoutBarberInput = {
-    where: BarberServiceScalarWhereInput
-    data: XOR<BarberServiceUpdateManyMutationInput, BarberServiceUncheckedUpdateManyWithoutBarberInput>
+  export type EmployeeServiceUpdateManyWithWhereWithoutEmployeeInput = {
+    where: EmployeeServiceScalarWhereInput
+    data: XOR<EmployeeServiceUpdateManyMutationInput, EmployeeServiceUncheckedUpdateManyWithoutEmployeeInput>
   }
 
-  export type BarberServiceScalarWhereInput = {
-    AND?: BarberServiceScalarWhereInput | BarberServiceScalarWhereInput[]
-    OR?: BarberServiceScalarWhereInput[]
-    NOT?: BarberServiceScalarWhereInput | BarberServiceScalarWhereInput[]
-    barberId?: IntFilter<"BarberService"> | number
-    serviceId?: IntFilter<"BarberService"> | number
+  export type EmployeeServiceScalarWhereInput = {
+    AND?: EmployeeServiceScalarWhereInput | EmployeeServiceScalarWhereInput[]
+    OR?: EmployeeServiceScalarWhereInput[]
+    NOT?: EmployeeServiceScalarWhereInput | EmployeeServiceScalarWhereInput[]
+    employeeId?: IntFilter<"EmployeeService"> | number
+    serviceId?: IntFilter<"EmployeeService"> | number
   }
 
   export type ServiceUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -15003,20 +15003,20 @@ export namespace Prisma {
     createdById?: IntFilter<"Service"> | number
   }
 
-  export type BookingUpsertWithWhereUniqueWithoutBarberInput = {
+  export type BookingUpsertWithWhereUniqueWithoutEmployeeInput = {
     where: BookingWhereUniqueInput
-    update: XOR<BookingUpdateWithoutBarberInput, BookingUncheckedUpdateWithoutBarberInput>
-    create: XOR<BookingCreateWithoutBarberInput, BookingUncheckedCreateWithoutBarberInput>
+    update: XOR<BookingUpdateWithoutEmployeeInput, BookingUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<BookingCreateWithoutEmployeeInput, BookingUncheckedCreateWithoutEmployeeInput>
   }
 
-  export type BookingUpdateWithWhereUniqueWithoutBarberInput = {
+  export type BookingUpdateWithWhereUniqueWithoutEmployeeInput = {
     where: BookingWhereUniqueInput
-    data: XOR<BookingUpdateWithoutBarberInput, BookingUncheckedUpdateWithoutBarberInput>
+    data: XOR<BookingUpdateWithoutEmployeeInput, BookingUncheckedUpdateWithoutEmployeeInput>
   }
 
-  export type BookingUpdateManyWithWhereWithoutBarberInput = {
+  export type BookingUpdateManyWithWhereWithoutEmployeeInput = {
     where: BookingScalarWhereInput
-    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutBarberInput>
+    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutEmployeeInput>
   }
 
   export type BookingScalarWhereInput = {
@@ -15027,26 +15027,26 @@ export namespace Prisma {
     date?: DateTimeFilter<"Booking"> | Date | string
     customerId?: IntFilter<"Booking"> | number
     serviceId?: IntFilter<"Booking"> | number
-    barberId?: IntFilter<"Booking"> | number
+    employeeId?: IntFilter<"Booking"> | number
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
     notes?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
   }
 
-  export type WorkingHoursUpsertWithWhereUniqueWithoutBarberInput = {
+  export type WorkingHoursUpsertWithWhereUniqueWithoutEmployeeInput = {
     where: WorkingHoursWhereUniqueInput
-    update: XOR<WorkingHoursUpdateWithoutBarberInput, WorkingHoursUncheckedUpdateWithoutBarberInput>
-    create: XOR<WorkingHoursCreateWithoutBarberInput, WorkingHoursUncheckedCreateWithoutBarberInput>
+    update: XOR<WorkingHoursUpdateWithoutEmployeeInput, WorkingHoursUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<WorkingHoursCreateWithoutEmployeeInput, WorkingHoursUncheckedCreateWithoutEmployeeInput>
   }
 
-  export type WorkingHoursUpdateWithWhereUniqueWithoutBarberInput = {
+  export type WorkingHoursUpdateWithWhereUniqueWithoutEmployeeInput = {
     where: WorkingHoursWhereUniqueInput
-    data: XOR<WorkingHoursUpdateWithoutBarberInput, WorkingHoursUncheckedUpdateWithoutBarberInput>
+    data: XOR<WorkingHoursUpdateWithoutEmployeeInput, WorkingHoursUncheckedUpdateWithoutEmployeeInput>
   }
 
-  export type WorkingHoursUpdateManyWithWhereWithoutBarberInput = {
+  export type WorkingHoursUpdateManyWithWhereWithoutEmployeeInput = {
     where: WorkingHoursScalarWhereInput
-    data: XOR<WorkingHoursUpdateManyMutationInput, WorkingHoursUncheckedUpdateManyWithoutBarberInput>
+    data: XOR<WorkingHoursUpdateManyMutationInput, WorkingHoursUncheckedUpdateManyWithoutEmployeeInput>
   }
 
   export type WorkingHoursScalarWhereInput = {
@@ -15057,23 +15057,23 @@ export namespace Prisma {
     day?: EnumWeekDayFilter<"WorkingHours"> | $Enums.WeekDay
     startTime?: StringFilter<"WorkingHours"> | string
     endTime?: StringFilter<"WorkingHours"> | string
-    barberId?: IntFilter<"WorkingHours"> | number
+    employeeId?: IntFilter<"WorkingHours"> | number
   }
 
-  export type WorkingSlotUpsertWithWhereUniqueWithoutBarberInput = {
+  export type WorkingSlotUpsertWithWhereUniqueWithoutEmployeeInput = {
     where: WorkingSlotWhereUniqueInput
-    update: XOR<WorkingSlotUpdateWithoutBarberInput, WorkingSlotUncheckedUpdateWithoutBarberInput>
-    create: XOR<WorkingSlotCreateWithoutBarberInput, WorkingSlotUncheckedCreateWithoutBarberInput>
+    update: XOR<WorkingSlotUpdateWithoutEmployeeInput, WorkingSlotUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<WorkingSlotCreateWithoutEmployeeInput, WorkingSlotUncheckedCreateWithoutEmployeeInput>
   }
 
-  export type WorkingSlotUpdateWithWhereUniqueWithoutBarberInput = {
+  export type WorkingSlotUpdateWithWhereUniqueWithoutEmployeeInput = {
     where: WorkingSlotWhereUniqueInput
-    data: XOR<WorkingSlotUpdateWithoutBarberInput, WorkingSlotUncheckedUpdateWithoutBarberInput>
+    data: XOR<WorkingSlotUpdateWithoutEmployeeInput, WorkingSlotUncheckedUpdateWithoutEmployeeInput>
   }
 
-  export type WorkingSlotUpdateManyWithWhereWithoutBarberInput = {
+  export type WorkingSlotUpdateManyWithWhereWithoutEmployeeInput = {
     where: WorkingSlotScalarWhereInput
-    data: XOR<WorkingSlotUpdateManyMutationInput, WorkingSlotUncheckedUpdateManyWithoutBarberInput>
+    data: XOR<WorkingSlotUpdateManyMutationInput, WorkingSlotUncheckedUpdateManyWithoutEmployeeInput>
   }
 
   export type WorkingSlotScalarWhereInput = {
@@ -15081,27 +15081,27 @@ export namespace Prisma {
     OR?: WorkingSlotScalarWhereInput[]
     NOT?: WorkingSlotScalarWhereInput | WorkingSlotScalarWhereInput[]
     id?: IntFilter<"WorkingSlot"> | number
-    barberId?: IntFilter<"WorkingSlot"> | number
+    employeeId?: IntFilter<"WorkingSlot"> | number
     date?: DateTimeFilter<"WorkingSlot"> | Date | string
     startTime?: StringFilter<"WorkingSlot"> | string
     endTime?: StringFilter<"WorkingSlot"> | string
     createdAt?: DateTimeFilter<"WorkingSlot"> | Date | string
   }
 
-  export type WorkingHourRangeUpsertWithWhereUniqueWithoutBarberInput = {
+  export type WorkingHourRangeUpsertWithWhereUniqueWithoutEmployeeInput = {
     where: WorkingHourRangeWhereUniqueInput
-    update: XOR<WorkingHourRangeUpdateWithoutBarberInput, WorkingHourRangeUncheckedUpdateWithoutBarberInput>
-    create: XOR<WorkingHourRangeCreateWithoutBarberInput, WorkingHourRangeUncheckedCreateWithoutBarberInput>
+    update: XOR<WorkingHourRangeUpdateWithoutEmployeeInput, WorkingHourRangeUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<WorkingHourRangeCreateWithoutEmployeeInput, WorkingHourRangeUncheckedCreateWithoutEmployeeInput>
   }
 
-  export type WorkingHourRangeUpdateWithWhereUniqueWithoutBarberInput = {
+  export type WorkingHourRangeUpdateWithWhereUniqueWithoutEmployeeInput = {
     where: WorkingHourRangeWhereUniqueInput
-    data: XOR<WorkingHourRangeUpdateWithoutBarberInput, WorkingHourRangeUncheckedUpdateWithoutBarberInput>
+    data: XOR<WorkingHourRangeUpdateWithoutEmployeeInput, WorkingHourRangeUncheckedUpdateWithoutEmployeeInput>
   }
 
-  export type WorkingHourRangeUpdateManyWithWhereWithoutBarberInput = {
+  export type WorkingHourRangeUpdateManyWithWhereWithoutEmployeeInput = {
     where: WorkingHourRangeScalarWhereInput
-    data: XOR<WorkingHourRangeUpdateManyMutationInput, WorkingHourRangeUncheckedUpdateManyWithoutBarberInput>
+    data: XOR<WorkingHourRangeUpdateManyMutationInput, WorkingHourRangeUncheckedUpdateManyWithoutEmployeeInput>
   }
 
   export type WorkingHourRangeScalarWhereInput = {
@@ -15109,7 +15109,7 @@ export namespace Prisma {
     OR?: WorkingHourRangeScalarWhereInput[]
     NOT?: WorkingHourRangeScalarWhereInput | WorkingHourRangeScalarWhereInput[]
     id?: IntFilter<"WorkingHourRange"> | number
-    barberId?: IntFilter<"WorkingHourRange"> | number
+    employeeId?: IntFilter<"WorkingHourRange"> | number
     startDate?: DateTimeFilter<"WorkingHourRange"> | Date | string
     endDate?: DateTimeFilter<"WorkingHourRange"> | Date | string
     createdAt?: DateTimeFilter<"WorkingHourRange"> | Date | string
@@ -15121,14 +15121,14 @@ export namespace Prisma {
     notes?: string | null
     createdAt?: Date | string
     service: ServiceCreateNestedOneWithoutBookingsInput
-    barber: UserCreateNestedOneWithoutBookingsInput
+    employee: UserCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateWithoutCustomerInput = {
     id?: number
     date: Date | string
     serviceId: number
-    barberId: number
+    employeeId: number
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
@@ -15167,11 +15167,11 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
-    services?: BarberServiceCreateNestedManyWithoutBarberInput
-    bookings?: BookingCreateNestedManyWithoutBarberInput
-    workingHours?: WorkingHoursCreateNestedManyWithoutBarberInput
-    workingSlots?: WorkingSlotCreateNestedManyWithoutBarberInput
-    workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutBarberInput
+    services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
+    bookings?: BookingCreateNestedManyWithoutEmployeeInput
+    workingHours?: WorkingHoursCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutEmployeeInput
   }
 
   export type UserUncheckedCreateWithoutServicesCreatedInput = {
@@ -15182,11 +15182,11 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
-    services?: BarberServiceUncheckedCreateNestedManyWithoutBarberInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
-    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutBarberInput
-    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutBarberInput
-    workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutBarberInput
+    services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
+    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type UserCreateOrConnectWithoutServicesCreatedInput = {
@@ -15194,21 +15194,21 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutServicesCreatedInput, UserUncheckedCreateWithoutServicesCreatedInput>
   }
 
-  export type BarberServiceCreateWithoutServiceInput = {
-    barber: UserCreateNestedOneWithoutServicesInput
+  export type EmployeeServiceCreateWithoutServiceInput = {
+    employee: UserCreateNestedOneWithoutServicesInput
   }
 
-  export type BarberServiceUncheckedCreateWithoutServiceInput = {
-    barberId: number
+  export type EmployeeServiceUncheckedCreateWithoutServiceInput = {
+    employeeId: number
   }
 
-  export type BarberServiceCreateOrConnectWithoutServiceInput = {
-    where: BarberServiceWhereUniqueInput
-    create: XOR<BarberServiceCreateWithoutServiceInput, BarberServiceUncheckedCreateWithoutServiceInput>
+  export type EmployeeServiceCreateOrConnectWithoutServiceInput = {
+    where: EmployeeServiceWhereUniqueInput
+    create: XOR<EmployeeServiceCreateWithoutServiceInput, EmployeeServiceUncheckedCreateWithoutServiceInput>
   }
 
-  export type BarberServiceCreateManyServiceInputEnvelope = {
-    data: BarberServiceCreateManyServiceInput | BarberServiceCreateManyServiceInput[]
+  export type EmployeeServiceCreateManyServiceInputEnvelope = {
+    data: EmployeeServiceCreateManyServiceInput | EmployeeServiceCreateManyServiceInput[]
     skipDuplicates?: boolean
   }
 
@@ -15218,14 +15218,14 @@ export namespace Prisma {
     notes?: string | null
     createdAt?: Date | string
     customer: CustomerCreateNestedOneWithoutBookingsInput
-    barber: UserCreateNestedOneWithoutBookingsInput
+    employee: UserCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateWithoutServiceInput = {
     id?: number
     date: Date | string
     customerId: number
-    barberId: number
+    employeeId: number
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
@@ -15259,11 +15259,11 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    services?: BarberServiceUpdateManyWithoutBarberNestedInput
-    bookings?: BookingUpdateManyWithoutBarberNestedInput
-    workingHours?: WorkingHoursUpdateManyWithoutBarberNestedInput
-    workingSlots?: WorkingSlotUpdateManyWithoutBarberNestedInput
-    workingHourRanges?: WorkingHourRangeUpdateManyWithoutBarberNestedInput
+    services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
+    bookings?: BookingUpdateManyWithoutEmployeeNestedInput
+    workingHours?: WorkingHoursUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type UserUncheckedUpdateWithoutServicesCreatedInput = {
@@ -15274,27 +15274,27 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    services?: BarberServiceUncheckedUpdateManyWithoutBarberNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
-    workingHours?: WorkingHoursUncheckedUpdateManyWithoutBarberNestedInput
-    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutBarberNestedInput
-    workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutBarberNestedInput
+    services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingHours?: WorkingHoursUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
-  export type BarberServiceUpsertWithWhereUniqueWithoutServiceInput = {
-    where: BarberServiceWhereUniqueInput
-    update: XOR<BarberServiceUpdateWithoutServiceInput, BarberServiceUncheckedUpdateWithoutServiceInput>
-    create: XOR<BarberServiceCreateWithoutServiceInput, BarberServiceUncheckedCreateWithoutServiceInput>
+  export type EmployeeServiceUpsertWithWhereUniqueWithoutServiceInput = {
+    where: EmployeeServiceWhereUniqueInput
+    update: XOR<EmployeeServiceUpdateWithoutServiceInput, EmployeeServiceUncheckedUpdateWithoutServiceInput>
+    create: XOR<EmployeeServiceCreateWithoutServiceInput, EmployeeServiceUncheckedCreateWithoutServiceInput>
   }
 
-  export type BarberServiceUpdateWithWhereUniqueWithoutServiceInput = {
-    where: BarberServiceWhereUniqueInput
-    data: XOR<BarberServiceUpdateWithoutServiceInput, BarberServiceUncheckedUpdateWithoutServiceInput>
+  export type EmployeeServiceUpdateWithWhereUniqueWithoutServiceInput = {
+    where: EmployeeServiceWhereUniqueInput
+    data: XOR<EmployeeServiceUpdateWithoutServiceInput, EmployeeServiceUncheckedUpdateWithoutServiceInput>
   }
 
-  export type BarberServiceUpdateManyWithWhereWithoutServiceInput = {
-    where: BarberServiceScalarWhereInput
-    data: XOR<BarberServiceUpdateManyMutationInput, BarberServiceUncheckedUpdateManyWithoutServiceInput>
+  export type EmployeeServiceUpdateManyWithWhereWithoutServiceInput = {
+    where: EmployeeServiceScalarWhereInput
+    data: XOR<EmployeeServiceUpdateManyMutationInput, EmployeeServiceUncheckedUpdateManyWithoutServiceInput>
   }
 
   export type BookingUpsertWithWhereUniqueWithoutServiceInput = {
@@ -15321,10 +15321,10 @@ export namespace Prisma {
     createdAt?: Date | string
     isActive?: boolean
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
-    bookings?: BookingCreateNestedManyWithoutBarberInput
-    workingHours?: WorkingHoursCreateNestedManyWithoutBarberInput
-    workingSlots?: WorkingSlotCreateNestedManyWithoutBarberInput
-    workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutBarberInput
+    bookings?: BookingCreateNestedManyWithoutEmployeeInput
+    workingHours?: WorkingHoursCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutEmployeeInput
   }
 
   export type UserUncheckedCreateWithoutServicesInput = {
@@ -15336,10 +15336,10 @@ export namespace Prisma {
     createdAt?: Date | string
     isActive?: boolean
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
-    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutBarberInput
-    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutBarberInput
-    workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutBarberInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
+    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type UserCreateOrConnectWithoutServicesInput = {
@@ -15347,7 +15347,7 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutServicesInput, UserUncheckedCreateWithoutServicesInput>
   }
 
-  export type ServiceCreateWithoutBarbersInput = {
+  export type ServiceCreateWithoutEmployeesInput = {
     name: string
     duration: number
     price: number
@@ -15355,7 +15355,7 @@ export namespace Prisma {
     bookings?: BookingCreateNestedManyWithoutServiceInput
   }
 
-  export type ServiceUncheckedCreateWithoutBarbersInput = {
+  export type ServiceUncheckedCreateWithoutEmployeesInput = {
     id?: number
     name: string
     duration: number
@@ -15364,9 +15364,9 @@ export namespace Prisma {
     bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
   }
 
-  export type ServiceCreateOrConnectWithoutBarbersInput = {
+  export type ServiceCreateOrConnectWithoutEmployeesInput = {
     where: ServiceWhereUniqueInput
-    create: XOR<ServiceCreateWithoutBarbersInput, ServiceUncheckedCreateWithoutBarbersInput>
+    create: XOR<ServiceCreateWithoutEmployeesInput, ServiceUncheckedCreateWithoutEmployeesInput>
   }
 
   export type UserUpsertWithoutServicesInput = {
@@ -15388,10 +15388,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
-    bookings?: BookingUpdateManyWithoutBarberNestedInput
-    workingHours?: WorkingHoursUpdateManyWithoutBarberNestedInput
-    workingSlots?: WorkingSlotUpdateManyWithoutBarberNestedInput
-    workingHourRanges?: WorkingHourRangeUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUpdateManyWithoutEmployeeNestedInput
+    workingHours?: WorkingHoursUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type UserUncheckedUpdateWithoutServicesInput = {
@@ -15403,24 +15403,24 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
-    workingHours?: WorkingHoursUncheckedUpdateManyWithoutBarberNestedInput
-    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutBarberNestedInput
-    workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingHours?: WorkingHoursUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
-  export type ServiceUpsertWithoutBarbersInput = {
-    update: XOR<ServiceUpdateWithoutBarbersInput, ServiceUncheckedUpdateWithoutBarbersInput>
-    create: XOR<ServiceCreateWithoutBarbersInput, ServiceUncheckedCreateWithoutBarbersInput>
+  export type ServiceUpsertWithoutEmployeesInput = {
+    update: XOR<ServiceUpdateWithoutEmployeesInput, ServiceUncheckedUpdateWithoutEmployeesInput>
+    create: XOR<ServiceCreateWithoutEmployeesInput, ServiceUncheckedCreateWithoutEmployeesInput>
     where?: ServiceWhereInput
   }
 
-  export type ServiceUpdateToOneWithWhereWithoutBarbersInput = {
+  export type ServiceUpdateToOneWithWhereWithoutEmployeesInput = {
     where?: ServiceWhereInput
-    data: XOR<ServiceUpdateWithoutBarbersInput, ServiceUncheckedUpdateWithoutBarbersInput>
+    data: XOR<ServiceUpdateWithoutEmployeesInput, ServiceUncheckedUpdateWithoutEmployeesInput>
   }
 
-  export type ServiceUpdateWithoutBarbersInput = {
+  export type ServiceUpdateWithoutEmployeesInput = {
     name?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
@@ -15428,7 +15428,7 @@ export namespace Prisma {
     bookings?: BookingUpdateManyWithoutServiceNestedInput
   }
 
-  export type ServiceUncheckedUpdateWithoutBarbersInput = {
+  export type ServiceUncheckedUpdateWithoutEmployeesInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
@@ -15462,7 +15462,7 @@ export namespace Prisma {
     duration: number
     price: number
     createdBy: UserCreateNestedOneWithoutServicesCreatedInput
-    barbers?: BarberServiceCreateNestedManyWithoutServiceInput
+    employees?: EmployeeServiceCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutBookingsInput = {
@@ -15471,7 +15471,7 @@ export namespace Prisma {
     duration: number
     price: number
     createdById: number
-    barbers?: BarberServiceUncheckedCreateNestedManyWithoutServiceInput
+    employees?: EmployeeServiceUncheckedCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutBookingsInput = {
@@ -15486,11 +15486,11 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
-    services?: BarberServiceCreateNestedManyWithoutBarberInput
+    services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
-    workingHours?: WorkingHoursCreateNestedManyWithoutBarberInput
-    workingSlots?: WorkingSlotCreateNestedManyWithoutBarberInput
-    workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutBarberInput
+    workingHours?: WorkingHoursCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutEmployeeInput
   }
 
   export type UserUncheckedCreateWithoutBookingsInput = {
@@ -15501,11 +15501,11 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
-    services?: BarberServiceUncheckedCreateNestedManyWithoutBarberInput
+    services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
-    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutBarberInput
-    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutBarberInput
-    workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutBarberInput
+    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type UserCreateOrConnectWithoutBookingsInput = {
@@ -15555,7 +15555,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdBy?: UserUpdateOneRequiredWithoutServicesCreatedNestedInput
-    barbers?: BarberServiceUpdateManyWithoutServiceNestedInput
+    employees?: EmployeeServiceUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutBookingsInput = {
@@ -15564,7 +15564,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdById?: IntFieldUpdateOperationsInput | number
-    barbers?: BarberServiceUncheckedUpdateManyWithoutServiceNestedInput
+    employees?: EmployeeServiceUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type UserUpsertWithoutBookingsInput = {
@@ -15585,11 +15585,11 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    services?: BarberServiceUpdateManyWithoutBarberNestedInput
+    services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
-    workingHours?: WorkingHoursUpdateManyWithoutBarberNestedInput
-    workingSlots?: WorkingSlotUpdateManyWithoutBarberNestedInput
-    workingHourRanges?: WorkingHourRangeUpdateManyWithoutBarberNestedInput
+    workingHours?: WorkingHoursUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBookingsInput = {
@@ -15600,11 +15600,11 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    services?: BarberServiceUncheckedUpdateManyWithoutBarberNestedInput
+    services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
-    workingHours?: WorkingHoursUncheckedUpdateManyWithoutBarberNestedInput
-    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutBarberNestedInput
-    workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutBarberNestedInput
+    workingHours?: WorkingHoursUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type UserCreateWithoutWorkingHoursInput = {
@@ -15614,11 +15614,11 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
-    services?: BarberServiceCreateNestedManyWithoutBarberInput
+    services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
-    bookings?: BookingCreateNestedManyWithoutBarberInput
-    workingSlots?: WorkingSlotCreateNestedManyWithoutBarberInput
-    workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutBarberInput
+    bookings?: BookingCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutEmployeeInput
   }
 
   export type UserUncheckedCreateWithoutWorkingHoursInput = {
@@ -15629,11 +15629,11 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
-    services?: BarberServiceUncheckedCreateNestedManyWithoutBarberInput
+    services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
-    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutBarberInput
-    workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutBarberInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type UserCreateOrConnectWithoutWorkingHoursInput = {
@@ -15659,11 +15659,11 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    services?: BarberServiceUpdateManyWithoutBarberNestedInput
+    services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
-    bookings?: BookingUpdateManyWithoutBarberNestedInput
-    workingSlots?: WorkingSlotUpdateManyWithoutBarberNestedInput
-    workingHourRanges?: WorkingHourRangeUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWorkingHoursInput = {
@@ -15674,11 +15674,11 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    services?: BarberServiceUncheckedUpdateManyWithoutBarberNestedInput
+    services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
-    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutBarberNestedInput
-    workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type UserCreateWithoutWorkingSlotsInput = {
@@ -15688,11 +15688,11 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
-    services?: BarberServiceCreateNestedManyWithoutBarberInput
+    services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
-    bookings?: BookingCreateNestedManyWithoutBarberInput
-    workingHours?: WorkingHoursCreateNestedManyWithoutBarberInput
-    workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutBarberInput
+    bookings?: BookingCreateNestedManyWithoutEmployeeInput
+    workingHours?: WorkingHoursCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutEmployeeInput
   }
 
   export type UserUncheckedCreateWithoutWorkingSlotsInput = {
@@ -15703,11 +15703,11 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
-    services?: BarberServiceUncheckedCreateNestedManyWithoutBarberInput
+    services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
-    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutBarberInput
-    workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutBarberInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
+    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type UserCreateOrConnectWithoutWorkingSlotsInput = {
@@ -15733,11 +15733,11 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    services?: BarberServiceUpdateManyWithoutBarberNestedInput
+    services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
-    bookings?: BookingUpdateManyWithoutBarberNestedInput
-    workingHours?: WorkingHoursUpdateManyWithoutBarberNestedInput
-    workingHourRanges?: WorkingHourRangeUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUpdateManyWithoutEmployeeNestedInput
+    workingHours?: WorkingHoursUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWorkingSlotsInput = {
@@ -15748,11 +15748,11 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    services?: BarberServiceUncheckedUpdateManyWithoutBarberNestedInput
+    services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
-    workingHours?: WorkingHoursUncheckedUpdateManyWithoutBarberNestedInput
-    workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingHours?: WorkingHoursUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type UserCreateWithoutWorkingHourRangesInput = {
@@ -15762,11 +15762,11 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
-    services?: BarberServiceCreateNestedManyWithoutBarberInput
+    services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
-    bookings?: BookingCreateNestedManyWithoutBarberInput
-    workingHours?: WorkingHoursCreateNestedManyWithoutBarberInput
-    workingSlots?: WorkingSlotCreateNestedManyWithoutBarberInput
+    bookings?: BookingCreateNestedManyWithoutEmployeeInput
+    workingHours?: WorkingHoursCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
   }
 
   export type UserUncheckedCreateWithoutWorkingHourRangesInput = {
@@ -15777,11 +15777,11 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
-    services?: BarberServiceUncheckedCreateNestedManyWithoutBarberInput
+    services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutBarberInput
-    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutBarberInput
-    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutBarberInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
+    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type UserCreateOrConnectWithoutWorkingHourRangesInput = {
@@ -15830,11 +15830,11 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    services?: BarberServiceUpdateManyWithoutBarberNestedInput
+    services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
-    bookings?: BookingUpdateManyWithoutBarberNestedInput
-    workingHours?: WorkingHoursUpdateManyWithoutBarberNestedInput
-    workingSlots?: WorkingSlotUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUpdateManyWithoutEmployeeNestedInput
+    workingHours?: WorkingHoursUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWorkingHourRangesInput = {
@@ -15845,11 +15845,11 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    services?: BarberServiceUncheckedUpdateManyWithoutBarberNestedInput
+    services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutBarberNestedInput
-    workingHours?: WorkingHoursUncheckedUpdateManyWithoutBarberNestedInput
-    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutBarberNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingHours?: WorkingHoursUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type RecurringSlotUpsertWithWhereUniqueWithoutRangeInput = {
@@ -15883,12 +15883,12 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     createdAt?: Date | string
-    barber: UserCreateNestedOneWithoutWorkingHourRangesInput
+    employee: UserCreateNestedOneWithoutWorkingHourRangesInput
   }
 
   export type WorkingHourRangeUncheckedCreateWithoutSlotsInput = {
     id?: number
-    barberId: number
+    employeeId: number
     startDate: Date | string
     endDate: Date | string
     createdAt?: Date | string
@@ -15914,18 +15914,18 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    barber?: UserUpdateOneRequiredWithoutWorkingHourRangesNestedInput
+    employee?: UserUpdateOneRequiredWithoutWorkingHourRangesNestedInput
   }
 
   export type WorkingHourRangeUncheckedUpdateWithoutSlotsInput = {
     id?: IntFieldUpdateOperationsInput | number
-    barberId?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type BarberServiceCreateManyBarberInput = {
+  export type EmployeeServiceCreateManyEmployeeInput = {
     serviceId: number
   }
 
@@ -15936,7 +15936,7 @@ export namespace Prisma {
     price: number
   }
 
-  export type BookingCreateManyBarberInput = {
+  export type BookingCreateManyEmployeeInput = {
     id?: number
     date: Date | string
     customerId: number
@@ -15946,14 +15946,14 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type WorkingHoursCreateManyBarberInput = {
+  export type WorkingHoursCreateManyEmployeeInput = {
     id?: number
     day: $Enums.WeekDay
     startTime: string
     endTime: string
   }
 
-  export type WorkingSlotCreateManyBarberInput = {
+  export type WorkingSlotCreateManyEmployeeInput = {
     id?: number
     date: Date | string
     startTime: string
@@ -15961,22 +15961,22 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type WorkingHourRangeCreateManyBarberInput = {
+  export type WorkingHourRangeCreateManyEmployeeInput = {
     id?: number
     startDate: Date | string
     endDate: Date | string
     createdAt?: Date | string
   }
 
-  export type BarberServiceUpdateWithoutBarberInput = {
-    service?: ServiceUpdateOneRequiredWithoutBarbersNestedInput
+  export type EmployeeServiceUpdateWithoutEmployeeInput = {
+    service?: ServiceUpdateOneRequiredWithoutEmployeesNestedInput
   }
 
-  export type BarberServiceUncheckedUpdateWithoutBarberInput = {
+  export type EmployeeServiceUncheckedUpdateWithoutEmployeeInput = {
     serviceId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type BarberServiceUncheckedUpdateManyWithoutBarberInput = {
+  export type EmployeeServiceUncheckedUpdateManyWithoutEmployeeInput = {
     serviceId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -15984,7 +15984,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    barbers?: BarberServiceUpdateManyWithoutServiceNestedInput
+    employees?: EmployeeServiceUpdateManyWithoutServiceNestedInput
     bookings?: BookingUpdateManyWithoutServiceNestedInput
   }
 
@@ -15993,7 +15993,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    barbers?: BarberServiceUncheckedUpdateManyWithoutServiceNestedInput
+    employees?: EmployeeServiceUncheckedUpdateManyWithoutServiceNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
   }
 
@@ -16004,7 +16004,7 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
   }
 
-  export type BookingUpdateWithoutBarberInput = {
+  export type BookingUpdateWithoutEmployeeInput = {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16013,7 +16013,7 @@ export namespace Prisma {
     service?: ServiceUpdateOneRequiredWithoutBookingsNestedInput
   }
 
-  export type BookingUncheckedUpdateWithoutBarberInput = {
+  export type BookingUncheckedUpdateWithoutEmployeeInput = {
     id?: IntFieldUpdateOperationsInput | number
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: IntFieldUpdateOperationsInput | number
@@ -16023,7 +16023,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type BookingUncheckedUpdateManyWithoutBarberInput = {
+  export type BookingUncheckedUpdateManyWithoutEmployeeInput = {
     id?: IntFieldUpdateOperationsInput | number
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: IntFieldUpdateOperationsInput | number
@@ -16033,42 +16033,34 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type WorkingHoursUpdateWithoutBarberInput = {
+  export type WorkingHoursUpdateWithoutEmployeeInput = {
     day?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
   }
 
-  export type WorkingHoursUncheckedUpdateWithoutBarberInput = {
+  export type WorkingHoursUncheckedUpdateWithoutEmployeeInput = {
     id?: IntFieldUpdateOperationsInput | number
     day?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
   }
 
-  export type WorkingHoursUncheckedUpdateManyWithoutBarberInput = {
+  export type WorkingHoursUncheckedUpdateManyWithoutEmployeeInput = {
     id?: IntFieldUpdateOperationsInput | number
     day?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
   }
 
-  export type WorkingSlotUpdateWithoutBarberInput = {
+  export type WorkingSlotUpdateWithoutEmployeeInput = {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type WorkingSlotUncheckedUpdateWithoutBarberInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WorkingSlotUncheckedUpdateManyWithoutBarberInput = {
+  export type WorkingSlotUncheckedUpdateWithoutEmployeeInput = {
     id?: IntFieldUpdateOperationsInput | number
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     startTime?: StringFieldUpdateOperationsInput | string
@@ -16076,14 +16068,22 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type WorkingHourRangeUpdateWithoutBarberInput = {
+  export type WorkingSlotUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkingHourRangeUpdateWithoutEmployeeInput = {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     slots?: RecurringSlotUpdateManyWithoutRangeNestedInput
   }
 
-  export type WorkingHourRangeUncheckedUpdateWithoutBarberInput = {
+  export type WorkingHourRangeUncheckedUpdateWithoutEmployeeInput = {
     id?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16091,7 +16091,7 @@ export namespace Prisma {
     slots?: RecurringSlotUncheckedUpdateManyWithoutRangeNestedInput
   }
 
-  export type WorkingHourRangeUncheckedUpdateManyWithoutBarberInput = {
+  export type WorkingHourRangeUncheckedUpdateManyWithoutEmployeeInput = {
     id?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16102,7 +16102,7 @@ export namespace Prisma {
     id?: number
     date: Date | string
     serviceId: number
-    barberId: number
+    employeeId: number
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
@@ -16114,14 +16114,14 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     service?: ServiceUpdateOneRequiredWithoutBookingsNestedInput
-    barber?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    employee?: UserUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutCustomerInput = {
     id?: IntFieldUpdateOperationsInput | number
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     serviceId?: IntFieldUpdateOperationsInput | number
-    barberId?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16131,36 +16131,36 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     serviceId?: IntFieldUpdateOperationsInput | number
-    barberId?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type BarberServiceCreateManyServiceInput = {
-    barberId: number
+  export type EmployeeServiceCreateManyServiceInput = {
+    employeeId: number
   }
 
   export type BookingCreateManyServiceInput = {
     id?: number
     date: Date | string
     customerId: number
-    barberId: number
+    employeeId: number
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
   }
 
-  export type BarberServiceUpdateWithoutServiceInput = {
-    barber?: UserUpdateOneRequiredWithoutServicesNestedInput
+  export type EmployeeServiceUpdateWithoutServiceInput = {
+    employee?: UserUpdateOneRequiredWithoutServicesNestedInput
   }
 
-  export type BarberServiceUncheckedUpdateWithoutServiceInput = {
-    barberId?: IntFieldUpdateOperationsInput | number
+  export type EmployeeServiceUncheckedUpdateWithoutServiceInput = {
+    employeeId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type BarberServiceUncheckedUpdateManyWithoutServiceInput = {
-    barberId?: IntFieldUpdateOperationsInput | number
+  export type EmployeeServiceUncheckedUpdateManyWithoutServiceInput = {
+    employeeId?: IntFieldUpdateOperationsInput | number
   }
 
   export type BookingUpdateWithoutServiceInput = {
@@ -16169,14 +16169,14 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
-    barber?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    employee?: UserUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutServiceInput = {
     id?: IntFieldUpdateOperationsInput | number
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: IntFieldUpdateOperationsInput | number
-    barberId?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16186,7 +16186,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: IntFieldUpdateOperationsInput | number
-    barberId?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

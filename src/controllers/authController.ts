@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
-export const registerBarberOwner = async (req: Request, res: Response): Promise<void> => {
+export const registerOwner = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password, name } = req.body;
 
@@ -26,11 +26,11 @@ export const registerBarberOwner = async (req: Request, res: Response): Promise<
         email,
         hashedPassword,
         name,
-        role: 'BARBER_OWNER',
+        role: 'OWNER',
       },
     });
 
-    return sendSuccessResponse(res, { message: 'Barber owner registered', userId: user.id });
+    return sendSuccessResponse(res, { message: 'Owner registered', userId: user.id });
   } catch (error) {
     console.error(error);
     return sendErrorResponse(res, 'Server error');

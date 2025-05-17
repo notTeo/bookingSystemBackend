@@ -14,8 +14,8 @@ export const createServiceValidation = [
     .withMessage('Price must be a positive number'),
 ];
 
-export const removeServiceFromBarberValdation = [
-  param('barberId')
+export const removeServiceFromEmployeeValdation = [
+  param('employeeId')
     .isInt({ min: 1 })
     .withMessage('Invalid barber ID'),
   param('serviceId')

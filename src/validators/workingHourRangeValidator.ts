@@ -55,9 +55,9 @@ export const createWorkingHourRangeValidation = [
 ];
 
 export const deleteWorkingHourRangeValidation = [
-  param("barberId")
+  param("employeeId")
     .isInt({ min: 1 })
-    .withMessage("barberId must be a valid integer"),
+    .withMessage("employeeId must be a valid integer"),
 
   param("rangeId")
     .isInt({ min: 1 })
@@ -65,7 +65,7 @@ export const deleteWorkingHourRangeValidation = [
 ];
 
 export const editWorkingHourRangeValidation = [
-  param("barberId").isInt({ min: 1 }).withMessage("Invalid barber ID"),
+  param("employeeId").isInt({ min: 1 }).withMessage("Invalid employee ID"),
 
   param("rangeId").isInt({ min: 1 }).withMessage("Invalid range ID"),
 

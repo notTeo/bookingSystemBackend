@@ -10,7 +10,7 @@ datasource db {
 
 enum Role {
   ADMIN
-  BARBER_OWNER
+  OWNER
   EMPLOYEE
 }
 
@@ -40,7 +40,7 @@ model User {
   createdAt          DateTime            @default(now())
   isActive  Boolean  @default(true)
 
-  services           BarberService[]
+  services           EmployeeService[]
   servicesCreated    Service[]           @relation("UserCreatedServices")
   bookings           Booking[]
   workingHours       WorkingHours[]
@@ -65,17 +65,17 @@ model Service {
   createdBy    User      @relation("UserCreatedServices", fields: [createdById], references: [id])
   createdById  Int
 
-  barbers      BarberService[]
+  employees      EmployeeService[]
   bookings     Booking[]
 }
 
-model BarberService {
-  barberId  Int
+model EmployeeService {
+  employeeId  Int
   serviceId Int
-  barber    User     @relation(fields: [barberId], references: [id])
+  employee    User     @relation(fields: [employeeId], references: [id])
   service   Service  @relation(fields: [serviceId], references: [id])
 
-  @@id([barberId, serviceId])
+  @@id([employeeId, serviceId])
 }
 
 model Booking {
@@ -85,8 +85,8 @@ model Booking {
   customerId Int
   service    Service   @relation(fields: [serviceId], references: [id])
   serviceId  Int
-  barber     User      @relation(fields: [barberId], references: [id])
-  barberId   Int
+  employee     User      @relation(fields: [employeeId], references: [id])
+  employeeId   Int
 
   status     BookingStatus @default(PENDING)
   notes      String?
@@ -98,14 +98,14 @@ model WorkingHours {
   day       WeekDay
   startTime String
   endTime   String
-  barber    User    @relation(fields: [barberId], references: [id])
-  barberId  Int
+  employee    User    @relation(fields: [employeeId], references: [id])
+  employeeId  Int
 }
 
 model WorkingSlot {
   id        Int      @id @default(autoincrement())
-  barberId  Int
-  barber    User     @relation(fields: [barberId], references: [id])
+  employeeId  Int
+  employee    User     @relation(fields: [employeeId], references: [id])
   date      DateTime
   startTime String
   endTime   String
@@ -114,12 +114,12 @@ model WorkingSlot {
 
 model WorkingHourRange {
   id        Int       @id @default(autoincrement())
-  barberId  Int
+  employeeId  Int
   startDate DateTime
   endDate   DateTime
   createdAt DateTime  @default(now())
 
-  barber    User       @relation(fields: [barberId], references: [id])
+  employee    User       @relation(fields: [employeeId], references: [id])
   slots     RecurringSlot[]
 }
 

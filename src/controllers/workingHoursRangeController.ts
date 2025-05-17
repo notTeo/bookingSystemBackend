@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export const createWorkingHourRange = async (req: Request, res: Response) => {
   try {
-    const barberId = Number(req.params.id);
+    const employeeId = Number(req.params.id);
     const { startDate, endDate, slots } = req.body;
 
     if (!startDate || !endDate || !slots || typeof slots !== "object") {
@@ -14,7 +14,7 @@ export const createWorkingHourRange = async (req: Request, res: Response) => {
     }
     const range = await prisma.workingHourRange.create({
       data: {
-        barberId,
+        employeeId,
         startDate: new Date(startDate),
         endDate: new Date(endDate),
       },
@@ -56,10 +56,10 @@ export const createWorkingHourRange = async (req: Request, res: Response) => {
 
 export const deleteWorkingHourRange = async (req: Request, res: Response) => {
   try {
-    const barberId = Number(req.params.barberId);
+    const employeeId = Number(req.params.employeeId);
     const rangeId = Number(req.params.rangeId);
 
-    if (isNaN(barberId) || isNaN(rangeId)) {
+    if (isNaN(employeeId) || isNaN(rangeId)) {
       return sendErrorResponse(res, 'Invalid ID(s)', 400);
     }
 
@@ -67,7 +67,7 @@ export const deleteWorkingHourRange = async (req: Request, res: Response) => {
       where: { id: rangeId }
     });
 
-    if (!range || range.barberId !== barberId) {
+    if (!range || range.employeeId !== employeeId) {
       return sendErrorResponse(res, 'Working hour range not found', 404);
     }
 
@@ -88,7 +88,7 @@ export const deleteWorkingHourRange = async (req: Request, res: Response) => {
 
 export const editWorkingHourRange = async (req: Request, res: Response) => {
   try {
-    const barberId = Number(req.params.barberId);
+    const employeeId = Number(req.params.employeeId);
     const rangeId = Number(req.params.rangeId);
     const { startDate, endDate, slots } = req.body;
 
@@ -100,7 +100,7 @@ export const editWorkingHourRange = async (req: Request, res: Response) => {
       where: { id: rangeId }
     });
 
-    if (!range || range.barberId !== barberId) {
+    if (!range || range.employeeId !== employeeId) {
       return sendErrorResponse(res, 'Working hour range not found', 404);
     }
 

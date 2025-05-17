@@ -5,7 +5,7 @@ import { sendErrorResponse, sendSuccessResponse } from "../utils/responses";
 
 const prisma = new PrismaClient();
 
-export const createBarber = async (
+export const createEmployee = async (
   req: Request,
   res: Response
 ): Promise<void> => {
@@ -23,7 +23,7 @@ export const createBarber = async (
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newBarber = await prisma.user.create({
+    const newEmployee = await prisma.user.create({
       data: {
         name,
         email,
@@ -33,8 +33,8 @@ export const createBarber = async (
     });
 
     return sendSuccessResponse(res, {
-      message: "Barber created successfully",
-      barberId: newBarber.id,
+      message: "Employee created successfully",
+      employeeId: newEmployee.id,
     });
   } catch (error) {
     console.error(error);
@@ -42,44 +42,44 @@ export const createBarber = async (
   }
 };
 
-export const deleteBarber = async (
+export const deleteEmployee = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const barberId = Number(req.params.id);
+    const employeeId = Number(req.params.id);
 
-    if (isNaN(barberId)) {
-      return sendErrorResponse(res, "Invalid barber ID", 400);
+    if (isNaN(employeeId)) {
+      return sendErrorResponse(res, "Invalid employee ID", 400);
     }
 
-    const barber = await prisma.user.findUnique({ where: { id: barberId } });
+    const employee = await prisma.user.findUnique({ where: { id: employeeId } });
 
-    if (!barber || barber.role !== "EMPLOYEE") {
-      return sendErrorResponse(res, "Barber not found or not deletable", 404);
+    if (!employee || employee.role !== "EMPLOYEE") {
+      return sendErrorResponse(res, "EmployeeId not found or not deletable", 404);
     }
 
     await prisma.service.deleteMany({
       where: {
-        createdById: barberId,
+        createdById: employeeId,
       },
     });
 
-    await prisma.barberService.deleteMany({
+    await prisma.employeeService.deleteMany({
       where: {
-        barberId,
+        employeeId,
       },
     });
 
     await prisma.workingSlot.deleteMany({
       where: {
-        barberId,
+        employeeId,
       },
     });
 
     const ranges = await prisma.workingHourRange.findMany({
       where: {
-        barberId,
+        employeeId,
       },
       select: { id: true }
     });
@@ -94,41 +94,41 @@ export const deleteBarber = async (
 
     await prisma.workingHourRange.deleteMany({
       where: {
-        barberId,
+        employeeId,
       },
     });
 
     await prisma.booking.deleteMany({
       where: {
-        barberId,
+        employeeId,
       },
     });
 
-    await prisma.user.delete({ where: { id: barberId } });
+    await prisma.user.delete({ where: { id: employeeId } });
 
-    return sendSuccessResponse(res, { message: "Barber deleted successfully" });
+    return sendSuccessResponse(res, { message: "Employee deleted successfully" });
   } catch (error) {
     console.error(error);
     return sendErrorResponse(res, "Server error");
   }
 };
 
-export const updateBarber = async (
+export const updateEmployee = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const barberId = Number(req.params.id);
+    const employeeId = Number(req.params.id);
     const { name, email, password } = req.body;
 
-    if (isNaN(barberId)) {
-      return sendErrorResponse(res, "Invalid barber ID", 400);
+    if (isNaN(employeeId)) {
+      return sendErrorResponse(res, "Invalid employee ID", 400);
     }
 
-    const barber = await prisma.user.findUnique({ where: { id: barberId } });
+    const employee = await prisma.user.findUnique({ where: { id: employeeId } });
 
-    if (!barber || barber.role !== "EMPLOYEE") {
-      return sendErrorResponse(res, "Barber not found or not editable", 404);
+    if (!employee || employee.role !== "EMPLOYEE") {
+      return sendErrorResponse(res, "Employee not found or not editable", 404);
     }
 
     const updateData: any = {};
@@ -140,17 +140,17 @@ export const updateBarber = async (
       updateData.hashedPassword = await bcrypt.hash(password, 10);
     }
 
-    const updatedBarber = await prisma.user.update({
-      where: { id: barberId },
+    const updatedEmployee= await prisma.user.update({
+      where: { id: employeeId },
       data: updateData,
     });
 
     return sendSuccessResponse(res, {
-      message: "Barber updated successfully",
+      message: "Employee updated successfully",
       barber: {
-        id: updatedBarber.id,
-        name: updatedBarber.name,
-        email: updatedBarber.email,
+        id: updatedEmployee.id,
+        name: updatedEmployee.name,
+        email: updatedEmployee.email,
       },
     });
   } catch (error) {
@@ -159,40 +159,40 @@ export const updateBarber = async (
   }
 };
 
-export const toggleBarberActiveStatus = async (req: Request, res: Response) => {
+export const toggleEmployeeActiveStatus = async (req: Request, res: Response) => {
   try {
-    const barberId = Number(req.params.id);
+    const employeeId = Number(req.params.id);
     const { isActive } = req.body;
 
-    if (isNaN(barberId) || typeof isActive !== 'boolean') {
+    if (isNaN(employeeId) || typeof isActive !== 'boolean') {
       return sendErrorResponse(res, 'Invalid input', 400);
     }
 
-    const barber = await prisma.user.findUnique({ where: { id: barberId } });
+    const barber = await prisma.user.findUnique({ where: { id: employeeId } });
 
     if (!barber || barber.role !== 'EMPLOYEE') {
-      return sendErrorResponse(res, 'Barber not found', 404);
+      return sendErrorResponse(res, 'Employee not found', 404);
     }
 
     await prisma.user.update({
-      where: { id: barberId },
+      where: { id: employeeId },
       data: { isActive },
     });
 
-    return sendSuccessResponse(res, { message: `Barber is now ${isActive ? 'active' : 'inactive'}` });
+    return sendSuccessResponse(res, { message: `Employee is now ${isActive ? 'active' : 'inactive'}` });
   } catch (error) {
     console.error(error);
     return sendErrorResponse(res, 'Server error');
   }
 };
 
-export const getAllBarbers = async (
+export const getAllEmployees= async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
     
-    const barbers = await prisma.user.findMany({
+    const employees = await prisma.user.findMany({
       where: { role: 'EMPLOYEE', isActive: true },
       include: {
         services: {
@@ -211,10 +211,10 @@ export const getAllBarbers = async (
     });
     
 
-    const result = barbers.map((barber) => {
-      const services = barber.services.map((bs) => bs.service);
+    const result = employees.map((employee) => {
+      const services = employee.services.map((bs) => bs.service);
     
-      const workingSchedule = barber.workingHourRanges.map((range) => {
+      const workingSchedule = employee.workingHourRanges.map((range) => {
         const slots = range.slots.reduce((acc, slot) => {
           if (!acc[slot.weekDay]) acc[slot.weekDay] = [];
           acc[slot.weekDay].push({
@@ -241,10 +241,10 @@ export const getAllBarbers = async (
       });
     
       return {
-        id: barber.id,
-        name: barber.name,
-        email: barber.email,
-        createdAt: barber.createdAt,
+        id: employee.id,
+        name: employee.name,
+        email: employee.email,
+        createdAt: employee.createdAt,
         services,
         workingSchedule
       };
@@ -256,12 +256,12 @@ export const getAllBarbers = async (
   }
 };
 
-export const getBarberById = async (req: Request, res: Response) => {
+export const getEmployeeById = async (req: Request, res: Response) => {
   try {
-    const barberId = Number(req.params.id);
+    const employeeId = Number(req.params.id);
 
-    const barber = await prisma.user.findUnique({
-      where: { id: barberId },
+    const employee = await prisma.user.findUnique({
+      where: { id: employeeId },
       include: {
         services: {
           include: { service: true }
@@ -277,18 +277,18 @@ export const getBarberById = async (req: Request, res: Response) => {
       }
     });
 
-    if (!barber) {
-      return sendErrorResponse(res, 'Barber not found', 404);
+    if (!employee) {
+      return sendErrorResponse(res, 'Employee not found', 404);
     }
 
-    const services = barber.services.map(bs => ({
+    const services = employee.services.map(bs => ({
       id: bs.service.id,
       name: bs.service.name,
       duration: bs.service.duration,
       price: bs.service.price
     }));
 
-    const workingSchedule = barber.workingHourRanges.map(range => {
+    const workingSchedule = employee.workingHourRanges.map(range => {
       const groupedSlots: Record<string, { startTime: string, endTime: string }[]> = {
         MONDAY: [],
         TUESDAY: [],
@@ -315,9 +315,9 @@ export const getBarberById = async (req: Request, res: Response) => {
     });
 
     return sendSuccessResponse(res, {
-      id: barber.id,
-      name: barber.name,
-      email: barber.email,
+      id: employee.id,
+      name: employee.name,
+      email: employee.email,
       services,
       workingSchedule
     });
@@ -327,16 +327,16 @@ export const getBarberById = async (req: Request, res: Response) => {
   }
 };
 
-export const assignServicesToBarber = async (
+export const assignServicesToEmployee = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const barberId = Number(req.params.barberId);
+    const employeeId = Number(req.params.employeeId);
     const { serviceIds } = req.body;
 
-    if (isNaN(barberId)) {
-      return sendErrorResponse(res, "Invalid barber ID", 400);
+    if (isNaN(employeeId)) {
+      return sendErrorResponse(res, "Invalid employee ID", 400);
     }
 
     if (!Array.isArray(serviceIds) || serviceIds.length === 0) {
@@ -346,10 +346,10 @@ export const assignServicesToBarber = async (
         400
       );
     }
-    const barber = await prisma.user.findUnique({ where: { id: barberId } });
+    const employee = await prisma.user.findUnique({ where: { id: employeeId } });
 
-    if (!barber || barber.role !== "EMPLOYEE") {
-      return sendErrorResponse(res, "Barber not found or not eligible", 404);
+    if (!employee || employee.role !== "EMPLOYEE") {
+      return sendErrorResponse(res, "Employee not found or not eligible", 404);
     }
 
     const validServices = await prisma.service.findMany({
@@ -368,19 +368,19 @@ export const assignServicesToBarber = async (
       );
     }
 
-    await prisma.barberService.deleteMany({
-      where: { barberId },
+    await prisma.employeeService.deleteMany({
+      where: { employeeId },
     });
 
-    await prisma.barberService.createMany({
+    await prisma.employeeService.createMany({
       data: serviceIds.map((serviceId) => ({
-        barberId,
+        employeeId,
         serviceId,
       })),
     });
 
     return sendSuccessResponse(res, {
-      message: "Services assigned to barber successfully",
+      message: "Services assigned to employee successfully",
     });
   } catch (error) {
     console.error(error);
@@ -388,38 +388,38 @@ export const assignServicesToBarber = async (
   }
 };
 
-export const removeServiceFromBarber = async (req: Request, res: Response): Promise<void> => {
+export const removeServiceFromEmployee = async (req: Request, res: Response): Promise<void> => {
   try {
-    const barberId = Number(req.params.barberId);
+    const employeeId = Number(req.params.employeeId);
     const serviceId = Number(req.params.serviceId);
 
-    if (isNaN(barberId) || isNaN(serviceId)) {
-      return sendErrorResponse(res, 'Invalid barber or service ID', 400);
+    if (isNaN(employeeId) || isNaN(serviceId)) {
+      return sendErrorResponse(res, 'Invalid employee or service ID', 400);
     }
 
-    const relation = await prisma.barberService.findUnique({
+    const relation = await prisma.employeeService.findUnique({
       where: {
-        barberId_serviceId: {
-          barberId,
+        employeeId_serviceId: {
+          employeeId,
           serviceId,
         },
       },
     });
 
     if (!relation) {
-      return sendErrorResponse(res, 'Service not assigned to this barber', 404);
+      return sendErrorResponse(res, 'Service not assigned to this employee', 404);
     }
 
-    await prisma.barberService.delete({
+    await prisma.employeeService.delete({
       where: {
-        barberId_serviceId: {
-          barberId,
+        employeeId_serviceId: {
+          employeeId,
           serviceId,
         },
       },
     });
 
-    return sendSuccessResponse(res, { message: 'Service removed from barber successfully' });
+    return sendSuccessResponse(res, { message: 'Service removed from employee successfully' });
   } catch (error) {
     console.error(error);
     return sendErrorResponse(res, 'Server error');

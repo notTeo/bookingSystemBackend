@@ -1,23 +1,23 @@
 import express from "express";
 import {
-  assignServicesToBarber,
-  createBarber,
-  deleteBarber,
-  getAllBarbers,
-  getBarberById,
-  removeServiceFromBarber,
-  toggleBarberActiveStatus,
-  updateBarber,
-} from "../controllers/barberController";
+  assignServicesToEmployee,
+  createEmployee,
+  deleteEmployee,
+  getAllEmployees,
+  getEmployeeById,
+  removeServiceFromEmployee,
+  toggleEmployeeActiveStatus,
+  updateEmployee,
+} from "../controllers/employeeController";
 import { authenticate, authorizeOwner } from "../middlewares/authMiddleware";
 import {
   assignServicesValidation,
-  createBarberValidation,
-  deleteBarberValidation,
-  getBarberByIdValidation,
-  toggleBarberActiveValidation,
-  updateBarberValidation,
-} from "../validators/barberValidator";
+  createEmployeeValidation,
+  deleteEmployeeValidation,
+  getEmployeeByIdValidation,
+  toggleEmployeeActiveValidation,
+  updateEmployeeValidation,
+} from "../validators/employeeValidator";
 import { validateRequest } from "../middlewares/validateRequest";
 import {
   createWorkingHourRange,
@@ -29,7 +29,7 @@ import {
   deleteWorkingHourRangeValidation,
   editWorkingHourRangeValidation,
 } from "../validators/workingHourRangeValidator";
-import { removeServiceFromBarberValdation } from "../validators/serviceValidator";
+import { removeServiceFromEmployeeValdation } from "../validators/serviceValidator";
 
 const router = express.Router();
 
@@ -37,62 +37,62 @@ router.post(
   "/",
   authenticate,
   authorizeOwner,
-  createBarberValidation,
+  createEmployeeValidation,
   validateRequest,
-  createBarber
+  createEmployee
 );
 
 router.delete(
-  "/:barberId",
+  "/:employeeId",
   authenticate,
   authorizeOwner,
-  deleteBarberValidation,
-  deleteBarber
+  deleteEmployeeValidation,
+  deleteEmployee
 );
 
 router.put(
-  "/:barberId",
+  "/:employeeId",
   authenticate,
   authorizeOwner,
-  updateBarberValidation,
+  updateEmployeeValidation,
   validateRequest,
-  updateBarber
+  updateEmployee
 );
 
-router.get("/", authenticate, authorizeOwner, getAllBarbers);
+router.get("/", authenticate, authorizeOwner, getAllEmployees);
 
 router.get(
-  "/:barberId",
+  "/:employeeId",
   authenticate,
   authorizeOwner,
-  getBarberByIdValidation,
-  getBarberById
+  getEmployeeByIdValidation,
+  getEmployeeById
 );
 
 router.patch(
-  "/:barberId/active",
+  "/:employeeId/active",
   authenticate,
   authorizeOwner,
-  toggleBarberActiveValidation,
+  toggleEmployeeActiveValidation,
   validateRequest,
-  toggleBarberActiveStatus
+  toggleEmployeeActiveStatus
 );
 
 router.post(
-  "/:barberId/services",
+  "/:employeeId/services",
   authenticate,
   authorizeOwner,
   assignServicesValidation,
   validateRequest,
-  assignServicesToBarber
+  assignServicesToEmployee
 );
 
 router.delete(
-  "/:barberId/services/:serviceId",
+  "/:employeeId/services/:serviceId",
   authenticate,
   authorizeOwner,
-  removeServiceFromBarberValdation,
-  removeServiceFromBarber
+  removeServiceFromEmployeeValdation,
+  removeServiceFromEmployee
 );
 
 router.post(
@@ -105,7 +105,7 @@ router.post(
 );
 
 router.delete(
-  "/:barberId/working-range/:rangeId",
+  "/:employeeId/working-range/:rangeId",
   authenticate,
   authorizeOwner,
   deleteWorkingHourRangeValidation,
@@ -113,7 +113,7 @@ router.delete(
 );
 
 router.put(
-  "/:barberId/working-range/:rangeId",
+  "/:employeeId/working-range/:rangeId",
   authenticate,
   authorizeOwner,
   editWorkingHourRangeValidation,

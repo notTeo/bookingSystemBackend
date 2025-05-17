@@ -146,8 +146,8 @@ exports.Prisma.ServiceScalarFieldEnum = {
   createdById: 'createdById'
 };
 
-exports.Prisma.BarberServiceScalarFieldEnum = {
-  barberId: 'barberId',
+exports.Prisma.EmployeeServiceScalarFieldEnum = {
+  employeeId: 'employeeId',
   serviceId: 'serviceId'
 };
 
@@ -156,7 +156,7 @@ exports.Prisma.BookingScalarFieldEnum = {
   date: 'date',
   customerId: 'customerId',
   serviceId: 'serviceId',
-  barberId: 'barberId',
+  employeeId: 'employeeId',
   status: 'status',
   notes: 'notes',
   createdAt: 'createdAt'
@@ -167,12 +167,12 @@ exports.Prisma.WorkingHoursScalarFieldEnum = {
   day: 'day',
   startTime: 'startTime',
   endTime: 'endTime',
-  barberId: 'barberId'
+  employeeId: 'employeeId'
 };
 
 exports.Prisma.WorkingSlotScalarFieldEnum = {
   id: 'id',
-  barberId: 'barberId',
+  employeeId: 'employeeId',
   date: 'date',
   startTime: 'startTime',
   endTime: 'endTime',
@@ -181,7 +181,7 @@ exports.Prisma.WorkingSlotScalarFieldEnum = {
 
 exports.Prisma.WorkingHourRangeScalarFieldEnum = {
   id: 'id',
-  barberId: 'barberId',
+  employeeId: 'employeeId',
   startDate: 'startDate',
   endDate: 'endDate',
   createdAt: 'createdAt'
@@ -211,7 +211,7 @@ exports.Prisma.NullsOrder = {
 };
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
-  BARBER_OWNER: 'BARBER_OWNER',
+  OWNER: 'OWNER',
   EMPLOYEE: 'EMPLOYEE'
 };
 
@@ -236,7 +236,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   Customer: 'Customer',
   Service: 'Service',
-  BarberService: 'BarberService',
+  EmployeeService: 'EmployeeService',
   Booking: 'Booking',
   WorkingHours: 'WorkingHours',
   WorkingSlot: 'WorkingSlot',
