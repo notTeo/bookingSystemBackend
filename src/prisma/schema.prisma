@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  BARBER_OWNER
+  EMPLOYEE
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+  COMPLETED
+}
+
+enum WeekDay {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+model User {
+  id                 Int                 @id @default(autoincrement())
+  email              String              @unique
+  hashedPassword     String
+  name               String
+  role               Role                @default(EMPLOYEE)
+  createdAt          DateTime            @default(now())
+  isActive  Boolean  @default(true)
+
+  services           BarberService[]
+  servicesCreated    Service[]           @relation("UserCreatedServices")
+  bookings           Booking[]
+  workingHours       WorkingHours[]
+  workingSlots       WorkingSlot[]
+  workingHourRanges  WorkingHourRange[]
+}
+
+model Customer {
+  id        Int       @id @default(autoincrement())
+  name      String
+  phone     String
+  email     String?
+  bookings  Booking[]
+  createdAt DateTime  @default(now())
+}
+
+model Service {
+  id           Int       @id @default(autoincrement())
+  name         String
+  duration     Int       // in minutes
+  price        Float
+  createdBy    User      @relation("UserCreatedServices", fields: [createdById], references: [id])
+  createdById  Int
+
+  barbers      BarberService[]
+  bookings     Booking[]
+}
+
+model BarberService {
+  barberId  Int
+  serviceId Int
+  barber    User     @relation(fields: [barberId], references: [id])
+  service   Service  @relation(fields: [serviceId], references: [id])
+
+  @@id([barberId, serviceId])
+}
+
+model Booking {
+  id         Int       @id @default(autoincrement())
+  date       DateTime
+  customer   Customer  @relation(fields: [customerId], references: [id])
+  customerId Int
+  service    Service   @relation(fields: [serviceId], references: [id])
+  serviceId  Int
+  barber     User      @relation(fields: [barberId], references: [id])
+  barberId   Int
+
+  status     BookingStatus @default(PENDING)
+  notes      String?
+  createdAt  DateTime       @default(now())
+}
+
+model WorkingHours {
+  id        Int     @id @default(autoincrement())
+  day       WeekDay
+  startTime String
+  endTime   String
+  barber    User    @relation(fields: [barberId], references: [id])
+  barberId  Int
+}
+
+model WorkingSlot {
+  id        Int      @id @default(autoincrement())
+  barberId  Int
+  barber    User     @relation(fields: [barberId], references: [id])
+  date      DateTime
+  startTime String
+  endTime   String
+  createdAt DateTime @default(now())
+}
+
+model WorkingHourRange {
+  id        Int       @id @default(autoincrement())
+  barberId  Int
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime  @default(now())
+
+  barber    User       @relation(fields: [barberId], references: [id])
+  slots     RecurringSlot[]
+}
+
+model RecurringSlot {
+  id        Int       @id @default(autoincrement())
+  rangeId   Int
+  weekDay   WeekDay
+  startTime String
+  endTime   String
+
+  range     WorkingHourRange @relation(fields: [rangeId], references: [id])
+}
