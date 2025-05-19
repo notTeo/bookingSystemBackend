@@ -294,7 +294,7 @@ export const getEmployeeById = async (req: Request, res: Response) => {
           orderBy: {
             startDate: "asc",
           },
-        },
+        }
       },
     });
     if (!employee) {

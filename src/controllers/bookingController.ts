@@ -5,124 +5,6 @@ import { parseISO, format, addMinutes, isBefore, isEqual } from 'date-fns';
 
 const prisma = new PrismaClient();
 
-export const getAvailableSlotsForAllEmployees = async (req: Request, res: Response) => {
-  try {
-    const { date, serviceId } = req.query;
-
-    if (!date || !serviceId || isNaN(Number(serviceId))) {
-      return sendErrorResponse(res, "Missing or invalid parameters", 400);
-    }
-
-    const parsedDate = parseISO(date as string);
-    if (isNaN(parsedDate.getTime())) {
-      return sendErrorResponse(res, "Invalid date format", 400);
-    }
-
-    const service = await prisma.service.findUnique({
-      where: { id: Number(serviceId) },
-      select: { duration: true },
-    });
-
-    if (!service) {
-      return sendErrorResponse(res, "Service not found", 404);
-    }
-
-    const duration = service.duration;
-
-    // 1. Get all employees assigned to this service and who are active
-    const employees = await prisma.user.findMany({
-      where: {
-        role: "EMPLOYEE",
-        isActive: true,
-        services: {
-          some: {
-            serviceId: Number(serviceId),
-          },
-        },
-      },
-      select: {
-        id: true,
-        name: true,
-      },
-    });
-
-    const results = [];
-
-    for (const employee of employees) {
-      // 2. Get working slots
-      const workingSlots = await prisma.workingSlot.findMany({
-        where: {
-          employeeId: employee.id,
-          date: {
-            gte: new Date(parsedDate.setHours(0, 0, 0, 0)),
-            lt: new Date(parsedDate.setHours(23, 59, 59, 999)),
-          },
-        },
-        orderBy: { startTime: "asc" },
-      });
-
-      if (workingSlots.length === 0) continue;
-
-      // 3. Get bookings
-      const bookings = await prisma.booking.findMany({
-        where: {
-          employeeId: employee.id,
-          date: {
-            gte: new Date(parsedDate.setHours(0, 0, 0, 0)),
-            lt: new Date(parsedDate.setHours(23, 59, 59, 999)),
-          },
-          status: {
-            in: ["PENDING", "CONFIRMED"],
-          },
-        },
-        include: {
-          service: true,
-        },
-      });
-
-      const bookedTimes = bookings.map((b) => {
-        const start = b.date;
-        const end = addMinutes(start, b.service.duration);
-        return { start, end };
-      });
-
-      // 4. Build available slots
-      const availableSlots: string[] = [];
-
-      for (const slot of workingSlots) {
-        const slotStart = parseISO(`${date}T${slot.startTime}`);
-        const slotEnd = parseISO(`${date}T${slot.endTime}`);
-        let pointer = slotStart;
-
-        while (addMinutes(pointer, duration) <= slotEnd) {
-          const proposedEnd = addMinutes(pointer, duration);
-
-          const overlaps = bookedTimes.some(
-            ({ start, end }) =>
-              (isBefore(pointer, end) && isBefore(start, proposedEnd)) ||
-              isEqual(pointer, start)
-          );
-
-          if (!overlaps) {
-            availableSlots.push(format(pointer, "HH:mm"));
-          }
-
-          pointer = addMinutes(pointer, duration);
-        }
-      }
-
-      results.push({
-        employeeId: employee.id,
-        name: employee.name,
-      });
-    }
-
-    return sendSuccessResponse(res, results);
-  } catch (err) {
-    console.error(err);
-    return sendErrorResponse(res, "Server error", 500);
-  }
-};
 
 export const getAvailableSlots = async (req: Request, res: Response) => {
   try {
@@ -204,11 +86,13 @@ export const getAvailableSlots = async (req: Request, res: Response) => {
       while (addMinutes(pointer, duration) <= slotEnd) {
         const proposedEnd = addMinutes(pointer, duration);
 
-        const overlaps = bookedTimes.some(
-          ({ start, end }) =>
-            (isBefore(pointer, end) && isBefore(start, proposedEnd)) ||
-            isEqual(pointer, start)
-        );
+        const overlaps = bookedTimes.some(({ start, end }) => {
+          return (
+            (pointer >= start && pointer < end) || 
+            (proposedEnd > start && proposedEnd <= end) || 
+            (start >= pointer && start < proposedEnd) 
+          );
+        });
 
         if (!overlaps) {
           availableSlots.push(format(pointer, "HH:mm"));
@@ -230,3 +114,109 @@ export const getAvailableSlots = async (req: Request, res: Response) => {
     return sendErrorResponse(res, "Server error", 500);
   }
 };
+
+export const createBooking = async (req: Request, res: Response) => {
+  try {
+    const { employeeId, serviceId, date, time, customer } = req.body;
+
+    if (!employeeId || !serviceId || !date || !time || !customer?.name || !customer?.phone) {
+      return sendErrorResponse(res, "Missing required fields", 400);
+    }
+
+    const employee = await prisma.user.findUnique({
+      where: { id: employeeId },
+    });
+
+    if (!employee || !employee.isActive) {
+      return sendErrorResponse(res, "Invalid or inactive employee", 400);
+    }
+
+    const service = await prisma.service.findUnique({
+      where: { id: serviceId },
+      select: { duration: true }
+    });
+
+    if (!service) {
+      return sendErrorResponse(res, "Service not found", 404);
+    }
+
+    const start = parseISO(`${date}T${time}`);
+    const end = addMinutes(start, service.duration);
+    const startOfDay = new Date(start); startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(start); endOfDay.setHours(23, 59, 59, 999);
+
+    const workingSlots = await prisma.workingSlot.findMany({
+      where: {
+        employeeId,
+        date: { gte: startOfDay, lte: endOfDay }
+      },
+    });
+
+    const fitsInsideWorkingSlot = workingSlots.some(slot => {
+      const slotStart = parseISO(`${date}T${slot.startTime}`);
+      const slotEnd = parseISO(`${date}T${slot.endTime}`);
+      return start >= slotStart && end <= slotEnd;
+    });
+
+    if (!fitsInsideWorkingSlot) {
+      return sendErrorResponse(res, "Requested time is outside working hours", 400);
+    }
+
+    const bookings = await prisma.booking.findMany({
+      where: {
+        employeeId,
+        status: { in: ["PENDING", "CONFIRMED"] },
+        date: { gte: startOfDay, lte: endOfDay }
+      },
+      include: { service: true },
+    });
+
+    const conflict = bookings.some(b => {
+      const bStart = b.date;
+      const bEnd = addMinutes(bStart, b.service.duration);
+      return (
+        (start >= bStart && start < bEnd) ||
+        (end > bStart && end <= bEnd) ||
+        (bStart >= start && bStart < end)
+      );
+    });
+
+    if (conflict) {
+      return sendErrorResponse(res, "Time overlaps with an existing booking", 409);
+    }
+
+    const existingCustomer = await prisma.customer.findFirst({
+      where: {
+        phone: customer.phone,
+        email: customer.email ?? undefined,
+      },
+    });
+
+    const customerRecord = existingCustomer ?? await prisma.customer.create({
+      data: {
+        name: customer.name,
+        phone: customer.phone,
+        email: customer.email ?? null
+      }
+    });
+
+    const booking = await prisma.booking.create({
+      data: {
+        employeeId,
+        serviceId,
+        customerId: customerRecord.id,
+        date: start,
+        status: "PENDING"
+      }
+    });
+
+    return sendSuccessResponse(res, {
+      message: "Booking created",
+      bookingId: booking.id
+    });
+  } catch (err) {
+    console.error(err);
+    return sendErrorResponse(res, "Server error", 500);
+  }
+};
+

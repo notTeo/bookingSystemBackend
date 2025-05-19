@@ -30,8 +30,8 @@ import {
   editWorkingHourRangeValidation,
 } from "../validators/workingHourRangeValidator";
 import { removeServiceFromEmployeeValdation } from "../validators/serviceValidator";
-import { getAvailableSlots, getAvailableSlotsForAllEmployees } from "../controllers/bookingController";
-import { availableSlotsForAllEmployeesValidation, availableSlotsValidation } from "../validators/bookingValidator";
+import { getAvailableSlots } from "../controllers/bookingController";
+import { availableSlotsValidation } from "../validators/bookingValidator";
 
 const router = express.Router();
 
@@ -130,11 +130,5 @@ router.get(
   getAvailableSlots
 );
 
-router.get(
-  "/availability",
-  availableSlotsForAllEmployeesValidation,
-  validateRequest,
-  getAvailableSlotsForAllEmployees
-);
 
 export default router;
