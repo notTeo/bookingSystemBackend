@@ -47,16 +47,22 @@ export const deleteEmployee = async (
   res: Response
 ): Promise<void> => {
   try {
-    const employeeId = Number(req.params.id);
+    const employeeId = Number(req.params.employeeId);
 
     if (isNaN(employeeId)) {
       return sendErrorResponse(res, "Invalid employee ID", 400);
     }
 
-    const employee = await prisma.user.findUnique({ where: { id: employeeId } });
+    const employee = await prisma.user.findUnique({
+      where: { id: employeeId },
+    });
 
     if (!employee || employee.role !== "EMPLOYEE") {
-      return sendErrorResponse(res, "EmployeeId not found or not deletable", 404);
+      return sendErrorResponse(
+        res,
+        "EmployeeId not found or not deletable",
+        404
+      );
     }
 
     await prisma.service.deleteMany({
@@ -81,7 +87,7 @@ export const deleteEmployee = async (
       where: {
         employeeId,
       },
-      select: { id: true }
+      select: { id: true },
     });
 
     const rangeIds = ranges.map((r) => r.id);
@@ -106,7 +112,9 @@ export const deleteEmployee = async (
 
     await prisma.user.delete({ where: { id: employeeId } });
 
-    return sendSuccessResponse(res, { message: "Employee deleted successfully" });
+    return sendSuccessResponse(res, {
+      message: "Employee deleted successfully",
+    });
   } catch (error) {
     console.error(error);
     return sendErrorResponse(res, "Server error");
@@ -118,14 +126,16 @@ export const updateEmployee = async (
   res: Response
 ): Promise<void> => {
   try {
-    const employeeId = Number(req.params.id);
+    const employeeId = Number(req.params.employeeId);
     const { name, email, password } = req.body;
 
     if (isNaN(employeeId)) {
       return sendErrorResponse(res, "Invalid employee ID", 400);
     }
 
-    const employee = await prisma.user.findUnique({ where: { id: employeeId } });
+    const employee = await prisma.user.findUnique({
+      where: { id: employeeId },
+    });
 
     if (!employee || employee.role !== "EMPLOYEE") {
       return sendErrorResponse(res, "Employee not found or not editable", 404);
@@ -140,7 +150,7 @@ export const updateEmployee = async (
       updateData.hashedPassword = await bcrypt.hash(password, 10);
     }
 
-    const updatedEmployee= await prisma.user.update({
+    const updatedEmployee = await prisma.user.update({
       where: { id: employeeId },
       data: updateData,
     });
@@ -159,19 +169,22 @@ export const updateEmployee = async (
   }
 };
 
-export const toggleEmployeeActiveStatus = async (req: Request, res: Response) => {
+export const toggleEmployeeActiveStatus = async (
+  req: Request,
+  res: Response
+) => {
   try {
-    const employeeId = Number(req.params.id);
+    const employeeId = Number(req.params.employeeId);
     const { isActive } = req.body;
 
-    if (isNaN(employeeId) || typeof isActive !== 'boolean') {
-      return sendErrorResponse(res, 'Invalid input', 400);
+    if (isNaN(employeeId) || typeof isActive !== "boolean") {
+      return sendErrorResponse(res, "Invalid input", 400);
     }
 
     const barber = await prisma.user.findUnique({ where: { id: employeeId } });
 
-    if (!barber || barber.role !== 'EMPLOYEE') {
-      return sendErrorResponse(res, 'Employee not found', 404);
+    if (!barber || barber.role !== "EMPLOYEE") {
+      return sendErrorResponse(res, "Employee not found", 404);
     }
 
     await prisma.user.update({
@@ -179,74 +192,77 @@ export const toggleEmployeeActiveStatus = async (req: Request, res: Response) =>
       data: { isActive },
     });
 
-    return sendSuccessResponse(res, { message: `Employee is now ${isActive ? 'active' : 'inactive'}` });
+    return sendSuccessResponse(res, {
+      message: `Employee is now ${isActive ? "active" : "inactive"}`,
+    });
   } catch (error) {
     console.error(error);
-    return sendErrorResponse(res, 'Server error');
+    return sendErrorResponse(res, "Server error");
   }
 };
 
-export const getAllEmployees= async (
+export const getAllEmployees = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    
     const employees = await prisma.user.findMany({
-      where: { role: 'EMPLOYEE', isActive: true },
+      where: { role: "EMPLOYEE", isActive: true },
       include: {
         services: {
-          include: { service: true }
+          include: { service: true },
         },
         workingHourRanges: {
           include: {
-            slots: true
+            slots: true,
           },
           orderBy: {
-            startDate: 'asc'
-          }
-        }
+            startDate: "asc",
+          },
+        },
       },
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: "desc" },
     });
-    
 
     const result = employees.map((employee) => {
       const services = employee.services.map((bs) => bs.service);
-    
+
       const workingSchedule = employee.workingHourRanges.map((range) => {
-        const slots = range.slots.reduce((acc, slot) => {
-          if (!acc[slot.weekDay]) acc[slot.weekDay] = [];
-          acc[slot.weekDay].push({
-            startTime: slot.startTime,
-            endTime: slot.endTime
-          });
-          return acc;
-        }, {
-          MONDAY: [],
-          TUESDAY: [],
-          WEDNESDAY: [],
-          THURSDAY: [],
-          FRIDAY: [],
-          SATURDAY: [],
-          SUNDAY: []
-        } as Record<string, { startTime: string; endTime: string }[]>);
-    
+        const slots = range.slots.reduce(
+          (acc, slot) => {
+            if (!acc[slot.weekDay]) acc[slot.weekDay] = [];
+            acc[slot.weekDay].push({
+              startTime: slot.startTime,
+              endTime: slot.endTime,
+            });
+            return acc;
+          },
+          {
+            MONDAY: [],
+            TUESDAY: [],
+            WEDNESDAY: [],
+            THURSDAY: [],
+            FRIDAY: [],
+            SATURDAY: [],
+            SUNDAY: [],
+          } as Record<string, { startTime: string; endTime: string }[]>
+        );
+
         return {
           id: range.id,
-          startDate: range.startDate.toISOString().split('T')[0],
-          endDate: range.endDate.toISOString().split('T')[0],
-          slots
+          startDate: range.startDate.toISOString().split("T")[0],
+          endDate: range.endDate.toISOString().split("T")[0],
+          slots,
         };
       });
-    
+
       return {
         id: employee.id,
         name: employee.name,
         email: employee.email,
         createdAt: employee.createdAt,
         services,
-        workingSchedule
+        workingSchedule,
       };
     });
     return sendSuccessResponse(res, result);
@@ -258,59 +274,66 @@ export const getAllEmployees= async (
 
 export const getEmployeeById = async (req: Request, res: Response) => {
   try {
-    const employeeId = Number(req.params.id);
+
+    const employeeId = Number(req.params.employeeId);
+    
+    if (isNaN(employeeId)) {
+      return sendErrorResponse(res, "Invalid employee ID", 400);
+    }
 
     const employee = await prisma.user.findUnique({
       where: { id: employeeId },
       include: {
         services: {
-          include: { service: true }
+          include: { service: true },
         },
         workingHourRanges: {
           include: {
-            slots: true
+            slots: true,
           },
           orderBy: {
-            startDate: 'asc'
-          }
-        }
-      }
+            startDate: "asc",
+          },
+        },
+      },
     });
-
     if (!employee) {
-      return sendErrorResponse(res, 'Employee not found', 404);
+      return sendErrorResponse(res, "Employee not found", 404);
     }
 
-    const services = employee.services.map(bs => ({
+    const services = employee.services.map((bs) => ({
       id: bs.service.id,
       name: bs.service.name,
       duration: bs.service.duration,
-      price: bs.service.price
+      price: bs.service.price,
     }));
 
-    const workingSchedule = employee.workingHourRanges.map(range => {
-      const groupedSlots: Record<string, { startTime: string, endTime: string }[]> = {
+    const workingSchedule = employee.workingHourRanges.map((range) => {
+      const groupedSlots: Record<
+        string,
+        { startTime: string; endTime: string }[]
+      > = {
         MONDAY: [],
         TUESDAY: [],
         WEDNESDAY: [],
         THURSDAY: [],
         FRIDAY: [],
         SATURDAY: [],
-        SUNDAY: []
+        SUNDAY: [],
       };
 
       for (const slot of range.slots) {
         groupedSlots[slot.weekDay].push({
           startTime: slot.startTime,
-          endTime: slot.endTime
+          endTime: slot.endTime,
         });
       }
 
       return {
         id: range.id,
-        startDate: range.startDate.toISOString().split('T')[0],
-        endDate: range.endDate.toISOString().split('T')[0],
-        slots: groupedSlots
+        startDate: range.startDate.toISOString().split("T")[0],
+        endDate: range.endDate.toISOString().split("T")[0],
+        slots: groupedSlots,
       };
     });
 
@@ -319,11 +342,11 @@ export const getEmployeeById = async (req: Request, res: Response) => {
       name: employee.name,
       email: employee.email,
       services,
-      workingSchedule
+      workingSchedule,
     });
   } catch (err) {
     console.error(err);
-    return sendErrorResponse(res, 'Server error', 500);
+    return sendErrorResponse(res, "Server error", 500);
   }
 };
 
@@ -346,7 +369,9 @@ export const assignServicesToEmployee = async (
         400
       );
     }
-    const employee = await prisma.user.findUnique({ where: { id: employeeId } });
+    const employee = await prisma.user.findUnique({
+      where: { id: employeeId },
+    });
 
     if (!employee || employee.role !== "EMPLOYEE") {
       return sendErrorResponse(res, "Employee not found or not eligible", 404);
@@ -388,13 +413,16 @@ export const assignServicesToEmployee = async (
   }
 };
 
-export const removeServiceFromEmployee = async (req: Request, res: Response): Promise<void> => {
+export const removeServiceFromEmployee = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const employeeId = Number(req.params.employeeId);
     const serviceId = Number(req.params.serviceId);
 
     if (isNaN(employeeId) || isNaN(serviceId)) {
-      return sendErrorResponse(res, 'Invalid employee or service ID', 400);
+      return sendErrorResponse(res, "Invalid employee or service ID", 400);
     }
 
     const relation = await prisma.employeeService.findUnique({
@@ -407,7 +435,11 @@ export const removeServiceFromEmployee = async (req: Request, res: Response): Pr
     });
 
     if (!relation) {
-      return sendErrorResponse(res, 'Service not assigned to this employee', 404);
+      return sendErrorResponse(
+        res,
+        "Service not assigned to this employee",
+        404
+      );
     }
 
     await prisma.employeeService.delete({
@@ -419,9 +451,11 @@ export const removeServiceFromEmployee = async (req: Request, res: Response): Pr
       },
     });
 
-    return sendSuccessResponse(res, { message: 'Service removed from employee successfully' });
+    return sendSuccessResponse(res, {
+      message: "Service removed from employee successfully",
+    });
   } catch (error) {
     console.error(error);
-    return sendErrorResponse(res, 'Server error');
+    return sendErrorResponse(res, "Server error");
   }
 };

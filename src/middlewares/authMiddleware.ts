@@ -32,8 +32,8 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
 export const authorizeOwner = (req: Request, res: Response, next: NextFunction) => {
   const user = (req as AuthenticatedRequest).user;
 
-  if (user?.role !== 'BARBER_OWNER') {
-    return sendErrorResponse(res, 'Forbidden: only BarberOwners allowed', 403);
+  if (user?.role !== 'OWNER') {
+    return sendErrorResponse(res, 'Forbidden: only Owners allowed', 403);
   }
 
   next();

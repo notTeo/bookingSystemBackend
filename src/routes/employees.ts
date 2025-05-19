@@ -30,6 +30,8 @@ import {
   editWorkingHourRangeValidation,
 } from "../validators/workingHourRangeValidator";
 import { removeServiceFromEmployeeValdation } from "../validators/serviceValidator";
+import { getAvailableSlots, getAvailableSlotsForAllEmployees } from "../controllers/bookingController";
+import { availableSlotsForAllEmployeesValidation, availableSlotsValidation } from "../validators/bookingValidator";
 
 const router = express.Router();
 
@@ -96,7 +98,7 @@ router.delete(
 );
 
 router.post(
-  "/:id/working-range",
+  "/:employeeId/working-range",
   authenticate,
   authorizeOwner,
   createWorkingHourRangeValidation,
@@ -119,6 +121,20 @@ router.put(
   editWorkingHourRangeValidation,
   validateRequest,
   editWorkingHourRange
+);
+
+router.get(
+  '/:employeeId/available-slots',
+  availableSlotsValidation, 
+  validateRequest,
+  getAvailableSlots
+);
+
+router.get(
+  "/availability",
+  availableSlotsForAllEmployeesValidation,
+  validateRequest,
+  getAvailableSlotsForAllEmployees
 );
 
 export default router;

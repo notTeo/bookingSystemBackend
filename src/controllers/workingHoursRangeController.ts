@@ -6,12 +6,14 @@ const prisma = new PrismaClient();
 
 export const createWorkingHourRange = async (req: Request, res: Response) => {
   try {
-    const employeeId = Number(req.params.id);
+    const employeeId = Number(req.params.employeeId);
     const { startDate, endDate, slots } = req.body;
 
     if (!startDate || !endDate || !slots || typeof slots !== "object") {
       return sendErrorResponse(res, "Invalid input", 400);
     }
+
+    // 1. Create WorkingHourRange
     const range = await prisma.workingHourRange.create({
       data: {
         employeeId,
@@ -20,7 +22,8 @@ export const createWorkingHourRange = async (req: Request, res: Response) => {
       },
     });
 
-    const toCreate: any[] = [];
+    // 2. Prepare RecurringSlot data
+    const toCreateRecurring: any[] = [];
 
     for (const day in slots) {
       const daySlots = slots[day];
@@ -29,7 +32,7 @@ export const createWorkingHourRange = async (req: Request, res: Response) => {
       for (const slot of daySlots) {
         const { startTime, endTime } = slot;
         if (startTime && endTime) {
-          toCreate.push({
+          toCreateRecurring.push({
             rangeId: range.id,
             weekDay: day.toUpperCase() as WeekDay,
             startTime,
@@ -39,14 +42,47 @@ export const createWorkingHourRange = async (req: Request, res: Response) => {
       }
     }
 
-    if (toCreate.length > 0) {
-      await prisma.recurringSlot.createMany({ data: toCreate });
+    await prisma.recurringSlot.createMany({ data: toCreateRecurring });
+
+    // 3. Generate WorkingSlots from RecurringSlots
+    const allSlots = await prisma.recurringSlot.findMany({
+      where: { rangeId: range.id },
+    });
+
+    const generatedWorkingSlots: any[] = [];
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    for (
+      let date = new Date(start);
+      date <= end;
+      date.setDate(date.getDate() + 1)
+    ) {
+      const weekday = date
+        .toLocaleDateString("en-US", {
+          weekday: "long",
+        })
+        .toUpperCase();
+
+      for (const slot of allSlots) {
+        if (slot.weekDay === weekday) {
+          generatedWorkingSlots.push({
+            employeeId,
+            date: new Date(date),
+            startTime: slot.startTime,
+            endTime: slot.endTime,
+          });
+        }
+      }
     }
+
+    await prisma.workingSlot.createMany({ data: generatedWorkingSlots });
 
     return sendSuccessResponse(res, {
       message: "Working hour range created successfully",
       rangeId: range.id,
-      slotsCreated: toCreate.length,
+      slotsCreated: toCreateRecurring.length,
+      workingSlotsGenerated: generatedWorkingSlots.length,
     });
   } catch (err) {
     console.error(err);
@@ -60,29 +96,41 @@ export const deleteWorkingHourRange = async (req: Request, res: Response) => {
     const rangeId = Number(req.params.rangeId);
 
     if (isNaN(employeeId) || isNaN(rangeId)) {
-      return sendErrorResponse(res, 'Invalid ID(s)', 400);
+      return sendErrorResponse(res, "Invalid ID(s)", 400);
     }
 
     const range = await prisma.workingHourRange.findUnique({
-      where: { id: rangeId }
+      where: { id: rangeId },
     });
 
     if (!range || range.employeeId !== employeeId) {
-      return sendErrorResponse(res, 'Working hour range not found', 404);
+      return sendErrorResponse(res, "Working hour range not found", 404);
     }
 
     await prisma.recurringSlot.deleteMany({
-      where: { rangeId }
+      where: { rangeId },
+    });
+
+    await prisma.workingSlot.deleteMany({
+      where: {
+        employeeId,
+        date: {
+          gte: range.startDate,
+          lte: range.endDate,
+        },
+      },
     });
 
     await prisma.workingHourRange.delete({
-      where: { id: rangeId }
+      where: { id: rangeId },
     });
 
-    return sendSuccessResponse(res, { message: 'Working hour range deleted successfully' });
+    return sendSuccessResponse(res, {
+      message: "Working hour range deleted successfully",
+    });
   } catch (error) {
     console.error(error);
-    return sendErrorResponse(res, 'Server error');
+    return sendErrorResponse(res, "Server error");
   }
 };
 
@@ -92,16 +140,16 @@ export const editWorkingHourRange = async (req: Request, res: Response) => {
     const rangeId = Number(req.params.rangeId);
     const { startDate, endDate, slots } = req.body;
 
-    if (!startDate || !endDate || typeof slots !== 'object') {
-      return sendErrorResponse(res, 'Invalid input data', 400);
+    if (!startDate || !endDate || typeof slots !== "object") {
+      return sendErrorResponse(res, "Invalid input data", 400);
     }
 
     const range = await prisma.workingHourRange.findUnique({
-      where: { id: rangeId }
+      where: { id: rangeId },
     });
 
     if (!range || range.employeeId !== employeeId) {
-      return sendErrorResponse(res, 'Working hour range not found', 404);
+      return sendErrorResponse(res, "Working hour range not found", 404);
     }
 
     await prisma.workingHourRange.update({
@@ -139,11 +187,11 @@ export const editWorkingHourRange = async (req: Request, res: Response) => {
     }
 
     return sendSuccessResponse(res, {
-      message: 'Working hour range updated successfully',
+      message: "Working hour range updated successfully",
       updatedSlots: toCreate.length,
     });
   } catch (error) {
     console.error(error);
-    return sendErrorResponse(res, 'Server error');
+    return sendErrorResponse(res, "Server error");
   }
 };
