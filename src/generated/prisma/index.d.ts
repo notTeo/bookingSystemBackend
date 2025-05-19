@@ -39,11 +39,6 @@ export type EmployeeService = $Result.DefaultSelection<Prisma.$EmployeeServicePa
  */
 export type Booking = $Result.DefaultSelection<Prisma.$BookingPayload>
 /**
- * Model WorkingHours
- * 
- */
-export type WorkingHours = $Result.DefaultSelection<Prisma.$WorkingHoursPayload>
-/**
  * Model WorkingSlot
  * 
  */
@@ -282,16 +277,6 @@ export class PrismaClient<
     * ```
     */
   get booking(): Prisma.BookingDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.workingHours`: Exposes CRUD operations for the **WorkingHours** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more WorkingHours
-    * const workingHours = await prisma.workingHours.findMany()
-    * ```
-    */
-  get workingHours(): Prisma.WorkingHoursDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.workingSlot`: Exposes CRUD operations for the **WorkingSlot** model.
@@ -767,7 +752,6 @@ export namespace Prisma {
     Service: 'Service',
     EmployeeService: 'EmployeeService',
     Booking: 'Booking',
-    WorkingHours: 'WorkingHours',
     WorkingSlot: 'WorkingSlot',
     WorkingHourRange: 'WorkingHourRange',
     RecurringSlot: 'RecurringSlot'
@@ -789,7 +773,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "customer" | "service" | "employeeService" | "booking" | "workingHours" | "workingSlot" | "workingHourRange" | "recurringSlot"
+      modelProps: "user" | "customer" | "service" | "employeeService" | "booking" | "workingSlot" | "workingHourRange" | "recurringSlot"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1163,80 +1147,6 @@ export namespace Prisma {
           }
         }
       }
-      WorkingHours: {
-        payload: Prisma.$WorkingHoursPayload<ExtArgs>
-        fields: Prisma.WorkingHoursFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.WorkingHoursFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHoursPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.WorkingHoursFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHoursPayload>
-          }
-          findFirst: {
-            args: Prisma.WorkingHoursFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHoursPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.WorkingHoursFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHoursPayload>
-          }
-          findMany: {
-            args: Prisma.WorkingHoursFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHoursPayload>[]
-          }
-          create: {
-            args: Prisma.WorkingHoursCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHoursPayload>
-          }
-          createMany: {
-            args: Prisma.WorkingHoursCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.WorkingHoursCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHoursPayload>[]
-          }
-          delete: {
-            args: Prisma.WorkingHoursDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHoursPayload>
-          }
-          update: {
-            args: Prisma.WorkingHoursUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHoursPayload>
-          }
-          deleteMany: {
-            args: Prisma.WorkingHoursDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.WorkingHoursUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.WorkingHoursUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHoursPayload>[]
-          }
-          upsert: {
-            args: Prisma.WorkingHoursUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHoursPayload>
-          }
-          aggregate: {
-            args: Prisma.WorkingHoursAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateWorkingHours>
-          }
-          groupBy: {
-            args: Prisma.WorkingHoursGroupByArgs<ExtArgs>
-            result: $Utils.Optional<WorkingHoursGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.WorkingHoursCountArgs<ExtArgs>
-            result: $Utils.Optional<WorkingHoursCountAggregateOutputType> | number
-          }
-        }
-      }
       WorkingSlot: {
         payload: Prisma.$WorkingSlotPayload<ExtArgs>
         fields: Prisma.WorkingSlotFieldRefs
@@ -1548,7 +1458,6 @@ export namespace Prisma {
     service?: ServiceOmit
     employeeService?: EmployeeServiceOmit
     booking?: BookingOmit
-    workingHours?: WorkingHoursOmit
     workingSlot?: WorkingSlotOmit
     workingHourRange?: WorkingHourRangeOmit
     recurringSlot?: RecurringSlotOmit
@@ -1649,7 +1558,6 @@ export namespace Prisma {
     services: number
     servicesCreated: number
     bookings: number
-    workingHours: number
     workingSlots: number
     workingHourRanges: number
   }
@@ -1658,7 +1566,6 @@ export namespace Prisma {
     services?: boolean | UserCountOutputTypeCountServicesArgs
     servicesCreated?: boolean | UserCountOutputTypeCountServicesCreatedArgs
     bookings?: boolean | UserCountOutputTypeCountBookingsArgs
-    workingHours?: boolean | UserCountOutputTypeCountWorkingHoursArgs
     workingSlots?: boolean | UserCountOutputTypeCountWorkingSlotsArgs
     workingHourRanges?: boolean | UserCountOutputTypeCountWorkingHourRangesArgs
   }
@@ -1693,13 +1600,6 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BookingWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountWorkingHoursArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: WorkingHoursWhereInput
   }
 
   /**
@@ -2040,7 +1940,6 @@ export namespace Prisma {
     services?: boolean | User$servicesArgs<ExtArgs>
     servicesCreated?: boolean | User$servicesCreatedArgs<ExtArgs>
     bookings?: boolean | User$bookingsArgs<ExtArgs>
-    workingHours?: boolean | User$workingHoursArgs<ExtArgs>
     workingSlots?: boolean | User$workingSlotsArgs<ExtArgs>
     workingHourRanges?: boolean | User$workingHourRangesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2081,7 +1980,6 @@ export namespace Prisma {
     services?: boolean | User$servicesArgs<ExtArgs>
     servicesCreated?: boolean | User$servicesCreatedArgs<ExtArgs>
     bookings?: boolean | User$bookingsArgs<ExtArgs>
-    workingHours?: boolean | User$workingHoursArgs<ExtArgs>
     workingSlots?: boolean | User$workingSlotsArgs<ExtArgs>
     workingHourRanges?: boolean | User$workingHourRangesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2095,7 +1993,6 @@ export namespace Prisma {
       services: Prisma.$EmployeeServicePayload<ExtArgs>[]
       servicesCreated: Prisma.$ServicePayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
-      workingHours: Prisma.$WorkingHoursPayload<ExtArgs>[]
       workingSlots: Prisma.$WorkingSlotPayload<ExtArgs>[]
       workingHourRanges: Prisma.$WorkingHourRangePayload<ExtArgs>[]
     }
@@ -2504,7 +2401,6 @@ export namespace Prisma {
     services<T extends User$servicesArgs<ExtArgs> = {}>(args?: Subset<T, User$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     servicesCreated<T extends User$servicesCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$servicesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookings<T extends User$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    workingHours<T extends User$workingHoursArgs<ExtArgs> = {}>(args?: Subset<T, User$workingHoursArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkingHoursPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workingSlots<T extends User$workingSlotsArgs<ExtArgs> = {}>(args?: Subset<T, User$workingSlotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkingSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workingHourRanges<T extends User$workingHourRangesArgs<ExtArgs> = {}>(args?: Subset<T, User$workingHourRangesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkingHourRangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -3000,30 +2896,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
-  }
-
-  /**
-   * User.workingHours
-   */
-  export type User$workingHoursArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHours
-     */
-    select?: WorkingHoursSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHours
-     */
-    omit?: WorkingHoursOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHoursInclude<ExtArgs> | null
-    where?: WorkingHoursWhereInput
-    orderBy?: WorkingHoursOrderByWithRelationInput | WorkingHoursOrderByWithRelationInput[]
-    cursor?: WorkingHoursWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: WorkingHoursScalarFieldEnum | WorkingHoursScalarFieldEnum[]
   }
 
   /**
@@ -7584,1102 +7456,6 @@ export namespace Prisma {
 
 
   /**
-   * Model WorkingHours
-   */
-
-  export type AggregateWorkingHours = {
-    _count: WorkingHoursCountAggregateOutputType | null
-    _avg: WorkingHoursAvgAggregateOutputType | null
-    _sum: WorkingHoursSumAggregateOutputType | null
-    _min: WorkingHoursMinAggregateOutputType | null
-    _max: WorkingHoursMaxAggregateOutputType | null
-  }
-
-  export type WorkingHoursAvgAggregateOutputType = {
-    id: number | null
-    employeeId: number | null
-  }
-
-  export type WorkingHoursSumAggregateOutputType = {
-    id: number | null
-    employeeId: number | null
-  }
-
-  export type WorkingHoursMinAggregateOutputType = {
-    id: number | null
-    day: $Enums.WeekDay | null
-    startTime: string | null
-    endTime: string | null
-    employeeId: number | null
-  }
-
-  export type WorkingHoursMaxAggregateOutputType = {
-    id: number | null
-    day: $Enums.WeekDay | null
-    startTime: string | null
-    endTime: string | null
-    employeeId: number | null
-  }
-
-  export type WorkingHoursCountAggregateOutputType = {
-    id: number
-    day: number
-    startTime: number
-    endTime: number
-    employeeId: number
-    _all: number
-  }
-
-
-  export type WorkingHoursAvgAggregateInputType = {
-    id?: true
-    employeeId?: true
-  }
-
-  export type WorkingHoursSumAggregateInputType = {
-    id?: true
-    employeeId?: true
-  }
-
-  export type WorkingHoursMinAggregateInputType = {
-    id?: true
-    day?: true
-    startTime?: true
-    endTime?: true
-    employeeId?: true
-  }
-
-  export type WorkingHoursMaxAggregateInputType = {
-    id?: true
-    day?: true
-    startTime?: true
-    endTime?: true
-    employeeId?: true
-  }
-
-  export type WorkingHoursCountAggregateInputType = {
-    id?: true
-    day?: true
-    startTime?: true
-    endTime?: true
-    employeeId?: true
-    _all?: true
-  }
-
-  export type WorkingHoursAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which WorkingHours to aggregate.
-     */
-    where?: WorkingHoursWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WorkingHours to fetch.
-     */
-    orderBy?: WorkingHoursOrderByWithRelationInput | WorkingHoursOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: WorkingHoursWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WorkingHours from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WorkingHours.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned WorkingHours
-    **/
-    _count?: true | WorkingHoursCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: WorkingHoursAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: WorkingHoursSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: WorkingHoursMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: WorkingHoursMaxAggregateInputType
-  }
-
-  export type GetWorkingHoursAggregateType<T extends WorkingHoursAggregateArgs> = {
-        [P in keyof T & keyof AggregateWorkingHours]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateWorkingHours[P]>
-      : GetScalarType<T[P], AggregateWorkingHours[P]>
-  }
-
-
-
-
-  export type WorkingHoursGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: WorkingHoursWhereInput
-    orderBy?: WorkingHoursOrderByWithAggregationInput | WorkingHoursOrderByWithAggregationInput[]
-    by: WorkingHoursScalarFieldEnum[] | WorkingHoursScalarFieldEnum
-    having?: WorkingHoursScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: WorkingHoursCountAggregateInputType | true
-    _avg?: WorkingHoursAvgAggregateInputType
-    _sum?: WorkingHoursSumAggregateInputType
-    _min?: WorkingHoursMinAggregateInputType
-    _max?: WorkingHoursMaxAggregateInputType
-  }
-
-  export type WorkingHoursGroupByOutputType = {
-    id: number
-    day: $Enums.WeekDay
-    startTime: string
-    endTime: string
-    employeeId: number
-    _count: WorkingHoursCountAggregateOutputType | null
-    _avg: WorkingHoursAvgAggregateOutputType | null
-    _sum: WorkingHoursSumAggregateOutputType | null
-    _min: WorkingHoursMinAggregateOutputType | null
-    _max: WorkingHoursMaxAggregateOutputType | null
-  }
-
-  type GetWorkingHoursGroupByPayload<T extends WorkingHoursGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<WorkingHoursGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof WorkingHoursGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], WorkingHoursGroupByOutputType[P]>
-            : GetScalarType<T[P], WorkingHoursGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type WorkingHoursSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    day?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    employeeId?: boolean
-    employee?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["workingHours"]>
-
-  export type WorkingHoursSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    day?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    employeeId?: boolean
-    employee?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["workingHours"]>
-
-  export type WorkingHoursSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    day?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    employeeId?: boolean
-    employee?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["workingHours"]>
-
-  export type WorkingHoursSelectScalar = {
-    id?: boolean
-    day?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    employeeId?: boolean
-  }
-
-  export type WorkingHoursOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "day" | "startTime" | "endTime" | "employeeId", ExtArgs["result"]["workingHours"]>
-  export type WorkingHoursInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type WorkingHoursIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type WorkingHoursIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | UserDefaultArgs<ExtArgs>
-  }
-
-  export type $WorkingHoursPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "WorkingHours"
-    objects: {
-      employee: Prisma.$UserPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      day: $Enums.WeekDay
-      startTime: string
-      endTime: string
-      employeeId: number
-    }, ExtArgs["result"]["workingHours"]>
-    composites: {}
-  }
-
-  type WorkingHoursGetPayload<S extends boolean | null | undefined | WorkingHoursDefaultArgs> = $Result.GetResult<Prisma.$WorkingHoursPayload, S>
-
-  type WorkingHoursCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<WorkingHoursFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: WorkingHoursCountAggregateInputType | true
-    }
-
-  export interface WorkingHoursDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WorkingHours'], meta: { name: 'WorkingHours' } }
-    /**
-     * Find zero or one WorkingHours that matches the filter.
-     * @param {WorkingHoursFindUniqueArgs} args - Arguments to find a WorkingHours
-     * @example
-     * // Get one WorkingHours
-     * const workingHours = await prisma.workingHours.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends WorkingHoursFindUniqueArgs>(args: SelectSubset<T, WorkingHoursFindUniqueArgs<ExtArgs>>): Prisma__WorkingHoursClient<$Result.GetResult<Prisma.$WorkingHoursPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one WorkingHours that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {WorkingHoursFindUniqueOrThrowArgs} args - Arguments to find a WorkingHours
-     * @example
-     * // Get one WorkingHours
-     * const workingHours = await prisma.workingHours.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends WorkingHoursFindUniqueOrThrowArgs>(args: SelectSubset<T, WorkingHoursFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WorkingHoursClient<$Result.GetResult<Prisma.$WorkingHoursPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first WorkingHours that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WorkingHoursFindFirstArgs} args - Arguments to find a WorkingHours
-     * @example
-     * // Get one WorkingHours
-     * const workingHours = await prisma.workingHours.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends WorkingHoursFindFirstArgs>(args?: SelectSubset<T, WorkingHoursFindFirstArgs<ExtArgs>>): Prisma__WorkingHoursClient<$Result.GetResult<Prisma.$WorkingHoursPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first WorkingHours that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WorkingHoursFindFirstOrThrowArgs} args - Arguments to find a WorkingHours
-     * @example
-     * // Get one WorkingHours
-     * const workingHours = await prisma.workingHours.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends WorkingHoursFindFirstOrThrowArgs>(args?: SelectSubset<T, WorkingHoursFindFirstOrThrowArgs<ExtArgs>>): Prisma__WorkingHoursClient<$Result.GetResult<Prisma.$WorkingHoursPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more WorkingHours that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WorkingHoursFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all WorkingHours
-     * const workingHours = await prisma.workingHours.findMany()
-     * 
-     * // Get first 10 WorkingHours
-     * const workingHours = await prisma.workingHours.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const workingHoursWithIdOnly = await prisma.workingHours.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends WorkingHoursFindManyArgs>(args?: SelectSubset<T, WorkingHoursFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkingHoursPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a WorkingHours.
-     * @param {WorkingHoursCreateArgs} args - Arguments to create a WorkingHours.
-     * @example
-     * // Create one WorkingHours
-     * const WorkingHours = await prisma.workingHours.create({
-     *   data: {
-     *     // ... data to create a WorkingHours
-     *   }
-     * })
-     * 
-     */
-    create<T extends WorkingHoursCreateArgs>(args: SelectSubset<T, WorkingHoursCreateArgs<ExtArgs>>): Prisma__WorkingHoursClient<$Result.GetResult<Prisma.$WorkingHoursPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many WorkingHours.
-     * @param {WorkingHoursCreateManyArgs} args - Arguments to create many WorkingHours.
-     * @example
-     * // Create many WorkingHours
-     * const workingHours = await prisma.workingHours.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends WorkingHoursCreateManyArgs>(args?: SelectSubset<T, WorkingHoursCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many WorkingHours and returns the data saved in the database.
-     * @param {WorkingHoursCreateManyAndReturnArgs} args - Arguments to create many WorkingHours.
-     * @example
-     * // Create many WorkingHours
-     * const workingHours = await prisma.workingHours.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many WorkingHours and only return the `id`
-     * const workingHoursWithIdOnly = await prisma.workingHours.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends WorkingHoursCreateManyAndReturnArgs>(args?: SelectSubset<T, WorkingHoursCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkingHoursPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a WorkingHours.
-     * @param {WorkingHoursDeleteArgs} args - Arguments to delete one WorkingHours.
-     * @example
-     * // Delete one WorkingHours
-     * const WorkingHours = await prisma.workingHours.delete({
-     *   where: {
-     *     // ... filter to delete one WorkingHours
-     *   }
-     * })
-     * 
-     */
-    delete<T extends WorkingHoursDeleteArgs>(args: SelectSubset<T, WorkingHoursDeleteArgs<ExtArgs>>): Prisma__WorkingHoursClient<$Result.GetResult<Prisma.$WorkingHoursPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one WorkingHours.
-     * @param {WorkingHoursUpdateArgs} args - Arguments to update one WorkingHours.
-     * @example
-     * // Update one WorkingHours
-     * const workingHours = await prisma.workingHours.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends WorkingHoursUpdateArgs>(args: SelectSubset<T, WorkingHoursUpdateArgs<ExtArgs>>): Prisma__WorkingHoursClient<$Result.GetResult<Prisma.$WorkingHoursPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more WorkingHours.
-     * @param {WorkingHoursDeleteManyArgs} args - Arguments to filter WorkingHours to delete.
-     * @example
-     * // Delete a few WorkingHours
-     * const { count } = await prisma.workingHours.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends WorkingHoursDeleteManyArgs>(args?: SelectSubset<T, WorkingHoursDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more WorkingHours.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WorkingHoursUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many WorkingHours
-     * const workingHours = await prisma.workingHours.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends WorkingHoursUpdateManyArgs>(args: SelectSubset<T, WorkingHoursUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more WorkingHours and returns the data updated in the database.
-     * @param {WorkingHoursUpdateManyAndReturnArgs} args - Arguments to update many WorkingHours.
-     * @example
-     * // Update many WorkingHours
-     * const workingHours = await prisma.workingHours.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more WorkingHours and only return the `id`
-     * const workingHoursWithIdOnly = await prisma.workingHours.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends WorkingHoursUpdateManyAndReturnArgs>(args: SelectSubset<T, WorkingHoursUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkingHoursPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one WorkingHours.
-     * @param {WorkingHoursUpsertArgs} args - Arguments to update or create a WorkingHours.
-     * @example
-     * // Update or create a WorkingHours
-     * const workingHours = await prisma.workingHours.upsert({
-     *   create: {
-     *     // ... data to create a WorkingHours
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the WorkingHours we want to update
-     *   }
-     * })
-     */
-    upsert<T extends WorkingHoursUpsertArgs>(args: SelectSubset<T, WorkingHoursUpsertArgs<ExtArgs>>): Prisma__WorkingHoursClient<$Result.GetResult<Prisma.$WorkingHoursPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of WorkingHours.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WorkingHoursCountArgs} args - Arguments to filter WorkingHours to count.
-     * @example
-     * // Count the number of WorkingHours
-     * const count = await prisma.workingHours.count({
-     *   where: {
-     *     // ... the filter for the WorkingHours we want to count
-     *   }
-     * })
-    **/
-    count<T extends WorkingHoursCountArgs>(
-      args?: Subset<T, WorkingHoursCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], WorkingHoursCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a WorkingHours.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WorkingHoursAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends WorkingHoursAggregateArgs>(args: Subset<T, WorkingHoursAggregateArgs>): Prisma.PrismaPromise<GetWorkingHoursAggregateType<T>>
-
-    /**
-     * Group by WorkingHours.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WorkingHoursGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends WorkingHoursGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: WorkingHoursGroupByArgs['orderBy'] }
-        : { orderBy?: WorkingHoursGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, WorkingHoursGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWorkingHoursGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the WorkingHours model
-   */
-  readonly fields: WorkingHoursFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for WorkingHours.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__WorkingHoursClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    employee<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the WorkingHours model
-   */
-  interface WorkingHoursFieldRefs {
-    readonly id: FieldRef<"WorkingHours", 'Int'>
-    readonly day: FieldRef<"WorkingHours", 'WeekDay'>
-    readonly startTime: FieldRef<"WorkingHours", 'String'>
-    readonly endTime: FieldRef<"WorkingHours", 'String'>
-    readonly employeeId: FieldRef<"WorkingHours", 'Int'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * WorkingHours findUnique
-   */
-  export type WorkingHoursFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHours
-     */
-    select?: WorkingHoursSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHours
-     */
-    omit?: WorkingHoursOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHoursInclude<ExtArgs> | null
-    /**
-     * Filter, which WorkingHours to fetch.
-     */
-    where: WorkingHoursWhereUniqueInput
-  }
-
-  /**
-   * WorkingHours findUniqueOrThrow
-   */
-  export type WorkingHoursFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHours
-     */
-    select?: WorkingHoursSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHours
-     */
-    omit?: WorkingHoursOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHoursInclude<ExtArgs> | null
-    /**
-     * Filter, which WorkingHours to fetch.
-     */
-    where: WorkingHoursWhereUniqueInput
-  }
-
-  /**
-   * WorkingHours findFirst
-   */
-  export type WorkingHoursFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHours
-     */
-    select?: WorkingHoursSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHours
-     */
-    omit?: WorkingHoursOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHoursInclude<ExtArgs> | null
-    /**
-     * Filter, which WorkingHours to fetch.
-     */
-    where?: WorkingHoursWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WorkingHours to fetch.
-     */
-    orderBy?: WorkingHoursOrderByWithRelationInput | WorkingHoursOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for WorkingHours.
-     */
-    cursor?: WorkingHoursWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WorkingHours from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WorkingHours.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of WorkingHours.
-     */
-    distinct?: WorkingHoursScalarFieldEnum | WorkingHoursScalarFieldEnum[]
-  }
-
-  /**
-   * WorkingHours findFirstOrThrow
-   */
-  export type WorkingHoursFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHours
-     */
-    select?: WorkingHoursSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHours
-     */
-    omit?: WorkingHoursOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHoursInclude<ExtArgs> | null
-    /**
-     * Filter, which WorkingHours to fetch.
-     */
-    where?: WorkingHoursWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WorkingHours to fetch.
-     */
-    orderBy?: WorkingHoursOrderByWithRelationInput | WorkingHoursOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for WorkingHours.
-     */
-    cursor?: WorkingHoursWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WorkingHours from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WorkingHours.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of WorkingHours.
-     */
-    distinct?: WorkingHoursScalarFieldEnum | WorkingHoursScalarFieldEnum[]
-  }
-
-  /**
-   * WorkingHours findMany
-   */
-  export type WorkingHoursFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHours
-     */
-    select?: WorkingHoursSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHours
-     */
-    omit?: WorkingHoursOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHoursInclude<ExtArgs> | null
-    /**
-     * Filter, which WorkingHours to fetch.
-     */
-    where?: WorkingHoursWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WorkingHours to fetch.
-     */
-    orderBy?: WorkingHoursOrderByWithRelationInput | WorkingHoursOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing WorkingHours.
-     */
-    cursor?: WorkingHoursWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WorkingHours from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WorkingHours.
-     */
-    skip?: number
-    distinct?: WorkingHoursScalarFieldEnum | WorkingHoursScalarFieldEnum[]
-  }
-
-  /**
-   * WorkingHours create
-   */
-  export type WorkingHoursCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHours
-     */
-    select?: WorkingHoursSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHours
-     */
-    omit?: WorkingHoursOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHoursInclude<ExtArgs> | null
-    /**
-     * The data needed to create a WorkingHours.
-     */
-    data: XOR<WorkingHoursCreateInput, WorkingHoursUncheckedCreateInput>
-  }
-
-  /**
-   * WorkingHours createMany
-   */
-  export type WorkingHoursCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many WorkingHours.
-     */
-    data: WorkingHoursCreateManyInput | WorkingHoursCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * WorkingHours createManyAndReturn
-   */
-  export type WorkingHoursCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHours
-     */
-    select?: WorkingHoursSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHours
-     */
-    omit?: WorkingHoursOmit<ExtArgs> | null
-    /**
-     * The data used to create many WorkingHours.
-     */
-    data: WorkingHoursCreateManyInput | WorkingHoursCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHoursIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * WorkingHours update
-   */
-  export type WorkingHoursUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHours
-     */
-    select?: WorkingHoursSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHours
-     */
-    omit?: WorkingHoursOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHoursInclude<ExtArgs> | null
-    /**
-     * The data needed to update a WorkingHours.
-     */
-    data: XOR<WorkingHoursUpdateInput, WorkingHoursUncheckedUpdateInput>
-    /**
-     * Choose, which WorkingHours to update.
-     */
-    where: WorkingHoursWhereUniqueInput
-  }
-
-  /**
-   * WorkingHours updateMany
-   */
-  export type WorkingHoursUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update WorkingHours.
-     */
-    data: XOR<WorkingHoursUpdateManyMutationInput, WorkingHoursUncheckedUpdateManyInput>
-    /**
-     * Filter which WorkingHours to update
-     */
-    where?: WorkingHoursWhereInput
-    /**
-     * Limit how many WorkingHours to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * WorkingHours updateManyAndReturn
-   */
-  export type WorkingHoursUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHours
-     */
-    select?: WorkingHoursSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHours
-     */
-    omit?: WorkingHoursOmit<ExtArgs> | null
-    /**
-     * The data used to update WorkingHours.
-     */
-    data: XOR<WorkingHoursUpdateManyMutationInput, WorkingHoursUncheckedUpdateManyInput>
-    /**
-     * Filter which WorkingHours to update
-     */
-    where?: WorkingHoursWhereInput
-    /**
-     * Limit how many WorkingHours to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHoursIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * WorkingHours upsert
-   */
-  export type WorkingHoursUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHours
-     */
-    select?: WorkingHoursSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHours
-     */
-    omit?: WorkingHoursOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHoursInclude<ExtArgs> | null
-    /**
-     * The filter to search for the WorkingHours to update in case it exists.
-     */
-    where: WorkingHoursWhereUniqueInput
-    /**
-     * In case the WorkingHours found by the `where` argument doesn't exist, create a new WorkingHours with this data.
-     */
-    create: XOR<WorkingHoursCreateInput, WorkingHoursUncheckedCreateInput>
-    /**
-     * In case the WorkingHours was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<WorkingHoursUpdateInput, WorkingHoursUncheckedUpdateInput>
-  }
-
-  /**
-   * WorkingHours delete
-   */
-  export type WorkingHoursDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHours
-     */
-    select?: WorkingHoursSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHours
-     */
-    omit?: WorkingHoursOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHoursInclude<ExtArgs> | null
-    /**
-     * Filter which WorkingHours to delete.
-     */
-    where: WorkingHoursWhereUniqueInput
-  }
-
-  /**
-   * WorkingHours deleteMany
-   */
-  export type WorkingHoursDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which WorkingHours to delete
-     */
-    where?: WorkingHoursWhereInput
-    /**
-     * Limit how many WorkingHours to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * WorkingHours without action
-   */
-  export type WorkingHoursDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHours
-     */
-    select?: WorkingHoursSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHours
-     */
-    omit?: WorkingHoursOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHoursInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model WorkingSlot
    */
 
@@ -12081,17 +10857,6 @@ export namespace Prisma {
   export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
 
 
-  export const WorkingHoursScalarFieldEnum: {
-    id: 'id',
-    day: 'day',
-    startTime: 'startTime',
-    endTime: 'endTime',
-    employeeId: 'employeeId'
-  };
-
-  export type WorkingHoursScalarFieldEnum = (typeof WorkingHoursScalarFieldEnum)[keyof typeof WorkingHoursScalarFieldEnum]
-
-
   export const WorkingSlotScalarFieldEnum: {
     id: 'id',
     employeeId: 'employeeId',
@@ -12277,7 +11042,6 @@ export namespace Prisma {
     services?: EmployeeServiceListRelationFilter
     servicesCreated?: ServiceListRelationFilter
     bookings?: BookingListRelationFilter
-    workingHours?: WorkingHoursListRelationFilter
     workingSlots?: WorkingSlotListRelationFilter
     workingHourRanges?: WorkingHourRangeListRelationFilter
   }
@@ -12293,7 +11057,6 @@ export namespace Prisma {
     services?: EmployeeServiceOrderByRelationAggregateInput
     servicesCreated?: ServiceOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
-    workingHours?: WorkingHoursOrderByRelationAggregateInput
     workingSlots?: WorkingSlotOrderByRelationAggregateInput
     workingHourRanges?: WorkingHourRangeOrderByRelationAggregateInput
   }
@@ -12312,7 +11075,6 @@ export namespace Prisma {
     services?: EmployeeServiceListRelationFilter
     servicesCreated?: ServiceListRelationFilter
     bookings?: BookingListRelationFilter
-    workingHours?: WorkingHoursListRelationFilter
     workingSlots?: WorkingSlotListRelationFilter
     workingHourRanges?: WorkingHourRangeListRelationFilter
   }, "id" | "email">
@@ -12589,63 +11351,6 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
   }
 
-  export type WorkingHoursWhereInput = {
-    AND?: WorkingHoursWhereInput | WorkingHoursWhereInput[]
-    OR?: WorkingHoursWhereInput[]
-    NOT?: WorkingHoursWhereInput | WorkingHoursWhereInput[]
-    id?: IntFilter<"WorkingHours"> | number
-    day?: EnumWeekDayFilter<"WorkingHours"> | $Enums.WeekDay
-    startTime?: StringFilter<"WorkingHours"> | string
-    endTime?: StringFilter<"WorkingHours"> | string
-    employeeId?: IntFilter<"WorkingHours"> | number
-    employee?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }
-
-  export type WorkingHoursOrderByWithRelationInput = {
-    id?: SortOrder
-    day?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    employeeId?: SortOrder
-    employee?: UserOrderByWithRelationInput
-  }
-
-  export type WorkingHoursWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: WorkingHoursWhereInput | WorkingHoursWhereInput[]
-    OR?: WorkingHoursWhereInput[]
-    NOT?: WorkingHoursWhereInput | WorkingHoursWhereInput[]
-    day?: EnumWeekDayFilter<"WorkingHours"> | $Enums.WeekDay
-    startTime?: StringFilter<"WorkingHours"> | string
-    endTime?: StringFilter<"WorkingHours"> | string
-    employeeId?: IntFilter<"WorkingHours"> | number
-    employee?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
-
-  export type WorkingHoursOrderByWithAggregationInput = {
-    id?: SortOrder
-    day?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    employeeId?: SortOrder
-    _count?: WorkingHoursCountOrderByAggregateInput
-    _avg?: WorkingHoursAvgOrderByAggregateInput
-    _max?: WorkingHoursMaxOrderByAggregateInput
-    _min?: WorkingHoursMinOrderByAggregateInput
-    _sum?: WorkingHoursSumOrderByAggregateInput
-  }
-
-  export type WorkingHoursScalarWhereWithAggregatesInput = {
-    AND?: WorkingHoursScalarWhereWithAggregatesInput | WorkingHoursScalarWhereWithAggregatesInput[]
-    OR?: WorkingHoursScalarWhereWithAggregatesInput[]
-    NOT?: WorkingHoursScalarWhereWithAggregatesInput | WorkingHoursScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"WorkingHours"> | number
-    day?: EnumWeekDayWithAggregatesFilter<"WorkingHours"> | $Enums.WeekDay
-    startTime?: StringWithAggregatesFilter<"WorkingHours"> | string
-    endTime?: StringWithAggregatesFilter<"WorkingHours"> | string
-    employeeId?: IntWithAggregatesFilter<"WorkingHours"> | number
-  }
-
   export type WorkingSlotWhereInput = {
     AND?: WorkingSlotWhereInput | WorkingSlotWhereInput[]
     OR?: WorkingSlotWhereInput[]
@@ -12835,7 +11540,6 @@ export namespace Prisma {
     services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
     bookings?: BookingCreateNestedManyWithoutEmployeeInput
-    workingHours?: WorkingHoursCreateNestedManyWithoutEmployeeInput
     workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
     workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutEmployeeInput
   }
@@ -12851,7 +11555,6 @@ export namespace Prisma {
     services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
     bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
-    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutEmployeeInput
     workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
     workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutEmployeeInput
   }
@@ -12866,7 +11569,6 @@ export namespace Prisma {
     services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUpdateManyWithoutEmployeeNestedInput
-    workingHours?: WorkingHoursUpdateManyWithoutEmployeeNestedInput
     workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
     workingHourRanges?: WorkingHourRangeUpdateManyWithoutEmployeeNestedInput
   }
@@ -12882,7 +11584,6 @@ export namespace Prisma {
     services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
-    workingHours?: WorkingHoursUncheckedUpdateManyWithoutEmployeeNestedInput
     workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
     workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
@@ -13138,58 +11839,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type WorkingHoursCreateInput = {
-    day: $Enums.WeekDay
-    startTime: string
-    endTime: string
-    employee: UserCreateNestedOneWithoutWorkingHoursInput
-  }
-
-  export type WorkingHoursUncheckedCreateInput = {
-    id?: number
-    day: $Enums.WeekDay
-    startTime: string
-    endTime: string
-    employeeId: number
-  }
-
-  export type WorkingHoursUpdateInput = {
-    day?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-    employee?: UserUpdateOneRequiredWithoutWorkingHoursNestedInput
-  }
-
-  export type WorkingHoursUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    day?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-    employeeId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type WorkingHoursCreateManyInput = {
-    id?: number
-    day: $Enums.WeekDay
-    startTime: string
-    endTime: string
-    employeeId: number
-  }
-
-  export type WorkingHoursUpdateManyMutationInput = {
-    day?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type WorkingHoursUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    day?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-    employeeId?: IntFieldUpdateOperationsInput | number
-  }
-
   export type WorkingSlotCreateInput = {
     date: Date | string
     startTime: string
@@ -13424,12 +12073,6 @@ export namespace Prisma {
     none?: BookingWhereInput
   }
 
-  export type WorkingHoursListRelationFilter = {
-    every?: WorkingHoursWhereInput
-    some?: WorkingHoursWhereInput
-    none?: WorkingHoursWhereInput
-  }
-
   export type WorkingSlotListRelationFilter = {
     every?: WorkingSlotWhereInput
     some?: WorkingSlotWhereInput
@@ -13451,10 +12094,6 @@ export namespace Prisma {
   }
 
   export type BookingOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type WorkingHoursOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13814,57 +12453,6 @@ export namespace Prisma {
     _max?: NestedEnumBookingStatusFilter<$PrismaModel>
   }
 
-  export type EnumWeekDayFilter<$PrismaModel = never> = {
-    equals?: $Enums.WeekDay | EnumWeekDayFieldRefInput<$PrismaModel>
-    in?: $Enums.WeekDay[] | ListEnumWeekDayFieldRefInput<$PrismaModel>
-    notIn?: $Enums.WeekDay[] | ListEnumWeekDayFieldRefInput<$PrismaModel>
-    not?: NestedEnumWeekDayFilter<$PrismaModel> | $Enums.WeekDay
-  }
-
-  export type WorkingHoursCountOrderByAggregateInput = {
-    id?: SortOrder
-    day?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    employeeId?: SortOrder
-  }
-
-  export type WorkingHoursAvgOrderByAggregateInput = {
-    id?: SortOrder
-    employeeId?: SortOrder
-  }
-
-  export type WorkingHoursMaxOrderByAggregateInput = {
-    id?: SortOrder
-    day?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    employeeId?: SortOrder
-  }
-
-  export type WorkingHoursMinOrderByAggregateInput = {
-    id?: SortOrder
-    day?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    employeeId?: SortOrder
-  }
-
-  export type WorkingHoursSumOrderByAggregateInput = {
-    id?: SortOrder
-    employeeId?: SortOrder
-  }
-
-  export type EnumWeekDayWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.WeekDay | EnumWeekDayFieldRefInput<$PrismaModel>
-    in?: $Enums.WeekDay[] | ListEnumWeekDayFieldRefInput<$PrismaModel>
-    notIn?: $Enums.WeekDay[] | ListEnumWeekDayFieldRefInput<$PrismaModel>
-    not?: NestedEnumWeekDayWithAggregatesFilter<$PrismaModel> | $Enums.WeekDay
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumWeekDayFilter<$PrismaModel>
-    _max?: NestedEnumWeekDayFilter<$PrismaModel>
-  }
-
   export type WorkingSlotCountOrderByAggregateInput = {
     id?: SortOrder
     employeeId?: SortOrder
@@ -13946,6 +12534,13 @@ export namespace Prisma {
     employeeId?: SortOrder
   }
 
+  export type EnumWeekDayFilter<$PrismaModel = never> = {
+    equals?: $Enums.WeekDay | EnumWeekDayFieldRefInput<$PrismaModel>
+    in?: $Enums.WeekDay[] | ListEnumWeekDayFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WeekDay[] | ListEnumWeekDayFieldRefInput<$PrismaModel>
+    not?: NestedEnumWeekDayFilter<$PrismaModel> | $Enums.WeekDay
+  }
+
   export type WorkingHourRangeScalarRelationFilter = {
     is?: WorkingHourRangeWhereInput
     isNot?: WorkingHourRangeWhereInput
@@ -13985,6 +12580,16 @@ export namespace Prisma {
     rangeId?: SortOrder
   }
 
+  export type EnumWeekDayWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WeekDay | EnumWeekDayFieldRefInput<$PrismaModel>
+    in?: $Enums.WeekDay[] | ListEnumWeekDayFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WeekDay[] | ListEnumWeekDayFieldRefInput<$PrismaModel>
+    not?: NestedEnumWeekDayWithAggregatesFilter<$PrismaModel> | $Enums.WeekDay
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWeekDayFilter<$PrismaModel>
+    _max?: NestedEnumWeekDayFilter<$PrismaModel>
+  }
+
   export type EmployeeServiceCreateNestedManyWithoutEmployeeInput = {
     create?: XOR<EmployeeServiceCreateWithoutEmployeeInput, EmployeeServiceUncheckedCreateWithoutEmployeeInput> | EmployeeServiceCreateWithoutEmployeeInput[] | EmployeeServiceUncheckedCreateWithoutEmployeeInput[]
     connectOrCreate?: EmployeeServiceCreateOrConnectWithoutEmployeeInput | EmployeeServiceCreateOrConnectWithoutEmployeeInput[]
@@ -14004,13 +12609,6 @@ export namespace Prisma {
     connectOrCreate?: BookingCreateOrConnectWithoutEmployeeInput | BookingCreateOrConnectWithoutEmployeeInput[]
     createMany?: BookingCreateManyEmployeeInputEnvelope
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-  }
-
-  export type WorkingHoursCreateNestedManyWithoutEmployeeInput = {
-    create?: XOR<WorkingHoursCreateWithoutEmployeeInput, WorkingHoursUncheckedCreateWithoutEmployeeInput> | WorkingHoursCreateWithoutEmployeeInput[] | WorkingHoursUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: WorkingHoursCreateOrConnectWithoutEmployeeInput | WorkingHoursCreateOrConnectWithoutEmployeeInput[]
-    createMany?: WorkingHoursCreateManyEmployeeInputEnvelope
-    connect?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
   }
 
   export type WorkingSlotCreateNestedManyWithoutEmployeeInput = {
@@ -14046,13 +12644,6 @@ export namespace Prisma {
     connectOrCreate?: BookingCreateOrConnectWithoutEmployeeInput | BookingCreateOrConnectWithoutEmployeeInput[]
     createMany?: BookingCreateManyEmployeeInputEnvelope
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-  }
-
-  export type WorkingHoursUncheckedCreateNestedManyWithoutEmployeeInput = {
-    create?: XOR<WorkingHoursCreateWithoutEmployeeInput, WorkingHoursUncheckedCreateWithoutEmployeeInput> | WorkingHoursCreateWithoutEmployeeInput[] | WorkingHoursUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: WorkingHoursCreateOrConnectWithoutEmployeeInput | WorkingHoursCreateOrConnectWithoutEmployeeInput[]
-    createMany?: WorkingHoursCreateManyEmployeeInputEnvelope
-    connect?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
   }
 
   export type WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput = {
@@ -14125,20 +12716,6 @@ export namespace Prisma {
     update?: BookingUpdateWithWhereUniqueWithoutEmployeeInput | BookingUpdateWithWhereUniqueWithoutEmployeeInput[]
     updateMany?: BookingUpdateManyWithWhereWithoutEmployeeInput | BookingUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
-  }
-
-  export type WorkingHoursUpdateManyWithoutEmployeeNestedInput = {
-    create?: XOR<WorkingHoursCreateWithoutEmployeeInput, WorkingHoursUncheckedCreateWithoutEmployeeInput> | WorkingHoursCreateWithoutEmployeeInput[] | WorkingHoursUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: WorkingHoursCreateOrConnectWithoutEmployeeInput | WorkingHoursCreateOrConnectWithoutEmployeeInput[]
-    upsert?: WorkingHoursUpsertWithWhereUniqueWithoutEmployeeInput | WorkingHoursUpsertWithWhereUniqueWithoutEmployeeInput[]
-    createMany?: WorkingHoursCreateManyEmployeeInputEnvelope
-    set?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
-    disconnect?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
-    delete?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
-    connect?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
-    update?: WorkingHoursUpdateWithWhereUniqueWithoutEmployeeInput | WorkingHoursUpdateWithWhereUniqueWithoutEmployeeInput[]
-    updateMany?: WorkingHoursUpdateManyWithWhereWithoutEmployeeInput | WorkingHoursUpdateManyWithWhereWithoutEmployeeInput[]
-    deleteMany?: WorkingHoursScalarWhereInput | WorkingHoursScalarWhereInput[]
   }
 
   export type WorkingSlotUpdateManyWithoutEmployeeNestedInput = {
@@ -14217,20 +12794,6 @@ export namespace Prisma {
     update?: BookingUpdateWithWhereUniqueWithoutEmployeeInput | BookingUpdateWithWhereUniqueWithoutEmployeeInput[]
     updateMany?: BookingUpdateManyWithWhereWithoutEmployeeInput | BookingUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
-  }
-
-  export type WorkingHoursUncheckedUpdateManyWithoutEmployeeNestedInput = {
-    create?: XOR<WorkingHoursCreateWithoutEmployeeInput, WorkingHoursUncheckedCreateWithoutEmployeeInput> | WorkingHoursCreateWithoutEmployeeInput[] | WorkingHoursUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: WorkingHoursCreateOrConnectWithoutEmployeeInput | WorkingHoursCreateOrConnectWithoutEmployeeInput[]
-    upsert?: WorkingHoursUpsertWithWhereUniqueWithoutEmployeeInput | WorkingHoursUpsertWithWhereUniqueWithoutEmployeeInput[]
-    createMany?: WorkingHoursCreateManyEmployeeInputEnvelope
-    set?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
-    disconnect?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
-    delete?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
-    connect?: WorkingHoursWhereUniqueInput | WorkingHoursWhereUniqueInput[]
-    update?: WorkingHoursUpdateWithWhereUniqueWithoutEmployeeInput | WorkingHoursUpdateWithWhereUniqueWithoutEmployeeInput[]
-    updateMany?: WorkingHoursUpdateManyWithWhereWithoutEmployeeInput | WorkingHoursUpdateManyWithWhereWithoutEmployeeInput[]
-    deleteMany?: WorkingHoursScalarWhereInput | WorkingHoursScalarWhereInput[]
   }
 
   export type WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput = {
@@ -14487,24 +13050,6 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBookingsInput, UserUpdateWithoutBookingsInput>, UserUncheckedUpdateWithoutBookingsInput>
   }
 
-  export type UserCreateNestedOneWithoutWorkingHoursInput = {
-    create?: XOR<UserCreateWithoutWorkingHoursInput, UserUncheckedCreateWithoutWorkingHoursInput>
-    connectOrCreate?: UserCreateOrConnectWithoutWorkingHoursInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type EnumWeekDayFieldUpdateOperationsInput = {
-    set?: $Enums.WeekDay
-  }
-
-  export type UserUpdateOneRequiredWithoutWorkingHoursNestedInput = {
-    create?: XOR<UserCreateWithoutWorkingHoursInput, UserUncheckedCreateWithoutWorkingHoursInput>
-    connectOrCreate?: UserCreateOrConnectWithoutWorkingHoursInput
-    upsert?: UserUpsertWithoutWorkingHoursInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWorkingHoursInput, UserUpdateWithoutWorkingHoursInput>, UserUncheckedUpdateWithoutWorkingHoursInput>
-  }
-
   export type UserCreateNestedOneWithoutWorkingSlotsInput = {
     create?: XOR<UserCreateWithoutWorkingSlotsInput, UserUncheckedCreateWithoutWorkingSlotsInput>
     connectOrCreate?: UserCreateOrConnectWithoutWorkingSlotsInput
@@ -14579,6 +13124,10 @@ export namespace Prisma {
     create?: XOR<WorkingHourRangeCreateWithoutSlotsInput, WorkingHourRangeUncheckedCreateWithoutSlotsInput>
     connectOrCreate?: WorkingHourRangeCreateOrConnectWithoutSlotsInput
     connect?: WorkingHourRangeWhereUniqueInput
+  }
+
+  export type EnumWeekDayFieldUpdateOperationsInput = {
+    set?: $Enums.WeekDay
   }
 
   export type WorkingHourRangeUpdateOneRequiredWithoutSlotsNestedInput = {
@@ -14879,29 +13428,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type WorkingHoursCreateWithoutEmployeeInput = {
-    day: $Enums.WeekDay
-    startTime: string
-    endTime: string
-  }
-
-  export type WorkingHoursUncheckedCreateWithoutEmployeeInput = {
-    id?: number
-    day: $Enums.WeekDay
-    startTime: string
-    endTime: string
-  }
-
-  export type WorkingHoursCreateOrConnectWithoutEmployeeInput = {
-    where: WorkingHoursWhereUniqueInput
-    create: XOR<WorkingHoursCreateWithoutEmployeeInput, WorkingHoursUncheckedCreateWithoutEmployeeInput>
-  }
-
-  export type WorkingHoursCreateManyEmployeeInputEnvelope = {
-    data: WorkingHoursCreateManyEmployeeInput | WorkingHoursCreateManyEmployeeInput[]
-    skipDuplicates?: boolean
-  }
-
   export type WorkingSlotCreateWithoutEmployeeInput = {
     date: Date | string
     startTime: string
@@ -15033,33 +13559,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Booking"> | Date | string
   }
 
-  export type WorkingHoursUpsertWithWhereUniqueWithoutEmployeeInput = {
-    where: WorkingHoursWhereUniqueInput
-    update: XOR<WorkingHoursUpdateWithoutEmployeeInput, WorkingHoursUncheckedUpdateWithoutEmployeeInput>
-    create: XOR<WorkingHoursCreateWithoutEmployeeInput, WorkingHoursUncheckedCreateWithoutEmployeeInput>
-  }
-
-  export type WorkingHoursUpdateWithWhereUniqueWithoutEmployeeInput = {
-    where: WorkingHoursWhereUniqueInput
-    data: XOR<WorkingHoursUpdateWithoutEmployeeInput, WorkingHoursUncheckedUpdateWithoutEmployeeInput>
-  }
-
-  export type WorkingHoursUpdateManyWithWhereWithoutEmployeeInput = {
-    where: WorkingHoursScalarWhereInput
-    data: XOR<WorkingHoursUpdateManyMutationInput, WorkingHoursUncheckedUpdateManyWithoutEmployeeInput>
-  }
-
-  export type WorkingHoursScalarWhereInput = {
-    AND?: WorkingHoursScalarWhereInput | WorkingHoursScalarWhereInput[]
-    OR?: WorkingHoursScalarWhereInput[]
-    NOT?: WorkingHoursScalarWhereInput | WorkingHoursScalarWhereInput[]
-    id?: IntFilter<"WorkingHours"> | number
-    day?: EnumWeekDayFilter<"WorkingHours"> | $Enums.WeekDay
-    startTime?: StringFilter<"WorkingHours"> | string
-    endTime?: StringFilter<"WorkingHours"> | string
-    employeeId?: IntFilter<"WorkingHours"> | number
-  }
-
   export type WorkingSlotUpsertWithWhereUniqueWithoutEmployeeInput = {
     where: WorkingSlotWhereUniqueInput
     update: XOR<WorkingSlotUpdateWithoutEmployeeInput, WorkingSlotUncheckedUpdateWithoutEmployeeInput>
@@ -15169,7 +13668,6 @@ export namespace Prisma {
     isActive?: boolean
     services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
     bookings?: BookingCreateNestedManyWithoutEmployeeInput
-    workingHours?: WorkingHoursCreateNestedManyWithoutEmployeeInput
     workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
     workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutEmployeeInput
   }
@@ -15184,7 +13682,6 @@ export namespace Prisma {
     isActive?: boolean
     services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
     bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
-    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutEmployeeInput
     workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
     workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutEmployeeInput
   }
@@ -15261,7 +13758,6 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
     bookings?: BookingUpdateManyWithoutEmployeeNestedInput
-    workingHours?: WorkingHoursUpdateManyWithoutEmployeeNestedInput
     workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
     workingHourRanges?: WorkingHourRangeUpdateManyWithoutEmployeeNestedInput
   }
@@ -15276,7 +13772,6 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
-    workingHours?: WorkingHoursUncheckedUpdateManyWithoutEmployeeNestedInput
     workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
     workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
@@ -15322,7 +13817,6 @@ export namespace Prisma {
     isActive?: boolean
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
     bookings?: BookingCreateNestedManyWithoutEmployeeInput
-    workingHours?: WorkingHoursCreateNestedManyWithoutEmployeeInput
     workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
     workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutEmployeeInput
   }
@@ -15337,7 +13831,6 @@ export namespace Prisma {
     isActive?: boolean
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
     bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
-    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutEmployeeInput
     workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
     workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutEmployeeInput
   }
@@ -15389,7 +13882,6 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUpdateManyWithoutEmployeeNestedInput
-    workingHours?: WorkingHoursUpdateManyWithoutEmployeeNestedInput
     workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
     workingHourRanges?: WorkingHourRangeUpdateManyWithoutEmployeeNestedInput
   }
@@ -15404,7 +13896,6 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
-    workingHours?: WorkingHoursUncheckedUpdateManyWithoutEmployeeNestedInput
     workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
     workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
@@ -15488,7 +13979,6 @@ export namespace Prisma {
     isActive?: boolean
     services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
-    workingHours?: WorkingHoursCreateNestedManyWithoutEmployeeInput
     workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
     workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutEmployeeInput
   }
@@ -15503,7 +13993,6 @@ export namespace Prisma {
     isActive?: boolean
     services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
-    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutEmployeeInput
     workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
     workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutEmployeeInput
   }
@@ -15587,7 +14076,6 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
-    workingHours?: WorkingHoursUpdateManyWithoutEmployeeNestedInput
     workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
     workingHourRanges?: WorkingHourRangeUpdateManyWithoutEmployeeNestedInput
   }
@@ -15602,81 +14090,6 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
-    workingHours?: WorkingHoursUncheckedUpdateManyWithoutEmployeeNestedInput
-    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
-    workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
-  }
-
-  export type UserCreateWithoutWorkingHoursInput = {
-    email: string
-    hashedPassword: string
-    name: string
-    role?: $Enums.Role
-    createdAt?: Date | string
-    isActive?: boolean
-    services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
-    servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
-    bookings?: BookingCreateNestedManyWithoutEmployeeInput
-    workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
-    workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutEmployeeInput
-  }
-
-  export type UserUncheckedCreateWithoutWorkingHoursInput = {
-    id?: number
-    email: string
-    hashedPassword: string
-    name: string
-    role?: $Enums.Role
-    createdAt?: Date | string
-    isActive?: boolean
-    services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
-    servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
-    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
-    workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutEmployeeInput
-  }
-
-  export type UserCreateOrConnectWithoutWorkingHoursInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutWorkingHoursInput, UserUncheckedCreateWithoutWorkingHoursInput>
-  }
-
-  export type UserUpsertWithoutWorkingHoursInput = {
-    update: XOR<UserUpdateWithoutWorkingHoursInput, UserUncheckedUpdateWithoutWorkingHoursInput>
-    create: XOR<UserCreateWithoutWorkingHoursInput, UserUncheckedCreateWithoutWorkingHoursInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutWorkingHoursInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutWorkingHoursInput, UserUncheckedUpdateWithoutWorkingHoursInput>
-  }
-
-  export type UserUpdateWithoutWorkingHoursInput = {
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
-    servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
-    bookings?: BookingUpdateManyWithoutEmployeeNestedInput
-    workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
-    workingHourRanges?: WorkingHourRangeUpdateManyWithoutEmployeeNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutWorkingHoursInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
-    servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
     workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
     workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
@@ -15691,7 +14104,6 @@ export namespace Prisma {
     services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
     bookings?: BookingCreateNestedManyWithoutEmployeeInput
-    workingHours?: WorkingHoursCreateNestedManyWithoutEmployeeInput
     workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutEmployeeInput
   }
 
@@ -15706,7 +14118,6 @@ export namespace Prisma {
     services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
     bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
-    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutEmployeeInput
     workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
@@ -15736,7 +14147,6 @@ export namespace Prisma {
     services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUpdateManyWithoutEmployeeNestedInput
-    workingHours?: WorkingHoursUpdateManyWithoutEmployeeNestedInput
     workingHourRanges?: WorkingHourRangeUpdateManyWithoutEmployeeNestedInput
   }
 
@@ -15751,7 +14161,6 @@ export namespace Prisma {
     services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
-    workingHours?: WorkingHoursUncheckedUpdateManyWithoutEmployeeNestedInput
     workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
@@ -15765,7 +14174,6 @@ export namespace Prisma {
     services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
     bookings?: BookingCreateNestedManyWithoutEmployeeInput
-    workingHours?: WorkingHoursCreateNestedManyWithoutEmployeeInput
     workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
   }
 
@@ -15780,7 +14188,6 @@ export namespace Prisma {
     services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
     bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
-    workingHours?: WorkingHoursUncheckedCreateNestedManyWithoutEmployeeInput
     workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
@@ -15833,7 +14240,6 @@ export namespace Prisma {
     services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUpdateManyWithoutEmployeeNestedInput
-    workingHours?: WorkingHoursUpdateManyWithoutEmployeeNestedInput
     workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
   }
 
@@ -15848,7 +14254,6 @@ export namespace Prisma {
     services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
-    workingHours?: WorkingHoursUncheckedUpdateManyWithoutEmployeeNestedInput
     workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
@@ -15946,13 +14351,6 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type WorkingHoursCreateManyEmployeeInput = {
-    id?: number
-    day: $Enums.WeekDay
-    startTime: string
-    endTime: string
-  }
-
   export type WorkingSlotCreateManyEmployeeInput = {
     id?: number
     date: Date | string
@@ -16031,26 +14429,6 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WorkingHoursUpdateWithoutEmployeeInput = {
-    day?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type WorkingHoursUncheckedUpdateWithoutEmployeeInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    day?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type WorkingHoursUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    day?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
   }
 
   export type WorkingSlotUpdateWithoutEmployeeInput = {

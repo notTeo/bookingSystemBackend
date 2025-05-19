@@ -43,7 +43,6 @@ model User {
   services           EmployeeService[]
   servicesCreated    Service[]           @relation("UserCreatedServices")
   bookings           Booking[]
-  workingHours       WorkingHours[]
   workingSlots       WorkingSlot[]
   workingHourRanges  WorkingHourRange[]
 }
@@ -91,15 +90,6 @@ model Booking {
   status     BookingStatus @default(PENDING)
   notes      String?
   createdAt  DateTime       @default(now())
-}
-
-model WorkingHours {
-  id        Int     @id @default(autoincrement())
-  day       WeekDay
-  startTime String
-  endTime   String
-  employee    User    @relation(fields: [employeeId], references: [id])
-  employeeId  Int
 }
 
 model WorkingSlot {

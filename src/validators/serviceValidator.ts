@@ -14,6 +14,12 @@ export const createServiceValidation = [
     .withMessage('Price must be a positive number'),
 ];
 
+export const deleteServiceValidation = [
+  param('serviceId')
+    .isInt({ min: 1 })
+    .withMessage('Invalid service ID'),
+]
+
 export const removeServiceFromEmployeeValdation = [
   param('employeeId')
     .isInt({ min: 1 })

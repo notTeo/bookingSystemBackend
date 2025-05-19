@@ -162,14 +162,6 @@ exports.Prisma.BookingScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.WorkingHoursScalarFieldEnum = {
-  id: 'id',
-  day: 'day',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  employeeId: 'employeeId'
-};
-
 exports.Prisma.WorkingSlotScalarFieldEnum = {
   id: 'id',
   employeeId: 'employeeId',
@@ -238,7 +230,6 @@ exports.Prisma.ModelName = {
   Service: 'Service',
   EmployeeService: 'EmployeeService',
   Booking: 'Booking',
-  WorkingHours: 'WorkingHours',
   WorkingSlot: 'WorkingSlot',
   WorkingHourRange: 'WorkingHourRange',
   RecurringSlot: 'RecurringSlot'

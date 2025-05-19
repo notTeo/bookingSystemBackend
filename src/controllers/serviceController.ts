@@ -31,6 +31,44 @@ export const createService = async (req: Request, res: Response): Promise<void> 
   }
 };
 
+export const deleteService = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const serviceId = Number(req.params.serviceId);
+
+    if (isNaN(serviceId)) {
+      return sendErrorResponse(res, 'Invalid service ID', 400);
+    }
+
+    const service = await prisma.service.findUnique({
+      where: { id: serviceId },
+    });
+
+    if (!service) {
+      return sendErrorResponse(res, 'Service not found', 404);
+    }
+
+    if (service.createdById !== (req as any).user.userId) {
+      return sendErrorResponse(res, 'You are not authorized to delete this service', 403);
+    }
+
+    await prisma.employeeService.deleteMany({
+      where: { serviceId }
+    });
+
+    await prisma.service.delete({
+      where: { id: serviceId }
+    });
+
+    return sendSuccessResponse(res, {
+      message: 'Service deleted successfully',
+      serviceId
+    });
+  } catch (error) {
+    console.error(error);
+    return sendErrorResponse(res, 'Server error', 500);
+  }
+};
+
 export const getAllServices = async (req: Request, res: Response): Promise<void> => {
   try {
     const services = await prisma.service.findMany({
