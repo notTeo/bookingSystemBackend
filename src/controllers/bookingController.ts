@@ -220,3 +220,32 @@ export const createBooking = async (req: Request, res: Response) => {
   }
 };
 
+export const deleteBooking = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const bookingId = Number(req.params.bookingId);
+
+    if (isNaN(bookingId)) {
+      return sendErrorResponse(res, 'Invalid service ID', 400);
+    }
+
+    const booking = await prisma.service.findUnique({
+      where: { id: bookingId },
+    });
+
+    if (!booking) {
+      return sendErrorResponse(res, 'Booking not found', 404);
+    }
+
+    await prisma.booking.delete({
+      where: { id: bookingId }
+    });
+
+    return sendSuccessResponse(res, {
+      message: 'Booking deleted successfully',
+      bookingId
+    });
+  } catch (error) {
+    console.error(error);
+    return sendErrorResponse(res, 'Server error', 500);
+  }
+};

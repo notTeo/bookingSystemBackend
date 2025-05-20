@@ -23,7 +23,7 @@ export const deleteServiceValidation = [
 export const removeServiceFromEmployeeValdation = [
   param('employeeId')
     .isInt({ min: 1 })
-    .withMessage('Invalid barber ID'),
+    .withMessage('Invalid employee ID'),
   param('serviceId')
     .isInt({ min: 1 })
     .withMessage('Invalid service ID'),

@@ -62,3 +62,9 @@ export const createBookingValidation = [
     .isEmail()
     .withMessage('Invalid email'),
 ];
+
+export const deleteBookingValidation = [
+  param('bookingId')
+  .isInt({ min: 1 })
+  .withMessage('Invalid booking ID'),
+]
