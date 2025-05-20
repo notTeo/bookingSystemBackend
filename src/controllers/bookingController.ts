@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "../generated/prisma";
+import { PrismaClient, BookingStatus } from "../generated/prisma";
 import { sendErrorResponse, sendSuccessResponse } from "../utils/responses";
 import { parseISO, format, addMinutes, isBefore, isEqual } from 'date-fns';
 
@@ -165,7 +165,7 @@ export const createBooking = async (req: Request, res: Response) => {
     const bookings = await prisma.booking.findMany({
       where: {
         employeeId,
-        status: { in: ["PENDING", "CONFIRMED"] },
+        status: { in: ["CONFIRMED"] },
         date: { gte: startOfDay, lte: endOfDay }
       },
       include: { service: true },
@@ -220,15 +220,15 @@ export const createBooking = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteBooking = async (req: Request, res: Response): Promise<void> => {
+export const cancelBooking = async (req: Request, res: Response): Promise<void> => {
   try {
     const bookingId = Number(req.params.bookingId);
 
     if (isNaN(bookingId)) {
-      return sendErrorResponse(res, 'Invalid service ID', 400);
+      return sendErrorResponse(res, 'Invalid booking ID', 400);
     }
 
-    const booking = await prisma.service.findUnique({
+    const booking = await prisma.booking.findUnique({
       where: { id: bookingId },
     });
 
@@ -236,13 +236,88 @@ export const deleteBooking = async (req: Request, res: Response): Promise<void> 
       return sendErrorResponse(res, 'Booking not found', 404);
     }
 
-    await prisma.booking.delete({
-      where: { id: bookingId }
+    if (booking.status === BookingStatus.CANCELED) {
+      return sendErrorResponse(res, 'Booking is already canceled', 400);
+    }
+
+    await prisma.booking.update({
+      where: { id: bookingId },
+      data: { status: BookingStatus.CANCELED },
     });
 
     return sendSuccessResponse(res, {
-      message: 'Booking deleted successfully',
-      bookingId
+      message: 'Booking canceled successfully',
+      bookingId,
+    });
+  } catch (error) {
+    console.error(error);
+    return sendErrorResponse(res, 'Server error', 500);
+  }
+};
+
+export const confirmBooking = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const bookingId = Number(req.params.bookingId);
+
+    if (isNaN(bookingId)) {
+      return sendErrorResponse(res, 'Invalid booking ID', 400);
+    }
+
+    const booking = await prisma.booking.findUnique({
+      where: { id: bookingId },
+    });
+
+    if (!booking) {
+      return sendErrorResponse(res, 'Booking not found', 404);
+    }
+
+    if (booking.status === BookingStatus.CONFIRMED) {
+      return sendErrorResponse(res, 'Booking is already confirmed', 400);
+    }
+
+    await prisma.booking.update({
+      where: { id: bookingId },
+      data: { status: BookingStatus.CONFIRMED },
+    });
+
+    return sendSuccessResponse(res, {
+      message: 'Booking confirmed successfully',
+      bookingId,
+    });
+  } catch (error) {
+    console.error(error);
+    return sendErrorResponse(res, 'Server error', 500);
+  }
+};
+
+export const completeBooking = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const bookingId = Number(req.params.bookingId);
+
+    if (isNaN(bookingId)) {
+      return sendErrorResponse(res, 'Invalid booking ID', 400);
+    }
+
+    const booking = await prisma.booking.findUnique({
+      where: { id: bookingId },
+    });
+
+    if (!booking) {
+      return sendErrorResponse(res, 'Booking not found', 404);
+    }
+
+    if (booking.status === BookingStatus.COMPLETED) {
+      return sendErrorResponse(res, 'Booking is already completed', 400);
+    }
+
+    await prisma.booking.update({
+      where: { id: bookingId },
+      data: { status: BookingStatus.COMPLETED },
+    });
+
+    return sendSuccessResponse(res, {
+      message: 'Booking completed successfully',
+      bookingId,
     });
   } catch (error) {
     console.error(error);

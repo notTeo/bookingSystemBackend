@@ -63,8 +63,10 @@ export const createBookingValidation = [
     .withMessage('Invalid email'),
 ];
 
-export const deleteBookingValidation = [
+export const changeBookingStatusValidation = [
   param('bookingId')
-  .isInt({ min: 1 })
-  .withMessage('Invalid booking ID'),
-]
+    .isInt({ min: 1 })
+    .withMessage('Invalid booking ID'),
+];
+
+//added confirm cancel and completed controllers 
