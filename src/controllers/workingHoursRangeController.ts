@@ -13,16 +13,19 @@ export const createWorkingHourRange = async (req: Request, res: Response) => {
       return sendErrorResponse(res, "Invalid input", 400);
     }
 
-    // 1. Create WorkingHourRange
+    const [startY, startM, startD] = startDate.split("-").map(Number);
+    const [endY, endM, endD] = endDate.split("-").map(Number);
+    const start = new Date(Date.UTC(startY, startM - 1, startD));
+    const end = new Date(Date.UTC(endY, endM - 1, endD));
+
     const range = await prisma.workingHourRange.create({
       data: {
         employeeId,
-        startDate: new Date(startDate),
-        endDate: new Date(endDate),
+        startDate: start,
+        endDate: end,
       },
     });
 
-    // 2. Prepare RecurringSlot data
     const toCreateRecurring: any[] = [];
 
     for (const day in slots) {
@@ -44,31 +47,26 @@ export const createWorkingHourRange = async (req: Request, res: Response) => {
 
     await prisma.recurringSlot.createMany({ data: toCreateRecurring });
 
-    // 3. Generate WorkingSlots from RecurringSlots
     const allSlots = await prisma.recurringSlot.findMany({
       where: { rangeId: range.id },
     });
 
     const generatedWorkingSlots: any[] = [];
-    const start = new Date(startDate);
-    const end = new Date(endDate);
 
     for (
       let date = new Date(start);
       date <= end;
-      date.setDate(date.getDate() + 1)
+      date.setUTCDate(date.getUTCDate() + 1)
     ) {
       const weekday = date
-        .toLocaleDateString("en-US", {
-          weekday: "long",
-        })
+        .toLocaleDateString("en-US", { weekday: "long", timeZone: "UTC" })
         .toUpperCase();
 
       for (const slot of allSlots) {
         if (slot.weekDay === weekday) {
           generatedWorkingSlots.push({
             employeeId,
-            date: new Date(date),
+            date: new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())),
             startTime: slot.startTime,
             endTime: slot.endTime,
           });
@@ -89,7 +87,6 @@ export const createWorkingHourRange = async (req: Request, res: Response) => {
     return sendErrorResponse(res, "Server error", 500);
   }
 };
-
 export const deleteWorkingHourRange = async (req: Request, res: Response) => {
   try {
     const employeeId = Number(req.params.employeeId);

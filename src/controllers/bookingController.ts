@@ -5,7 +5,10 @@ import { format, addMinutes } from "date-fns";
 
 const prisma = new PrismaClient();
 
-export const getAvailableSlots = async (req: Request, res: Response) => {
+export const getAvailableSlots = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const employeeId = Number(req.params.employeeId);
     const { date, serviceId } = req.query;
@@ -14,9 +17,8 @@ export const getAvailableSlots = async (req: Request, res: Response) => {
       return sendErrorResponse(res, "Invalid input", 400);
     }
 
-    // Parse date string as local date
     const [year, month, day] = (date as string).split("-").map(Number);
-    const parsedDate = new Date(year, month - 1, day); // 100% local-safe
+    const parsedDate = new Date(year, month - 1, day);
 
     if (isNaN(parsedDate.getTime())) {
       return sendErrorResponse(res, "Invalid date format", 400);
@@ -33,7 +35,6 @@ export const getAvailableSlots = async (req: Request, res: Response) => {
 
     const duration = service.duration;
 
-    // Get working slots for the specific date
     const dayStart = new Date(parsedDate);
     dayStart.setHours(0, 0, 0, 0);
 
@@ -61,7 +62,6 @@ export const getAvailableSlots = async (req: Request, res: Response) => {
       });
     }
 
-    // Get bookings already made for that day
     const bookings = await prisma.booking.findMany({
       where: {
         employeeId,
@@ -86,23 +86,14 @@ export const getAvailableSlots = async (req: Request, res: Response) => {
 
     const availableSlots: string[] = [];
 
-    console.log(bookings);
-    console.log(bookedTimes);
-    console.log(workingSlots);
-
     for (const slot of workingSlots) {
       const [startHour, startMin] = slot.startTime.split(":").map(Number);
       const [endHour, endMin] = slot.endTime.split(":").map(Number);
 
-      const slotStart = new Date(parsedDate);
-      slotStart.setHours(startHour, startMin, 0, 0);
+      const slotStart = new Date(year, month - 1, day, startHour, startMin);
+      const slotEnd = new Date(year, month - 1, day, endHour, endMin);
 
-      const slotEnd = new Date(parsedDate);
-      slotEnd.setHours(endHour, endMin, 0, 0);
-      
-      console.log(slotStart);
-      console.log(slotEnd);
-      let pointer = slotStart;
+      let pointer = new Date(slotStart);
 
       while (addMinutes(pointer, duration) <= slotEnd) {
         const proposedEnd = addMinutes(pointer, duration);
@@ -136,7 +127,10 @@ export const getAvailableSlots = async (req: Request, res: Response) => {
   }
 };
 
-export const createBooking = async (req: Request, res: Response) => {
+export const createBooking = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { employeeId, serviceId, date, time, customer } = req.body;
 
@@ -150,7 +144,7 @@ export const createBooking = async (req: Request, res: Response) => {
     ) {
       return sendErrorResponse(res, "Missing required fields", 400);
     }
-    
+
     const employee = await prisma.user.findUnique({
       where: { id: employeeId },
     });
@@ -169,15 +163,13 @@ export const createBooking = async (req: Request, res: Response) => {
     }
 
     const [year, month, day] = date.split("-").map(Number);
-    const [hour, minute] = time.split(":").map(Number);
+    const [hour, minute] = time.split(":" ).map(Number);
 
     const start = new Date(year, month - 1, day, hour, minute);
     const end = addMinutes(start, service.duration);
 
-    const startOfDay = new Date(start);
-    startOfDay.setHours(0, 0, 0, 0);
-    const endOfDay = new Date(start);
-    endOfDay.setHours(23, 59, 59, 999);
+    const startOfDay = new Date(year, month - 1, day, 0, 0, 0);
+    const endOfDay = new Date(year, month - 1, day, 23, 59, 59, 999);
 
     const workingSlots = await prisma.workingSlot.findMany({
       where: {
@@ -187,11 +179,12 @@ export const createBooking = async (req: Request, res: Response) => {
     });
 
     const fitsInsideWorkingSlot = workingSlots.some((slot) => {
-      const [sHour, sMin] = slot.startTime.split(":").map(Number);
-      const [eHour, eMin] = slot.endTime.split(":").map(Number);
+      const [sHour, sMin] = slot.startTime.split(":" ).map(Number);
+      const [eHour, eMin] = slot.endTime.split(":" ).map(Number);
 
       const slotStart = new Date(year, month - 1, day, sHour, sMin);
       const slotEnd = new Date(year, month - 1, day, eHour, eMin);
+
       return start >= slotStart && end <= slotEnd;
     });
 
