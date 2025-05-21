@@ -68,5 +68,3 @@ export const changeBookingStatusValidation = [
     .isInt({ min: 1 })
     .withMessage('Invalid booking ID'),
 ];
-
-//added confirm cancel and completed controllers 
