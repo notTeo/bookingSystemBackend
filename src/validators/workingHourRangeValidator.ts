@@ -1,6 +1,10 @@
 import { body, param } from "express-validator";
 
 export const createWorkingHourRangeValidation = [
+  param("employeeId")
+  .isInt({ min: 1 })
+    .withMessage("employeeId must be a valid integer"),
+  
   body("startDate")
     .notEmpty()
     .withMessage("startDate is required")
@@ -121,3 +125,19 @@ export const editWorkingHourRangeValidation = [
     return true;
   }),
 ];
+
+export const cloneExistingWorkingHourRangeValidation = [
+  param("employeeId").isInt({ min: 1 }).withMessage("Invalid employee ID"),
+  param("rangeId").isInt({ min: 1 }).withMessage("Invalid range ID"),
+  body("startDate")
+    .notEmpty()
+    .withMessage("startDate is required")
+    .isISO8601()
+    .withMessage("startDate must be a valid date"),
+
+  body("endDate")
+    .notEmpty()
+    .withMessage("endDate is required")
+    .isISO8601()
+    .withMessage("endDate must be a valid date"),
+]

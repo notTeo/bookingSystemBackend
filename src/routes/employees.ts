@@ -20,11 +20,13 @@ import {
 } from "../validators/employeeValidator";
 import { validateRequest } from "../middlewares/validateRequest";
 import {
+  cloneExistingWorkingHourRange,
   createWorkingHourRange,
   deleteWorkingHourRange,
   editWorkingHourRange,
 } from "../controllers/workingHoursRangeController";
 import {
+  cloneExistingWorkingHourRangeValidation,
   createWorkingHourRangeValidation,
   deleteWorkingHourRangeValidation,
   editWorkingHourRangeValidation,
@@ -106,6 +108,15 @@ router.post(
   createWorkingHourRange
 );
 
+router.post(
+  "/:employeeId/:rangeId/clone",
+  authenticate,
+  authorizeOwner,
+  cloneExistingWorkingHourRangeValidation,
+  validateRequest,
+  cloneExistingWorkingHourRange
+);
+
 router.delete(
   "/:employeeId/working-range/:rangeId",
   authenticate,
@@ -115,7 +126,7 @@ router.delete(
 );
 
 router.put(
-  "/:employeeId/working-range/:rangeId",
+  "/:employeeId/ /:rangeId",
   authenticate,
   authorizeOwner,
   editWorkingHourRangeValidation,
