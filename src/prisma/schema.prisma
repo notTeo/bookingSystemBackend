@@ -21,6 +21,11 @@ enum BookingStatus {
   COMPLETED
 }
 
+enum BookingMethod {
+  ONLINE
+  IN_STORE
+}
+
 enum WeekDay {
   MONDAY
   TUESDAY
@@ -90,6 +95,7 @@ model Booking {
   status     BookingStatus @default(PENDING)
   notes      String?
   createdAt  DateTime       @default(now())
+  method    BookingMethod? 
 }
 
 model WorkingSlot {
@@ -100,6 +106,7 @@ model WorkingSlot {
   startTime String
   endTime   String
   createdAt DateTime @default(now())
+    onlyInStore  Boolean  @default(false)
 }
 
 model WorkingHourRange {
@@ -119,6 +126,7 @@ model RecurringSlot {
   weekDay   WeekDay
   startTime String
   endTime   String
+  onlyInStore  Boolean  @default(false)
 
   range     WorkingHourRange @relation(fields: [rangeId], references: [id])
 }

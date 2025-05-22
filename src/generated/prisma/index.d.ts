@@ -77,6 +77,14 @@ export const BookingStatus: {
 export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
 
 
+export const BookingMethod: {
+  ONLINE: 'ONLINE',
+  IN_STORE: 'IN_STORE'
+};
+
+export type BookingMethod = (typeof BookingMethod)[keyof typeof BookingMethod]
+
+
 export const WeekDay: {
   MONDAY: 'MONDAY',
   TUESDAY: 'TUESDAY',
@@ -98,6 +106,10 @@ export const Role: typeof $Enums.Role
 export type BookingStatus = $Enums.BookingStatus
 
 export const BookingStatus: typeof $Enums.BookingStatus
+
+export type BookingMethod = $Enums.BookingMethod
+
+export const BookingMethod: typeof $Enums.BookingMethod
 
 export type WeekDay = $Enums.WeekDay
 
@@ -6331,6 +6343,7 @@ export namespace Prisma {
     status: $Enums.BookingStatus | null
     notes: string | null
     createdAt: Date | null
+    method: $Enums.BookingMethod | null
   }
 
   export type BookingMaxAggregateOutputType = {
@@ -6342,6 +6355,7 @@ export namespace Prisma {
     status: $Enums.BookingStatus | null
     notes: string | null
     createdAt: Date | null
+    method: $Enums.BookingMethod | null
   }
 
   export type BookingCountAggregateOutputType = {
@@ -6353,6 +6367,7 @@ export namespace Prisma {
     status: number
     notes: number
     createdAt: number
+    method: number
     _all: number
   }
 
@@ -6380,6 +6395,7 @@ export namespace Prisma {
     status?: true
     notes?: true
     createdAt?: true
+    method?: true
   }
 
   export type BookingMaxAggregateInputType = {
@@ -6391,6 +6407,7 @@ export namespace Prisma {
     status?: true
     notes?: true
     createdAt?: true
+    method?: true
   }
 
   export type BookingCountAggregateInputType = {
@@ -6402,6 +6419,7 @@ export namespace Prisma {
     status?: true
     notes?: true
     createdAt?: true
+    method?: true
     _all?: true
   }
 
@@ -6500,6 +6518,7 @@ export namespace Prisma {
     status: $Enums.BookingStatus
     notes: string | null
     createdAt: Date
+    method: $Enums.BookingMethod | null
     _count: BookingCountAggregateOutputType | null
     _avg: BookingAvgAggregateOutputType | null
     _sum: BookingSumAggregateOutputType | null
@@ -6530,6 +6549,7 @@ export namespace Prisma {
     status?: boolean
     notes?: boolean
     createdAt?: boolean
+    method?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
     employee?: boolean | UserDefaultArgs<ExtArgs>
@@ -6544,6 +6564,7 @@ export namespace Prisma {
     status?: boolean
     notes?: boolean
     createdAt?: boolean
+    method?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
     employee?: boolean | UserDefaultArgs<ExtArgs>
@@ -6558,6 +6579,7 @@ export namespace Prisma {
     status?: boolean
     notes?: boolean
     createdAt?: boolean
+    method?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
     employee?: boolean | UserDefaultArgs<ExtArgs>
@@ -6572,9 +6594,10 @@ export namespace Prisma {
     status?: boolean
     notes?: boolean
     createdAt?: boolean
+    method?: boolean
   }
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "date" | "customerId" | "serviceId" | "employeeId" | "status" | "notes" | "createdAt", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "date" | "customerId" | "serviceId" | "employeeId" | "status" | "notes" | "createdAt" | "method", ExtArgs["result"]["booking"]>
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
@@ -6607,6 +6630,7 @@ export namespace Prisma {
       status: $Enums.BookingStatus
       notes: string | null
       createdAt: Date
+      method: $Enums.BookingMethod | null
     }, ExtArgs["result"]["booking"]>
     composites: {}
   }
@@ -7041,6 +7065,7 @@ export namespace Prisma {
     readonly status: FieldRef<"Booking", 'BookingStatus'>
     readonly notes: FieldRef<"Booking", 'String'>
     readonly createdAt: FieldRef<"Booking", 'DateTime'>
+    readonly method: FieldRef<"Booking", 'BookingMethod'>
   }
     
 
@@ -7484,6 +7509,7 @@ export namespace Prisma {
     startTime: string | null
     endTime: string | null
     createdAt: Date | null
+    onlyInStore: boolean | null
   }
 
   export type WorkingSlotMaxAggregateOutputType = {
@@ -7493,6 +7519,7 @@ export namespace Prisma {
     startTime: string | null
     endTime: string | null
     createdAt: Date | null
+    onlyInStore: boolean | null
   }
 
   export type WorkingSlotCountAggregateOutputType = {
@@ -7502,6 +7529,7 @@ export namespace Prisma {
     startTime: number
     endTime: number
     createdAt: number
+    onlyInStore: number
     _all: number
   }
 
@@ -7523,6 +7551,7 @@ export namespace Prisma {
     startTime?: true
     endTime?: true
     createdAt?: true
+    onlyInStore?: true
   }
 
   export type WorkingSlotMaxAggregateInputType = {
@@ -7532,6 +7561,7 @@ export namespace Prisma {
     startTime?: true
     endTime?: true
     createdAt?: true
+    onlyInStore?: true
   }
 
   export type WorkingSlotCountAggregateInputType = {
@@ -7541,6 +7571,7 @@ export namespace Prisma {
     startTime?: true
     endTime?: true
     createdAt?: true
+    onlyInStore?: true
     _all?: true
   }
 
@@ -7637,6 +7668,7 @@ export namespace Prisma {
     startTime: string
     endTime: string
     createdAt: Date
+    onlyInStore: boolean
     _count: WorkingSlotCountAggregateOutputType | null
     _avg: WorkingSlotAvgAggregateOutputType | null
     _sum: WorkingSlotSumAggregateOutputType | null
@@ -7665,6 +7697,7 @@ export namespace Prisma {
     startTime?: boolean
     endTime?: boolean
     createdAt?: boolean
+    onlyInStore?: boolean
     employee?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workingSlot"]>
 
@@ -7675,6 +7708,7 @@ export namespace Prisma {
     startTime?: boolean
     endTime?: boolean
     createdAt?: boolean
+    onlyInStore?: boolean
     employee?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workingSlot"]>
 
@@ -7685,6 +7719,7 @@ export namespace Prisma {
     startTime?: boolean
     endTime?: boolean
     createdAt?: boolean
+    onlyInStore?: boolean
     employee?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workingSlot"]>
 
@@ -7695,9 +7730,10 @@ export namespace Prisma {
     startTime?: boolean
     endTime?: boolean
     createdAt?: boolean
+    onlyInStore?: boolean
   }
 
-  export type WorkingSlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "date" | "startTime" | "endTime" | "createdAt", ExtArgs["result"]["workingSlot"]>
+  export type WorkingSlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "date" | "startTime" | "endTime" | "createdAt" | "onlyInStore", ExtArgs["result"]["workingSlot"]>
   export type WorkingSlotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -7720,6 +7756,7 @@ export namespace Prisma {
       startTime: string
       endTime: string
       createdAt: Date
+      onlyInStore: boolean
     }, ExtArgs["result"]["workingSlot"]>
     composites: {}
   }
@@ -8150,6 +8187,7 @@ export namespace Prisma {
     readonly startTime: FieldRef<"WorkingSlot", 'String'>
     readonly endTime: FieldRef<"WorkingSlot", 'String'>
     readonly createdAt: FieldRef<"WorkingSlot", 'DateTime'>
+    readonly onlyInStore: FieldRef<"WorkingSlot", 'Boolean'>
   }
     
 
@@ -9718,6 +9756,7 @@ export namespace Prisma {
     weekDay: $Enums.WeekDay | null
     startTime: string | null
     endTime: string | null
+    onlyInStore: boolean | null
   }
 
   export type RecurringSlotMaxAggregateOutputType = {
@@ -9726,6 +9765,7 @@ export namespace Prisma {
     weekDay: $Enums.WeekDay | null
     startTime: string | null
     endTime: string | null
+    onlyInStore: boolean | null
   }
 
   export type RecurringSlotCountAggregateOutputType = {
@@ -9734,6 +9774,7 @@ export namespace Prisma {
     weekDay: number
     startTime: number
     endTime: number
+    onlyInStore: number
     _all: number
   }
 
@@ -9754,6 +9795,7 @@ export namespace Prisma {
     weekDay?: true
     startTime?: true
     endTime?: true
+    onlyInStore?: true
   }
 
   export type RecurringSlotMaxAggregateInputType = {
@@ -9762,6 +9804,7 @@ export namespace Prisma {
     weekDay?: true
     startTime?: true
     endTime?: true
+    onlyInStore?: true
   }
 
   export type RecurringSlotCountAggregateInputType = {
@@ -9770,6 +9813,7 @@ export namespace Prisma {
     weekDay?: true
     startTime?: true
     endTime?: true
+    onlyInStore?: true
     _all?: true
   }
 
@@ -9865,6 +9909,7 @@ export namespace Prisma {
     weekDay: $Enums.WeekDay
     startTime: string
     endTime: string
+    onlyInStore: boolean
     _count: RecurringSlotCountAggregateOutputType | null
     _avg: RecurringSlotAvgAggregateOutputType | null
     _sum: RecurringSlotSumAggregateOutputType | null
@@ -9892,6 +9937,7 @@ export namespace Prisma {
     weekDay?: boolean
     startTime?: boolean
     endTime?: boolean
+    onlyInStore?: boolean
     range?: boolean | WorkingHourRangeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["recurringSlot"]>
 
@@ -9901,6 +9947,7 @@ export namespace Prisma {
     weekDay?: boolean
     startTime?: boolean
     endTime?: boolean
+    onlyInStore?: boolean
     range?: boolean | WorkingHourRangeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["recurringSlot"]>
 
@@ -9910,6 +9957,7 @@ export namespace Prisma {
     weekDay?: boolean
     startTime?: boolean
     endTime?: boolean
+    onlyInStore?: boolean
     range?: boolean | WorkingHourRangeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["recurringSlot"]>
 
@@ -9919,9 +9967,10 @@ export namespace Prisma {
     weekDay?: boolean
     startTime?: boolean
     endTime?: boolean
+    onlyInStore?: boolean
   }
 
-  export type RecurringSlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "rangeId" | "weekDay" | "startTime" | "endTime", ExtArgs["result"]["recurringSlot"]>
+  export type RecurringSlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "rangeId" | "weekDay" | "startTime" | "endTime" | "onlyInStore", ExtArgs["result"]["recurringSlot"]>
   export type RecurringSlotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     range?: boolean | WorkingHourRangeDefaultArgs<ExtArgs>
   }
@@ -9943,6 +9992,7 @@ export namespace Prisma {
       weekDay: $Enums.WeekDay
       startTime: string
       endTime: string
+      onlyInStore: boolean
     }, ExtArgs["result"]["recurringSlot"]>
     composites: {}
   }
@@ -10372,6 +10422,7 @@ export namespace Prisma {
     readonly weekDay: FieldRef<"RecurringSlot", 'WeekDay'>
     readonly startTime: FieldRef<"RecurringSlot", 'String'>
     readonly endTime: FieldRef<"RecurringSlot", 'String'>
+    readonly onlyInStore: FieldRef<"RecurringSlot", 'Boolean'>
   }
     
 
@@ -10851,7 +10902,8 @@ export namespace Prisma {
     employeeId: 'employeeId',
     status: 'status',
     notes: 'notes',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    method: 'method'
   };
 
   export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
@@ -10863,7 +10915,8 @@ export namespace Prisma {
     date: 'date',
     startTime: 'startTime',
     endTime: 'endTime',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    onlyInStore: 'onlyInStore'
   };
 
   export type WorkingSlotScalarFieldEnum = (typeof WorkingSlotScalarFieldEnum)[keyof typeof WorkingSlotScalarFieldEnum]
@@ -10885,7 +10938,8 @@ export namespace Prisma {
     rangeId: 'rangeId',
     weekDay: 'weekDay',
     startTime: 'startTime',
-    endTime: 'endTime'
+    endTime: 'endTime',
+    onlyInStore: 'onlyInStore'
   };
 
   export type RecurringSlotScalarFieldEnum = (typeof RecurringSlotScalarFieldEnum)[keyof typeof RecurringSlotScalarFieldEnum]
@@ -11008,6 +11062,20 @@ export namespace Prisma {
    * Reference to a field of type 'BookingStatus[]'
    */
   export type ListEnumBookingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BookingMethod'
+   */
+  export type EnumBookingMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingMethod'>
+    
+
+
+  /**
+   * Reference to a field of type 'BookingMethod[]'
+   */
+  export type ListEnumBookingMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingMethod[]'>
     
 
 
@@ -11285,6 +11353,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
     notes?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
+    method?: EnumBookingMethodNullableFilter<"Booking"> | $Enums.BookingMethod | null
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
     employee?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -11299,6 +11368,7 @@ export namespace Prisma {
     status?: SortOrder
     notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    method?: SortOrderInput | SortOrder
     customer?: CustomerOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
     employee?: UserOrderByWithRelationInput
@@ -11316,6 +11386,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
     notes?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
+    method?: EnumBookingMethodNullableFilter<"Booking"> | $Enums.BookingMethod | null
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
     employee?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -11330,6 +11401,7 @@ export namespace Prisma {
     status?: SortOrder
     notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    method?: SortOrderInput | SortOrder
     _count?: BookingCountOrderByAggregateInput
     _avg?: BookingAvgOrderByAggregateInput
     _max?: BookingMaxOrderByAggregateInput
@@ -11349,6 +11421,7 @@ export namespace Prisma {
     status?: EnumBookingStatusWithAggregatesFilter<"Booking"> | $Enums.BookingStatus
     notes?: StringNullableWithAggregatesFilter<"Booking"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
+    method?: EnumBookingMethodNullableWithAggregatesFilter<"Booking"> | $Enums.BookingMethod | null
   }
 
   export type WorkingSlotWhereInput = {
@@ -11361,6 +11434,7 @@ export namespace Prisma {
     startTime?: StringFilter<"WorkingSlot"> | string
     endTime?: StringFilter<"WorkingSlot"> | string
     createdAt?: DateTimeFilter<"WorkingSlot"> | Date | string
+    onlyInStore?: BoolFilter<"WorkingSlot"> | boolean
     employee?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -11371,6 +11445,7 @@ export namespace Prisma {
     startTime?: SortOrder
     endTime?: SortOrder
     createdAt?: SortOrder
+    onlyInStore?: SortOrder
     employee?: UserOrderByWithRelationInput
   }
 
@@ -11384,6 +11459,7 @@ export namespace Prisma {
     startTime?: StringFilter<"WorkingSlot"> | string
     endTime?: StringFilter<"WorkingSlot"> | string
     createdAt?: DateTimeFilter<"WorkingSlot"> | Date | string
+    onlyInStore?: BoolFilter<"WorkingSlot"> | boolean
     employee?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
@@ -11394,6 +11470,7 @@ export namespace Prisma {
     startTime?: SortOrder
     endTime?: SortOrder
     createdAt?: SortOrder
+    onlyInStore?: SortOrder
     _count?: WorkingSlotCountOrderByAggregateInput
     _avg?: WorkingSlotAvgOrderByAggregateInput
     _max?: WorkingSlotMaxOrderByAggregateInput
@@ -11411,6 +11488,7 @@ export namespace Prisma {
     startTime?: StringWithAggregatesFilter<"WorkingSlot"> | string
     endTime?: StringWithAggregatesFilter<"WorkingSlot"> | string
     createdAt?: DateTimeWithAggregatesFilter<"WorkingSlot"> | Date | string
+    onlyInStore?: BoolWithAggregatesFilter<"WorkingSlot"> | boolean
   }
 
   export type WorkingHourRangeWhereInput = {
@@ -11482,6 +11560,7 @@ export namespace Prisma {
     weekDay?: EnumWeekDayFilter<"RecurringSlot"> | $Enums.WeekDay
     startTime?: StringFilter<"RecurringSlot"> | string
     endTime?: StringFilter<"RecurringSlot"> | string
+    onlyInStore?: BoolFilter<"RecurringSlot"> | boolean
     range?: XOR<WorkingHourRangeScalarRelationFilter, WorkingHourRangeWhereInput>
   }
 
@@ -11491,6 +11570,7 @@ export namespace Prisma {
     weekDay?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    onlyInStore?: SortOrder
     range?: WorkingHourRangeOrderByWithRelationInput
   }
 
@@ -11503,6 +11583,7 @@ export namespace Prisma {
     weekDay?: EnumWeekDayFilter<"RecurringSlot"> | $Enums.WeekDay
     startTime?: StringFilter<"RecurringSlot"> | string
     endTime?: StringFilter<"RecurringSlot"> | string
+    onlyInStore?: BoolFilter<"RecurringSlot"> | boolean
     range?: XOR<WorkingHourRangeScalarRelationFilter, WorkingHourRangeWhereInput>
   }, "id">
 
@@ -11512,6 +11593,7 @@ export namespace Prisma {
     weekDay?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    onlyInStore?: SortOrder
     _count?: RecurringSlotCountOrderByAggregateInput
     _avg?: RecurringSlotAvgOrderByAggregateInput
     _max?: RecurringSlotMaxOrderByAggregateInput
@@ -11528,6 +11610,7 @@ export namespace Prisma {
     weekDay?: EnumWeekDayWithAggregatesFilter<"RecurringSlot"> | $Enums.WeekDay
     startTime?: StringWithAggregatesFilter<"RecurringSlot"> | string
     endTime?: StringWithAggregatesFilter<"RecurringSlot"> | string
+    onlyInStore?: BoolWithAggregatesFilter<"RecurringSlot"> | boolean
   }
 
   export type UserCreateInput = {
@@ -11773,6 +11856,7 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
+    method?: $Enums.BookingMethod | null
     customer: CustomerCreateNestedOneWithoutBookingsInput
     service: ServiceCreateNestedOneWithoutBookingsInput
     employee: UserCreateNestedOneWithoutBookingsInput
@@ -11787,6 +11871,7 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
+    method?: $Enums.BookingMethod | null
   }
 
   export type BookingUpdateInput = {
@@ -11794,6 +11879,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
     customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
     service?: ServiceUpdateOneRequiredWithoutBookingsNestedInput
     employee?: UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -11808,6 +11894,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
   }
 
   export type BookingCreateManyInput = {
@@ -11819,6 +11906,7 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
+    method?: $Enums.BookingMethod | null
   }
 
   export type BookingUpdateManyMutationInput = {
@@ -11826,6 +11914,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
   }
 
   export type BookingUncheckedUpdateManyInput = {
@@ -11837,6 +11926,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
   }
 
   export type WorkingSlotCreateInput = {
@@ -11844,6 +11934,7 @@ export namespace Prisma {
     startTime: string
     endTime: string
     createdAt?: Date | string
+    onlyInStore?: boolean
     employee: UserCreateNestedOneWithoutWorkingSlotsInput
   }
 
@@ -11854,6 +11945,7 @@ export namespace Prisma {
     startTime: string
     endTime: string
     createdAt?: Date | string
+    onlyInStore?: boolean
   }
 
   export type WorkingSlotUpdateInput = {
@@ -11861,6 +11953,7 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
     employee?: UserUpdateOneRequiredWithoutWorkingSlotsNestedInput
   }
 
@@ -11871,6 +11964,7 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type WorkingSlotCreateManyInput = {
@@ -11880,6 +11974,7 @@ export namespace Prisma {
     startTime: string
     endTime: string
     createdAt?: Date | string
+    onlyInStore?: boolean
   }
 
   export type WorkingSlotUpdateManyMutationInput = {
@@ -11887,6 +11982,7 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type WorkingSlotUncheckedUpdateManyInput = {
@@ -11896,6 +11992,7 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type WorkingHourRangeCreateInput = {
@@ -11958,6 +12055,7 @@ export namespace Prisma {
     weekDay: $Enums.WeekDay
     startTime: string
     endTime: string
+    onlyInStore?: boolean
     range: WorkingHourRangeCreateNestedOneWithoutSlotsInput
   }
 
@@ -11967,12 +12065,14 @@ export namespace Prisma {
     weekDay: $Enums.WeekDay
     startTime: string
     endTime: string
+    onlyInStore?: boolean
   }
 
   export type RecurringSlotUpdateInput = {
     weekDay?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
     range?: WorkingHourRangeUpdateOneRequiredWithoutSlotsNestedInput
   }
 
@@ -11982,6 +12082,7 @@ export namespace Prisma {
     weekDay?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RecurringSlotCreateManyInput = {
@@ -11990,12 +12091,14 @@ export namespace Prisma {
     weekDay: $Enums.WeekDay
     startTime: string
     endTime: string
+    onlyInStore?: boolean
   }
 
   export type RecurringSlotUpdateManyMutationInput = {
     weekDay?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RecurringSlotUncheckedUpdateManyInput = {
@@ -12004,6 +12107,7 @@ export namespace Prisma {
     weekDay?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -12391,6 +12495,13 @@ export namespace Prisma {
     not?: NestedEnumBookingStatusFilter<$PrismaModel> | $Enums.BookingStatus
   }
 
+  export type EnumBookingMethodNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.BookingMethod | EnumBookingMethodFieldRefInput<$PrismaModel> | null
+    in?: $Enums.BookingMethod[] | ListEnumBookingMethodFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.BookingMethod[] | ListEnumBookingMethodFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumBookingMethodNullableFilter<$PrismaModel> | $Enums.BookingMethod | null
+  }
+
   export type CustomerScalarRelationFilter = {
     is?: CustomerWhereInput
     isNot?: CustomerWhereInput
@@ -12405,6 +12516,7 @@ export namespace Prisma {
     status?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
+    method?: SortOrder
   }
 
   export type BookingAvgOrderByAggregateInput = {
@@ -12423,6 +12535,7 @@ export namespace Prisma {
     status?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
+    method?: SortOrder
   }
 
   export type BookingMinOrderByAggregateInput = {
@@ -12434,6 +12547,7 @@ export namespace Prisma {
     status?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
+    method?: SortOrder
   }
 
   export type BookingSumOrderByAggregateInput = {
@@ -12453,6 +12567,16 @@ export namespace Prisma {
     _max?: NestedEnumBookingStatusFilter<$PrismaModel>
   }
 
+  export type EnumBookingMethodNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BookingMethod | EnumBookingMethodFieldRefInput<$PrismaModel> | null
+    in?: $Enums.BookingMethod[] | ListEnumBookingMethodFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.BookingMethod[] | ListEnumBookingMethodFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumBookingMethodNullableWithAggregatesFilter<$PrismaModel> | $Enums.BookingMethod | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumBookingMethodNullableFilter<$PrismaModel>
+    _max?: NestedEnumBookingMethodNullableFilter<$PrismaModel>
+  }
+
   export type WorkingSlotCountOrderByAggregateInput = {
     id?: SortOrder
     employeeId?: SortOrder
@@ -12460,6 +12584,7 @@ export namespace Prisma {
     startTime?: SortOrder
     endTime?: SortOrder
     createdAt?: SortOrder
+    onlyInStore?: SortOrder
   }
 
   export type WorkingSlotAvgOrderByAggregateInput = {
@@ -12474,6 +12599,7 @@ export namespace Prisma {
     startTime?: SortOrder
     endTime?: SortOrder
     createdAt?: SortOrder
+    onlyInStore?: SortOrder
   }
 
   export type WorkingSlotMinOrderByAggregateInput = {
@@ -12483,6 +12609,7 @@ export namespace Prisma {
     startTime?: SortOrder
     endTime?: SortOrder
     createdAt?: SortOrder
+    onlyInStore?: SortOrder
   }
 
   export type WorkingSlotSumOrderByAggregateInput = {
@@ -12552,6 +12679,7 @@ export namespace Prisma {
     weekDay?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    onlyInStore?: SortOrder
   }
 
   export type RecurringSlotAvgOrderByAggregateInput = {
@@ -12565,6 +12693,7 @@ export namespace Prisma {
     weekDay?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    onlyInStore?: SortOrder
   }
 
   export type RecurringSlotMinOrderByAggregateInput = {
@@ -12573,6 +12702,7 @@ export namespace Prisma {
     weekDay?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
+    onlyInStore?: SortOrder
   }
 
   export type RecurringSlotSumOrderByAggregateInput = {
@@ -13026,6 +13156,10 @@ export namespace Prisma {
     set?: $Enums.BookingStatus
   }
 
+  export type NullableEnumBookingMethodFieldUpdateOperationsInput = {
+    set?: $Enums.BookingMethod | null
+  }
+
   export type CustomerUpdateOneRequiredWithoutBookingsNestedInput = {
     create?: XOR<CustomerCreateWithoutBookingsInput, CustomerUncheckedCreateWithoutBookingsInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutBookingsInput
@@ -13327,6 +13461,13 @@ export namespace Prisma {
     not?: NestedEnumBookingStatusFilter<$PrismaModel> | $Enums.BookingStatus
   }
 
+  export type NestedEnumBookingMethodNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.BookingMethod | EnumBookingMethodFieldRefInput<$PrismaModel> | null
+    in?: $Enums.BookingMethod[] | ListEnumBookingMethodFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.BookingMethod[] | ListEnumBookingMethodFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumBookingMethodNullableFilter<$PrismaModel> | $Enums.BookingMethod | null
+  }
+
   export type NestedEnumBookingStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.BookingStatus | EnumBookingStatusFieldRefInput<$PrismaModel>
     in?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
@@ -13335,6 +13476,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumBookingStatusFilter<$PrismaModel>
     _max?: NestedEnumBookingStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumBookingMethodNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BookingMethod | EnumBookingMethodFieldRefInput<$PrismaModel> | null
+    in?: $Enums.BookingMethod[] | ListEnumBookingMethodFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.BookingMethod[] | ListEnumBookingMethodFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumBookingMethodNullableWithAggregatesFilter<$PrismaModel> | $Enums.BookingMethod | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumBookingMethodNullableFilter<$PrismaModel>
+    _max?: NestedEnumBookingMethodNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumWeekDayFilter<$PrismaModel = never> = {
@@ -13404,6 +13555,7 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
+    method?: $Enums.BookingMethod | null
     customer: CustomerCreateNestedOneWithoutBookingsInput
     service: ServiceCreateNestedOneWithoutBookingsInput
   }
@@ -13416,6 +13568,7 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
+    method?: $Enums.BookingMethod | null
   }
 
   export type BookingCreateOrConnectWithoutEmployeeInput = {
@@ -13433,6 +13586,7 @@ export namespace Prisma {
     startTime: string
     endTime: string
     createdAt?: Date | string
+    onlyInStore?: boolean
   }
 
   export type WorkingSlotUncheckedCreateWithoutEmployeeInput = {
@@ -13441,6 +13595,7 @@ export namespace Prisma {
     startTime: string
     endTime: string
     createdAt?: Date | string
+    onlyInStore?: boolean
   }
 
   export type WorkingSlotCreateOrConnectWithoutEmployeeInput = {
@@ -13557,6 +13712,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
     notes?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
+    method?: EnumBookingMethodNullableFilter<"Booking"> | $Enums.BookingMethod | null
   }
 
   export type WorkingSlotUpsertWithWhereUniqueWithoutEmployeeInput = {
@@ -13585,6 +13741,7 @@ export namespace Prisma {
     startTime?: StringFilter<"WorkingSlot"> | string
     endTime?: StringFilter<"WorkingSlot"> | string
     createdAt?: DateTimeFilter<"WorkingSlot"> | Date | string
+    onlyInStore?: BoolFilter<"WorkingSlot"> | boolean
   }
 
   export type WorkingHourRangeUpsertWithWhereUniqueWithoutEmployeeInput = {
@@ -13619,6 +13776,7 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
+    method?: $Enums.BookingMethod | null
     service: ServiceCreateNestedOneWithoutBookingsInput
     employee: UserCreateNestedOneWithoutBookingsInput
   }
@@ -13631,6 +13789,7 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
+    method?: $Enums.BookingMethod | null
   }
 
   export type BookingCreateOrConnectWithoutCustomerInput = {
@@ -13714,6 +13873,7 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
+    method?: $Enums.BookingMethod | null
     customer: CustomerCreateNestedOneWithoutBookingsInput
     employee: UserCreateNestedOneWithoutBookingsInput
   }
@@ -13726,6 +13886,7 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
+    method?: $Enums.BookingMethod | null
   }
 
   export type BookingCreateOrConnectWithoutServiceInput = {
@@ -14200,6 +14361,7 @@ export namespace Prisma {
     weekDay: $Enums.WeekDay
     startTime: string
     endTime: string
+    onlyInStore?: boolean
   }
 
   export type RecurringSlotUncheckedCreateWithoutRangeInput = {
@@ -14207,6 +14369,7 @@ export namespace Prisma {
     weekDay: $Enums.WeekDay
     startTime: string
     endTime: string
+    onlyInStore?: boolean
   }
 
   export type RecurringSlotCreateOrConnectWithoutRangeInput = {
@@ -14282,6 +14445,7 @@ export namespace Prisma {
     weekDay?: EnumWeekDayFilter<"RecurringSlot"> | $Enums.WeekDay
     startTime?: StringFilter<"RecurringSlot"> | string
     endTime?: StringFilter<"RecurringSlot"> | string
+    onlyInStore?: BoolFilter<"RecurringSlot"> | boolean
   }
 
   export type WorkingHourRangeCreateWithoutSlotsInput = {
@@ -14349,6 +14513,7 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
+    method?: $Enums.BookingMethod | null
   }
 
   export type WorkingSlotCreateManyEmployeeInput = {
@@ -14357,6 +14522,7 @@ export namespace Prisma {
     startTime: string
     endTime: string
     createdAt?: Date | string
+    onlyInStore?: boolean
   }
 
   export type WorkingHourRangeCreateManyEmployeeInput = {
@@ -14407,6 +14573,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
     customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
     service?: ServiceUpdateOneRequiredWithoutBookingsNestedInput
   }
@@ -14419,6 +14586,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
   }
 
   export type BookingUncheckedUpdateManyWithoutEmployeeInput = {
@@ -14429,6 +14597,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
   }
 
   export type WorkingSlotUpdateWithoutEmployeeInput = {
@@ -14436,6 +14605,7 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type WorkingSlotUncheckedUpdateWithoutEmployeeInput = {
@@ -14444,6 +14614,7 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type WorkingSlotUncheckedUpdateManyWithoutEmployeeInput = {
@@ -14452,6 +14623,7 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type WorkingHourRangeUpdateWithoutEmployeeInput = {
@@ -14484,6 +14656,7 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
+    method?: $Enums.BookingMethod | null
   }
 
   export type BookingUpdateWithoutCustomerInput = {
@@ -14491,6 +14664,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
     service?: ServiceUpdateOneRequiredWithoutBookingsNestedInput
     employee?: UserUpdateOneRequiredWithoutBookingsNestedInput
   }
@@ -14503,6 +14677,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
   }
 
   export type BookingUncheckedUpdateManyWithoutCustomerInput = {
@@ -14513,6 +14688,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
   }
 
   export type EmployeeServiceCreateManyServiceInput = {
@@ -14527,6 +14703,7 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
+    method?: $Enums.BookingMethod | null
   }
 
   export type EmployeeServiceUpdateWithoutServiceInput = {
@@ -14546,6 +14723,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
     customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
     employee?: UserUpdateOneRequiredWithoutBookingsNestedInput
   }
@@ -14558,6 +14736,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
   }
 
   export type BookingUncheckedUpdateManyWithoutServiceInput = {
@@ -14568,6 +14747,7 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
   }
 
   export type RecurringSlotCreateManyRangeInput = {
@@ -14575,12 +14755,14 @@ export namespace Prisma {
     weekDay: $Enums.WeekDay
     startTime: string
     endTime: string
+    onlyInStore?: boolean
   }
 
   export type RecurringSlotUpdateWithoutRangeInput = {
     weekDay?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RecurringSlotUncheckedUpdateWithoutRangeInput = {
@@ -14588,6 +14770,7 @@ export namespace Prisma {
     weekDay?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RecurringSlotUncheckedUpdateManyWithoutRangeInput = {
@@ -14595,6 +14778,7 @@ export namespace Prisma {
     weekDay?: EnumWeekDayFieldUpdateOperationsInput | $Enums.WeekDay
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
   }
 
 

@@ -6,10 +6,11 @@ import {
 } from "../validators/bookingValidator";
 import { validateRequest } from "../middlewares/validateRequest";
 import {
-  createBooking,
   cancelBooking,
   confirmBooking,
   completeBooking,
+  createBookingByCustomer,
+  createBookingByOwner,
 } from "../controllers/bookingController";
 
 const router = express.Router();
@@ -20,7 +21,14 @@ router.post(
   authorizeOwner,
   createBookingValidation,
   validateRequest,
-  createBooking
+  createBookingByOwner
+);
+
+router.post(
+  "/",
+  createBookingValidation,
+  validateRequest,
+  createBookingByCustomer
 );
 
 router.patch(

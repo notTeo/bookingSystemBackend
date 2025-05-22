@@ -33,13 +33,14 @@ export const createWorkingHourRange = async (req: Request, res: Response) => {
       if (!Array.isArray(daySlots)) continue;
 
       for (const slot of daySlots) {
-        const { startTime, endTime } = slot;
+        const { startTime, endTime, onlyInStore } = slot;
         if (startTime && endTime) {
           toCreateRecurring.push({
             rangeId: range.id,
             weekDay: day.toUpperCase() as WeekDay,
             startTime,
             endTime,
+            onlyInStore: !!onlyInStore,
           });
         }
       }
@@ -75,6 +76,7 @@ export const createWorkingHourRange = async (req: Request, res: Response) => {
             ),
             startTime: slot.startTime,
             endTime: slot.endTime,
+            onlyInStore: slot.onlyInStore ?? false,
           });
         }
       }

@@ -48,6 +48,7 @@ export const getAvailableSlots = async (
           gte: dayStart,
           lte: dayEnd,
         },
+        onlyInStore: false,
       },
       orderBy: { startTime: "asc" },
     });
@@ -127,7 +128,7 @@ export const getAvailableSlots = async (
   }
 };
 
-export const createBooking = async (
+export const createBookingByOwner = async (
   req: Request,
   res: Response
 ): Promise<void> => {
@@ -246,7 +247,143 @@ export const createBooking = async (
         serviceId,
         customerId: customerRecord.id,
         date: start,
+        status: "CONFIRMED",
+        method: "IN_STORE",
+      },
+    });
+
+    return sendSuccessResponse(res, {
+      message: "Booking created",
+      bookingId: booking.id,
+    });
+  } catch (err) {
+    console.error(err);
+    return sendErrorResponse(res, "Server error", 500);
+  }
+};
+
+export const createBookingByCustomer= async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { employeeId, serviceId, date, time, customer } = req.body;
+
+    if (
+      !employeeId ||
+      !serviceId ||
+      !date ||
+      !time ||
+      !customer?.name ||
+      !customer?.phone
+    ) {
+      return sendErrorResponse(res, "Missing required fields", 400);
+    }
+
+    const employee = await prisma.user.findUnique({
+      where: { id: employeeId },
+    });
+
+    if (!employee || !employee.isActive) {
+      return sendErrorResponse(res, "Invalid or inactive employee", 400);
+    }
+
+    const service = await prisma.service.findUnique({
+      where: { id: serviceId },
+      select: { duration: true },
+    });
+
+    if (!service) {
+      return sendErrorResponse(res, "Service not found", 404);
+    }
+
+    const [year, month, day] = date.split("-").map(Number);
+    const [hour, minute] = time.split(":" ).map(Number);
+
+    const start = new Date(year, month - 1, day, hour, minute);
+    const end = addMinutes(start, service.duration);
+
+    const startOfDay = new Date(year, month - 1, day, 0, 0, 0);
+    const endOfDay = new Date(year, month - 1, day, 23, 59, 59, 999);
+
+    const workingSlots = await prisma.workingSlot.findMany({
+      where: {
+        employeeId,
+        date: { gte: startOfDay, lte: endOfDay },
+        onlyInStore: false,
+      },
+    });
+
+    const fitsInsideWorkingSlot = workingSlots.some((slot) => {
+      const [sHour, sMin] = slot.startTime.split(":" ).map(Number);
+      const [eHour, eMin] = slot.endTime.split(":" ).map(Number);
+
+      const slotStart = new Date(year, month - 1, day, sHour, sMin);
+      const slotEnd = new Date(year, month - 1, day, eHour, eMin);
+
+      return start >= slotStart && end <= slotEnd;
+    });
+
+    if (!fitsInsideWorkingSlot) {
+      return sendErrorResponse(
+        res,
+        "Requested time is outside working hours",
+        400
+      );
+    }
+
+    const bookings = await prisma.booking.findMany({
+      where: {
+        employeeId,
+        status: { in: ["CONFIRMED"] },
+        date: { gte: startOfDay, lte: endOfDay },
+      },
+      include: { service: true },
+    });
+
+    const conflict = bookings.some((b) => {
+      const bStart = b.date;
+      const bEnd = addMinutes(bStart, b.service.duration);
+      return (
+        (start >= bStart && start < bEnd) ||
+        (end > bStart && end <= bEnd) ||
+        (bStart >= start && bStart < end)
+      );
+    });
+
+    if (conflict) {
+      return sendErrorResponse(
+        res,
+        "Time overlaps with an existing booking",
+        409
+      );
+    }
+
+    const existingCustomer = await prisma.customer.findFirst({
+      where: {
+        phone: customer.phone,
+        email: customer.email ?? undefined,
+      },
+    });
+
+    const customerRecord =
+      existingCustomer ??
+      (await prisma.customer.create({
+        data: {
+          name: customer.name,
+          phone: customer.phone,
+          email: customer.email ?? null,
+        },
+      }));
+
+    const booking = await prisma.booking.create({
+      data: {
+        employeeId,
+        serviceId,
+        customerId: customerRecord.id,
+        date: start,
         status: "PENDING",
+        method: "ONLINE",
       },
     });
 

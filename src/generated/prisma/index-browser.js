@@ -159,7 +159,8 @@ exports.Prisma.BookingScalarFieldEnum = {
   employeeId: 'employeeId',
   status: 'status',
   notes: 'notes',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  method: 'method'
 };
 
 exports.Prisma.WorkingSlotScalarFieldEnum = {
@@ -168,7 +169,8 @@ exports.Prisma.WorkingSlotScalarFieldEnum = {
   date: 'date',
   startTime: 'startTime',
   endTime: 'endTime',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  onlyInStore: 'onlyInStore'
 };
 
 exports.Prisma.WorkingHourRangeScalarFieldEnum = {
@@ -184,7 +186,8 @@ exports.Prisma.RecurringSlotScalarFieldEnum = {
   rangeId: 'rangeId',
   weekDay: 'weekDay',
   startTime: 'startTime',
-  endTime: 'endTime'
+  endTime: 'endTime',
+  onlyInStore: 'onlyInStore'
 };
 
 exports.Prisma.SortOrder = {
@@ -212,6 +215,11 @@ exports.BookingStatus = exports.$Enums.BookingStatus = {
   CONFIRMED: 'CONFIRMED',
   CANCELED: 'CANCELED',
   COMPLETED: 'COMPLETED'
+};
+
+exports.BookingMethod = exports.$Enums.BookingMethod = {
+  ONLINE: 'ONLINE',
+  IN_STORE: 'IN_STORE'
 };
 
 exports.WeekDay = exports.$Enums.WeekDay = {

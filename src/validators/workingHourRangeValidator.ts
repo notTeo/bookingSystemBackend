@@ -51,6 +51,12 @@ export const createWorkingHourRangeValidation = [
         ) {
           throw new Error(`Invalid slot in ${day}`);
         }
+        if (
+          slot.onlyInStore !== undefined &&
+          typeof slot.onlyInStore !== "boolean"
+        ) {
+          throw new Error(`onlyInStore must be a boolean in ${day}`);
+        }
       }
     }
 
@@ -118,6 +124,12 @@ export const editWorkingHourRangeValidation = [
           slot.startTime >= slot.endTime
         ) {
           throw new Error(`Invalid slot in ${day}`);
+        }
+        if (
+          slot.onlyInStore !== undefined &&
+          typeof slot.onlyInStore !== "boolean"
+        ) {
+          throw new Error(`onlyInStore must be a boolean in ${day}`);
         }
       }
     }
