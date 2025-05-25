@@ -6,11 +6,24 @@ const prisma = new PrismaClient();
 
 export const createWorkingHourRange = async (req: Request, res: Response) => {
   try {
+    const shopId = (req as any).shop.id;
     const employeeId = Number(req.params.employeeId);
     const { startDate, endDate, slots } = req.body;
 
     if (!startDate || !endDate || !slots || typeof slots !== "object") {
       return sendErrorResponse(res, "Invalid input", 400);
+    }
+
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "Invalid shop ID", 400);
+    }
+    const employee = await prisma.user.findUnique({
+      where: { id: employeeId, shopId },
+      select: { shopId: true },
+    });
+
+    if (!employee || employee.shopId !== shopId) {
+      return sendErrorResponse(res, "Unauthorized employee access", 403);
     }
 
     const [startY, startM, startD] = startDate.split("-").map(Number);
@@ -77,6 +90,7 @@ export const createWorkingHourRange = async (req: Request, res: Response) => {
             startTime: slot.startTime,
             endTime: slot.endTime,
             onlyInStore: slot.onlyInStore ?? false,
+            shopId: (req as any).shop.id,
           });
         }
       }
@@ -98,11 +112,25 @@ export const createWorkingHourRange = async (req: Request, res: Response) => {
 
 export const deleteWorkingHourRange = async (req: Request, res: Response) => {
   try {
+    const shopId = (req as any).shop.id;
     const employeeId = Number(req.params.employeeId);
     const rangeId = Number(req.params.rangeId);
 
     if (isNaN(employeeId) || isNaN(rangeId)) {
       return sendErrorResponse(res, "Invalid ID(s)", 400);
+    }
+
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "Invalid shop ID", 400);
+    }
+
+    const employee = await prisma.user.findUnique({
+      where: { id: employeeId, shopId },
+      select: { shopId: true },
+    });
+
+    if (!employee || employee.shopId !== shopId) {
+      return sendErrorResponse(res, "Unauthorized access to employee", 403);
     }
 
     const range = await prisma.workingHourRange.findUnique({
@@ -120,6 +148,7 @@ export const deleteWorkingHourRange = async (req: Request, res: Response) => {
     await prisma.workingSlot.deleteMany({
       where: {
         employeeId,
+        shopId,
         date: {
           gte: range.startDate,
           lte: range.endDate,
@@ -142,12 +171,26 @@ export const deleteWorkingHourRange = async (req: Request, res: Response) => {
 
 export const editWorkingHourRange = async (req: Request, res: Response) => {
   try {
+    const shopId = (req as any).shop.id;
     const employeeId = Number(req.params.employeeId);
     const rangeId = Number(req.params.rangeId);
     const { startDate, endDate, slots } = req.body;
 
     if (!startDate || !endDate || typeof slots !== "object") {
       return sendErrorResponse(res, "Invalid input data", 400);
+    }
+
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "Invalid shop ID", 400);
+    }
+
+    const employee = await prisma.user.findUnique({
+      where: { id: employeeId, shopId },
+      select: { shopId: true },
+    });
+
+    if (!employee || employee.shopId !== shopId) {
+      return sendErrorResponse(res, "Unauthorized access to employee", 403);
     }
 
     const range = await prisma.workingHourRange.findUnique({
@@ -207,6 +250,7 @@ export const cloneExistingWorkingHourRange = async (
   res: Response
 ): Promise<void> => {
   try {
+    const shopId = (req as any).shop.id;
     const employeeId = Number(req.params.employeeId);
     const rangeId = Number(req.params.rangeId);
     const { startDate, endDate } = req.body;
@@ -215,8 +259,12 @@ export const cloneExistingWorkingHourRange = async (
       return sendErrorResponse(res, "Missing startDate or endDate", 400);
     }
 
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "Invalid shop ID", 400);
+    }
+
     const employee = await prisma.user.findUnique({
-      where: { id: employeeId },
+      where: { id: employeeId, shopId },
       include: {
         workingHourRanges: {
           include: { slots: true },
@@ -227,6 +275,9 @@ export const cloneExistingWorkingHourRange = async (
 
     if (!employee) {
       return sendErrorResponse(res, "Employee not found", 404);
+    }
+    if (employee.shopId !== shopId) {
+      return sendErrorResponse(res, "Unauthorized access to employee", 403);
     }
 
     const toCloneRange = employee.workingHourRanges.find(r => r.id === rangeId);

@@ -14,6 +14,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
+ * Model Shop
+ * 
+ */
+export type Shop = $Result.DefaultSelection<Prisma.$ShopPayload>
+/**
  * Model User
  * 
  */
@@ -53,6 +58,11 @@ export type WorkingHourRange = $Result.DefaultSelection<Prisma.$WorkingHourRange
  * 
  */
 export type RecurringSlot = $Result.DefaultSelection<Prisma.$RecurringSlotPayload>
+/**
+ * Model InventoryItem
+ * 
+ */
+export type InventoryItem = $Result.DefaultSelection<Prisma.$InventoryItemPayload>
 
 /**
  * Enums
@@ -122,8 +132,8 @@ export const WeekDay: typeof $Enums.WeekDay
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more Shops
+ * const shops = await prisma.shop.findMany()
  * ```
  *
  *
@@ -143,8 +153,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more Shops
+   * const shops = await prisma.shop.findMany()
    * ```
    *
    *
@@ -241,6 +251,16 @@ export class PrismaClient<
   }>>
 
       /**
+   * `prisma.shop`: Exposes CRUD operations for the **Shop** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Shops
+    * const shops = await prisma.shop.findMany()
+    * ```
+    */
+  get shop(): Prisma.ShopDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
     * Example usage:
     * ```ts
@@ -319,6 +339,16 @@ export class PrismaClient<
     * ```
     */
   get recurringSlot(): Prisma.RecurringSlotDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.inventoryItem`: Exposes CRUD operations for the **InventoryItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InventoryItems
+    * const inventoryItems = await prisma.inventoryItem.findMany()
+    * ```
+    */
+  get inventoryItem(): Prisma.InventoryItemDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -759,6 +789,7 @@ export namespace Prisma {
 
 
   export const ModelName: {
+    Shop: 'Shop',
     User: 'User',
     Customer: 'Customer',
     Service: 'Service',
@@ -766,7 +797,8 @@ export namespace Prisma {
     Booking: 'Booking',
     WorkingSlot: 'WorkingSlot',
     WorkingHourRange: 'WorkingHourRange',
-    RecurringSlot: 'RecurringSlot'
+    RecurringSlot: 'RecurringSlot',
+    InventoryItem: 'InventoryItem'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -785,10 +817,84 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "customer" | "service" | "employeeService" | "booking" | "workingSlot" | "workingHourRange" | "recurringSlot"
+      modelProps: "shop" | "user" | "customer" | "service" | "employeeService" | "booking" | "workingSlot" | "workingHourRange" | "recurringSlot" | "inventoryItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
+      Shop: {
+        payload: Prisma.$ShopPayload<ExtArgs>
+        fields: Prisma.ShopFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShopFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShopFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
+          }
+          findFirst: {
+            args: Prisma.ShopFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShopFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
+          }
+          findMany: {
+            args: Prisma.ShopFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>[]
+          }
+          create: {
+            args: Prisma.ShopCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
+          }
+          createMany: {
+            args: Prisma.ShopCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShopCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>[]
+          }
+          delete: {
+            args: Prisma.ShopDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
+          }
+          update: {
+            args: Prisma.ShopUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
+          }
+          deleteMany: {
+            args: Prisma.ShopDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShopUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ShopUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>[]
+          }
+          upsert: {
+            args: Prisma.ShopUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
+          }
+          aggregate: {
+            args: Prisma.ShopAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShop>
+          }
+          groupBy: {
+            args: Prisma.ShopGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShopGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShopCountArgs<ExtArgs>
+            result: $Utils.Optional<ShopCountAggregateOutputType> | number
+          }
+        }
+      }
       User: {
         payload: Prisma.$UserPayload<ExtArgs>
         fields: Prisma.UserFieldRefs
@@ -1381,6 +1487,80 @@ export namespace Prisma {
           }
         }
       }
+      InventoryItem: {
+        payload: Prisma.$InventoryItemPayload<ExtArgs>
+        fields: Prisma.InventoryItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InventoryItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InventoryItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>
+          }
+          findFirst: {
+            args: Prisma.InventoryItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InventoryItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>
+          }
+          findMany: {
+            args: Prisma.InventoryItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>[]
+          }
+          create: {
+            args: Prisma.InventoryItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>
+          }
+          createMany: {
+            args: Prisma.InventoryItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InventoryItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>[]
+          }
+          delete: {
+            args: Prisma.InventoryItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>
+          }
+          update: {
+            args: Prisma.InventoryItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.InventoryItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InventoryItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InventoryItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.InventoryItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>
+          }
+          aggregate: {
+            args: Prisma.InventoryItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInventoryItem>
+          }
+          groupBy: {
+            args: Prisma.InventoryItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InventoryItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InventoryItemCountArgs<ExtArgs>
+            result: $Utils.Optional<InventoryItemCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1465,6 +1645,7 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig
   }
   export type GlobalOmitConfig = {
+    shop?: ShopOmit
     user?: UserOmit
     customer?: CustomerOmit
     service?: ServiceOmit
@@ -1473,6 +1654,7 @@ export namespace Prisma {
     workingSlot?: WorkingSlotOmit
     workingHourRange?: WorkingHourRangeOmit
     recurringSlot?: RecurringSlotOmit
+    inventoryItem?: InventoryItemOmit
   }
 
   /* Types for Logging */
@@ -1563,10 +1745,78 @@ export namespace Prisma {
 
 
   /**
+   * Count Type ShopCountOutputType
+   */
+
+  export type ShopCountOutputType = {
+    employees: number
+    services: number
+    bookings: number
+    inventory: number
+    workingSlots: number
+  }
+
+  export type ShopCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employees?: boolean | ShopCountOutputTypeCountEmployeesArgs
+    services?: boolean | ShopCountOutputTypeCountServicesArgs
+    bookings?: boolean | ShopCountOutputTypeCountBookingsArgs
+    inventory?: boolean | ShopCountOutputTypeCountInventoryArgs
+    workingSlots?: boolean | ShopCountOutputTypeCountWorkingSlotsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ShopCountOutputType without action
+   */
+  export type ShopCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopCountOutputType
+     */
+    select?: ShopCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ShopCountOutputType without action
+   */
+  export type ShopCountOutputTypeCountEmployeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
+  }
+
+  /**
+   * ShopCountOutputType without action
+   */
+  export type ShopCountOutputTypeCountServicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceWhereInput
+  }
+
+  /**
+   * ShopCountOutputType without action
+   */
+  export type ShopCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BookingWhereInput
+  }
+
+  /**
+   * ShopCountOutputType without action
+   */
+  export type ShopCountOutputTypeCountInventoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InventoryItemWhereInput
+  }
+
+  /**
+   * ShopCountOutputType without action
+   */
+  export type ShopCountOutputTypeCountWorkingSlotsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkingSlotWhereInput
+  }
+
+
+  /**
    * Count Type UserCountOutputType
    */
 
   export type UserCountOutputType = {
+    shops: number
     services: number
     servicesCreated: number
     bookings: number
@@ -1575,6 +1825,7 @@ export namespace Prisma {
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shops?: boolean | UserCountOutputTypeCountShopsArgs
     services?: boolean | UserCountOutputTypeCountServicesArgs
     servicesCreated?: boolean | UserCountOutputTypeCountServicesCreatedArgs
     bookings?: boolean | UserCountOutputTypeCountBookingsArgs
@@ -1591,6 +1842,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the UserCountOutputType
      */
     select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountShopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopWhereInput
   }
 
   /**
@@ -1736,6 +1994,1257 @@ export namespace Prisma {
    */
 
   /**
+   * Model Shop
+   */
+
+  export type AggregateShop = {
+    _count: ShopCountAggregateOutputType | null
+    _avg: ShopAvgAggregateOutputType | null
+    _sum: ShopSumAggregateOutputType | null
+    _min: ShopMinAggregateOutputType | null
+    _max: ShopMaxAggregateOutputType | null
+  }
+
+  export type ShopAvgAggregateOutputType = {
+    id: number | null
+    ownerId: number | null
+  }
+
+  export type ShopSumAggregateOutputType = {
+    id: number | null
+    ownerId: number | null
+  }
+
+  export type ShopMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    address: string | null
+    password: string | null
+    createdAt: Date | null
+    ownerId: number | null
+  }
+
+  export type ShopMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    address: string | null
+    password: string | null
+    createdAt: Date | null
+    ownerId: number | null
+  }
+
+  export type ShopCountAggregateOutputType = {
+    id: number
+    name: number
+    address: number
+    password: number
+    createdAt: number
+    ownerId: number
+    _all: number
+  }
+
+
+  export type ShopAvgAggregateInputType = {
+    id?: true
+    ownerId?: true
+  }
+
+  export type ShopSumAggregateInputType = {
+    id?: true
+    ownerId?: true
+  }
+
+  export type ShopMinAggregateInputType = {
+    id?: true
+    name?: true
+    address?: true
+    password?: true
+    createdAt?: true
+    ownerId?: true
+  }
+
+  export type ShopMaxAggregateInputType = {
+    id?: true
+    name?: true
+    address?: true
+    password?: true
+    createdAt?: true
+    ownerId?: true
+  }
+
+  export type ShopCountAggregateInputType = {
+    id?: true
+    name?: true
+    address?: true
+    password?: true
+    createdAt?: true
+    ownerId?: true
+    _all?: true
+  }
+
+  export type ShopAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Shop to aggregate.
+     */
+    where?: ShopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shops to fetch.
+     */
+    orderBy?: ShopOrderByWithRelationInput | ShopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shops.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Shops
+    **/
+    _count?: true | ShopCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShopAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShopSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShopMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShopMaxAggregateInputType
+  }
+
+  export type GetShopAggregateType<T extends ShopAggregateArgs> = {
+        [P in keyof T & keyof AggregateShop]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShop[P]>
+      : GetScalarType<T[P], AggregateShop[P]>
+  }
+
+
+
+
+  export type ShopGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopWhereInput
+    orderBy?: ShopOrderByWithAggregationInput | ShopOrderByWithAggregationInput[]
+    by: ShopScalarFieldEnum[] | ShopScalarFieldEnum
+    having?: ShopScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShopCountAggregateInputType | true
+    _avg?: ShopAvgAggregateInputType
+    _sum?: ShopSumAggregateInputType
+    _min?: ShopMinAggregateInputType
+    _max?: ShopMaxAggregateInputType
+  }
+
+  export type ShopGroupByOutputType = {
+    id: number
+    name: string
+    address: string
+    password: string
+    createdAt: Date
+    ownerId: number
+    _count: ShopCountAggregateOutputType | null
+    _avg: ShopAvgAggregateOutputType | null
+    _sum: ShopSumAggregateOutputType | null
+    _min: ShopMinAggregateOutputType | null
+    _max: ShopMaxAggregateOutputType | null
+  }
+
+  type GetShopGroupByPayload<T extends ShopGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShopGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShopGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShopGroupByOutputType[P]>
+            : GetScalarType<T[P], ShopGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShopSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    address?: boolean
+    password?: boolean
+    createdAt?: boolean
+    ownerId?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+    employees?: boolean | Shop$employeesArgs<ExtArgs>
+    services?: boolean | Shop$servicesArgs<ExtArgs>
+    bookings?: boolean | Shop$bookingsArgs<ExtArgs>
+    inventory?: boolean | Shop$inventoryArgs<ExtArgs>
+    workingSlots?: boolean | Shop$workingSlotsArgs<ExtArgs>
+    _count?: boolean | ShopCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shop"]>
+
+  export type ShopSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    address?: boolean
+    password?: boolean
+    createdAt?: boolean
+    ownerId?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shop"]>
+
+  export type ShopSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    address?: boolean
+    password?: boolean
+    createdAt?: boolean
+    ownerId?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shop"]>
+
+  export type ShopSelectScalar = {
+    id?: boolean
+    name?: boolean
+    address?: boolean
+    password?: boolean
+    createdAt?: boolean
+    ownerId?: boolean
+  }
+
+  export type ShopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "address" | "password" | "createdAt" | "ownerId", ExtArgs["result"]["shop"]>
+  export type ShopInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+    employees?: boolean | Shop$employeesArgs<ExtArgs>
+    services?: boolean | Shop$servicesArgs<ExtArgs>
+    bookings?: boolean | Shop$bookingsArgs<ExtArgs>
+    inventory?: boolean | Shop$inventoryArgs<ExtArgs>
+    workingSlots?: boolean | Shop$workingSlotsArgs<ExtArgs>
+    _count?: boolean | ShopCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ShopIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ShopIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ShopPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Shop"
+    objects: {
+      owner: Prisma.$UserPayload<ExtArgs>
+      employees: Prisma.$UserPayload<ExtArgs>[]
+      services: Prisma.$ServicePayload<ExtArgs>[]
+      bookings: Prisma.$BookingPayload<ExtArgs>[]
+      inventory: Prisma.$InventoryItemPayload<ExtArgs>[]
+      workingSlots: Prisma.$WorkingSlotPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      address: string
+      password: string
+      createdAt: Date
+      ownerId: number
+    }, ExtArgs["result"]["shop"]>
+    composites: {}
+  }
+
+  type ShopGetPayload<S extends boolean | null | undefined | ShopDefaultArgs> = $Result.GetResult<Prisma.$ShopPayload, S>
+
+  type ShopCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShopFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShopCountAggregateInputType | true
+    }
+
+  export interface ShopDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Shop'], meta: { name: 'Shop' } }
+    /**
+     * Find zero or one Shop that matches the filter.
+     * @param {ShopFindUniqueArgs} args - Arguments to find a Shop
+     * @example
+     * // Get one Shop
+     * const shop = await prisma.shop.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShopFindUniqueArgs>(args: SelectSubset<T, ShopFindUniqueArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Shop that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ShopFindUniqueOrThrowArgs} args - Arguments to find a Shop
+     * @example
+     * // Get one Shop
+     * const shop = await prisma.shop.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShopFindUniqueOrThrowArgs>(args: SelectSubset<T, ShopFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Shop that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopFindFirstArgs} args - Arguments to find a Shop
+     * @example
+     * // Get one Shop
+     * const shop = await prisma.shop.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShopFindFirstArgs>(args?: SelectSubset<T, ShopFindFirstArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Shop that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopFindFirstOrThrowArgs} args - Arguments to find a Shop
+     * @example
+     * // Get one Shop
+     * const shop = await prisma.shop.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShopFindFirstOrThrowArgs>(args?: SelectSubset<T, ShopFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Shops that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Shops
+     * const shops = await prisma.shop.findMany()
+     * 
+     * // Get first 10 Shops
+     * const shops = await prisma.shop.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shopWithIdOnly = await prisma.shop.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShopFindManyArgs>(args?: SelectSubset<T, ShopFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Shop.
+     * @param {ShopCreateArgs} args - Arguments to create a Shop.
+     * @example
+     * // Create one Shop
+     * const Shop = await prisma.shop.create({
+     *   data: {
+     *     // ... data to create a Shop
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShopCreateArgs>(args: SelectSubset<T, ShopCreateArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Shops.
+     * @param {ShopCreateManyArgs} args - Arguments to create many Shops.
+     * @example
+     * // Create many Shops
+     * const shop = await prisma.shop.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShopCreateManyArgs>(args?: SelectSubset<T, ShopCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Shops and returns the data saved in the database.
+     * @param {ShopCreateManyAndReturnArgs} args - Arguments to create many Shops.
+     * @example
+     * // Create many Shops
+     * const shop = await prisma.shop.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Shops and only return the `id`
+     * const shopWithIdOnly = await prisma.shop.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShopCreateManyAndReturnArgs>(args?: SelectSubset<T, ShopCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Shop.
+     * @param {ShopDeleteArgs} args - Arguments to delete one Shop.
+     * @example
+     * // Delete one Shop
+     * const Shop = await prisma.shop.delete({
+     *   where: {
+     *     // ... filter to delete one Shop
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShopDeleteArgs>(args: SelectSubset<T, ShopDeleteArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Shop.
+     * @param {ShopUpdateArgs} args - Arguments to update one Shop.
+     * @example
+     * // Update one Shop
+     * const shop = await prisma.shop.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShopUpdateArgs>(args: SelectSubset<T, ShopUpdateArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Shops.
+     * @param {ShopDeleteManyArgs} args - Arguments to filter Shops to delete.
+     * @example
+     * // Delete a few Shops
+     * const { count } = await prisma.shop.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShopDeleteManyArgs>(args?: SelectSubset<T, ShopDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Shops.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Shops
+     * const shop = await prisma.shop.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShopUpdateManyArgs>(args: SelectSubset<T, ShopUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Shops and returns the data updated in the database.
+     * @param {ShopUpdateManyAndReturnArgs} args - Arguments to update many Shops.
+     * @example
+     * // Update many Shops
+     * const shop = await prisma.shop.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Shops and only return the `id`
+     * const shopWithIdOnly = await prisma.shop.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ShopUpdateManyAndReturnArgs>(args: SelectSubset<T, ShopUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Shop.
+     * @param {ShopUpsertArgs} args - Arguments to update or create a Shop.
+     * @example
+     * // Update or create a Shop
+     * const shop = await prisma.shop.upsert({
+     *   create: {
+     *     // ... data to create a Shop
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Shop we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShopUpsertArgs>(args: SelectSubset<T, ShopUpsertArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Shops.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopCountArgs} args - Arguments to filter Shops to count.
+     * @example
+     * // Count the number of Shops
+     * const count = await prisma.shop.count({
+     *   where: {
+     *     // ... the filter for the Shops we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShopCountArgs>(
+      args?: Subset<T, ShopCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShopCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Shop.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShopAggregateArgs>(args: Subset<T, ShopAggregateArgs>): Prisma.PrismaPromise<GetShopAggregateType<T>>
+
+    /**
+     * Group by Shop.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShopGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShopGroupByArgs['orderBy'] }
+        : { orderBy?: ShopGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShopGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShopGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Shop model
+   */
+  readonly fields: ShopFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Shop.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShopClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    employees<T extends Shop$employeesArgs<ExtArgs> = {}>(args?: Subset<T, Shop$employeesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    services<T extends Shop$servicesArgs<ExtArgs> = {}>(args?: Subset<T, Shop$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bookings<T extends Shop$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Shop$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    inventory<T extends Shop$inventoryArgs<ExtArgs> = {}>(args?: Subset<T, Shop$inventoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    workingSlots<T extends Shop$workingSlotsArgs<ExtArgs> = {}>(args?: Subset<T, Shop$workingSlotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkingSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Shop model
+   */
+  interface ShopFieldRefs {
+    readonly id: FieldRef<"Shop", 'Int'>
+    readonly name: FieldRef<"Shop", 'String'>
+    readonly address: FieldRef<"Shop", 'String'>
+    readonly password: FieldRef<"Shop", 'String'>
+    readonly createdAt: FieldRef<"Shop", 'DateTime'>
+    readonly ownerId: FieldRef<"Shop", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Shop findUnique
+   */
+  export type ShopFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * Filter, which Shop to fetch.
+     */
+    where: ShopWhereUniqueInput
+  }
+
+  /**
+   * Shop findUniqueOrThrow
+   */
+  export type ShopFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * Filter, which Shop to fetch.
+     */
+    where: ShopWhereUniqueInput
+  }
+
+  /**
+   * Shop findFirst
+   */
+  export type ShopFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * Filter, which Shop to fetch.
+     */
+    where?: ShopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shops to fetch.
+     */
+    orderBy?: ShopOrderByWithRelationInput | ShopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Shops.
+     */
+    cursor?: ShopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shops.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Shops.
+     */
+    distinct?: ShopScalarFieldEnum | ShopScalarFieldEnum[]
+  }
+
+  /**
+   * Shop findFirstOrThrow
+   */
+  export type ShopFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * Filter, which Shop to fetch.
+     */
+    where?: ShopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shops to fetch.
+     */
+    orderBy?: ShopOrderByWithRelationInput | ShopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Shops.
+     */
+    cursor?: ShopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shops.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Shops.
+     */
+    distinct?: ShopScalarFieldEnum | ShopScalarFieldEnum[]
+  }
+
+  /**
+   * Shop findMany
+   */
+  export type ShopFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * Filter, which Shops to fetch.
+     */
+    where?: ShopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shops to fetch.
+     */
+    orderBy?: ShopOrderByWithRelationInput | ShopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Shops.
+     */
+    cursor?: ShopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shops.
+     */
+    skip?: number
+    distinct?: ShopScalarFieldEnum | ShopScalarFieldEnum[]
+  }
+
+  /**
+   * Shop create
+   */
+  export type ShopCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Shop.
+     */
+    data: XOR<ShopCreateInput, ShopUncheckedCreateInput>
+  }
+
+  /**
+   * Shop createMany
+   */
+  export type ShopCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Shops.
+     */
+    data: ShopCreateManyInput | ShopCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Shop createManyAndReturn
+   */
+  export type ShopCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * The data used to create many Shops.
+     */
+    data: ShopCreateManyInput | ShopCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Shop update
+   */
+  export type ShopUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Shop.
+     */
+    data: XOR<ShopUpdateInput, ShopUncheckedUpdateInput>
+    /**
+     * Choose, which Shop to update.
+     */
+    where: ShopWhereUniqueInput
+  }
+
+  /**
+   * Shop updateMany
+   */
+  export type ShopUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Shops.
+     */
+    data: XOR<ShopUpdateManyMutationInput, ShopUncheckedUpdateManyInput>
+    /**
+     * Filter which Shops to update
+     */
+    where?: ShopWhereInput
+    /**
+     * Limit how many Shops to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Shop updateManyAndReturn
+   */
+  export type ShopUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * The data used to update Shops.
+     */
+    data: XOR<ShopUpdateManyMutationInput, ShopUncheckedUpdateManyInput>
+    /**
+     * Filter which Shops to update
+     */
+    where?: ShopWhereInput
+    /**
+     * Limit how many Shops to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Shop upsert
+   */
+  export type ShopUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Shop to update in case it exists.
+     */
+    where: ShopWhereUniqueInput
+    /**
+     * In case the Shop found by the `where` argument doesn't exist, create a new Shop with this data.
+     */
+    create: XOR<ShopCreateInput, ShopUncheckedCreateInput>
+    /**
+     * In case the Shop was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShopUpdateInput, ShopUncheckedUpdateInput>
+  }
+
+  /**
+   * Shop delete
+   */
+  export type ShopDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * Filter which Shop to delete.
+     */
+    where: ShopWhereUniqueInput
+  }
+
+  /**
+   * Shop deleteMany
+   */
+  export type ShopDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Shops to delete
+     */
+    where?: ShopWhereInput
+    /**
+     * Limit how many Shops to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Shop.employees
+   */
+  export type Shop$employeesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    cursor?: UserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * Shop.services
+   */
+  export type Shop$servicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Service
+     */
+    select?: ServiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceInclude<ExtArgs> | null
+    where?: ServiceWhereInput
+    orderBy?: ServiceOrderByWithRelationInput | ServiceOrderByWithRelationInput[]
+    cursor?: ServiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServiceScalarFieldEnum | ServiceScalarFieldEnum[]
+  }
+
+  /**
+   * Shop.bookings
+   */
+  export type Shop$bookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingInclude<ExtArgs> | null
+    where?: BookingWhereInput
+    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
+    cursor?: BookingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
+  }
+
+  /**
+   * Shop.inventory
+   */
+  export type Shop$inventoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryItem
+     */
+    select?: InventoryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryItem
+     */
+    omit?: InventoryItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryItemInclude<ExtArgs> | null
+    where?: InventoryItemWhereInput
+    orderBy?: InventoryItemOrderByWithRelationInput | InventoryItemOrderByWithRelationInput[]
+    cursor?: InventoryItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InventoryItemScalarFieldEnum | InventoryItemScalarFieldEnum[]
+  }
+
+  /**
+   * Shop.workingSlots
+   */
+  export type Shop$workingSlotsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkingSlot
+     */
+    select?: WorkingSlotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkingSlot
+     */
+    omit?: WorkingSlotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkingSlotInclude<ExtArgs> | null
+    where?: WorkingSlotWhereInput
+    orderBy?: WorkingSlotOrderByWithRelationInput | WorkingSlotOrderByWithRelationInput[]
+    cursor?: WorkingSlotWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkingSlotScalarFieldEnum | WorkingSlotScalarFieldEnum[]
+  }
+
+  /**
+   * Shop without action
+   */
+  export type ShopDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model User
    */
 
@@ -1749,10 +3258,12 @@ export namespace Prisma {
 
   export type UserAvgAggregateOutputType = {
     id: number | null
+    shopId: number | null
   }
 
   export type UserSumAggregateOutputType = {
     id: number | null
+    shopId: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1763,6 +3274,7 @@ export namespace Prisma {
     role: $Enums.Role | null
     createdAt: Date | null
     isActive: boolean | null
+    shopId: number | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1773,6 +3285,7 @@ export namespace Prisma {
     role: $Enums.Role | null
     createdAt: Date | null
     isActive: boolean | null
+    shopId: number | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1783,16 +3296,19 @@ export namespace Prisma {
     role: number
     createdAt: number
     isActive: number
+    shopId: number
     _all: number
   }
 
 
   export type UserAvgAggregateInputType = {
     id?: true
+    shopId?: true
   }
 
   export type UserSumAggregateInputType = {
     id?: true
+    shopId?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -1803,6 +3319,7 @@ export namespace Prisma {
     role?: true
     createdAt?: true
     isActive?: true
+    shopId?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1813,6 +3330,7 @@ export namespace Prisma {
     role?: true
     createdAt?: true
     isActive?: true
+    shopId?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1823,6 +3341,7 @@ export namespace Prisma {
     role?: true
     createdAt?: true
     isActive?: true
+    shopId?: true
     _all?: true
   }
 
@@ -1920,6 +3439,7 @@ export namespace Prisma {
     role: $Enums.Role
     createdAt: Date
     isActive: boolean
+    shopId: number | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1949,6 +3469,9 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     isActive?: boolean
+    shopId?: boolean
+    shop?: boolean | User$shopArgs<ExtArgs>
+    shops?: boolean | User$shopsArgs<ExtArgs>
     services?: boolean | User$servicesArgs<ExtArgs>
     servicesCreated?: boolean | User$servicesCreatedArgs<ExtArgs>
     bookings?: boolean | User$bookingsArgs<ExtArgs>
@@ -1965,6 +3488,8 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     isActive?: boolean
+    shopId?: boolean
+    shop?: boolean | User$shopArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1975,6 +3500,8 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     isActive?: boolean
+    shopId?: boolean
+    shop?: boolean | User$shopArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1985,10 +3512,13 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     isActive?: boolean
+    shopId?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "hashedPassword" | "name" | "role" | "createdAt" | "isActive", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "hashedPassword" | "name" | "role" | "createdAt" | "isActive" | "shopId", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shop?: boolean | User$shopArgs<ExtArgs>
+    shops?: boolean | User$shopsArgs<ExtArgs>
     services?: boolean | User$servicesArgs<ExtArgs>
     servicesCreated?: boolean | User$servicesCreatedArgs<ExtArgs>
     bookings?: boolean | User$bookingsArgs<ExtArgs>
@@ -1996,12 +3526,18 @@ export namespace Prisma {
     workingHourRanges?: boolean | User$workingHourRangesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shop?: boolean | User$shopArgs<ExtArgs>
+  }
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shop?: boolean | User$shopArgs<ExtArgs>
+  }
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      shop: Prisma.$ShopPayload<ExtArgs> | null
+      shops: Prisma.$ShopPayload<ExtArgs>[]
       services: Prisma.$EmployeeServicePayload<ExtArgs>[]
       servicesCreated: Prisma.$ServicePayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
@@ -2016,6 +3552,7 @@ export namespace Prisma {
       role: $Enums.Role
       createdAt: Date
       isActive: boolean
+      shopId: number | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2410,6 +3947,8 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    shop<T extends User$shopArgs<ExtArgs> = {}>(args?: Subset<T, User$shopArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    shops<T extends User$shopsArgs<ExtArgs> = {}>(args?: Subset<T, User$shopsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     services<T extends User$servicesArgs<ExtArgs> = {}>(args?: Subset<T, User$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     servicesCreated<T extends User$servicesCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$servicesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookings<T extends User$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2451,6 +3990,7 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'Role'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly isActive: FieldRef<"User", 'Boolean'>
+    readonly shopId: FieldRef<"User", 'Int'>
   }
     
 
@@ -2700,6 +4240,10 @@ export namespace Prisma {
      */
     data: UserCreateManyInput | UserCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2770,6 +4314,10 @@ export namespace Prisma {
      * Limit how many Users to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2836,6 +4384,49 @@ export namespace Prisma {
      * Limit how many Users to delete.
      */
     limit?: number
+  }
+
+  /**
+   * User.shop
+   */
+  export type User$shopArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    where?: ShopWhereInput
+  }
+
+  /**
+   * User.shops
+   */
+  export type User$shopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    where?: ShopWhereInput
+    orderBy?: ShopOrderByWithRelationInput | ShopOrderByWithRelationInput[]
+    cursor?: ShopWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShopScalarFieldEnum | ShopScalarFieldEnum[]
   }
 
   /**
@@ -4098,6 +5689,7 @@ export namespace Prisma {
     duration: number | null
     price: number | null
     createdById: number | null
+    shopId: number | null
   }
 
   export type ServiceSumAggregateOutputType = {
@@ -4105,6 +5697,7 @@ export namespace Prisma {
     duration: number | null
     price: number | null
     createdById: number | null
+    shopId: number | null
   }
 
   export type ServiceMinAggregateOutputType = {
@@ -4113,6 +5706,7 @@ export namespace Prisma {
     duration: number | null
     price: number | null
     createdById: number | null
+    shopId: number | null
   }
 
   export type ServiceMaxAggregateOutputType = {
@@ -4121,6 +5715,7 @@ export namespace Prisma {
     duration: number | null
     price: number | null
     createdById: number | null
+    shopId: number | null
   }
 
   export type ServiceCountAggregateOutputType = {
@@ -4129,6 +5724,7 @@ export namespace Prisma {
     duration: number
     price: number
     createdById: number
+    shopId: number
     _all: number
   }
 
@@ -4138,6 +5734,7 @@ export namespace Prisma {
     duration?: true
     price?: true
     createdById?: true
+    shopId?: true
   }
 
   export type ServiceSumAggregateInputType = {
@@ -4145,6 +5742,7 @@ export namespace Prisma {
     duration?: true
     price?: true
     createdById?: true
+    shopId?: true
   }
 
   export type ServiceMinAggregateInputType = {
@@ -4153,6 +5751,7 @@ export namespace Prisma {
     duration?: true
     price?: true
     createdById?: true
+    shopId?: true
   }
 
   export type ServiceMaxAggregateInputType = {
@@ -4161,6 +5760,7 @@ export namespace Prisma {
     duration?: true
     price?: true
     createdById?: true
+    shopId?: true
   }
 
   export type ServiceCountAggregateInputType = {
@@ -4169,6 +5769,7 @@ export namespace Prisma {
     duration?: true
     price?: true
     createdById?: true
+    shopId?: true
     _all?: true
   }
 
@@ -4264,6 +5865,7 @@ export namespace Prisma {
     duration: number
     price: number
     createdById: number
+    shopId: number
     _count: ServiceCountAggregateOutputType | null
     _avg: ServiceAvgAggregateOutputType | null
     _sum: ServiceSumAggregateOutputType | null
@@ -4291,7 +5893,9 @@ export namespace Prisma {
     duration?: boolean
     price?: boolean
     createdById?: boolean
+    shopId?: boolean
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
     employees?: boolean | Service$employeesArgs<ExtArgs>
     bookings?: boolean | Service$bookingsArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
@@ -4303,7 +5907,9 @@ export namespace Prisma {
     duration?: boolean
     price?: boolean
     createdById?: boolean
+    shopId?: boolean
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
 
   export type ServiceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4312,7 +5918,9 @@ export namespace Prisma {
     duration?: boolean
     price?: boolean
     createdById?: boolean
+    shopId?: boolean
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
 
   export type ServiceSelectScalar = {
@@ -4321,26 +5929,31 @@ export namespace Prisma {
     duration?: boolean
     price?: boolean
     createdById?: boolean
+    shopId?: boolean
   }
 
-  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "duration" | "price" | "createdById", ExtArgs["result"]["service"]>
+  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "duration" | "price" | "createdById" | "shopId", ExtArgs["result"]["service"]>
   export type ServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
     employees?: boolean | Service$employeesArgs<ExtArgs>
     bookings?: boolean | Service$bookingsArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }
   export type ServiceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }
 
   export type $ServicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Service"
     objects: {
       createdBy: Prisma.$UserPayload<ExtArgs>
+      shop: Prisma.$ShopPayload<ExtArgs>
       employees: Prisma.$EmployeeServicePayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
     }
@@ -4350,6 +5963,7 @@ export namespace Prisma {
       duration: number
       price: number
       createdById: number
+      shopId: number
     }, ExtArgs["result"]["service"]>
     composites: {}
   }
@@ -4745,6 +6359,7 @@ export namespace Prisma {
   export interface Prisma__ServiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     createdBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    shop<T extends ShopDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopDefaultArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     employees<T extends Service$employeesArgs<ExtArgs> = {}>(args?: Subset<T, Service$employeesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeeServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookings<T extends Service$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Service$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -4781,6 +6396,7 @@ export namespace Prisma {
     readonly duration: FieldRef<"Service", 'Int'>
     readonly price: FieldRef<"Service", 'Float'>
     readonly createdById: FieldRef<"Service", 'Int'>
+    readonly shopId: FieldRef<"Service", 'Int'>
   }
     
 
@@ -6325,6 +7941,7 @@ export namespace Prisma {
     customerId: number | null
     serviceId: number | null
     employeeId: number | null
+    shopId: number | null
   }
 
   export type BookingSumAggregateOutputType = {
@@ -6332,6 +7949,7 @@ export namespace Prisma {
     customerId: number | null
     serviceId: number | null
     employeeId: number | null
+    shopId: number | null
   }
 
   export type BookingMinAggregateOutputType = {
@@ -6340,6 +7958,7 @@ export namespace Prisma {
     customerId: number | null
     serviceId: number | null
     employeeId: number | null
+    shopId: number | null
     status: $Enums.BookingStatus | null
     notes: string | null
     createdAt: Date | null
@@ -6352,6 +7971,7 @@ export namespace Prisma {
     customerId: number | null
     serviceId: number | null
     employeeId: number | null
+    shopId: number | null
     status: $Enums.BookingStatus | null
     notes: string | null
     createdAt: Date | null
@@ -6364,6 +7984,7 @@ export namespace Prisma {
     customerId: number
     serviceId: number
     employeeId: number
+    shopId: number
     status: number
     notes: number
     createdAt: number
@@ -6377,6 +7998,7 @@ export namespace Prisma {
     customerId?: true
     serviceId?: true
     employeeId?: true
+    shopId?: true
   }
 
   export type BookingSumAggregateInputType = {
@@ -6384,6 +8006,7 @@ export namespace Prisma {
     customerId?: true
     serviceId?: true
     employeeId?: true
+    shopId?: true
   }
 
   export type BookingMinAggregateInputType = {
@@ -6392,6 +8015,7 @@ export namespace Prisma {
     customerId?: true
     serviceId?: true
     employeeId?: true
+    shopId?: true
     status?: true
     notes?: true
     createdAt?: true
@@ -6404,6 +8028,7 @@ export namespace Prisma {
     customerId?: true
     serviceId?: true
     employeeId?: true
+    shopId?: true
     status?: true
     notes?: true
     createdAt?: true
@@ -6416,6 +8041,7 @@ export namespace Prisma {
     customerId?: true
     serviceId?: true
     employeeId?: true
+    shopId?: true
     status?: true
     notes?: true
     createdAt?: true
@@ -6515,6 +8141,7 @@ export namespace Prisma {
     customerId: number
     serviceId: number
     employeeId: number
+    shopId: number
     status: $Enums.BookingStatus
     notes: string | null
     createdAt: Date
@@ -6546,6 +8173,7 @@ export namespace Prisma {
     customerId?: boolean
     serviceId?: boolean
     employeeId?: boolean
+    shopId?: boolean
     status?: boolean
     notes?: boolean
     createdAt?: boolean
@@ -6553,6 +8181,7 @@ export namespace Prisma {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
     employee?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6561,6 +8190,7 @@ export namespace Prisma {
     customerId?: boolean
     serviceId?: boolean
     employeeId?: boolean
+    shopId?: boolean
     status?: boolean
     notes?: boolean
     createdAt?: boolean
@@ -6568,6 +8198,7 @@ export namespace Prisma {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
     employee?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6576,6 +8207,7 @@ export namespace Prisma {
     customerId?: boolean
     serviceId?: boolean
     employeeId?: boolean
+    shopId?: boolean
     status?: boolean
     notes?: boolean
     createdAt?: boolean
@@ -6583,6 +8215,7 @@ export namespace Prisma {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
     employee?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectScalar = {
@@ -6591,27 +8224,31 @@ export namespace Prisma {
     customerId?: boolean
     serviceId?: boolean
     employeeId?: boolean
+    shopId?: boolean
     status?: boolean
     notes?: boolean
     createdAt?: boolean
     method?: boolean
   }
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "date" | "customerId" | "serviceId" | "employeeId" | "status" | "notes" | "createdAt" | "method", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "date" | "customerId" | "serviceId" | "employeeId" | "shopId" | "status" | "notes" | "createdAt" | "method", ExtArgs["result"]["booking"]>
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
     employee?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }
   export type BookingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
     employee?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }
   export type BookingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
     employee?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }
 
   export type $BookingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6620,6 +8257,7 @@ export namespace Prisma {
       customer: Prisma.$CustomerPayload<ExtArgs>
       service: Prisma.$ServicePayload<ExtArgs>
       employee: Prisma.$UserPayload<ExtArgs>
+      shop: Prisma.$ShopPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -6627,6 +8265,7 @@ export namespace Prisma {
       customerId: number
       serviceId: number
       employeeId: number
+      shopId: number
       status: $Enums.BookingStatus
       notes: string | null
       createdAt: Date
@@ -7028,6 +8667,7 @@ export namespace Prisma {
     customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     service<T extends ServiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceDefaultArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     employee<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    shop<T extends ShopDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopDefaultArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7062,6 +8702,7 @@ export namespace Prisma {
     readonly customerId: FieldRef<"Booking", 'Int'>
     readonly serviceId: FieldRef<"Booking", 'Int'>
     readonly employeeId: FieldRef<"Booking", 'Int'>
+    readonly shopId: FieldRef<"Booking", 'Int'>
     readonly status: FieldRef<"Booking", 'BookingStatus'>
     readonly notes: FieldRef<"Booking", 'String'>
     readonly createdAt: FieldRef<"Booking", 'DateTime'>
@@ -7495,11 +9136,13 @@ export namespace Prisma {
   export type WorkingSlotAvgAggregateOutputType = {
     id: number | null
     employeeId: number | null
+    shopId: number | null
   }
 
   export type WorkingSlotSumAggregateOutputType = {
     id: number | null
     employeeId: number | null
+    shopId: number | null
   }
 
   export type WorkingSlotMinAggregateOutputType = {
@@ -7508,8 +9151,9 @@ export namespace Prisma {
     date: Date | null
     startTime: string | null
     endTime: string | null
-    createdAt: Date | null
     onlyInStore: boolean | null
+    createdAt: Date | null
+    shopId: number | null
   }
 
   export type WorkingSlotMaxAggregateOutputType = {
@@ -7518,8 +9162,9 @@ export namespace Prisma {
     date: Date | null
     startTime: string | null
     endTime: string | null
-    createdAt: Date | null
     onlyInStore: boolean | null
+    createdAt: Date | null
+    shopId: number | null
   }
 
   export type WorkingSlotCountAggregateOutputType = {
@@ -7528,8 +9173,9 @@ export namespace Prisma {
     date: number
     startTime: number
     endTime: number
-    createdAt: number
     onlyInStore: number
+    createdAt: number
+    shopId: number
     _all: number
   }
 
@@ -7537,11 +9183,13 @@ export namespace Prisma {
   export type WorkingSlotAvgAggregateInputType = {
     id?: true
     employeeId?: true
+    shopId?: true
   }
 
   export type WorkingSlotSumAggregateInputType = {
     id?: true
     employeeId?: true
+    shopId?: true
   }
 
   export type WorkingSlotMinAggregateInputType = {
@@ -7550,8 +9198,9 @@ export namespace Prisma {
     date?: true
     startTime?: true
     endTime?: true
-    createdAt?: true
     onlyInStore?: true
+    createdAt?: true
+    shopId?: true
   }
 
   export type WorkingSlotMaxAggregateInputType = {
@@ -7560,8 +9209,9 @@ export namespace Prisma {
     date?: true
     startTime?: true
     endTime?: true
-    createdAt?: true
     onlyInStore?: true
+    createdAt?: true
+    shopId?: true
   }
 
   export type WorkingSlotCountAggregateInputType = {
@@ -7570,8 +9220,9 @@ export namespace Prisma {
     date?: true
     startTime?: true
     endTime?: true
-    createdAt?: true
     onlyInStore?: true
+    createdAt?: true
+    shopId?: true
     _all?: true
   }
 
@@ -7667,8 +9318,9 @@ export namespace Prisma {
     date: Date
     startTime: string
     endTime: string
-    createdAt: Date
     onlyInStore: boolean
+    createdAt: Date
+    shopId: number
     _count: WorkingSlotCountAggregateOutputType | null
     _avg: WorkingSlotAvgAggregateOutputType | null
     _sum: WorkingSlotSumAggregateOutputType | null
@@ -7696,9 +9348,11 @@ export namespace Prisma {
     date?: boolean
     startTime?: boolean
     endTime?: boolean
-    createdAt?: boolean
     onlyInStore?: boolean
+    createdAt?: boolean
+    shopId?: boolean
     employee?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workingSlot"]>
 
   export type WorkingSlotSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7707,9 +9361,11 @@ export namespace Prisma {
     date?: boolean
     startTime?: boolean
     endTime?: boolean
-    createdAt?: boolean
     onlyInStore?: boolean
+    createdAt?: boolean
+    shopId?: boolean
     employee?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workingSlot"]>
 
   export type WorkingSlotSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7718,9 +9374,11 @@ export namespace Prisma {
     date?: boolean
     startTime?: boolean
     endTime?: boolean
-    createdAt?: boolean
     onlyInStore?: boolean
+    createdAt?: boolean
+    shopId?: boolean
     employee?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workingSlot"]>
 
   export type WorkingSlotSelectScalar = {
@@ -7729,25 +9387,30 @@ export namespace Prisma {
     date?: boolean
     startTime?: boolean
     endTime?: boolean
-    createdAt?: boolean
     onlyInStore?: boolean
+    createdAt?: boolean
+    shopId?: boolean
   }
 
-  export type WorkingSlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "date" | "startTime" | "endTime" | "createdAt" | "onlyInStore", ExtArgs["result"]["workingSlot"]>
+  export type WorkingSlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "date" | "startTime" | "endTime" | "onlyInStore" | "createdAt" | "shopId", ExtArgs["result"]["workingSlot"]>
   export type WorkingSlotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }
   export type WorkingSlotIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }
   export type WorkingSlotIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }
 
   export type $WorkingSlotPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "WorkingSlot"
     objects: {
       employee: Prisma.$UserPayload<ExtArgs>
+      shop: Prisma.$ShopPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -7755,8 +9418,9 @@ export namespace Prisma {
       date: Date
       startTime: string
       endTime: string
-      createdAt: Date
       onlyInStore: boolean
+      createdAt: Date
+      shopId: number
     }, ExtArgs["result"]["workingSlot"]>
     composites: {}
   }
@@ -8152,6 +9816,7 @@ export namespace Prisma {
   export interface Prisma__WorkingSlotClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     employee<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    shop<T extends ShopDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopDefaultArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8186,8 +9851,9 @@ export namespace Prisma {
     readonly date: FieldRef<"WorkingSlot", 'DateTime'>
     readonly startTime: FieldRef<"WorkingSlot", 'String'>
     readonly endTime: FieldRef<"WorkingSlot", 'String'>
-    readonly createdAt: FieldRef<"WorkingSlot", 'DateTime'>
     readonly onlyInStore: FieldRef<"WorkingSlot", 'Boolean'>
+    readonly createdAt: FieldRef<"WorkingSlot", 'DateTime'>
+    readonly shopId: FieldRef<"WorkingSlot", 'Int'>
   }
     
 
@@ -10838,6 +12504,1106 @@ export namespace Prisma {
 
 
   /**
+   * Model InventoryItem
+   */
+
+  export type AggregateInventoryItem = {
+    _count: InventoryItemCountAggregateOutputType | null
+    _avg: InventoryItemAvgAggregateOutputType | null
+    _sum: InventoryItemSumAggregateOutputType | null
+    _min: InventoryItemMinAggregateOutputType | null
+    _max: InventoryItemMaxAggregateOutputType | null
+  }
+
+  export type InventoryItemAvgAggregateOutputType = {
+    id: number | null
+    quantity: number | null
+    shopId: number | null
+  }
+
+  export type InventoryItemSumAggregateOutputType = {
+    id: number | null
+    quantity: number | null
+    shopId: number | null
+  }
+
+  export type InventoryItemMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    quantity: number | null
+    shopId: number | null
+    createdAt: Date | null
+  }
+
+  export type InventoryItemMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    quantity: number | null
+    shopId: number | null
+    createdAt: Date | null
+  }
+
+  export type InventoryItemCountAggregateOutputType = {
+    id: number
+    name: number
+    quantity: number
+    shopId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type InventoryItemAvgAggregateInputType = {
+    id?: true
+    quantity?: true
+    shopId?: true
+  }
+
+  export type InventoryItemSumAggregateInputType = {
+    id?: true
+    quantity?: true
+    shopId?: true
+  }
+
+  export type InventoryItemMinAggregateInputType = {
+    id?: true
+    name?: true
+    quantity?: true
+    shopId?: true
+    createdAt?: true
+  }
+
+  export type InventoryItemMaxAggregateInputType = {
+    id?: true
+    name?: true
+    quantity?: true
+    shopId?: true
+    createdAt?: true
+  }
+
+  export type InventoryItemCountAggregateInputType = {
+    id?: true
+    name?: true
+    quantity?: true
+    shopId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type InventoryItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InventoryItem to aggregate.
+     */
+    where?: InventoryItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InventoryItems to fetch.
+     */
+    orderBy?: InventoryItemOrderByWithRelationInput | InventoryItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InventoryItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InventoryItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InventoryItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InventoryItems
+    **/
+    _count?: true | InventoryItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InventoryItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InventoryItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InventoryItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InventoryItemMaxAggregateInputType
+  }
+
+  export type GetInventoryItemAggregateType<T extends InventoryItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateInventoryItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInventoryItem[P]>
+      : GetScalarType<T[P], AggregateInventoryItem[P]>
+  }
+
+
+
+
+  export type InventoryItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InventoryItemWhereInput
+    orderBy?: InventoryItemOrderByWithAggregationInput | InventoryItemOrderByWithAggregationInput[]
+    by: InventoryItemScalarFieldEnum[] | InventoryItemScalarFieldEnum
+    having?: InventoryItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InventoryItemCountAggregateInputType | true
+    _avg?: InventoryItemAvgAggregateInputType
+    _sum?: InventoryItemSumAggregateInputType
+    _min?: InventoryItemMinAggregateInputType
+    _max?: InventoryItemMaxAggregateInputType
+  }
+
+  export type InventoryItemGroupByOutputType = {
+    id: number
+    name: string
+    quantity: number
+    shopId: number
+    createdAt: Date
+    _count: InventoryItemCountAggregateOutputType | null
+    _avg: InventoryItemAvgAggregateOutputType | null
+    _sum: InventoryItemSumAggregateOutputType | null
+    _min: InventoryItemMinAggregateOutputType | null
+    _max: InventoryItemMaxAggregateOutputType | null
+  }
+
+  type GetInventoryItemGroupByPayload<T extends InventoryItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InventoryItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InventoryItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InventoryItemGroupByOutputType[P]>
+            : GetScalarType<T[P], InventoryItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InventoryItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    quantity?: boolean
+    shopId?: boolean
+    createdAt?: boolean
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inventoryItem"]>
+
+  export type InventoryItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    quantity?: boolean
+    shopId?: boolean
+    createdAt?: boolean
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inventoryItem"]>
+
+  export type InventoryItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    quantity?: boolean
+    shopId?: boolean
+    createdAt?: boolean
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inventoryItem"]>
+
+  export type InventoryItemSelectScalar = {
+    id?: boolean
+    name?: boolean
+    quantity?: boolean
+    shopId?: boolean
+    createdAt?: boolean
+  }
+
+  export type InventoryItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "quantity" | "shopId" | "createdAt", ExtArgs["result"]["inventoryItem"]>
+  export type InventoryItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }
+  export type InventoryItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }
+  export type InventoryItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }
+
+  export type $InventoryItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InventoryItem"
+    objects: {
+      shop: Prisma.$ShopPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      quantity: number
+      shopId: number
+      createdAt: Date
+    }, ExtArgs["result"]["inventoryItem"]>
+    composites: {}
+  }
+
+  type InventoryItemGetPayload<S extends boolean | null | undefined | InventoryItemDefaultArgs> = $Result.GetResult<Prisma.$InventoryItemPayload, S>
+
+  type InventoryItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InventoryItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InventoryItemCountAggregateInputType | true
+    }
+
+  export interface InventoryItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InventoryItem'], meta: { name: 'InventoryItem' } }
+    /**
+     * Find zero or one InventoryItem that matches the filter.
+     * @param {InventoryItemFindUniqueArgs} args - Arguments to find a InventoryItem
+     * @example
+     * // Get one InventoryItem
+     * const inventoryItem = await prisma.inventoryItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InventoryItemFindUniqueArgs>(args: SelectSubset<T, InventoryItemFindUniqueArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InventoryItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InventoryItemFindUniqueOrThrowArgs} args - Arguments to find a InventoryItem
+     * @example
+     * // Get one InventoryItem
+     * const inventoryItem = await prisma.inventoryItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InventoryItemFindUniqueOrThrowArgs>(args: SelectSubset<T, InventoryItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InventoryItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryItemFindFirstArgs} args - Arguments to find a InventoryItem
+     * @example
+     * // Get one InventoryItem
+     * const inventoryItem = await prisma.inventoryItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InventoryItemFindFirstArgs>(args?: SelectSubset<T, InventoryItemFindFirstArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InventoryItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryItemFindFirstOrThrowArgs} args - Arguments to find a InventoryItem
+     * @example
+     * // Get one InventoryItem
+     * const inventoryItem = await prisma.inventoryItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InventoryItemFindFirstOrThrowArgs>(args?: SelectSubset<T, InventoryItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InventoryItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InventoryItems
+     * const inventoryItems = await prisma.inventoryItem.findMany()
+     * 
+     * // Get first 10 InventoryItems
+     * const inventoryItems = await prisma.inventoryItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const inventoryItemWithIdOnly = await prisma.inventoryItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InventoryItemFindManyArgs>(args?: SelectSubset<T, InventoryItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InventoryItem.
+     * @param {InventoryItemCreateArgs} args - Arguments to create a InventoryItem.
+     * @example
+     * // Create one InventoryItem
+     * const InventoryItem = await prisma.inventoryItem.create({
+     *   data: {
+     *     // ... data to create a InventoryItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends InventoryItemCreateArgs>(args: SelectSubset<T, InventoryItemCreateArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InventoryItems.
+     * @param {InventoryItemCreateManyArgs} args - Arguments to create many InventoryItems.
+     * @example
+     * // Create many InventoryItems
+     * const inventoryItem = await prisma.inventoryItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InventoryItemCreateManyArgs>(args?: SelectSubset<T, InventoryItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InventoryItems and returns the data saved in the database.
+     * @param {InventoryItemCreateManyAndReturnArgs} args - Arguments to create many InventoryItems.
+     * @example
+     * // Create many InventoryItems
+     * const inventoryItem = await prisma.inventoryItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InventoryItems and only return the `id`
+     * const inventoryItemWithIdOnly = await prisma.inventoryItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InventoryItemCreateManyAndReturnArgs>(args?: SelectSubset<T, InventoryItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a InventoryItem.
+     * @param {InventoryItemDeleteArgs} args - Arguments to delete one InventoryItem.
+     * @example
+     * // Delete one InventoryItem
+     * const InventoryItem = await prisma.inventoryItem.delete({
+     *   where: {
+     *     // ... filter to delete one InventoryItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InventoryItemDeleteArgs>(args: SelectSubset<T, InventoryItemDeleteArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InventoryItem.
+     * @param {InventoryItemUpdateArgs} args - Arguments to update one InventoryItem.
+     * @example
+     * // Update one InventoryItem
+     * const inventoryItem = await prisma.inventoryItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InventoryItemUpdateArgs>(args: SelectSubset<T, InventoryItemUpdateArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InventoryItems.
+     * @param {InventoryItemDeleteManyArgs} args - Arguments to filter InventoryItems to delete.
+     * @example
+     * // Delete a few InventoryItems
+     * const { count } = await prisma.inventoryItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InventoryItemDeleteManyArgs>(args?: SelectSubset<T, InventoryItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InventoryItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InventoryItems
+     * const inventoryItem = await prisma.inventoryItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InventoryItemUpdateManyArgs>(args: SelectSubset<T, InventoryItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InventoryItems and returns the data updated in the database.
+     * @param {InventoryItemUpdateManyAndReturnArgs} args - Arguments to update many InventoryItems.
+     * @example
+     * // Update many InventoryItems
+     * const inventoryItem = await prisma.inventoryItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more InventoryItems and only return the `id`
+     * const inventoryItemWithIdOnly = await prisma.inventoryItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InventoryItemUpdateManyAndReturnArgs>(args: SelectSubset<T, InventoryItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one InventoryItem.
+     * @param {InventoryItemUpsertArgs} args - Arguments to update or create a InventoryItem.
+     * @example
+     * // Update or create a InventoryItem
+     * const inventoryItem = await prisma.inventoryItem.upsert({
+     *   create: {
+     *     // ... data to create a InventoryItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InventoryItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InventoryItemUpsertArgs>(args: SelectSubset<T, InventoryItemUpsertArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InventoryItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryItemCountArgs} args - Arguments to filter InventoryItems to count.
+     * @example
+     * // Count the number of InventoryItems
+     * const count = await prisma.inventoryItem.count({
+     *   where: {
+     *     // ... the filter for the InventoryItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends InventoryItemCountArgs>(
+      args?: Subset<T, InventoryItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InventoryItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InventoryItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InventoryItemAggregateArgs>(args: Subset<T, InventoryItemAggregateArgs>): Prisma.PrismaPromise<GetInventoryItemAggregateType<T>>
+
+    /**
+     * Group by InventoryItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InventoryItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InventoryItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InventoryItemGroupByArgs['orderBy'] }
+        : { orderBy?: InventoryItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InventoryItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInventoryItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InventoryItem model
+   */
+  readonly fields: InventoryItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InventoryItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InventoryItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    shop<T extends ShopDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopDefaultArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InventoryItem model
+   */
+  interface InventoryItemFieldRefs {
+    readonly id: FieldRef<"InventoryItem", 'Int'>
+    readonly name: FieldRef<"InventoryItem", 'String'>
+    readonly quantity: FieldRef<"InventoryItem", 'Int'>
+    readonly shopId: FieldRef<"InventoryItem", 'Int'>
+    readonly createdAt: FieldRef<"InventoryItem", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InventoryItem findUnique
+   */
+  export type InventoryItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryItem
+     */
+    select?: InventoryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryItem
+     */
+    omit?: InventoryItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryItemInclude<ExtArgs> | null
+    /**
+     * Filter, which InventoryItem to fetch.
+     */
+    where: InventoryItemWhereUniqueInput
+  }
+
+  /**
+   * InventoryItem findUniqueOrThrow
+   */
+  export type InventoryItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryItem
+     */
+    select?: InventoryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryItem
+     */
+    omit?: InventoryItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryItemInclude<ExtArgs> | null
+    /**
+     * Filter, which InventoryItem to fetch.
+     */
+    where: InventoryItemWhereUniqueInput
+  }
+
+  /**
+   * InventoryItem findFirst
+   */
+  export type InventoryItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryItem
+     */
+    select?: InventoryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryItem
+     */
+    omit?: InventoryItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryItemInclude<ExtArgs> | null
+    /**
+     * Filter, which InventoryItem to fetch.
+     */
+    where?: InventoryItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InventoryItems to fetch.
+     */
+    orderBy?: InventoryItemOrderByWithRelationInput | InventoryItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InventoryItems.
+     */
+    cursor?: InventoryItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InventoryItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InventoryItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InventoryItems.
+     */
+    distinct?: InventoryItemScalarFieldEnum | InventoryItemScalarFieldEnum[]
+  }
+
+  /**
+   * InventoryItem findFirstOrThrow
+   */
+  export type InventoryItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryItem
+     */
+    select?: InventoryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryItem
+     */
+    omit?: InventoryItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryItemInclude<ExtArgs> | null
+    /**
+     * Filter, which InventoryItem to fetch.
+     */
+    where?: InventoryItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InventoryItems to fetch.
+     */
+    orderBy?: InventoryItemOrderByWithRelationInput | InventoryItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InventoryItems.
+     */
+    cursor?: InventoryItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InventoryItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InventoryItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InventoryItems.
+     */
+    distinct?: InventoryItemScalarFieldEnum | InventoryItemScalarFieldEnum[]
+  }
+
+  /**
+   * InventoryItem findMany
+   */
+  export type InventoryItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryItem
+     */
+    select?: InventoryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryItem
+     */
+    omit?: InventoryItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryItemInclude<ExtArgs> | null
+    /**
+     * Filter, which InventoryItems to fetch.
+     */
+    where?: InventoryItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InventoryItems to fetch.
+     */
+    orderBy?: InventoryItemOrderByWithRelationInput | InventoryItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InventoryItems.
+     */
+    cursor?: InventoryItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InventoryItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InventoryItems.
+     */
+    skip?: number
+    distinct?: InventoryItemScalarFieldEnum | InventoryItemScalarFieldEnum[]
+  }
+
+  /**
+   * InventoryItem create
+   */
+  export type InventoryItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryItem
+     */
+    select?: InventoryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryItem
+     */
+    omit?: InventoryItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InventoryItem.
+     */
+    data: XOR<InventoryItemCreateInput, InventoryItemUncheckedCreateInput>
+  }
+
+  /**
+   * InventoryItem createMany
+   */
+  export type InventoryItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InventoryItems.
+     */
+    data: InventoryItemCreateManyInput | InventoryItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InventoryItem createManyAndReturn
+   */
+  export type InventoryItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryItem
+     */
+    select?: InventoryItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryItem
+     */
+    omit?: InventoryItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many InventoryItems.
+     */
+    data: InventoryItemCreateManyInput | InventoryItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InventoryItem update
+   */
+  export type InventoryItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryItem
+     */
+    select?: InventoryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryItem
+     */
+    omit?: InventoryItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InventoryItem.
+     */
+    data: XOR<InventoryItemUpdateInput, InventoryItemUncheckedUpdateInput>
+    /**
+     * Choose, which InventoryItem to update.
+     */
+    where: InventoryItemWhereUniqueInput
+  }
+
+  /**
+   * InventoryItem updateMany
+   */
+  export type InventoryItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InventoryItems.
+     */
+    data: XOR<InventoryItemUpdateManyMutationInput, InventoryItemUncheckedUpdateManyInput>
+    /**
+     * Filter which InventoryItems to update
+     */
+    where?: InventoryItemWhereInput
+    /**
+     * Limit how many InventoryItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InventoryItem updateManyAndReturn
+   */
+  export type InventoryItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryItem
+     */
+    select?: InventoryItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryItem
+     */
+    omit?: InventoryItemOmit<ExtArgs> | null
+    /**
+     * The data used to update InventoryItems.
+     */
+    data: XOR<InventoryItemUpdateManyMutationInput, InventoryItemUncheckedUpdateManyInput>
+    /**
+     * Filter which InventoryItems to update
+     */
+    where?: InventoryItemWhereInput
+    /**
+     * Limit how many InventoryItems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InventoryItem upsert
+   */
+  export type InventoryItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryItem
+     */
+    select?: InventoryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryItem
+     */
+    omit?: InventoryItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InventoryItem to update in case it exists.
+     */
+    where: InventoryItemWhereUniqueInput
+    /**
+     * In case the InventoryItem found by the `where` argument doesn't exist, create a new InventoryItem with this data.
+     */
+    create: XOR<InventoryItemCreateInput, InventoryItemUncheckedCreateInput>
+    /**
+     * In case the InventoryItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InventoryItemUpdateInput, InventoryItemUncheckedUpdateInput>
+  }
+
+  /**
+   * InventoryItem delete
+   */
+  export type InventoryItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryItem
+     */
+    select?: InventoryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryItem
+     */
+    omit?: InventoryItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryItemInclude<ExtArgs> | null
+    /**
+     * Filter which InventoryItem to delete.
+     */
+    where: InventoryItemWhereUniqueInput
+  }
+
+  /**
+   * InventoryItem deleteMany
+   */
+  export type InventoryItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InventoryItems to delete
+     */
+    where?: InventoryItemWhereInput
+    /**
+     * Limit how many InventoryItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InventoryItem without action
+   */
+  export type InventoryItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InventoryItem
+     */
+    select?: InventoryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InventoryItem
+     */
+    omit?: InventoryItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InventoryItemInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -10851,6 +13617,18 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+  export const ShopScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    address: 'address',
+    password: 'password',
+    createdAt: 'createdAt',
+    ownerId: 'ownerId'
+  };
+
+  export type ShopScalarFieldEnum = (typeof ShopScalarFieldEnum)[keyof typeof ShopScalarFieldEnum]
+
+
   export const UserScalarFieldEnum: {
     id: 'id',
     email: 'email',
@@ -10858,7 +13636,8 @@ export namespace Prisma {
     name: 'name',
     role: 'role',
     createdAt: 'createdAt',
-    isActive: 'isActive'
+    isActive: 'isActive',
+    shopId: 'shopId'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -10880,7 +13659,8 @@ export namespace Prisma {
     name: 'name',
     duration: 'duration',
     price: 'price',
-    createdById: 'createdById'
+    createdById: 'createdById',
+    shopId: 'shopId'
   };
 
   export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
@@ -10900,6 +13680,7 @@ export namespace Prisma {
     customerId: 'customerId',
     serviceId: 'serviceId',
     employeeId: 'employeeId',
+    shopId: 'shopId',
     status: 'status',
     notes: 'notes',
     createdAt: 'createdAt',
@@ -10915,8 +13696,9 @@ export namespace Prisma {
     date: 'date',
     startTime: 'startTime',
     endTime: 'endTime',
+    onlyInStore: 'onlyInStore',
     createdAt: 'createdAt',
-    onlyInStore: 'onlyInStore'
+    shopId: 'shopId'
   };
 
   export type WorkingSlotScalarFieldEnum = (typeof WorkingSlotScalarFieldEnum)[keyof typeof WorkingSlotScalarFieldEnum]
@@ -10943,6 +13725,17 @@ export namespace Prisma {
   };
 
   export type RecurringSlotScalarFieldEnum = (typeof RecurringSlotScalarFieldEnum)[keyof typeof RecurringSlotScalarFieldEnum]
+
+
+  export const InventoryItemScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    quantity: 'quantity',
+    shopId: 'shopId',
+    createdAt: 'createdAt'
+  };
+
+  export type InventoryItemScalarFieldEnum = (typeof InventoryItemScalarFieldEnum)[keyof typeof InventoryItemScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -11003,20 +13796,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Role'
-   */
-  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
-    
-
-
-  /**
-   * Reference to a field of type 'Role[]'
-   */
-  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
-    
-
-
-  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -11027,6 +13806,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Role'
+   */
+  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
+    
+
+
+  /**
+   * Reference to a field of type 'Role[]'
+   */
+  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
     
 
 
@@ -11096,6 +13889,83 @@ export namespace Prisma {
    */
 
 
+  export type ShopWhereInput = {
+    AND?: ShopWhereInput | ShopWhereInput[]
+    OR?: ShopWhereInput[]
+    NOT?: ShopWhereInput | ShopWhereInput[]
+    id?: IntFilter<"Shop"> | number
+    name?: StringFilter<"Shop"> | string
+    address?: StringFilter<"Shop"> | string
+    password?: StringFilter<"Shop"> | string
+    createdAt?: DateTimeFilter<"Shop"> | Date | string
+    ownerId?: IntFilter<"Shop"> | number
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    employees?: UserListRelationFilter
+    services?: ServiceListRelationFilter
+    bookings?: BookingListRelationFilter
+    inventory?: InventoryItemListRelationFilter
+    workingSlots?: WorkingSlotListRelationFilter
+  }
+
+  export type ShopOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    address?: SortOrder
+    password?: SortOrder
+    createdAt?: SortOrder
+    ownerId?: SortOrder
+    owner?: UserOrderByWithRelationInput
+    employees?: UserOrderByRelationAggregateInput
+    services?: ServiceOrderByRelationAggregateInput
+    bookings?: BookingOrderByRelationAggregateInput
+    inventory?: InventoryItemOrderByRelationAggregateInput
+    workingSlots?: WorkingSlotOrderByRelationAggregateInput
+  }
+
+  export type ShopWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ShopWhereInput | ShopWhereInput[]
+    OR?: ShopWhereInput[]
+    NOT?: ShopWhereInput | ShopWhereInput[]
+    name?: StringFilter<"Shop"> | string
+    address?: StringFilter<"Shop"> | string
+    password?: StringFilter<"Shop"> | string
+    createdAt?: DateTimeFilter<"Shop"> | Date | string
+    ownerId?: IntFilter<"Shop"> | number
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    employees?: UserListRelationFilter
+    services?: ServiceListRelationFilter
+    bookings?: BookingListRelationFilter
+    inventory?: InventoryItemListRelationFilter
+    workingSlots?: WorkingSlotListRelationFilter
+  }, "id">
+
+  export type ShopOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    address?: SortOrder
+    password?: SortOrder
+    createdAt?: SortOrder
+    ownerId?: SortOrder
+    _count?: ShopCountOrderByAggregateInput
+    _avg?: ShopAvgOrderByAggregateInput
+    _max?: ShopMaxOrderByAggregateInput
+    _min?: ShopMinOrderByAggregateInput
+    _sum?: ShopSumOrderByAggregateInput
+  }
+
+  export type ShopScalarWhereWithAggregatesInput = {
+    AND?: ShopScalarWhereWithAggregatesInput | ShopScalarWhereWithAggregatesInput[]
+    OR?: ShopScalarWhereWithAggregatesInput[]
+    NOT?: ShopScalarWhereWithAggregatesInput | ShopScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Shop"> | number
+    name?: StringWithAggregatesFilter<"Shop"> | string
+    address?: StringWithAggregatesFilter<"Shop"> | string
+    password?: StringWithAggregatesFilter<"Shop"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Shop"> | Date | string
+    ownerId?: IntWithAggregatesFilter<"Shop"> | number
+  }
+
   export type UserWhereInput = {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
@@ -11107,6 +13977,9 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     createdAt?: DateTimeFilter<"User"> | Date | string
     isActive?: BoolFilter<"User"> | boolean
+    shopId?: IntNullableFilter<"User"> | number | null
+    shop?: XOR<ShopNullableScalarRelationFilter, ShopWhereInput> | null
+    shops?: ShopListRelationFilter
     services?: EmployeeServiceListRelationFilter
     servicesCreated?: ServiceListRelationFilter
     bookings?: BookingListRelationFilter
@@ -11122,6 +13995,9 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     isActive?: SortOrder
+    shopId?: SortOrderInput | SortOrder
+    shop?: ShopOrderByWithRelationInput
+    shops?: ShopOrderByRelationAggregateInput
     services?: EmployeeServiceOrderByRelationAggregateInput
     servicesCreated?: ServiceOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
@@ -11140,6 +14016,9 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     createdAt?: DateTimeFilter<"User"> | Date | string
     isActive?: BoolFilter<"User"> | boolean
+    shopId?: IntNullableFilter<"User"> | number | null
+    shop?: XOR<ShopNullableScalarRelationFilter, ShopWhereInput> | null
+    shops?: ShopListRelationFilter
     services?: EmployeeServiceListRelationFilter
     servicesCreated?: ServiceListRelationFilter
     bookings?: BookingListRelationFilter
@@ -11155,6 +14034,7 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     isActive?: SortOrder
+    shopId?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -11173,6 +14053,7 @@ export namespace Prisma {
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     isActive?: BoolWithAggregatesFilter<"User"> | boolean
+    shopId?: IntNullableWithAggregatesFilter<"User"> | number | null
   }
 
   export type CustomerWhereInput = {
@@ -11241,7 +14122,9 @@ export namespace Prisma {
     duration?: IntFilter<"Service"> | number
     price?: FloatFilter<"Service"> | number
     createdById?: IntFilter<"Service"> | number
+    shopId?: IntFilter<"Service"> | number
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
     employees?: EmployeeServiceListRelationFilter
     bookings?: BookingListRelationFilter
   }
@@ -11252,7 +14135,9 @@ export namespace Prisma {
     duration?: SortOrder
     price?: SortOrder
     createdById?: SortOrder
+    shopId?: SortOrder
     createdBy?: UserOrderByWithRelationInput
+    shop?: ShopOrderByWithRelationInput
     employees?: EmployeeServiceOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
   }
@@ -11266,7 +14151,9 @@ export namespace Prisma {
     duration?: IntFilter<"Service"> | number
     price?: FloatFilter<"Service"> | number
     createdById?: IntFilter<"Service"> | number
+    shopId?: IntFilter<"Service"> | number
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
     employees?: EmployeeServiceListRelationFilter
     bookings?: BookingListRelationFilter
   }, "id">
@@ -11277,6 +14164,7 @@ export namespace Prisma {
     duration?: SortOrder
     price?: SortOrder
     createdById?: SortOrder
+    shopId?: SortOrder
     _count?: ServiceCountOrderByAggregateInput
     _avg?: ServiceAvgOrderByAggregateInput
     _max?: ServiceMaxOrderByAggregateInput
@@ -11293,6 +14181,7 @@ export namespace Prisma {
     duration?: IntWithAggregatesFilter<"Service"> | number
     price?: FloatWithAggregatesFilter<"Service"> | number
     createdById?: IntWithAggregatesFilter<"Service"> | number
+    shopId?: IntWithAggregatesFilter<"Service"> | number
   }
 
   export type EmployeeServiceWhereInput = {
@@ -11350,6 +14239,7 @@ export namespace Prisma {
     customerId?: IntFilter<"Booking"> | number
     serviceId?: IntFilter<"Booking"> | number
     employeeId?: IntFilter<"Booking"> | number
+    shopId?: IntFilter<"Booking"> | number
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
     notes?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
@@ -11357,6 +14247,7 @@ export namespace Prisma {
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
     employee?: XOR<UserScalarRelationFilter, UserWhereInput>
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
   }
 
   export type BookingOrderByWithRelationInput = {
@@ -11365,6 +14256,7 @@ export namespace Prisma {
     customerId?: SortOrder
     serviceId?: SortOrder
     employeeId?: SortOrder
+    shopId?: SortOrder
     status?: SortOrder
     notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -11372,6 +14264,7 @@ export namespace Prisma {
     customer?: CustomerOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
     employee?: UserOrderByWithRelationInput
+    shop?: ShopOrderByWithRelationInput
   }
 
   export type BookingWhereUniqueInput = Prisma.AtLeast<{
@@ -11383,6 +14276,7 @@ export namespace Prisma {
     customerId?: IntFilter<"Booking"> | number
     serviceId?: IntFilter<"Booking"> | number
     employeeId?: IntFilter<"Booking"> | number
+    shopId?: IntFilter<"Booking"> | number
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
     notes?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
@@ -11390,6 +14284,7 @@ export namespace Prisma {
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
     employee?: XOR<UserScalarRelationFilter, UserWhereInput>
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
   }, "id">
 
   export type BookingOrderByWithAggregationInput = {
@@ -11398,6 +14293,7 @@ export namespace Prisma {
     customerId?: SortOrder
     serviceId?: SortOrder
     employeeId?: SortOrder
+    shopId?: SortOrder
     status?: SortOrder
     notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -11418,6 +14314,7 @@ export namespace Prisma {
     customerId?: IntWithAggregatesFilter<"Booking"> | number
     serviceId?: IntWithAggregatesFilter<"Booking"> | number
     employeeId?: IntWithAggregatesFilter<"Booking"> | number
+    shopId?: IntWithAggregatesFilter<"Booking"> | number
     status?: EnumBookingStatusWithAggregatesFilter<"Booking"> | $Enums.BookingStatus
     notes?: StringNullableWithAggregatesFilter<"Booking"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
@@ -11433,9 +14330,11 @@ export namespace Prisma {
     date?: DateTimeFilter<"WorkingSlot"> | Date | string
     startTime?: StringFilter<"WorkingSlot"> | string
     endTime?: StringFilter<"WorkingSlot"> | string
-    createdAt?: DateTimeFilter<"WorkingSlot"> | Date | string
     onlyInStore?: BoolFilter<"WorkingSlot"> | boolean
+    createdAt?: DateTimeFilter<"WorkingSlot"> | Date | string
+    shopId?: IntFilter<"WorkingSlot"> | number
     employee?: XOR<UserScalarRelationFilter, UserWhereInput>
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
   }
 
   export type WorkingSlotOrderByWithRelationInput = {
@@ -11444,9 +14343,11 @@ export namespace Prisma {
     date?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    createdAt?: SortOrder
     onlyInStore?: SortOrder
+    createdAt?: SortOrder
+    shopId?: SortOrder
     employee?: UserOrderByWithRelationInput
+    shop?: ShopOrderByWithRelationInput
   }
 
   export type WorkingSlotWhereUniqueInput = Prisma.AtLeast<{
@@ -11458,9 +14359,11 @@ export namespace Prisma {
     date?: DateTimeFilter<"WorkingSlot"> | Date | string
     startTime?: StringFilter<"WorkingSlot"> | string
     endTime?: StringFilter<"WorkingSlot"> | string
-    createdAt?: DateTimeFilter<"WorkingSlot"> | Date | string
     onlyInStore?: BoolFilter<"WorkingSlot"> | boolean
+    createdAt?: DateTimeFilter<"WorkingSlot"> | Date | string
+    shopId?: IntFilter<"WorkingSlot"> | number
     employee?: XOR<UserScalarRelationFilter, UserWhereInput>
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
   }, "id">
 
   export type WorkingSlotOrderByWithAggregationInput = {
@@ -11469,8 +14372,9 @@ export namespace Prisma {
     date?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    createdAt?: SortOrder
     onlyInStore?: SortOrder
+    createdAt?: SortOrder
+    shopId?: SortOrder
     _count?: WorkingSlotCountOrderByAggregateInput
     _avg?: WorkingSlotAvgOrderByAggregateInput
     _max?: WorkingSlotMaxOrderByAggregateInput
@@ -11487,8 +14391,9 @@ export namespace Prisma {
     date?: DateTimeWithAggregatesFilter<"WorkingSlot"> | Date | string
     startTime?: StringWithAggregatesFilter<"WorkingSlot"> | string
     endTime?: StringWithAggregatesFilter<"WorkingSlot"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"WorkingSlot"> | Date | string
     onlyInStore?: BoolWithAggregatesFilter<"WorkingSlot"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"WorkingSlot"> | Date | string
+    shopId?: IntWithAggregatesFilter<"WorkingSlot"> | number
   }
 
   export type WorkingHourRangeWhereInput = {
@@ -11613,6 +14518,142 @@ export namespace Prisma {
     onlyInStore?: BoolWithAggregatesFilter<"RecurringSlot"> | boolean
   }
 
+  export type InventoryItemWhereInput = {
+    AND?: InventoryItemWhereInput | InventoryItemWhereInput[]
+    OR?: InventoryItemWhereInput[]
+    NOT?: InventoryItemWhereInput | InventoryItemWhereInput[]
+    id?: IntFilter<"InventoryItem"> | number
+    name?: StringFilter<"InventoryItem"> | string
+    quantity?: IntFilter<"InventoryItem"> | number
+    shopId?: IntFilter<"InventoryItem"> | number
+    createdAt?: DateTimeFilter<"InventoryItem"> | Date | string
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
+  }
+
+  export type InventoryItemOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    quantity?: SortOrder
+    shopId?: SortOrder
+    createdAt?: SortOrder
+    shop?: ShopOrderByWithRelationInput
+  }
+
+  export type InventoryItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: InventoryItemWhereInput | InventoryItemWhereInput[]
+    OR?: InventoryItemWhereInput[]
+    NOT?: InventoryItemWhereInput | InventoryItemWhereInput[]
+    name?: StringFilter<"InventoryItem"> | string
+    quantity?: IntFilter<"InventoryItem"> | number
+    shopId?: IntFilter<"InventoryItem"> | number
+    createdAt?: DateTimeFilter<"InventoryItem"> | Date | string
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
+  }, "id">
+
+  export type InventoryItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    quantity?: SortOrder
+    shopId?: SortOrder
+    createdAt?: SortOrder
+    _count?: InventoryItemCountOrderByAggregateInput
+    _avg?: InventoryItemAvgOrderByAggregateInput
+    _max?: InventoryItemMaxOrderByAggregateInput
+    _min?: InventoryItemMinOrderByAggregateInput
+    _sum?: InventoryItemSumOrderByAggregateInput
+  }
+
+  export type InventoryItemScalarWhereWithAggregatesInput = {
+    AND?: InventoryItemScalarWhereWithAggregatesInput | InventoryItemScalarWhereWithAggregatesInput[]
+    OR?: InventoryItemScalarWhereWithAggregatesInput[]
+    NOT?: InventoryItemScalarWhereWithAggregatesInput | InventoryItemScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"InventoryItem"> | number
+    name?: StringWithAggregatesFilter<"InventoryItem"> | string
+    quantity?: IntWithAggregatesFilter<"InventoryItem"> | number
+    shopId?: IntWithAggregatesFilter<"InventoryItem"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"InventoryItem"> | Date | string
+  }
+
+  export type ShopCreateInput = {
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+    owner: UserCreateNestedOneWithoutShopsInput
+    employees?: UserCreateNestedManyWithoutShopInput
+    services?: ServiceCreateNestedManyWithoutShopInput
+    bookings?: BookingCreateNestedManyWithoutShopInput
+    inventory?: InventoryItemCreateNestedManyWithoutShopInput
+    workingSlots?: WorkingSlotCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUncheckedCreateInput = {
+    id?: number
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+    ownerId: number
+    employees?: UserUncheckedCreateNestedManyWithoutShopInput
+    services?: ServiceUncheckedCreateNestedManyWithoutShopInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
+    inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
+    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
+    employees?: UserUpdateManyWithoutShopNestedInput
+    services?: ServiceUpdateManyWithoutShopNestedInput
+    bookings?: BookingUpdateManyWithoutShopNestedInput
+    inventory?: InventoryItemUpdateManyWithoutShopNestedInput
+    workingSlots?: WorkingSlotUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    employees?: UserUncheckedUpdateManyWithoutShopNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutShopNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
+    inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
+    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopCreateManyInput = {
+    id?: number
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+    ownerId: number
+  }
+
+  export type ShopUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+  }
+
   export type UserCreateInput = {
     email: string
     hashedPassword: string
@@ -11620,6 +14661,8 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
+    shop?: ShopCreateNestedOneWithoutEmployeesInput
+    shops?: ShopCreateNestedManyWithoutOwnerInput
     services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
     bookings?: BookingCreateNestedManyWithoutEmployeeInput
@@ -11635,6 +14678,8 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
+    shopId?: number | null
+    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
     services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
     bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
@@ -11649,6 +14694,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    shop?: ShopUpdateOneWithoutEmployeesNestedInput
+    shops?: ShopUpdateManyWithoutOwnerNestedInput
     services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUpdateManyWithoutEmployeeNestedInput
@@ -11664,6 +14711,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    shopId?: NullableIntFieldUpdateOperationsInput | number | null
+    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
     services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -11679,6 +14728,7 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
+    shopId?: number | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -11698,6 +14748,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    shopId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type CustomerCreateInput = {
@@ -11762,6 +14813,7 @@ export namespace Prisma {
     duration: number
     price: number
     createdBy: UserCreateNestedOneWithoutServicesCreatedInput
+    shop: ShopCreateNestedOneWithoutServicesInput
     employees?: EmployeeServiceCreateNestedManyWithoutServiceInput
     bookings?: BookingCreateNestedManyWithoutServiceInput
   }
@@ -11772,6 +14824,7 @@ export namespace Prisma {
     duration: number
     price: number
     createdById: number
+    shopId: number
     employees?: EmployeeServiceUncheckedCreateNestedManyWithoutServiceInput
     bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
   }
@@ -11781,6 +14834,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdBy?: UserUpdateOneRequiredWithoutServicesCreatedNestedInput
+    shop?: ShopUpdateOneRequiredWithoutServicesNestedInput
     employees?: EmployeeServiceUpdateManyWithoutServiceNestedInput
     bookings?: BookingUpdateManyWithoutServiceNestedInput
   }
@@ -11791,6 +14845,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdById?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     employees?: EmployeeServiceUncheckedUpdateManyWithoutServiceNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
   }
@@ -11801,6 +14856,7 @@ export namespace Prisma {
     duration: number
     price: number
     createdById: number
+    shopId: number
   }
 
   export type ServiceUpdateManyMutationInput = {
@@ -11815,6 +14871,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdById?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
   }
 
   export type EmployeeServiceCreateInput = {
@@ -11860,6 +14917,7 @@ export namespace Prisma {
     customer: CustomerCreateNestedOneWithoutBookingsInput
     service: ServiceCreateNestedOneWithoutBookingsInput
     employee: UserCreateNestedOneWithoutBookingsInput
+    shop: ShopCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateInput = {
@@ -11868,6 +14926,7 @@ export namespace Prisma {
     customerId: number
     serviceId: number
     employeeId: number
+    shopId: number
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
@@ -11883,6 +14942,7 @@ export namespace Prisma {
     customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
     service?: ServiceUpdateOneRequiredWithoutBookingsNestedInput
     employee?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    shop?: ShopUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateInput = {
@@ -11891,6 +14951,7 @@ export namespace Prisma {
     customerId?: IntFieldUpdateOperationsInput | number
     serviceId?: IntFieldUpdateOperationsInput | number
     employeeId?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11903,6 +14964,7 @@ export namespace Prisma {
     customerId: number
     serviceId: number
     employeeId: number
+    shopId: number
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
@@ -11923,6 +14985,7 @@ export namespace Prisma {
     customerId?: IntFieldUpdateOperationsInput | number
     serviceId?: IntFieldUpdateOperationsInput | number
     employeeId?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11933,9 +14996,10 @@ export namespace Prisma {
     date: Date | string
     startTime: string
     endTime: string
-    createdAt?: Date | string
     onlyInStore?: boolean
+    createdAt?: Date | string
     employee: UserCreateNestedOneWithoutWorkingSlotsInput
+    shop: ShopCreateNestedOneWithoutWorkingSlotsInput
   }
 
   export type WorkingSlotUncheckedCreateInput = {
@@ -11944,17 +15008,19 @@ export namespace Prisma {
     date: Date | string
     startTime: string
     endTime: string
-    createdAt?: Date | string
     onlyInStore?: boolean
+    createdAt?: Date | string
+    shopId: number
   }
 
   export type WorkingSlotUpdateInput = {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     onlyInStore?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     employee?: UserUpdateOneRequiredWithoutWorkingSlotsNestedInput
+    shop?: ShopUpdateOneRequiredWithoutWorkingSlotsNestedInput
   }
 
   export type WorkingSlotUncheckedUpdateInput = {
@@ -11963,8 +15029,9 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     onlyInStore?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shopId?: IntFieldUpdateOperationsInput | number
   }
 
   export type WorkingSlotCreateManyInput = {
@@ -11973,16 +15040,17 @@ export namespace Prisma {
     date: Date | string
     startTime: string
     endTime: string
-    createdAt?: Date | string
     onlyInStore?: boolean
+    createdAt?: Date | string
+    shopId: number
   }
 
   export type WorkingSlotUpdateManyMutationInput = {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     onlyInStore?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WorkingSlotUncheckedUpdateManyInput = {
@@ -11991,8 +15059,9 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     onlyInStore?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shopId?: IntFieldUpdateOperationsInput | number
   }
 
   export type WorkingHourRangeCreateInput = {
@@ -12110,6 +15179,58 @@ export namespace Prisma {
     onlyInStore?: BoolFieldUpdateOperationsInput | boolean
   }
 
+  export type InventoryItemCreateInput = {
+    name: string
+    quantity: number
+    createdAt?: Date | string
+    shop: ShopCreateNestedOneWithoutInventoryInput
+  }
+
+  export type InventoryItemUncheckedCreateInput = {
+    id?: number
+    name: string
+    quantity: number
+    shopId: number
+    createdAt?: Date | string
+  }
+
+  export type InventoryItemUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shop?: ShopUpdateOneRequiredWithoutInventoryNestedInput
+  }
+
+  export type InventoryItemUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InventoryItemCreateManyInput = {
+    id?: number
+    name: string
+    quantity: number
+    shopId: number
+    createdAt?: Date | string
+  }
+
+  export type InventoryItemUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InventoryItemUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -12136,13 +15257,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type EnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
-  }
-
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -12154,15 +15268,15 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
   }
 
-  export type EmployeeServiceListRelationFilter = {
-    every?: EmployeeServiceWhereInput
-    some?: EmployeeServiceWhereInput
-    none?: EmployeeServiceWhereInput
+  export type UserListRelationFilter = {
+    every?: UserWhereInput
+    some?: UserWhereInput
+    none?: UserWhereInput
   }
 
   export type ServiceListRelationFilter = {
@@ -12177,19 +15291,19 @@ export namespace Prisma {
     none?: BookingWhereInput
   }
 
+  export type InventoryItemListRelationFilter = {
+    every?: InventoryItemWhereInput
+    some?: InventoryItemWhereInput
+    none?: InventoryItemWhereInput
+  }
+
   export type WorkingSlotListRelationFilter = {
     every?: WorkingSlotWhereInput
     some?: WorkingSlotWhereInput
     none?: WorkingSlotWhereInput
   }
 
-  export type WorkingHourRangeListRelationFilter = {
-    every?: WorkingHourRangeWhereInput
-    some?: WorkingHourRangeWhereInput
-    none?: WorkingHourRangeWhereInput
-  }
-
-  export type EmployeeServiceOrderByRelationAggregateInput = {
+  export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -12201,50 +15315,49 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type InventoryItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type WorkingSlotOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type WorkingHourRangeOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type UserCountOrderByAggregateInput = {
+  export type ShopCountOrderByAggregateInput = {
     id?: SortOrder
-    email?: SortOrder
-    hashedPassword?: SortOrder
     name?: SortOrder
-    role?: SortOrder
+    address?: SortOrder
+    password?: SortOrder
     createdAt?: SortOrder
-    isActive?: SortOrder
+    ownerId?: SortOrder
   }
 
-  export type UserAvgOrderByAggregateInput = {
+  export type ShopAvgOrderByAggregateInput = {
     id?: SortOrder
+    ownerId?: SortOrder
   }
 
-  export type UserMaxOrderByAggregateInput = {
+  export type ShopMaxOrderByAggregateInput = {
     id?: SortOrder
-    email?: SortOrder
-    hashedPassword?: SortOrder
     name?: SortOrder
-    role?: SortOrder
+    address?: SortOrder
+    password?: SortOrder
     createdAt?: SortOrder
-    isActive?: SortOrder
+    ownerId?: SortOrder
   }
 
-  export type UserMinOrderByAggregateInput = {
+  export type ShopMinOrderByAggregateInput = {
     id?: SortOrder
-    email?: SortOrder
-    hashedPassword?: SortOrder
     name?: SortOrder
-    role?: SortOrder
+    address?: SortOrder
+    password?: SortOrder
     createdAt?: SortOrder
-    isActive?: SortOrder
+    ownerId?: SortOrder
   }
 
-  export type UserSumOrderByAggregateInput = {
+  export type ShopSumOrderByAggregateInput = {
     id?: SortOrder
+    ownerId?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -12281,16 +15394,6 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -12305,12 +15408,144 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type EnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type ShopNullableScalarRelationFilter = {
+    is?: ShopWhereInput | null
+    isNot?: ShopWhereInput | null
+  }
+
+  export type ShopListRelationFilter = {
+    every?: ShopWhereInput
+    some?: ShopWhereInput
+    none?: ShopWhereInput
+  }
+
+  export type EmployeeServiceListRelationFilter = {
+    every?: EmployeeServiceWhereInput
+    some?: EmployeeServiceWhereInput
+    none?: EmployeeServiceWhereInput
+  }
+
+  export type WorkingHourRangeListRelationFilter = {
+    every?: WorkingHourRangeWhereInput
+    some?: WorkingHourRangeWhereInput
+    none?: WorkingHourRangeWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type ShopOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type EmployeeServiceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WorkingHourRangeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserCountOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    hashedPassword?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    createdAt?: SortOrder
+    isActive?: SortOrder
+    shopId?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+  }
+
+  export type UserMaxOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    hashedPassword?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    createdAt?: SortOrder
+    isActive?: SortOrder
+    shopId?: SortOrder
+  }
+
+  export type UserMinOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    hashedPassword?: SortOrder
+    name?: SortOrder
+    role?: SortOrder
+    createdAt?: SortOrder
+    isActive?: SortOrder
+    shopId?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+  }
+
+  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
@@ -12326,11 +15561,6 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type CustomerCountOrderByAggregateInput = {
@@ -12394,9 +15624,9 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
+  export type ShopScalarRelationFilter = {
+    is?: ShopWhereInput
+    isNot?: ShopWhereInput
   }
 
   export type ServiceCountOrderByAggregateInput = {
@@ -12405,6 +15635,7 @@ export namespace Prisma {
     duration?: SortOrder
     price?: SortOrder
     createdById?: SortOrder
+    shopId?: SortOrder
   }
 
   export type ServiceAvgOrderByAggregateInput = {
@@ -12412,6 +15643,7 @@ export namespace Prisma {
     duration?: SortOrder
     price?: SortOrder
     createdById?: SortOrder
+    shopId?: SortOrder
   }
 
   export type ServiceMaxOrderByAggregateInput = {
@@ -12420,6 +15652,7 @@ export namespace Prisma {
     duration?: SortOrder
     price?: SortOrder
     createdById?: SortOrder
+    shopId?: SortOrder
   }
 
   export type ServiceMinOrderByAggregateInput = {
@@ -12428,6 +15661,7 @@ export namespace Prisma {
     duration?: SortOrder
     price?: SortOrder
     createdById?: SortOrder
+    shopId?: SortOrder
   }
 
   export type ServiceSumOrderByAggregateInput = {
@@ -12435,6 +15669,7 @@ export namespace Prisma {
     duration?: SortOrder
     price?: SortOrder
     createdById?: SortOrder
+    shopId?: SortOrder
   }
 
   export type FloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -12513,6 +15748,7 @@ export namespace Prisma {
     customerId?: SortOrder
     serviceId?: SortOrder
     employeeId?: SortOrder
+    shopId?: SortOrder
     status?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
@@ -12524,6 +15760,7 @@ export namespace Prisma {
     customerId?: SortOrder
     serviceId?: SortOrder
     employeeId?: SortOrder
+    shopId?: SortOrder
   }
 
   export type BookingMaxOrderByAggregateInput = {
@@ -12532,6 +15769,7 @@ export namespace Prisma {
     customerId?: SortOrder
     serviceId?: SortOrder
     employeeId?: SortOrder
+    shopId?: SortOrder
     status?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
@@ -12544,6 +15782,7 @@ export namespace Prisma {
     customerId?: SortOrder
     serviceId?: SortOrder
     employeeId?: SortOrder
+    shopId?: SortOrder
     status?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
@@ -12555,6 +15794,7 @@ export namespace Prisma {
     customerId?: SortOrder
     serviceId?: SortOrder
     employeeId?: SortOrder
+    shopId?: SortOrder
   }
 
   export type EnumBookingStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -12583,13 +15823,15 @@ export namespace Prisma {
     date?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    createdAt?: SortOrder
     onlyInStore?: SortOrder
+    createdAt?: SortOrder
+    shopId?: SortOrder
   }
 
   export type WorkingSlotAvgOrderByAggregateInput = {
     id?: SortOrder
     employeeId?: SortOrder
+    shopId?: SortOrder
   }
 
   export type WorkingSlotMaxOrderByAggregateInput = {
@@ -12598,8 +15840,9 @@ export namespace Prisma {
     date?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    createdAt?: SortOrder
     onlyInStore?: SortOrder
+    createdAt?: SortOrder
+    shopId?: SortOrder
   }
 
   export type WorkingSlotMinOrderByAggregateInput = {
@@ -12608,13 +15851,15 @@ export namespace Prisma {
     date?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
-    createdAt?: SortOrder
     onlyInStore?: SortOrder
+    createdAt?: SortOrder
+    shopId?: SortOrder
   }
 
   export type WorkingSlotSumOrderByAggregateInput = {
     id?: SortOrder
     employeeId?: SortOrder
+    shopId?: SortOrder
   }
 
   export type RecurringSlotListRelationFilter = {
@@ -12720,6 +15965,295 @@ export namespace Prisma {
     _max?: NestedEnumWeekDayFilter<$PrismaModel>
   }
 
+  export type InventoryItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    quantity?: SortOrder
+    shopId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InventoryItemAvgOrderByAggregateInput = {
+    id?: SortOrder
+    quantity?: SortOrder
+    shopId?: SortOrder
+  }
+
+  export type InventoryItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    quantity?: SortOrder
+    shopId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InventoryItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    quantity?: SortOrder
+    shopId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type InventoryItemSumOrderByAggregateInput = {
+    id?: SortOrder
+    quantity?: SortOrder
+    shopId?: SortOrder
+  }
+
+  export type UserCreateNestedOneWithoutShopsInput = {
+    create?: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutShopsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedManyWithoutShopInput = {
+    create?: XOR<UserCreateWithoutShopInput, UserUncheckedCreateWithoutShopInput> | UserCreateWithoutShopInput[] | UserUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutShopInput | UserCreateOrConnectWithoutShopInput[]
+    createMany?: UserCreateManyShopInputEnvelope
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type ServiceCreateNestedManyWithoutShopInput = {
+    create?: XOR<ServiceCreateWithoutShopInput, ServiceUncheckedCreateWithoutShopInput> | ServiceCreateWithoutShopInput[] | ServiceUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutShopInput | ServiceCreateOrConnectWithoutShopInput[]
+    createMany?: ServiceCreateManyShopInputEnvelope
+    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+  }
+
+  export type BookingCreateNestedManyWithoutShopInput = {
+    create?: XOR<BookingCreateWithoutShopInput, BookingUncheckedCreateWithoutShopInput> | BookingCreateWithoutShopInput[] | BookingUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutShopInput | BookingCreateOrConnectWithoutShopInput[]
+    createMany?: BookingCreateManyShopInputEnvelope
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
+  export type InventoryItemCreateNestedManyWithoutShopInput = {
+    create?: XOR<InventoryItemCreateWithoutShopInput, InventoryItemUncheckedCreateWithoutShopInput> | InventoryItemCreateWithoutShopInput[] | InventoryItemUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: InventoryItemCreateOrConnectWithoutShopInput | InventoryItemCreateOrConnectWithoutShopInput[]
+    createMany?: InventoryItemCreateManyShopInputEnvelope
+    connect?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
+  }
+
+  export type WorkingSlotCreateNestedManyWithoutShopInput = {
+    create?: XOR<WorkingSlotCreateWithoutShopInput, WorkingSlotUncheckedCreateWithoutShopInput> | WorkingSlotCreateWithoutShopInput[] | WorkingSlotUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: WorkingSlotCreateOrConnectWithoutShopInput | WorkingSlotCreateOrConnectWithoutShopInput[]
+    createMany?: WorkingSlotCreateManyShopInputEnvelope
+    connect?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
+  }
+
+  export type UserUncheckedCreateNestedManyWithoutShopInput = {
+    create?: XOR<UserCreateWithoutShopInput, UserUncheckedCreateWithoutShopInput> | UserCreateWithoutShopInput[] | UserUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutShopInput | UserCreateOrConnectWithoutShopInput[]
+    createMany?: UserCreateManyShopInputEnvelope
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type ServiceUncheckedCreateNestedManyWithoutShopInput = {
+    create?: XOR<ServiceCreateWithoutShopInput, ServiceUncheckedCreateWithoutShopInput> | ServiceCreateWithoutShopInput[] | ServiceUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutShopInput | ServiceCreateOrConnectWithoutShopInput[]
+    createMany?: ServiceCreateManyShopInputEnvelope
+    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+  }
+
+  export type BookingUncheckedCreateNestedManyWithoutShopInput = {
+    create?: XOR<BookingCreateWithoutShopInput, BookingUncheckedCreateWithoutShopInput> | BookingCreateWithoutShopInput[] | BookingUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutShopInput | BookingCreateOrConnectWithoutShopInput[]
+    createMany?: BookingCreateManyShopInputEnvelope
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
+  export type InventoryItemUncheckedCreateNestedManyWithoutShopInput = {
+    create?: XOR<InventoryItemCreateWithoutShopInput, InventoryItemUncheckedCreateWithoutShopInput> | InventoryItemCreateWithoutShopInput[] | InventoryItemUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: InventoryItemCreateOrConnectWithoutShopInput | InventoryItemCreateOrConnectWithoutShopInput[]
+    createMany?: InventoryItemCreateManyShopInputEnvelope
+    connect?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
+  }
+
+  export type WorkingSlotUncheckedCreateNestedManyWithoutShopInput = {
+    create?: XOR<WorkingSlotCreateWithoutShopInput, WorkingSlotUncheckedCreateWithoutShopInput> | WorkingSlotCreateWithoutShopInput[] | WorkingSlotUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: WorkingSlotCreateOrConnectWithoutShopInput | WorkingSlotCreateOrConnectWithoutShopInput[]
+    createMany?: WorkingSlotCreateManyShopInputEnvelope
+    connect?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type UserUpdateOneRequiredWithoutShopsNestedInput = {
+    create?: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutShopsInput
+    upsert?: UserUpsertWithoutShopsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutShopsInput, UserUpdateWithoutShopsInput>, UserUncheckedUpdateWithoutShopsInput>
+  }
+
+  export type UserUpdateManyWithoutShopNestedInput = {
+    create?: XOR<UserCreateWithoutShopInput, UserUncheckedCreateWithoutShopInput> | UserCreateWithoutShopInput[] | UserUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutShopInput | UserCreateOrConnectWithoutShopInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutShopInput | UserUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: UserCreateManyShopInputEnvelope
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutShopInput | UserUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutShopInput | UserUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type ServiceUpdateManyWithoutShopNestedInput = {
+    create?: XOR<ServiceCreateWithoutShopInput, ServiceUncheckedCreateWithoutShopInput> | ServiceCreateWithoutShopInput[] | ServiceUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutShopInput | ServiceCreateOrConnectWithoutShopInput[]
+    upsert?: ServiceUpsertWithWhereUniqueWithoutShopInput | ServiceUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: ServiceCreateManyShopInputEnvelope
+    set?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    disconnect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    delete?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    update?: ServiceUpdateWithWhereUniqueWithoutShopInput | ServiceUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: ServiceUpdateManyWithWhereWithoutShopInput | ServiceUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
+  }
+
+  export type BookingUpdateManyWithoutShopNestedInput = {
+    create?: XOR<BookingCreateWithoutShopInput, BookingUncheckedCreateWithoutShopInput> | BookingCreateWithoutShopInput[] | BookingUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutShopInput | BookingCreateOrConnectWithoutShopInput[]
+    upsert?: BookingUpsertWithWhereUniqueWithoutShopInput | BookingUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: BookingCreateManyShopInputEnvelope
+    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    update?: BookingUpdateWithWhereUniqueWithoutShopInput | BookingUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: BookingUpdateManyWithWhereWithoutShopInput | BookingUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
+  }
+
+  export type InventoryItemUpdateManyWithoutShopNestedInput = {
+    create?: XOR<InventoryItemCreateWithoutShopInput, InventoryItemUncheckedCreateWithoutShopInput> | InventoryItemCreateWithoutShopInput[] | InventoryItemUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: InventoryItemCreateOrConnectWithoutShopInput | InventoryItemCreateOrConnectWithoutShopInput[]
+    upsert?: InventoryItemUpsertWithWhereUniqueWithoutShopInput | InventoryItemUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: InventoryItemCreateManyShopInputEnvelope
+    set?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
+    disconnect?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
+    delete?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
+    connect?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
+    update?: InventoryItemUpdateWithWhereUniqueWithoutShopInput | InventoryItemUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: InventoryItemUpdateManyWithWhereWithoutShopInput | InventoryItemUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: InventoryItemScalarWhereInput | InventoryItemScalarWhereInput[]
+  }
+
+  export type WorkingSlotUpdateManyWithoutShopNestedInput = {
+    create?: XOR<WorkingSlotCreateWithoutShopInput, WorkingSlotUncheckedCreateWithoutShopInput> | WorkingSlotCreateWithoutShopInput[] | WorkingSlotUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: WorkingSlotCreateOrConnectWithoutShopInput | WorkingSlotCreateOrConnectWithoutShopInput[]
+    upsert?: WorkingSlotUpsertWithWhereUniqueWithoutShopInput | WorkingSlotUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: WorkingSlotCreateManyShopInputEnvelope
+    set?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
+    disconnect?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
+    delete?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
+    connect?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
+    update?: WorkingSlotUpdateWithWhereUniqueWithoutShopInput | WorkingSlotUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: WorkingSlotUpdateManyWithWhereWithoutShopInput | WorkingSlotUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: WorkingSlotScalarWhereInput | WorkingSlotScalarWhereInput[]
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UserUncheckedUpdateManyWithoutShopNestedInput = {
+    create?: XOR<UserCreateWithoutShopInput, UserUncheckedCreateWithoutShopInput> | UserCreateWithoutShopInput[] | UserUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutShopInput | UserCreateOrConnectWithoutShopInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutShopInput | UserUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: UserCreateManyShopInputEnvelope
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutShopInput | UserUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutShopInput | UserUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type ServiceUncheckedUpdateManyWithoutShopNestedInput = {
+    create?: XOR<ServiceCreateWithoutShopInput, ServiceUncheckedCreateWithoutShopInput> | ServiceCreateWithoutShopInput[] | ServiceUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutShopInput | ServiceCreateOrConnectWithoutShopInput[]
+    upsert?: ServiceUpsertWithWhereUniqueWithoutShopInput | ServiceUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: ServiceCreateManyShopInputEnvelope
+    set?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    disconnect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    delete?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    update?: ServiceUpdateWithWhereUniqueWithoutShopInput | ServiceUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: ServiceUpdateManyWithWhereWithoutShopInput | ServiceUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
+  }
+
+  export type BookingUncheckedUpdateManyWithoutShopNestedInput = {
+    create?: XOR<BookingCreateWithoutShopInput, BookingUncheckedCreateWithoutShopInput> | BookingCreateWithoutShopInput[] | BookingUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutShopInput | BookingCreateOrConnectWithoutShopInput[]
+    upsert?: BookingUpsertWithWhereUniqueWithoutShopInput | BookingUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: BookingCreateManyShopInputEnvelope
+    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    update?: BookingUpdateWithWhereUniqueWithoutShopInput | BookingUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: BookingUpdateManyWithWhereWithoutShopInput | BookingUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
+  }
+
+  export type InventoryItemUncheckedUpdateManyWithoutShopNestedInput = {
+    create?: XOR<InventoryItemCreateWithoutShopInput, InventoryItemUncheckedCreateWithoutShopInput> | InventoryItemCreateWithoutShopInput[] | InventoryItemUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: InventoryItemCreateOrConnectWithoutShopInput | InventoryItemCreateOrConnectWithoutShopInput[]
+    upsert?: InventoryItemUpsertWithWhereUniqueWithoutShopInput | InventoryItemUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: InventoryItemCreateManyShopInputEnvelope
+    set?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
+    disconnect?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
+    delete?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
+    connect?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
+    update?: InventoryItemUpdateWithWhereUniqueWithoutShopInput | InventoryItemUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: InventoryItemUpdateManyWithWhereWithoutShopInput | InventoryItemUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: InventoryItemScalarWhereInput | InventoryItemScalarWhereInput[]
+  }
+
+  export type WorkingSlotUncheckedUpdateManyWithoutShopNestedInput = {
+    create?: XOR<WorkingSlotCreateWithoutShopInput, WorkingSlotUncheckedCreateWithoutShopInput> | WorkingSlotCreateWithoutShopInput[] | WorkingSlotUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: WorkingSlotCreateOrConnectWithoutShopInput | WorkingSlotCreateOrConnectWithoutShopInput[]
+    upsert?: WorkingSlotUpsertWithWhereUniqueWithoutShopInput | WorkingSlotUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: WorkingSlotCreateManyShopInputEnvelope
+    set?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
+    disconnect?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
+    delete?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
+    connect?: WorkingSlotWhereUniqueInput | WorkingSlotWhereUniqueInput[]
+    update?: WorkingSlotUpdateWithWhereUniqueWithoutShopInput | WorkingSlotUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: WorkingSlotUpdateManyWithWhereWithoutShopInput | WorkingSlotUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: WorkingSlotScalarWhereInput | WorkingSlotScalarWhereInput[]
+  }
+
+  export type ShopCreateNestedOneWithoutEmployeesInput = {
+    create?: XOR<ShopCreateWithoutEmployeesInput, ShopUncheckedCreateWithoutEmployeesInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutEmployeesInput
+    connect?: ShopWhereUniqueInput
+  }
+
+  export type ShopCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<ShopCreateWithoutOwnerInput, ShopUncheckedCreateWithoutOwnerInput> | ShopCreateWithoutOwnerInput[] | ShopUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: ShopCreateOrConnectWithoutOwnerInput | ShopCreateOrConnectWithoutOwnerInput[]
+    createMany?: ShopCreateManyOwnerInputEnvelope
+    connect?: ShopWhereUniqueInput | ShopWhereUniqueInput[]
+  }
+
   export type EmployeeServiceCreateNestedManyWithoutEmployeeInput = {
     create?: XOR<EmployeeServiceCreateWithoutEmployeeInput, EmployeeServiceUncheckedCreateWithoutEmployeeInput> | EmployeeServiceCreateWithoutEmployeeInput[] | EmployeeServiceUncheckedCreateWithoutEmployeeInput[]
     connectOrCreate?: EmployeeServiceCreateOrConnectWithoutEmployeeInput | EmployeeServiceCreateOrConnectWithoutEmployeeInput[]
@@ -12753,6 +16287,13 @@ export namespace Prisma {
     connectOrCreate?: WorkingHourRangeCreateOrConnectWithoutEmployeeInput | WorkingHourRangeCreateOrConnectWithoutEmployeeInput[]
     createMany?: WorkingHourRangeCreateManyEmployeeInputEnvelope
     connect?: WorkingHourRangeWhereUniqueInput | WorkingHourRangeWhereUniqueInput[]
+  }
+
+  export type ShopUncheckedCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<ShopCreateWithoutOwnerInput, ShopUncheckedCreateWithoutOwnerInput> | ShopCreateWithoutOwnerInput[] | ShopUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: ShopCreateOrConnectWithoutOwnerInput | ShopCreateOrConnectWithoutOwnerInput[]
+    createMany?: ShopCreateManyOwnerInputEnvelope
+    connect?: ShopWhereUniqueInput | ShopWhereUniqueInput[]
   }
 
   export type EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput = {
@@ -12790,20 +16331,36 @@ export namespace Prisma {
     connect?: WorkingHourRangeWhereUniqueInput | WorkingHourRangeWhereUniqueInput[]
   }
 
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
-  }
-
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
-
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type ShopUpdateOneWithoutEmployeesNestedInput = {
+    create?: XOR<ShopCreateWithoutEmployeesInput, ShopUncheckedCreateWithoutEmployeesInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutEmployeesInput
+    upsert?: ShopUpsertWithoutEmployeesInput
+    disconnect?: ShopWhereInput | boolean
+    delete?: ShopWhereInput | boolean
+    connect?: ShopWhereUniqueInput
+    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutEmployeesInput, ShopUpdateWithoutEmployeesInput>, ShopUncheckedUpdateWithoutEmployeesInput>
+  }
+
+  export type ShopUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<ShopCreateWithoutOwnerInput, ShopUncheckedCreateWithoutOwnerInput> | ShopCreateWithoutOwnerInput[] | ShopUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: ShopCreateOrConnectWithoutOwnerInput | ShopCreateOrConnectWithoutOwnerInput[]
+    upsert?: ShopUpsertWithWhereUniqueWithoutOwnerInput | ShopUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: ShopCreateManyOwnerInputEnvelope
+    set?: ShopWhereUniqueInput | ShopWhereUniqueInput[]
+    disconnect?: ShopWhereUniqueInput | ShopWhereUniqueInput[]
+    delete?: ShopWhereUniqueInput | ShopWhereUniqueInput[]
+    connect?: ShopWhereUniqueInput | ShopWhereUniqueInput[]
+    update?: ShopUpdateWithWhereUniqueWithoutOwnerInput | ShopUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: ShopUpdateManyWithWhereWithoutOwnerInput | ShopUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: ShopScalarWhereInput | ShopScalarWhereInput[]
   }
 
   export type EmployeeServiceUpdateManyWithoutEmployeeNestedInput = {
@@ -12876,12 +16433,26 @@ export namespace Prisma {
     deleteMany?: WorkingHourRangeScalarWhereInput | WorkingHourRangeScalarWhereInput[]
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type ShopUncheckedUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<ShopCreateWithoutOwnerInput, ShopUncheckedCreateWithoutOwnerInput> | ShopCreateWithoutOwnerInput[] | ShopUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: ShopCreateOrConnectWithoutOwnerInput | ShopCreateOrConnectWithoutOwnerInput[]
+    upsert?: ShopUpsertWithWhereUniqueWithoutOwnerInput | ShopUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: ShopCreateManyOwnerInputEnvelope
+    set?: ShopWhereUniqueInput | ShopWhereUniqueInput[]
+    disconnect?: ShopWhereUniqueInput | ShopWhereUniqueInput[]
+    delete?: ShopWhereUniqueInput | ShopWhereUniqueInput[]
+    connect?: ShopWhereUniqueInput | ShopWhereUniqueInput[]
+    update?: ShopUpdateWithWhereUniqueWithoutOwnerInput | ShopUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: ShopUpdateManyWithWhereWithoutOwnerInput | ShopUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: ShopScalarWhereInput | ShopScalarWhereInput[]
   }
 
   export type EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput = {
@@ -13006,6 +16577,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type ShopCreateNestedOneWithoutServicesInput = {
+    create?: XOR<ShopCreateWithoutServicesInput, ShopUncheckedCreateWithoutServicesInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutServicesInput
+    connect?: ShopWhereUniqueInput
+  }
+
   export type EmployeeServiceCreateNestedManyWithoutServiceInput = {
     create?: XOR<EmployeeServiceCreateWithoutServiceInput, EmployeeServiceUncheckedCreateWithoutServiceInput> | EmployeeServiceCreateWithoutServiceInput[] | EmployeeServiceUncheckedCreateWithoutServiceInput[]
     connectOrCreate?: EmployeeServiceCreateOrConnectWithoutServiceInput | EmployeeServiceCreateOrConnectWithoutServiceInput[]
@@ -13048,6 +16625,14 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutServicesCreatedInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutServicesCreatedInput, UserUpdateWithoutServicesCreatedInput>, UserUncheckedUpdateWithoutServicesCreatedInput>
+  }
+
+  export type ShopUpdateOneRequiredWithoutServicesNestedInput = {
+    create?: XOR<ShopCreateWithoutServicesInput, ShopUncheckedCreateWithoutServicesInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutServicesInput
+    upsert?: ShopUpsertWithoutServicesInput
+    connect?: ShopWhereUniqueInput
+    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutServicesInput, ShopUpdateWithoutServicesInput>, ShopUncheckedUpdateWithoutServicesInput>
   }
 
   export type EmployeeServiceUpdateManyWithoutServiceNestedInput = {
@@ -13152,6 +16737,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type ShopCreateNestedOneWithoutBookingsInput = {
+    create?: XOR<ShopCreateWithoutBookingsInput, ShopUncheckedCreateWithoutBookingsInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutBookingsInput
+    connect?: ShopWhereUniqueInput
+  }
+
   export type EnumBookingStatusFieldUpdateOperationsInput = {
     set?: $Enums.BookingStatus
   }
@@ -13184,10 +16775,24 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBookingsInput, UserUpdateWithoutBookingsInput>, UserUncheckedUpdateWithoutBookingsInput>
   }
 
+  export type ShopUpdateOneRequiredWithoutBookingsNestedInput = {
+    create?: XOR<ShopCreateWithoutBookingsInput, ShopUncheckedCreateWithoutBookingsInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutBookingsInput
+    upsert?: ShopUpsertWithoutBookingsInput
+    connect?: ShopWhereUniqueInput
+    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutBookingsInput, ShopUpdateWithoutBookingsInput>, ShopUncheckedUpdateWithoutBookingsInput>
+  }
+
   export type UserCreateNestedOneWithoutWorkingSlotsInput = {
     create?: XOR<UserCreateWithoutWorkingSlotsInput, UserUncheckedCreateWithoutWorkingSlotsInput>
     connectOrCreate?: UserCreateOrConnectWithoutWorkingSlotsInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type ShopCreateNestedOneWithoutWorkingSlotsInput = {
+    create?: XOR<ShopCreateWithoutWorkingSlotsInput, ShopUncheckedCreateWithoutWorkingSlotsInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutWorkingSlotsInput
+    connect?: ShopWhereUniqueInput
   }
 
   export type UserUpdateOneRequiredWithoutWorkingSlotsNestedInput = {
@@ -13196,6 +16801,14 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutWorkingSlotsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWorkingSlotsInput, UserUpdateWithoutWorkingSlotsInput>, UserUncheckedUpdateWithoutWorkingSlotsInput>
+  }
+
+  export type ShopUpdateOneRequiredWithoutWorkingSlotsNestedInput = {
+    create?: XOR<ShopCreateWithoutWorkingSlotsInput, ShopUncheckedCreateWithoutWorkingSlotsInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutWorkingSlotsInput
+    upsert?: ShopUpsertWithoutWorkingSlotsInput
+    connect?: ShopWhereUniqueInput
+    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutWorkingSlotsInput, ShopUpdateWithoutWorkingSlotsInput>, ShopUncheckedUpdateWithoutWorkingSlotsInput>
   }
 
   export type UserCreateNestedOneWithoutWorkingHourRangesInput = {
@@ -13272,6 +16885,20 @@ export namespace Prisma {
     update?: XOR<XOR<WorkingHourRangeUpdateToOneWithWhereWithoutSlotsInput, WorkingHourRangeUpdateWithoutSlotsInput>, WorkingHourRangeUncheckedUpdateWithoutSlotsInput>
   }
 
+  export type ShopCreateNestedOneWithoutInventoryInput = {
+    create?: XOR<ShopCreateWithoutInventoryInput, ShopUncheckedCreateWithoutInventoryInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutInventoryInput
+    connect?: ShopWhereUniqueInput
+  }
+
+  export type ShopUpdateOneRequiredWithoutInventoryNestedInput = {
+    create?: XOR<ShopCreateWithoutInventoryInput, ShopUncheckedCreateWithoutInventoryInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutInventoryInput
+    upsert?: ShopUpsertWithoutInventoryInput
+    connect?: ShopWhereUniqueInput
+    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutInventoryInput, ShopUpdateWithoutInventoryInput>, ShopUncheckedUpdateWithoutInventoryInput>
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -13297,13 +16924,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedEnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
-  }
-
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -13313,11 +16933,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -13364,16 +16979,6 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -13388,12 +16993,72 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleFilter<$PrismaModel>
+    _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -13425,17 +17090,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -13505,6 +17159,451 @@ export namespace Prisma {
     _max?: NestedEnumWeekDayFilter<$PrismaModel>
   }
 
+  export type UserCreateWithoutShopsInput = {
+    email: string
+    hashedPassword: string
+    name: string
+    role?: $Enums.Role
+    createdAt?: Date | string
+    isActive?: boolean
+    shop?: ShopCreateNestedOneWithoutEmployeesInput
+    services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
+    servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
+    bookings?: BookingCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type UserUncheckedCreateWithoutShopsInput = {
+    id?: number
+    email: string
+    hashedPassword: string
+    name: string
+    role?: $Enums.Role
+    createdAt?: Date | string
+    isActive?: boolean
+    shopId?: number | null
+    services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
+    servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type UserCreateOrConnectWithoutShopsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
+  }
+
+  export type UserCreateWithoutShopInput = {
+    email: string
+    hashedPassword: string
+    name: string
+    role?: $Enums.Role
+    createdAt?: Date | string
+    isActive?: boolean
+    shops?: ShopCreateNestedManyWithoutOwnerInput
+    services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
+    servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
+    bookings?: BookingCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type UserUncheckedCreateWithoutShopInput = {
+    id?: number
+    email: string
+    hashedPassword: string
+    name: string
+    role?: $Enums.Role
+    createdAt?: Date | string
+    isActive?: boolean
+    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
+    services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
+    servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
+    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
+    workingHourRanges?: WorkingHourRangeUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type UserCreateOrConnectWithoutShopInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutShopInput, UserUncheckedCreateWithoutShopInput>
+  }
+
+  export type UserCreateManyShopInputEnvelope = {
+    data: UserCreateManyShopInput | UserCreateManyShopInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ServiceCreateWithoutShopInput = {
+    name: string
+    duration: number
+    price: number
+    createdBy: UserCreateNestedOneWithoutServicesCreatedInput
+    employees?: EmployeeServiceCreateNestedManyWithoutServiceInput
+    bookings?: BookingCreateNestedManyWithoutServiceInput
+  }
+
+  export type ServiceUncheckedCreateWithoutShopInput = {
+    id?: number
+    name: string
+    duration: number
+    price: number
+    createdById: number
+    employees?: EmployeeServiceUncheckedCreateNestedManyWithoutServiceInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
+  }
+
+  export type ServiceCreateOrConnectWithoutShopInput = {
+    where: ServiceWhereUniqueInput
+    create: XOR<ServiceCreateWithoutShopInput, ServiceUncheckedCreateWithoutShopInput>
+  }
+
+  export type ServiceCreateManyShopInputEnvelope = {
+    data: ServiceCreateManyShopInput | ServiceCreateManyShopInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BookingCreateWithoutShopInput = {
+    date: Date | string
+    status?: $Enums.BookingStatus
+    notes?: string | null
+    createdAt?: Date | string
+    method?: $Enums.BookingMethod | null
+    customer: CustomerCreateNestedOneWithoutBookingsInput
+    service: ServiceCreateNestedOneWithoutBookingsInput
+    employee: UserCreateNestedOneWithoutBookingsInput
+  }
+
+  export type BookingUncheckedCreateWithoutShopInput = {
+    id?: number
+    date: Date | string
+    customerId: number
+    serviceId: number
+    employeeId: number
+    status?: $Enums.BookingStatus
+    notes?: string | null
+    createdAt?: Date | string
+    method?: $Enums.BookingMethod | null
+  }
+
+  export type BookingCreateOrConnectWithoutShopInput = {
+    where: BookingWhereUniqueInput
+    create: XOR<BookingCreateWithoutShopInput, BookingUncheckedCreateWithoutShopInput>
+  }
+
+  export type BookingCreateManyShopInputEnvelope = {
+    data: BookingCreateManyShopInput | BookingCreateManyShopInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type InventoryItemCreateWithoutShopInput = {
+    name: string
+    quantity: number
+    createdAt?: Date | string
+  }
+
+  export type InventoryItemUncheckedCreateWithoutShopInput = {
+    id?: number
+    name: string
+    quantity: number
+    createdAt?: Date | string
+  }
+
+  export type InventoryItemCreateOrConnectWithoutShopInput = {
+    where: InventoryItemWhereUniqueInput
+    create: XOR<InventoryItemCreateWithoutShopInput, InventoryItemUncheckedCreateWithoutShopInput>
+  }
+
+  export type InventoryItemCreateManyShopInputEnvelope = {
+    data: InventoryItemCreateManyShopInput | InventoryItemCreateManyShopInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WorkingSlotCreateWithoutShopInput = {
+    date: Date | string
+    startTime: string
+    endTime: string
+    onlyInStore?: boolean
+    createdAt?: Date | string
+    employee: UserCreateNestedOneWithoutWorkingSlotsInput
+  }
+
+  export type WorkingSlotUncheckedCreateWithoutShopInput = {
+    id?: number
+    employeeId: number
+    date: Date | string
+    startTime: string
+    endTime: string
+    onlyInStore?: boolean
+    createdAt?: Date | string
+  }
+
+  export type WorkingSlotCreateOrConnectWithoutShopInput = {
+    where: WorkingSlotWhereUniqueInput
+    create: XOR<WorkingSlotCreateWithoutShopInput, WorkingSlotUncheckedCreateWithoutShopInput>
+  }
+
+  export type WorkingSlotCreateManyShopInputEnvelope = {
+    data: WorkingSlotCreateManyShopInput | WorkingSlotCreateManyShopInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutShopsInput = {
+    update: XOR<UserUpdateWithoutShopsInput, UserUncheckedUpdateWithoutShopsInput>
+    create: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutShopsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutShopsInput, UserUncheckedUpdateWithoutShopsInput>
+  }
+
+  export type UserUpdateWithoutShopsInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    shop?: ShopUpdateOneWithoutEmployeesNestedInput
+    services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
+    servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
+    bookings?: BookingUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutShopsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    shopId?: NullableIntFieldUpdateOperationsInput | number | null
+    services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
+    servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type UserUpsertWithWhereUniqueWithoutShopInput = {
+    where: UserWhereUniqueInput
+    update: XOR<UserUpdateWithoutShopInput, UserUncheckedUpdateWithoutShopInput>
+    create: XOR<UserCreateWithoutShopInput, UserUncheckedCreateWithoutShopInput>
+  }
+
+  export type UserUpdateWithWhereUniqueWithoutShopInput = {
+    where: UserWhereUniqueInput
+    data: XOR<UserUpdateWithoutShopInput, UserUncheckedUpdateWithoutShopInput>
+  }
+
+  export type UserUpdateManyWithWhereWithoutShopInput = {
+    where: UserScalarWhereInput
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutShopInput>
+  }
+
+  export type UserScalarWhereInput = {
+    AND?: UserScalarWhereInput | UserScalarWhereInput[]
+    OR?: UserScalarWhereInput[]
+    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
+    id?: IntFilter<"User"> | number
+    email?: StringFilter<"User"> | string
+    hashedPassword?: StringFilter<"User"> | string
+    name?: StringFilter<"User"> | string
+    role?: EnumRoleFilter<"User"> | $Enums.Role
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    isActive?: BoolFilter<"User"> | boolean
+    shopId?: IntNullableFilter<"User"> | number | null
+  }
+
+  export type ServiceUpsertWithWhereUniqueWithoutShopInput = {
+    where: ServiceWhereUniqueInput
+    update: XOR<ServiceUpdateWithoutShopInput, ServiceUncheckedUpdateWithoutShopInput>
+    create: XOR<ServiceCreateWithoutShopInput, ServiceUncheckedCreateWithoutShopInput>
+  }
+
+  export type ServiceUpdateWithWhereUniqueWithoutShopInput = {
+    where: ServiceWhereUniqueInput
+    data: XOR<ServiceUpdateWithoutShopInput, ServiceUncheckedUpdateWithoutShopInput>
+  }
+
+  export type ServiceUpdateManyWithWhereWithoutShopInput = {
+    where: ServiceScalarWhereInput
+    data: XOR<ServiceUpdateManyMutationInput, ServiceUncheckedUpdateManyWithoutShopInput>
+  }
+
+  export type ServiceScalarWhereInput = {
+    AND?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
+    OR?: ServiceScalarWhereInput[]
+    NOT?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
+    id?: IntFilter<"Service"> | number
+    name?: StringFilter<"Service"> | string
+    duration?: IntFilter<"Service"> | number
+    price?: FloatFilter<"Service"> | number
+    createdById?: IntFilter<"Service"> | number
+    shopId?: IntFilter<"Service"> | number
+  }
+
+  export type BookingUpsertWithWhereUniqueWithoutShopInput = {
+    where: BookingWhereUniqueInput
+    update: XOR<BookingUpdateWithoutShopInput, BookingUncheckedUpdateWithoutShopInput>
+    create: XOR<BookingCreateWithoutShopInput, BookingUncheckedCreateWithoutShopInput>
+  }
+
+  export type BookingUpdateWithWhereUniqueWithoutShopInput = {
+    where: BookingWhereUniqueInput
+    data: XOR<BookingUpdateWithoutShopInput, BookingUncheckedUpdateWithoutShopInput>
+  }
+
+  export type BookingUpdateManyWithWhereWithoutShopInput = {
+    where: BookingScalarWhereInput
+    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutShopInput>
+  }
+
+  export type BookingScalarWhereInput = {
+    AND?: BookingScalarWhereInput | BookingScalarWhereInput[]
+    OR?: BookingScalarWhereInput[]
+    NOT?: BookingScalarWhereInput | BookingScalarWhereInput[]
+    id?: IntFilter<"Booking"> | number
+    date?: DateTimeFilter<"Booking"> | Date | string
+    customerId?: IntFilter<"Booking"> | number
+    serviceId?: IntFilter<"Booking"> | number
+    employeeId?: IntFilter<"Booking"> | number
+    shopId?: IntFilter<"Booking"> | number
+    status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
+    notes?: StringNullableFilter<"Booking"> | string | null
+    createdAt?: DateTimeFilter<"Booking"> | Date | string
+    method?: EnumBookingMethodNullableFilter<"Booking"> | $Enums.BookingMethod | null
+  }
+
+  export type InventoryItemUpsertWithWhereUniqueWithoutShopInput = {
+    where: InventoryItemWhereUniqueInput
+    update: XOR<InventoryItemUpdateWithoutShopInput, InventoryItemUncheckedUpdateWithoutShopInput>
+    create: XOR<InventoryItemCreateWithoutShopInput, InventoryItemUncheckedCreateWithoutShopInput>
+  }
+
+  export type InventoryItemUpdateWithWhereUniqueWithoutShopInput = {
+    where: InventoryItemWhereUniqueInput
+    data: XOR<InventoryItemUpdateWithoutShopInput, InventoryItemUncheckedUpdateWithoutShopInput>
+  }
+
+  export type InventoryItemUpdateManyWithWhereWithoutShopInput = {
+    where: InventoryItemScalarWhereInput
+    data: XOR<InventoryItemUpdateManyMutationInput, InventoryItemUncheckedUpdateManyWithoutShopInput>
+  }
+
+  export type InventoryItemScalarWhereInput = {
+    AND?: InventoryItemScalarWhereInput | InventoryItemScalarWhereInput[]
+    OR?: InventoryItemScalarWhereInput[]
+    NOT?: InventoryItemScalarWhereInput | InventoryItemScalarWhereInput[]
+    id?: IntFilter<"InventoryItem"> | number
+    name?: StringFilter<"InventoryItem"> | string
+    quantity?: IntFilter<"InventoryItem"> | number
+    shopId?: IntFilter<"InventoryItem"> | number
+    createdAt?: DateTimeFilter<"InventoryItem"> | Date | string
+  }
+
+  export type WorkingSlotUpsertWithWhereUniqueWithoutShopInput = {
+    where: WorkingSlotWhereUniqueInput
+    update: XOR<WorkingSlotUpdateWithoutShopInput, WorkingSlotUncheckedUpdateWithoutShopInput>
+    create: XOR<WorkingSlotCreateWithoutShopInput, WorkingSlotUncheckedCreateWithoutShopInput>
+  }
+
+  export type WorkingSlotUpdateWithWhereUniqueWithoutShopInput = {
+    where: WorkingSlotWhereUniqueInput
+    data: XOR<WorkingSlotUpdateWithoutShopInput, WorkingSlotUncheckedUpdateWithoutShopInput>
+  }
+
+  export type WorkingSlotUpdateManyWithWhereWithoutShopInput = {
+    where: WorkingSlotScalarWhereInput
+    data: XOR<WorkingSlotUpdateManyMutationInput, WorkingSlotUncheckedUpdateManyWithoutShopInput>
+  }
+
+  export type WorkingSlotScalarWhereInput = {
+    AND?: WorkingSlotScalarWhereInput | WorkingSlotScalarWhereInput[]
+    OR?: WorkingSlotScalarWhereInput[]
+    NOT?: WorkingSlotScalarWhereInput | WorkingSlotScalarWhereInput[]
+    id?: IntFilter<"WorkingSlot"> | number
+    employeeId?: IntFilter<"WorkingSlot"> | number
+    date?: DateTimeFilter<"WorkingSlot"> | Date | string
+    startTime?: StringFilter<"WorkingSlot"> | string
+    endTime?: StringFilter<"WorkingSlot"> | string
+    onlyInStore?: BoolFilter<"WorkingSlot"> | boolean
+    createdAt?: DateTimeFilter<"WorkingSlot"> | Date | string
+    shopId?: IntFilter<"WorkingSlot"> | number
+  }
+
+  export type ShopCreateWithoutEmployeesInput = {
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+    owner: UserCreateNestedOneWithoutShopsInput
+    services?: ServiceCreateNestedManyWithoutShopInput
+    bookings?: BookingCreateNestedManyWithoutShopInput
+    inventory?: InventoryItemCreateNestedManyWithoutShopInput
+    workingSlots?: WorkingSlotCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUncheckedCreateWithoutEmployeesInput = {
+    id?: number
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+    ownerId: number
+    services?: ServiceUncheckedCreateNestedManyWithoutShopInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
+    inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
+    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopCreateOrConnectWithoutEmployeesInput = {
+    where: ShopWhereUniqueInput
+    create: XOR<ShopCreateWithoutEmployeesInput, ShopUncheckedCreateWithoutEmployeesInput>
+  }
+
+  export type ShopCreateWithoutOwnerInput = {
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+    employees?: UserCreateNestedManyWithoutShopInput
+    services?: ServiceCreateNestedManyWithoutShopInput
+    bookings?: BookingCreateNestedManyWithoutShopInput
+    inventory?: InventoryItemCreateNestedManyWithoutShopInput
+    workingSlots?: WorkingSlotCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUncheckedCreateWithoutOwnerInput = {
+    id?: number
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+    employees?: UserUncheckedCreateNestedManyWithoutShopInput
+    services?: ServiceUncheckedCreateNestedManyWithoutShopInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
+    inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
+    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopCreateOrConnectWithoutOwnerInput = {
+    where: ShopWhereUniqueInput
+    create: XOR<ShopCreateWithoutOwnerInput, ShopUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type ShopCreateManyOwnerInputEnvelope = {
+    data: ShopCreateManyOwnerInput | ShopCreateManyOwnerInput[]
+    skipDuplicates?: boolean
+  }
+
   export type EmployeeServiceCreateWithoutEmployeeInput = {
     service: ServiceCreateNestedOneWithoutEmployeesInput
   }
@@ -13527,6 +17626,7 @@ export namespace Prisma {
     name: string
     duration: number
     price: number
+    shop: ShopCreateNestedOneWithoutServicesInput
     employees?: EmployeeServiceCreateNestedManyWithoutServiceInput
     bookings?: BookingCreateNestedManyWithoutServiceInput
   }
@@ -13536,6 +17636,7 @@ export namespace Prisma {
     name: string
     duration: number
     price: number
+    shopId: number
     employees?: EmployeeServiceUncheckedCreateNestedManyWithoutServiceInput
     bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
   }
@@ -13558,6 +17659,7 @@ export namespace Prisma {
     method?: $Enums.BookingMethod | null
     customer: CustomerCreateNestedOneWithoutBookingsInput
     service: ServiceCreateNestedOneWithoutBookingsInput
+    shop: ShopCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateWithoutEmployeeInput = {
@@ -13565,6 +17667,7 @@ export namespace Prisma {
     date: Date | string
     customerId: number
     serviceId: number
+    shopId: number
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
@@ -13585,8 +17688,9 @@ export namespace Prisma {
     date: Date | string
     startTime: string
     endTime: string
-    createdAt?: Date | string
     onlyInStore?: boolean
+    createdAt?: Date | string
+    shop: ShopCreateNestedOneWithoutWorkingSlotsInput
   }
 
   export type WorkingSlotUncheckedCreateWithoutEmployeeInput = {
@@ -13594,8 +17698,9 @@ export namespace Prisma {
     date: Date | string
     startTime: string
     endTime: string
-    createdAt?: Date | string
     onlyInStore?: boolean
+    createdAt?: Date | string
+    shopId: number
   }
 
   export type WorkingSlotCreateOrConnectWithoutEmployeeInput = {
@@ -13631,6 +17736,70 @@ export namespace Prisma {
   export type WorkingHourRangeCreateManyEmployeeInputEnvelope = {
     data: WorkingHourRangeCreateManyEmployeeInput | WorkingHourRangeCreateManyEmployeeInput[]
     skipDuplicates?: boolean
+  }
+
+  export type ShopUpsertWithoutEmployeesInput = {
+    update: XOR<ShopUpdateWithoutEmployeesInput, ShopUncheckedUpdateWithoutEmployeesInput>
+    create: XOR<ShopCreateWithoutEmployeesInput, ShopUncheckedCreateWithoutEmployeesInput>
+    where?: ShopWhereInput
+  }
+
+  export type ShopUpdateToOneWithWhereWithoutEmployeesInput = {
+    where?: ShopWhereInput
+    data: XOR<ShopUpdateWithoutEmployeesInput, ShopUncheckedUpdateWithoutEmployeesInput>
+  }
+
+  export type ShopUpdateWithoutEmployeesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
+    services?: ServiceUpdateManyWithoutShopNestedInput
+    bookings?: BookingUpdateManyWithoutShopNestedInput
+    inventory?: InventoryItemUpdateManyWithoutShopNestedInput
+    workingSlots?: WorkingSlotUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateWithoutEmployeesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    services?: ServiceUncheckedUpdateManyWithoutShopNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
+    inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
+    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUpsertWithWhereUniqueWithoutOwnerInput = {
+    where: ShopWhereUniqueInput
+    update: XOR<ShopUpdateWithoutOwnerInput, ShopUncheckedUpdateWithoutOwnerInput>
+    create: XOR<ShopCreateWithoutOwnerInput, ShopUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type ShopUpdateWithWhereUniqueWithoutOwnerInput = {
+    where: ShopWhereUniqueInput
+    data: XOR<ShopUpdateWithoutOwnerInput, ShopUncheckedUpdateWithoutOwnerInput>
+  }
+
+  export type ShopUpdateManyWithWhereWithoutOwnerInput = {
+    where: ShopScalarWhereInput
+    data: XOR<ShopUpdateManyMutationInput, ShopUncheckedUpdateManyWithoutOwnerInput>
+  }
+
+  export type ShopScalarWhereInput = {
+    AND?: ShopScalarWhereInput | ShopScalarWhereInput[]
+    OR?: ShopScalarWhereInput[]
+    NOT?: ShopScalarWhereInput | ShopScalarWhereInput[]
+    id?: IntFilter<"Shop"> | number
+    name?: StringFilter<"Shop"> | string
+    address?: StringFilter<"Shop"> | string
+    password?: StringFilter<"Shop"> | string
+    createdAt?: DateTimeFilter<"Shop"> | Date | string
+    ownerId?: IntFilter<"Shop"> | number
   }
 
   export type EmployeeServiceUpsertWithWhereUniqueWithoutEmployeeInput = {
@@ -13673,17 +17842,6 @@ export namespace Prisma {
     data: XOR<ServiceUpdateManyMutationInput, ServiceUncheckedUpdateManyWithoutCreatedByInput>
   }
 
-  export type ServiceScalarWhereInput = {
-    AND?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
-    OR?: ServiceScalarWhereInput[]
-    NOT?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
-    id?: IntFilter<"Service"> | number
-    name?: StringFilter<"Service"> | string
-    duration?: IntFilter<"Service"> | number
-    price?: FloatFilter<"Service"> | number
-    createdById?: IntFilter<"Service"> | number
-  }
-
   export type BookingUpsertWithWhereUniqueWithoutEmployeeInput = {
     where: BookingWhereUniqueInput
     update: XOR<BookingUpdateWithoutEmployeeInput, BookingUncheckedUpdateWithoutEmployeeInput>
@@ -13700,21 +17858,6 @@ export namespace Prisma {
     data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutEmployeeInput>
   }
 
-  export type BookingScalarWhereInput = {
-    AND?: BookingScalarWhereInput | BookingScalarWhereInput[]
-    OR?: BookingScalarWhereInput[]
-    NOT?: BookingScalarWhereInput | BookingScalarWhereInput[]
-    id?: IntFilter<"Booking"> | number
-    date?: DateTimeFilter<"Booking"> | Date | string
-    customerId?: IntFilter<"Booking"> | number
-    serviceId?: IntFilter<"Booking"> | number
-    employeeId?: IntFilter<"Booking"> | number
-    status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
-    notes?: StringNullableFilter<"Booking"> | string | null
-    createdAt?: DateTimeFilter<"Booking"> | Date | string
-    method?: EnumBookingMethodNullableFilter<"Booking"> | $Enums.BookingMethod | null
-  }
-
   export type WorkingSlotUpsertWithWhereUniqueWithoutEmployeeInput = {
     where: WorkingSlotWhereUniqueInput
     update: XOR<WorkingSlotUpdateWithoutEmployeeInput, WorkingSlotUncheckedUpdateWithoutEmployeeInput>
@@ -13729,19 +17872,6 @@ export namespace Prisma {
   export type WorkingSlotUpdateManyWithWhereWithoutEmployeeInput = {
     where: WorkingSlotScalarWhereInput
     data: XOR<WorkingSlotUpdateManyMutationInput, WorkingSlotUncheckedUpdateManyWithoutEmployeeInput>
-  }
-
-  export type WorkingSlotScalarWhereInput = {
-    AND?: WorkingSlotScalarWhereInput | WorkingSlotScalarWhereInput[]
-    OR?: WorkingSlotScalarWhereInput[]
-    NOT?: WorkingSlotScalarWhereInput | WorkingSlotScalarWhereInput[]
-    id?: IntFilter<"WorkingSlot"> | number
-    employeeId?: IntFilter<"WorkingSlot"> | number
-    date?: DateTimeFilter<"WorkingSlot"> | Date | string
-    startTime?: StringFilter<"WorkingSlot"> | string
-    endTime?: StringFilter<"WorkingSlot"> | string
-    createdAt?: DateTimeFilter<"WorkingSlot"> | Date | string
-    onlyInStore?: BoolFilter<"WorkingSlot"> | boolean
   }
 
   export type WorkingHourRangeUpsertWithWhereUniqueWithoutEmployeeInput = {
@@ -13779,6 +17909,7 @@ export namespace Prisma {
     method?: $Enums.BookingMethod | null
     service: ServiceCreateNestedOneWithoutBookingsInput
     employee: UserCreateNestedOneWithoutBookingsInput
+    shop: ShopCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateWithoutCustomerInput = {
@@ -13786,6 +17917,7 @@ export namespace Prisma {
     date: Date | string
     serviceId: number
     employeeId: number
+    shopId: number
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
@@ -13825,6 +17957,8 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
+    shop?: ShopCreateNestedOneWithoutEmployeesInput
+    shops?: ShopCreateNestedManyWithoutOwnerInput
     services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
     bookings?: BookingCreateNestedManyWithoutEmployeeInput
     workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
@@ -13839,6 +17973,8 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
+    shopId?: number | null
+    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
     services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
     bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
     workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
@@ -13848,6 +17984,36 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutServicesCreatedInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutServicesCreatedInput, UserUncheckedCreateWithoutServicesCreatedInput>
+  }
+
+  export type ShopCreateWithoutServicesInput = {
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+    owner: UserCreateNestedOneWithoutShopsInput
+    employees?: UserCreateNestedManyWithoutShopInput
+    bookings?: BookingCreateNestedManyWithoutShopInput
+    inventory?: InventoryItemCreateNestedManyWithoutShopInput
+    workingSlots?: WorkingSlotCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUncheckedCreateWithoutServicesInput = {
+    id?: number
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+    ownerId: number
+    employees?: UserUncheckedCreateNestedManyWithoutShopInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
+    inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
+    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopCreateOrConnectWithoutServicesInput = {
+    where: ShopWhereUniqueInput
+    create: XOR<ShopCreateWithoutServicesInput, ShopUncheckedCreateWithoutServicesInput>
   }
 
   export type EmployeeServiceCreateWithoutServiceInput = {
@@ -13876,6 +18042,7 @@ export namespace Prisma {
     method?: $Enums.BookingMethod | null
     customer: CustomerCreateNestedOneWithoutBookingsInput
     employee: UserCreateNestedOneWithoutBookingsInput
+    shop: ShopCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateWithoutServiceInput = {
@@ -13883,6 +18050,7 @@ export namespace Prisma {
     date: Date | string
     customerId: number
     employeeId: number
+    shopId: number
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
@@ -13917,6 +18085,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    shop?: ShopUpdateOneWithoutEmployeesNestedInput
+    shops?: ShopUpdateManyWithoutOwnerNestedInput
     services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
     bookings?: BookingUpdateManyWithoutEmployeeNestedInput
     workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
@@ -13931,10 +18101,48 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    shopId?: NullableIntFieldUpdateOperationsInput | number | null
+    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
     services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
     workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
     workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type ShopUpsertWithoutServicesInput = {
+    update: XOR<ShopUpdateWithoutServicesInput, ShopUncheckedUpdateWithoutServicesInput>
+    create: XOR<ShopCreateWithoutServicesInput, ShopUncheckedCreateWithoutServicesInput>
+    where?: ShopWhereInput
+  }
+
+  export type ShopUpdateToOneWithWhereWithoutServicesInput = {
+    where?: ShopWhereInput
+    data: XOR<ShopUpdateWithoutServicesInput, ShopUncheckedUpdateWithoutServicesInput>
+  }
+
+  export type ShopUpdateWithoutServicesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
+    employees?: UserUpdateManyWithoutShopNestedInput
+    bookings?: BookingUpdateManyWithoutShopNestedInput
+    inventory?: InventoryItemUpdateManyWithoutShopNestedInput
+    workingSlots?: WorkingSlotUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateWithoutServicesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    employees?: UserUncheckedUpdateManyWithoutShopNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
+    inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
+    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type EmployeeServiceUpsertWithWhereUniqueWithoutServiceInput = {
@@ -13976,6 +18184,8 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
+    shop?: ShopCreateNestedOneWithoutEmployeesInput
+    shops?: ShopCreateNestedManyWithoutOwnerInput
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
     bookings?: BookingCreateNestedManyWithoutEmployeeInput
     workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
@@ -13990,6 +18200,8 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
+    shopId?: number | null
+    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
     bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
     workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
@@ -14006,6 +18218,7 @@ export namespace Prisma {
     duration: number
     price: number
     createdBy: UserCreateNestedOneWithoutServicesCreatedInput
+    shop: ShopCreateNestedOneWithoutServicesInput
     bookings?: BookingCreateNestedManyWithoutServiceInput
   }
 
@@ -14015,6 +18228,7 @@ export namespace Prisma {
     duration: number
     price: number
     createdById: number
+    shopId: number
     bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
   }
 
@@ -14041,6 +18255,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    shop?: ShopUpdateOneWithoutEmployeesNestedInput
+    shops?: ShopUpdateManyWithoutOwnerNestedInput
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUpdateManyWithoutEmployeeNestedInput
     workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
@@ -14055,6 +18271,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    shopId?: NullableIntFieldUpdateOperationsInput | number | null
+    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
     workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -14077,6 +18295,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdBy?: UserUpdateOneRequiredWithoutServicesCreatedNestedInput
+    shop?: ShopUpdateOneRequiredWithoutServicesNestedInput
     bookings?: BookingUpdateManyWithoutServiceNestedInput
   }
 
@@ -14086,6 +18305,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdById?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
   }
 
@@ -14114,6 +18334,7 @@ export namespace Prisma {
     duration: number
     price: number
     createdBy: UserCreateNestedOneWithoutServicesCreatedInput
+    shop: ShopCreateNestedOneWithoutServicesInput
     employees?: EmployeeServiceCreateNestedManyWithoutServiceInput
   }
 
@@ -14123,6 +18344,7 @@ export namespace Prisma {
     duration: number
     price: number
     createdById: number
+    shopId: number
     employees?: EmployeeServiceUncheckedCreateNestedManyWithoutServiceInput
   }
 
@@ -14138,6 +18360,8 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
+    shop?: ShopCreateNestedOneWithoutEmployeesInput
+    shops?: ShopCreateNestedManyWithoutOwnerInput
     services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
     workingSlots?: WorkingSlotCreateNestedManyWithoutEmployeeInput
@@ -14152,6 +18376,8 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
+    shopId?: number | null
+    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
     services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
     workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutEmployeeInput
@@ -14161,6 +18387,36 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutBookingsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
+  }
+
+  export type ShopCreateWithoutBookingsInput = {
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+    owner: UserCreateNestedOneWithoutShopsInput
+    employees?: UserCreateNestedManyWithoutShopInput
+    services?: ServiceCreateNestedManyWithoutShopInput
+    inventory?: InventoryItemCreateNestedManyWithoutShopInput
+    workingSlots?: WorkingSlotCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUncheckedCreateWithoutBookingsInput = {
+    id?: number
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+    ownerId: number
+    employees?: UserUncheckedCreateNestedManyWithoutShopInput
+    services?: ServiceUncheckedCreateNestedManyWithoutShopInput
+    inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
+    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopCreateOrConnectWithoutBookingsInput = {
+    where: ShopWhereUniqueInput
+    create: XOR<ShopCreateWithoutBookingsInput, ShopUncheckedCreateWithoutBookingsInput>
   }
 
   export type CustomerUpsertWithoutBookingsInput = {
@@ -14205,6 +18461,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdBy?: UserUpdateOneRequiredWithoutServicesCreatedNestedInput
+    shop?: ShopUpdateOneRequiredWithoutServicesNestedInput
     employees?: EmployeeServiceUpdateManyWithoutServiceNestedInput
   }
 
@@ -14214,6 +18471,7 @@ export namespace Prisma {
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdById?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     employees?: EmployeeServiceUncheckedUpdateManyWithoutServiceNestedInput
   }
 
@@ -14235,6 +18493,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    shop?: ShopUpdateOneWithoutEmployeesNestedInput
+    shops?: ShopUpdateManyWithoutOwnerNestedInput
     services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
     workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
@@ -14249,10 +18509,48 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    shopId?: NullableIntFieldUpdateOperationsInput | number | null
+    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
     services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
     workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
     workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type ShopUpsertWithoutBookingsInput = {
+    update: XOR<ShopUpdateWithoutBookingsInput, ShopUncheckedUpdateWithoutBookingsInput>
+    create: XOR<ShopCreateWithoutBookingsInput, ShopUncheckedCreateWithoutBookingsInput>
+    where?: ShopWhereInput
+  }
+
+  export type ShopUpdateToOneWithWhereWithoutBookingsInput = {
+    where?: ShopWhereInput
+    data: XOR<ShopUpdateWithoutBookingsInput, ShopUncheckedUpdateWithoutBookingsInput>
+  }
+
+  export type ShopUpdateWithoutBookingsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
+    employees?: UserUpdateManyWithoutShopNestedInput
+    services?: ServiceUpdateManyWithoutShopNestedInput
+    inventory?: InventoryItemUpdateManyWithoutShopNestedInput
+    workingSlots?: WorkingSlotUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateWithoutBookingsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    employees?: UserUncheckedUpdateManyWithoutShopNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutShopNestedInput
+    inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
+    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type UserCreateWithoutWorkingSlotsInput = {
@@ -14262,6 +18560,8 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
+    shop?: ShopCreateNestedOneWithoutEmployeesInput
+    shops?: ShopCreateNestedManyWithoutOwnerInput
     services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
     bookings?: BookingCreateNestedManyWithoutEmployeeInput
@@ -14276,6 +18576,8 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
+    shopId?: number | null
+    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
     services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
     bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
@@ -14285,6 +18587,36 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutWorkingSlotsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutWorkingSlotsInput, UserUncheckedCreateWithoutWorkingSlotsInput>
+  }
+
+  export type ShopCreateWithoutWorkingSlotsInput = {
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+    owner: UserCreateNestedOneWithoutShopsInput
+    employees?: UserCreateNestedManyWithoutShopInput
+    services?: ServiceCreateNestedManyWithoutShopInput
+    bookings?: BookingCreateNestedManyWithoutShopInput
+    inventory?: InventoryItemCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUncheckedCreateWithoutWorkingSlotsInput = {
+    id?: number
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+    ownerId: number
+    employees?: UserUncheckedCreateNestedManyWithoutShopInput
+    services?: ServiceUncheckedCreateNestedManyWithoutShopInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
+    inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopCreateOrConnectWithoutWorkingSlotsInput = {
+    where: ShopWhereUniqueInput
+    create: XOR<ShopCreateWithoutWorkingSlotsInput, ShopUncheckedCreateWithoutWorkingSlotsInput>
   }
 
   export type UserUpsertWithoutWorkingSlotsInput = {
@@ -14305,6 +18637,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    shop?: ShopUpdateOneWithoutEmployeesNestedInput
+    shops?: ShopUpdateManyWithoutOwnerNestedInput
     services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUpdateManyWithoutEmployeeNestedInput
@@ -14319,10 +18653,48 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    shopId?: NullableIntFieldUpdateOperationsInput | number | null
+    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
     services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
     workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type ShopUpsertWithoutWorkingSlotsInput = {
+    update: XOR<ShopUpdateWithoutWorkingSlotsInput, ShopUncheckedUpdateWithoutWorkingSlotsInput>
+    create: XOR<ShopCreateWithoutWorkingSlotsInput, ShopUncheckedCreateWithoutWorkingSlotsInput>
+    where?: ShopWhereInput
+  }
+
+  export type ShopUpdateToOneWithWhereWithoutWorkingSlotsInput = {
+    where?: ShopWhereInput
+    data: XOR<ShopUpdateWithoutWorkingSlotsInput, ShopUncheckedUpdateWithoutWorkingSlotsInput>
+  }
+
+  export type ShopUpdateWithoutWorkingSlotsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
+    employees?: UserUpdateManyWithoutShopNestedInput
+    services?: ServiceUpdateManyWithoutShopNestedInput
+    bookings?: BookingUpdateManyWithoutShopNestedInput
+    inventory?: InventoryItemUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateWithoutWorkingSlotsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    employees?: UserUncheckedUpdateManyWithoutShopNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutShopNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
+    inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type UserCreateWithoutWorkingHourRangesInput = {
@@ -14332,6 +18704,8 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
+    shop?: ShopCreateNestedOneWithoutEmployeesInput
+    shops?: ShopCreateNestedManyWithoutOwnerInput
     services?: EmployeeServiceCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceCreateNestedManyWithoutCreatedByInput
     bookings?: BookingCreateNestedManyWithoutEmployeeInput
@@ -14346,6 +18720,8 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     isActive?: boolean
+    shopId?: number | null
+    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
     services?: EmployeeServiceUncheckedCreateNestedManyWithoutEmployeeInput
     servicesCreated?: ServiceUncheckedCreateNestedManyWithoutCreatedByInput
     bookings?: BookingUncheckedCreateNestedManyWithoutEmployeeInput
@@ -14400,6 +18776,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    shop?: ShopUpdateOneWithoutEmployeesNestedInput
+    shops?: ShopUpdateManyWithoutOwnerNestedInput
     services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUpdateManyWithoutEmployeeNestedInput
@@ -14414,6 +18792,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    shopId?: NullableIntFieldUpdateOperationsInput | number | null
+    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
     services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
     servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -14494,6 +18874,279 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ShopCreateWithoutInventoryInput = {
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+    owner: UserCreateNestedOneWithoutShopsInput
+    employees?: UserCreateNestedManyWithoutShopInput
+    services?: ServiceCreateNestedManyWithoutShopInput
+    bookings?: BookingCreateNestedManyWithoutShopInput
+    workingSlots?: WorkingSlotCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUncheckedCreateWithoutInventoryInput = {
+    id?: number
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+    ownerId: number
+    employees?: UserUncheckedCreateNestedManyWithoutShopInput
+    services?: ServiceUncheckedCreateNestedManyWithoutShopInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
+    workingSlots?: WorkingSlotUncheckedCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopCreateOrConnectWithoutInventoryInput = {
+    where: ShopWhereUniqueInput
+    create: XOR<ShopCreateWithoutInventoryInput, ShopUncheckedCreateWithoutInventoryInput>
+  }
+
+  export type ShopUpsertWithoutInventoryInput = {
+    update: XOR<ShopUpdateWithoutInventoryInput, ShopUncheckedUpdateWithoutInventoryInput>
+    create: XOR<ShopCreateWithoutInventoryInput, ShopUncheckedCreateWithoutInventoryInput>
+    where?: ShopWhereInput
+  }
+
+  export type ShopUpdateToOneWithWhereWithoutInventoryInput = {
+    where?: ShopWhereInput
+    data: XOR<ShopUpdateWithoutInventoryInput, ShopUncheckedUpdateWithoutInventoryInput>
+  }
+
+  export type ShopUpdateWithoutInventoryInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
+    employees?: UserUpdateManyWithoutShopNestedInput
+    services?: ServiceUpdateManyWithoutShopNestedInput
+    bookings?: BookingUpdateManyWithoutShopNestedInput
+    workingSlots?: WorkingSlotUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateWithoutInventoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    employees?: UserUncheckedUpdateManyWithoutShopNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutShopNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
+    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutShopNestedInput
+  }
+
+  export type UserCreateManyShopInput = {
+    id?: number
+    email: string
+    hashedPassword: string
+    name: string
+    role?: $Enums.Role
+    createdAt?: Date | string
+    isActive?: boolean
+  }
+
+  export type ServiceCreateManyShopInput = {
+    id?: number
+    name: string
+    duration: number
+    price: number
+    createdById: number
+  }
+
+  export type BookingCreateManyShopInput = {
+    id?: number
+    date: Date | string
+    customerId: number
+    serviceId: number
+    employeeId: number
+    status?: $Enums.BookingStatus
+    notes?: string | null
+    createdAt?: Date | string
+    method?: $Enums.BookingMethod | null
+  }
+
+  export type InventoryItemCreateManyShopInput = {
+    id?: number
+    name: string
+    quantity: number
+    createdAt?: Date | string
+  }
+
+  export type WorkingSlotCreateManyShopInput = {
+    id?: number
+    employeeId: number
+    date: Date | string
+    startTime: string
+    endTime: string
+    onlyInStore?: boolean
+    createdAt?: Date | string
+  }
+
+  export type UserUpdateWithoutShopInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    shops?: ShopUpdateManyWithoutOwnerNestedInput
+    services?: EmployeeServiceUpdateManyWithoutEmployeeNestedInput
+    servicesCreated?: ServiceUpdateManyWithoutCreatedByNestedInput
+    bookings?: BookingUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
+    services?: EmployeeServiceUncheckedUpdateManyWithoutEmployeeNestedInput
+    servicesCreated?: ServiceUncheckedUpdateManyWithoutCreatedByNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutEmployeeNestedInput
+    workingHourRanges?: WorkingHourRangeUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type UserUncheckedUpdateManyWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ServiceUpdateWithoutShopInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    createdBy?: UserUpdateOneRequiredWithoutServicesCreatedNestedInput
+    employees?: EmployeeServiceUpdateManyWithoutServiceNestedInput
+    bookings?: BookingUpdateManyWithoutServiceNestedInput
+  }
+
+  export type ServiceUncheckedUpdateWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    createdById?: IntFieldUpdateOperationsInput | number
+    employees?: EmployeeServiceUncheckedUpdateManyWithoutServiceNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
+  }
+
+  export type ServiceUncheckedUpdateManyWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    createdById?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BookingUpdateWithoutShopInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
+    customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
+    service?: ServiceUpdateOneRequiredWithoutBookingsNestedInput
+    employee?: UserUpdateOneRequiredWithoutBookingsNestedInput
+  }
+
+  export type BookingUncheckedUpdateWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerId?: IntFieldUpdateOperationsInput | number
+    serviceId?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
+  }
+
+  export type BookingUncheckedUpdateManyWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerId?: IntFieldUpdateOperationsInput | number
+    serviceId?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
+  }
+
+  export type InventoryItemUpdateWithoutShopInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InventoryItemUncheckedUpdateWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InventoryItemUncheckedUpdateManyWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkingSlotUpdateWithoutShopInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: UserUpdateOneRequiredWithoutWorkingSlotsNestedInput
+  }
+
+  export type WorkingSlotUncheckedUpdateWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkingSlotUncheckedUpdateManyWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    onlyInStore?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopCreateManyOwnerInput = {
+    id?: number
+    name: string
+    address: string
+    password: string
+    createdAt?: Date | string
+  }
+
   export type EmployeeServiceCreateManyEmployeeInput = {
     serviceId: number
   }
@@ -14503,6 +19156,7 @@ export namespace Prisma {
     name: string
     duration: number
     price: number
+    shopId: number
   }
 
   export type BookingCreateManyEmployeeInput = {
@@ -14510,6 +19164,7 @@ export namespace Prisma {
     date: Date | string
     customerId: number
     serviceId: number
+    shopId: number
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
@@ -14521,8 +19176,9 @@ export namespace Prisma {
     date: Date | string
     startTime: string
     endTime: string
-    createdAt?: Date | string
     onlyInStore?: boolean
+    createdAt?: Date | string
+    shopId: number
   }
 
   export type WorkingHourRangeCreateManyEmployeeInput = {
@@ -14530,6 +19186,39 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     createdAt?: Date | string
+  }
+
+  export type ShopUpdateWithoutOwnerInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employees?: UserUpdateManyWithoutShopNestedInput
+    services?: ServiceUpdateManyWithoutShopNestedInput
+    bookings?: BookingUpdateManyWithoutShopNestedInput
+    inventory?: InventoryItemUpdateManyWithoutShopNestedInput
+    workingSlots?: WorkingSlotUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateWithoutOwnerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employees?: UserUncheckedUpdateManyWithoutShopNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutShopNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
+    inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
+    workingSlots?: WorkingSlotUncheckedUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateManyWithoutOwnerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type EmployeeServiceUpdateWithoutEmployeeInput = {
@@ -14548,6 +19237,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
+    shop?: ShopUpdateOneRequiredWithoutServicesNestedInput
     employees?: EmployeeServiceUpdateManyWithoutServiceNestedInput
     bookings?: BookingUpdateManyWithoutServiceNestedInput
   }
@@ -14557,6 +19247,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     employees?: EmployeeServiceUncheckedUpdateManyWithoutServiceNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
   }
@@ -14566,6 +19257,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
   }
 
   export type BookingUpdateWithoutEmployeeInput = {
@@ -14576,6 +19268,7 @@ export namespace Prisma {
     method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
     customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
     service?: ServiceUpdateOneRequiredWithoutBookingsNestedInput
+    shop?: ShopUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutEmployeeInput = {
@@ -14583,6 +19276,7 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: IntFieldUpdateOperationsInput | number
     serviceId?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14594,6 +19288,7 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: IntFieldUpdateOperationsInput | number
     serviceId?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14604,8 +19299,9 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     onlyInStore?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shop?: ShopUpdateOneRequiredWithoutWorkingSlotsNestedInput
   }
 
   export type WorkingSlotUncheckedUpdateWithoutEmployeeInput = {
@@ -14613,8 +19309,9 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     onlyInStore?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shopId?: IntFieldUpdateOperationsInput | number
   }
 
   export type WorkingSlotUncheckedUpdateManyWithoutEmployeeInput = {
@@ -14622,8 +19319,9 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     onlyInStore?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shopId?: IntFieldUpdateOperationsInput | number
   }
 
   export type WorkingHourRangeUpdateWithoutEmployeeInput = {
@@ -14653,6 +19351,7 @@ export namespace Prisma {
     date: Date | string
     serviceId: number
     employeeId: number
+    shopId: number
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
@@ -14667,6 +19366,7 @@ export namespace Prisma {
     method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
     service?: ServiceUpdateOneRequiredWithoutBookingsNestedInput
     employee?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    shop?: ShopUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutCustomerInput = {
@@ -14674,6 +19374,7 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     serviceId?: IntFieldUpdateOperationsInput | number
     employeeId?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14685,6 +19386,7 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     serviceId?: IntFieldUpdateOperationsInput | number
     employeeId?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14700,6 +19402,7 @@ export namespace Prisma {
     date: Date | string
     customerId: number
     employeeId: number
+    shopId: number
     status?: $Enums.BookingStatus
     notes?: string | null
     createdAt?: Date | string
@@ -14726,6 +19429,7 @@ export namespace Prisma {
     method?: NullableEnumBookingMethodFieldUpdateOperationsInput | $Enums.BookingMethod | null
     customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
     employee?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    shop?: ShopUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutServiceInput = {
@@ -14733,6 +19437,7 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: IntFieldUpdateOperationsInput | number
     employeeId?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14744,6 +19449,7 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: IntFieldUpdateOperationsInput | number
     employeeId?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

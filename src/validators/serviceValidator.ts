@@ -1,7 +1,7 @@
 import { body, param } from 'express-validator';
 
 export const createServiceValidation = [
-  body('name')
+  body('name').trim()
     .notEmpty()
     .withMessage('Service name is required'),
 

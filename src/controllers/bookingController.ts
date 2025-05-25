@@ -10,8 +10,19 @@ export const getAvailableSlots = async (
   res: Response
 ): Promise<void> => {
   try {
+    const shopId = (req as any).shop.id;
     const employeeId = Number(req.params.employeeId);
     const { date, serviceId } = req.query;
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "Invalid shop ID", 400);
+    }
+    const employee = await prisma.user.findUnique({
+      where: { id: employeeId, shopId },
+    });
+
+    if (!employee || !employee.isActive || employee.role !== "EMPLOYEE") {
+      return sendErrorResponse(res, "Invalid or inactive employee", 400);
+    }
 
     if (!date || !serviceId || isNaN(Number(serviceId)) || isNaN(employeeId)) {
       return sendErrorResponse(res, "Invalid input", 400);
@@ -44,6 +55,7 @@ export const getAvailableSlots = async (
     const workingSlots = await prisma.workingSlot.findMany({
       where: {
         employeeId,
+        shopId,
         date: {
           gte: dayStart,
           lte: dayEnd,
@@ -134,6 +146,7 @@ export const createBookingByOwner = async (
 ): Promise<void> => {
   try {
     const { employeeId, serviceId, date, time, customer } = req.body;
+    const shopId = (req as any).shop.id;
 
     if (
       !employeeId ||
@@ -145,9 +158,11 @@ export const createBookingByOwner = async (
     ) {
       return sendErrorResponse(res, "Missing required fields", 400);
     }
-
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "Invalid shop ID", 400);
+    }
     const employee = await prisma.user.findUnique({
-      where: { id: employeeId },
+      where: { id: employeeId, shopId, isActive: true },
     });
 
     if (!employee || !employee.isActive) {
@@ -155,7 +170,7 @@ export const createBookingByOwner = async (
     }
 
     const service = await prisma.service.findUnique({
-      where: { id: serviceId },
+      where: { id: serviceId, shopId },
       select: { duration: true },
     });
 
@@ -164,7 +179,7 @@ export const createBookingByOwner = async (
     }
 
     const [year, month, day] = date.split("-").map(Number);
-    const [hour, minute] = time.split(":" ).map(Number);
+    const [hour, minute] = time.split(":").map(Number);
 
     const start = new Date(year, month - 1, day, hour, minute);
     const end = addMinutes(start, service.duration);
@@ -175,13 +190,14 @@ export const createBookingByOwner = async (
     const workingSlots = await prisma.workingSlot.findMany({
       where: {
         employeeId,
+        shopId,
         date: { gte: startOfDay, lte: endOfDay },
       },
     });
 
     const fitsInsideWorkingSlot = workingSlots.some((slot) => {
-      const [sHour, sMin] = slot.startTime.split(":" ).map(Number);
-      const [eHour, eMin] = slot.endTime.split(":" ).map(Number);
+      const [sHour, sMin] = slot.startTime.split(":").map(Number);
+      const [eHour, eMin] = slot.endTime.split(":").map(Number);
 
       const slotStart = new Date(year, month - 1, day, sHour, sMin);
       const slotEnd = new Date(year, month - 1, day, eHour, eMin);
@@ -200,6 +216,7 @@ export const createBookingByOwner = async (
     const bookings = await prisma.booking.findMany({
       where: {
         employeeId,
+        shopId,
         status: { in: ["CONFIRMED"] },
         date: { gte: startOfDay, lte: endOfDay },
       },
@@ -249,6 +266,7 @@ export const createBookingByOwner = async (
         date: start,
         status: "CONFIRMED",
         method: "IN_STORE",
+        shopId,
       },
     });
 
@@ -262,11 +280,12 @@ export const createBookingByOwner = async (
   }
 };
 
-export const createBookingByCustomer= async (
+export const createBookingByCustomer = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
+    const shopId = (req as any).shop.id;
     const { employeeId, serviceId, date, time, customer } = req.body;
 
     if (
@@ -279,9 +298,11 @@ export const createBookingByCustomer= async (
     ) {
       return sendErrorResponse(res, "Missing required fields", 400);
     }
-
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "invalide shop ID");
+    }
     const employee = await prisma.user.findUnique({
-      where: { id: employeeId },
+      where: { id: employeeId, shopId },
     });
 
     if (!employee || !employee.isActive) {
@@ -289,7 +310,7 @@ export const createBookingByCustomer= async (
     }
 
     const service = await prisma.service.findUnique({
-      where: { id: serviceId },
+      where: { id: serviceId, shopId },
       select: { duration: true },
     });
 
@@ -298,7 +319,7 @@ export const createBookingByCustomer= async (
     }
 
     const [year, month, day] = date.split("-").map(Number);
-    const [hour, minute] = time.split(":" ).map(Number);
+    const [hour, minute] = time.split(":").map(Number);
 
     const start = new Date(year, month - 1, day, hour, minute);
     const end = addMinutes(start, service.duration);
@@ -309,14 +330,15 @@ export const createBookingByCustomer= async (
     const workingSlots = await prisma.workingSlot.findMany({
       where: {
         employeeId,
+        shopId,
         date: { gte: startOfDay, lte: endOfDay },
         onlyInStore: false,
       },
     });
 
     const fitsInsideWorkingSlot = workingSlots.some((slot) => {
-      const [sHour, sMin] = slot.startTime.split(":" ).map(Number);
-      const [eHour, eMin] = slot.endTime.split(":" ).map(Number);
+      const [sHour, sMin] = slot.startTime.split(":").map(Number);
+      const [eHour, eMin] = slot.endTime.split(":").map(Number);
 
       const slotStart = new Date(year, month - 1, day, sHour, sMin);
       const slotEnd = new Date(year, month - 1, day, eHour, eMin);
@@ -335,6 +357,7 @@ export const createBookingByCustomer= async (
     const bookings = await prisma.booking.findMany({
       where: {
         employeeId,
+        shopId,
         status: { in: ["CONFIRMED"] },
         date: { gte: startOfDay, lte: endOfDay },
       },
@@ -384,6 +407,7 @@ export const createBookingByCustomer= async (
         date: start,
         status: "PENDING",
         method: "ONLINE",
+        shopId,
       },
     });
 
@@ -402,14 +426,18 @@ export const cancelBooking = async (
   res: Response
 ): Promise<void> => {
   try {
+    const shopId = (req as any).shop.id;
     const bookingId = Number(req.params.bookingId);
 
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "Invalid shop ID", 400);
+    }
     if (isNaN(bookingId)) {
       return sendErrorResponse(res, "Invalid booking ID", 400);
     }
 
     const booking = await prisma.booking.findUnique({
-      where: { id: bookingId },
+      where: { id: bookingId, shopId },
     });
 
     if (!booking) {
@@ -440,14 +468,18 @@ export const confirmBooking = async (
   res: Response
 ): Promise<void> => {
   try {
+    const shopId = (req as any).shop.id;
     const bookingId = Number(req.params.bookingId);
 
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "Invalid shop ID", 400);
+    }
     if (isNaN(bookingId)) {
       return sendErrorResponse(res, "Invalid booking ID", 400);
     }
 
     const booking = await prisma.booking.findUnique({
-      where: { id: bookingId },
+      where: { id: bookingId, shopId },
     });
 
     if (!booking) {
@@ -478,6 +510,7 @@ export const completeBooking = async (
   res: Response
 ): Promise<void> => {
   try {
+    const shopId = (req as any).shop.id;
     const bookingId = Number(req.params.bookingId);
 
     if (isNaN(bookingId)) {
@@ -485,7 +518,7 @@ export const completeBooking = async (
     }
 
     const booking = await prisma.booking.findUnique({
-      where: { id: bookingId },
+      where: { id: bookingId, shopId },
     });
 
     if (!booking) {

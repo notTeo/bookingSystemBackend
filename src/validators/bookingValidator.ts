@@ -34,14 +34,17 @@ export const availableSlotsValidation = [
 
 export const createBookingValidation = [
   body('employeeId')
+  .trim()
     .isInt({ min: 1 })
     .withMessage('employeeId must be a valid integer'),
 
   body('serviceId')
+    .trim()
     .isInt({ min: 1 })
     .withMessage('serviceId must be a valid integer'),
 
   body('date')
+    
     .isISO8601()
     .withMessage('date must be a valid ISO 8601 date (YYYY-MM-DD)'),
 
@@ -50,14 +53,17 @@ export const createBookingValidation = [
     .withMessage('time must be in HH:mm format'),
 
   body('customer.name')
+  .trim()
     .notEmpty()
     .withMessage('Customer name is required'),
 
   body('customer.phone')
+  .trim()
     .notEmpty()
     .withMessage('Customer phone is required'),
 
   body('customer.email')
+  .trim()
     .optional()
     .isEmail()
     .withMessage('Invalid email'),

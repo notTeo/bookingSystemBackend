@@ -11,9 +11,22 @@ export const createEmployee = async (
 ): Promise<void> => {
   try {
     const { name, email, password } = req.body;
+    const shopId = (req as any).shop.id;
 
     if (!email || !password || !name) {
       return sendErrorResponse(res, "All fields are required", 400);
+    }
+
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "invalid shop ID", 400);
+    }
+
+    const shop = await prisma.shop.findUnique({
+      where: { id: shopId },
+    });
+    
+    if (!shop) {
+      return sendErrorResponse(res, "Shop not found", 404);
     }
 
     const existing = await prisma.user.findUnique({ where: { email } });
@@ -29,6 +42,7 @@ export const createEmployee = async (
         email,
         hashedPassword,
         role: "EMPLOYEE",
+        shopId
       },
     });
 
@@ -48,13 +62,18 @@ export const deleteEmployee = async (
 ): Promise<void> => {
   try {
     const employeeId = Number(req.params.employeeId);
+    const shopId = (req as any).shop.id;
+
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "Invalid shop ID", 400);
+    }
 
     if (isNaN(employeeId)) {
       return sendErrorResponse(res, "Invalid employee ID", 400);
     }
 
     const employee = await prisma.user.findUnique({
-      where: { id: employeeId },
+      where: { id: employeeId, shopId },
     });
 
     if (!employee || employee.role !== "EMPLOYEE") {
@@ -63,6 +82,10 @@ export const deleteEmployee = async (
         "EmployeeId not found or not deletable",
         404
       );
+    }
+
+    if ((employee as any).shopId !== shopId) {
+      return sendErrorResponse(res, "Unauthorized shop access", 403);
     }
 
     await prisma.service.deleteMany({
@@ -126,8 +149,13 @@ export const updateEmployee = async (
   res: Response
 ): Promise<void> => {
   try {
+    const shopId = (req as any).shop.id;
     const employeeId = Number(req.params.employeeId);
     const { name, email, password } = req.body;
+
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "Invalid shop ID", 400);
+    }
 
     if (isNaN(employeeId)) {
       return sendErrorResponse(res, "Invalid employee ID", 400);
@@ -139,6 +167,10 @@ export const updateEmployee = async (
 
     if (!employee || employee.role !== "EMPLOYEE") {
       return sendErrorResponse(res, "Employee not found or not editable", 404);
+    }
+
+    if ((employee as any).shopId !== shopId) {
+      return sendErrorResponse(res, "Unauthorized shop access", 403);
     }
 
     const updateData: any = {};
@@ -174,17 +206,26 @@ export const toggleEmployeeActiveStatus = async (
   res: Response
 ) => {
   try {
+    const shopId = (req as any).shop.id;
     const employeeId = Number(req.params.employeeId);
     const { isActive } = req.body;
+
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "Invalid shop ID", 400);
+    }
+
 
     if (isNaN(employeeId) || typeof isActive !== "boolean") {
       return sendErrorResponse(res, "Invalid input", 400);
     }
 
-    const barber = await prisma.user.findUnique({ where: { id: employeeId } });
+    const employee = await prisma.user.findUnique({ where: { id: employeeId } });
 
-    if (!barber || barber.role !== "EMPLOYEE") {
+    if (!employee || employee.role !== "EMPLOYEE") {
       return sendErrorResponse(res, "Employee not found", 404);
+    }
+    if ((employee as any).shopId !== shopId) {
+      return sendErrorResponse(res, "Unauthorized shop access", 403);
     }
 
     await prisma.user.update({
@@ -206,8 +247,10 @@ export const getAllEmployees = async (
   res: Response
 ): Promise<void> => {
   try {
+
+    const shopId = (req as any).shop.id;
     const employees = await prisma.user.findMany({
-      where: { role: "EMPLOYEE", isActive: true },
+      where: { role: "EMPLOYEE", isActive: true, shopId },
       include: {
         services: {
           include: { service: true },
@@ -274,9 +317,13 @@ export const getAllEmployees = async (
 
 export const getEmployeeById = async (req: Request, res: Response) => {
   try {
-
+    const shopId = (req as any).shop.id;
     const employeeId = Number(req.params.employeeId);
-    
+
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "Invalid shop ID", 400);
+    }
+
     if (isNaN(employeeId)) {
       return sendErrorResponse(res, "Invalid employee ID", 400);
     }
@@ -294,11 +341,12 @@ export const getEmployeeById = async (req: Request, res: Response) => {
           orderBy: {
             startDate: "asc",
           },
-        }
+        },
       },
     });
-    if (!employee) {
-      return sendErrorResponse(res, "Employee not found", 404);
+
+    if (!employee || employee.role !== "EMPLOYEE" || employee.shopId !== shopId) {
+      return sendErrorResponse(res, "Employee not found or unauthorized", 404);
     }
 
     const services = employee.services.map((bs) => ({
@@ -309,10 +357,7 @@ export const getEmployeeById = async (req: Request, res: Response) => {
     }));
 
     const workingSchedule = employee.workingHourRanges.map((range) => {
-      const groupedSlots: Record<
-        string,
-        { startTime: string; endTime: string }[]
-      > = {
+      const groupedSlots: Record<string, { startTime: string; endTime: string }[]> = {
         MONDAY: [],
         TUESDAY: [],
         WEDNESDAY: [],
@@ -357,28 +402,34 @@ export const assignServicesToEmployee = async (
   try {
     const employeeId = Number(req.params.employeeId);
     const { serviceIds } = req.body;
+    const shopId = (req as any).shop.id;
+
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "Invalid shop ID", 400);
+    }
 
     if (isNaN(employeeId)) {
       return sendErrorResponse(res, "Invalid employee ID", 400);
     }
 
     if (!Array.isArray(serviceIds) || serviceIds.length === 0) {
-      return sendErrorResponse(
-        res,
-        "Service IDs must be a non-empty array",
-        400
-      );
+      return sendErrorResponse(res, "Service IDs must be a non-empty array", 400);
     }
+
     const employee = await prisma.user.findUnique({
-      where: { id: employeeId },
+      where: { id: employeeId,  shopId },
+      select: { id: true, role: true, shopId: true }
     });
 
-    if (!employee || employee.role !== "EMPLOYEE") {
-      return sendErrorResponse(res, "Employee not found or not eligible", 404);
+    if (!employee || employee.role !== "EMPLOYEE" || employee.shopId !== shopId) {
+      return sendErrorResponse(res, "Employee not found or unauthorized", 404);
     }
 
     const validServices = await prisma.service.findMany({
-      where: { id: { in: serviceIds } },
+      where: {
+        id: { in: serviceIds },
+        shopId: shopId,
+      },
       select: { id: true },
     });
 
@@ -388,17 +439,15 @@ export const assignServicesToEmployee = async (
     if (invalidIds.length > 0) {
       return sendErrorResponse(
         res,
-        `Invalid service IDs: ${invalidIds.join(", ")}`,
+        `Invalid or unauthorized service IDs: ${invalidIds.join(", ")}`,
         400
       );
     }
 
-    await prisma.employeeService.deleteMany({
-      where: { employeeId },
-    });
+    await prisma.employeeService.deleteMany({ where: { employeeId } });
 
     await prisma.employeeService.createMany({
-      data: serviceIds.map((serviceId) => ({
+      data: validIds.map((serviceId) => ({
         employeeId,
         serviceId,
       })),
@@ -413,6 +462,7 @@ export const assignServicesToEmployee = async (
   }
 };
 
+
 export const removeServiceFromEmployee = async (
   req: Request,
   res: Response
@@ -420,9 +470,32 @@ export const removeServiceFromEmployee = async (
   try {
     const employeeId = Number(req.params.employeeId);
     const serviceId = Number(req.params.serviceId);
+    const shopId = (req as any).shop.id;
 
-    if (isNaN(employeeId) || isNaN(serviceId)) {
-      return sendErrorResponse(res, "Invalid employee or service ID", 400);
+    if (!shopId || isNaN(shopId)) {
+      return sendErrorResponse(res, "Invalid shop ID", 400);
+    }
+
+    if (isNaN(employeeId)) {
+      return sendErrorResponse(res, "Invalid service ID", 400);
+    }
+
+    const employee = await prisma.user.findUnique({
+      where: { id: employeeId, shopId },
+      select: { id: true, role: true, shopId: true }
+    });
+
+    if (!employee || employee.role !== "EMPLOYEE" || employee.shopId !== shopId) {
+      return sendErrorResponse(res, "Unauthorized or invalid employee", 403);
+    }
+
+    const service = await prisma.service.findUnique({
+      where: { id: serviceId },
+      select: { id: true, shopId: true }
+    });
+
+    if (!service || service.shopId !== shopId) {
+      return sendErrorResponse(res, "Service not found or not in current shop", 404);
     }
 
     const relation = await prisma.employeeService.findUnique({
@@ -435,11 +508,7 @@ export const removeServiceFromEmployee = async (
     });
 
     if (!relation) {
-      return sendErrorResponse(
-        res,
-        "Service not assigned to this employee",
-        404
-      );
+      return sendErrorResponse(res, "Service not assigned to this employee", 404);
     }
 
     await prisma.employeeService.delete({
@@ -459,3 +528,6 @@ export const removeServiceFromEmployee = async (
     return sendErrorResponse(res, "Server error");
   }
 };
+
+
+

@@ -36,20 +36,42 @@ enum WeekDay {
   SUNDAY
 }
 
-model User {
-  id                 Int                 @id @default(autoincrement())
-  email              String              @unique
-  hashedPassword     String
-  name               String
-  role               Role                @default(EMPLOYEE)
-  createdAt          DateTime            @default(now())
-  isActive  Boolean  @default(true)
+model Shop {
+  id        Int      @id @default(autoincrement())
+  name      String
+  address   String
+  password  String
+  createdAt DateTime @default(now())
 
-  services           EmployeeService[]
-  servicesCreated    Service[]           @relation("UserCreatedServices")
-  bookings           Booking[]
-  workingSlots       WorkingSlot[]
-  workingHourRanges  WorkingHourRange[]
+  ownerId Int
+  owner   User @relation("OwnerShops", fields: [ownerId], references: [id])
+
+  employees    User[]          @relation("ShopEmployees")
+  services     Service[]
+  bookings     Booking[]
+  inventory    InventoryItem[]
+  workingSlots WorkingSlot[]
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  email          String   @unique
+  hashedPassword String
+  name           String
+  role           Role     @default(EMPLOYEE)
+  createdAt      DateTime @default(now())
+  isActive       Boolean  @default(true)
+
+  shopId Int? // for employees
+  shop   Shop? @relation("ShopEmployees", fields: [shopId], references: [id])
+
+  shops Shop[] @relation("OwnerShops")
+
+  services          EmployeeService[]
+  servicesCreated   Service[]          @relation("UserCreatedServices")
+  bookings          Booking[]
+  workingSlots      WorkingSlot[]
+  workingHourRanges WorkingHourRange[]
 }
 
 model Customer {
@@ -62,71 +84,93 @@ model Customer {
 }
 
 model Service {
-  id           Int       @id @default(autoincrement())
-  name         String
-  duration     Int       // in minutes
-  price        Float
-  createdBy    User      @relation("UserCreatedServices", fields: [createdById], references: [id])
-  createdById  Int
+  id       Int    @id @default(autoincrement())
+  name     String
+  duration Int // in minutes
+  price    Float
 
-  employees      EmployeeService[]
-  bookings     Booking[]
+  createdById Int
+  createdBy   User @relation("UserCreatedServices", fields: [createdById], references: [id])
+
+  shopId Int
+  shop   Shop @relation(fields: [shopId], references: [id])
+
+  employees EmployeeService[]
+  bookings  Booking[]
 }
 
 model EmployeeService {
-  employeeId  Int
-  serviceId Int
-  employee    User     @relation(fields: [employeeId], references: [id])
-  service   Service  @relation(fields: [serviceId], references: [id])
+  employeeId Int
+  serviceId  Int
+  employee   User    @relation(fields: [employeeId], references: [id])
+  service    Service @relation(fields: [serviceId], references: [id])
 
   @@id([employeeId, serviceId])
 }
 
 model Booking {
-  id         Int       @id @default(autoincrement())
-  date       DateTime
-  customer   Customer  @relation(fields: [customerId], references: [id])
-  customerId Int
-  service    Service   @relation(fields: [serviceId], references: [id])
-  serviceId  Int
-  employee     User      @relation(fields: [employeeId], references: [id])
-  employeeId   Int
+  id   Int      @id @default(autoincrement())
+  date DateTime
 
-  status     BookingStatus @default(PENDING)
-  notes      String?
-  createdAt  DateTime       @default(now())
-  method    BookingMethod? 
+  customerId Int
+  customer   Customer @relation(fields: [customerId], references: [id])
+
+  serviceId Int
+  service   Service @relation(fields: [serviceId], references: [id])
+
+  employeeId Int
+  employee   User @relation(fields: [employeeId], references: [id])
+
+  shopId Int
+  shop   Shop @relation(fields: [shopId], references: [id])
+
+  status    BookingStatus  @default(PENDING)
+  notes     String?
+  createdAt DateTime       @default(now())
+  method    BookingMethod?
 }
 
 model WorkingSlot {
-  id        Int      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   employeeId  Int
   employee    User     @relation(fields: [employeeId], references: [id])
-  date      DateTime
-  startTime String
-  endTime   String
-  createdAt DateTime @default(now())
-    onlyInStore  Boolean  @default(false)
+  date        DateTime
+  startTime   String
+  endTime     String
+  onlyInStore Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  shopId Int
+  shop   Shop @relation(fields: [shopId], references: [id])
 }
 
 model WorkingHourRange {
-  id        Int       @id @default(autoincrement())
-  employeeId  Int
-  startDate DateTime
-  endDate   DateTime
-  createdAt DateTime  @default(now())
+  id         Int      @id @default(autoincrement())
+  employeeId Int
+  startDate  DateTime
+  endDate    DateTime
+  createdAt  DateTime @default(now())
 
-  employee    User       @relation(fields: [employeeId], references: [id])
-  slots     RecurringSlot[]
+  employee User            @relation(fields: [employeeId], references: [id])
+  slots    RecurringSlot[]
 }
 
 model RecurringSlot {
-  id        Int       @id @default(autoincrement())
-  rangeId   Int
-  weekDay   WeekDay
-  startTime String
-  endTime   String
-  onlyInStore  Boolean  @default(false)
+  id          Int     @id @default(autoincrement())
+  rangeId     Int
+  weekDay     WeekDay
+  startTime   String
+  endTime     String
+  onlyInStore Boolean @default(false)
 
-  range     WorkingHourRange @relation(fields: [rangeId], references: [id])
+  range WorkingHourRange @relation(fields: [rangeId], references: [id])
+}
+
+model InventoryItem {
+  id        Int      @id @default(autoincrement())
+  name      String
+  quantity  Int
+  shopId    Int
+  shop      Shop     @relation(fields: [shopId], references: [id])
+  createdAt DateTime @default(now())
 }

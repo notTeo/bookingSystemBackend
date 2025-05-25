@@ -34,13 +34,31 @@ import {
 import { removeServiceFromEmployeeValdation } from "../validators/serviceValidator";
 import { getAvailableSlots } from "../controllers/bookingController";
 import { availableSlotsValidation } from "../validators/bookingValidator";
+import { withShopContext } from "../middlewares/shopMiddleware";
 
 const router = express.Router();
+
+//  GETTERS //
+
+router.get("/", authenticate, authorizeOwner, withShopContext, getAllEmployees);
+
+router.get(
+  "/:employeeId",
+  authenticate,
+  authorizeOwner,
+  withShopContext,
+  getEmployeeByIdValidation,
+  validateRequest,
+  getEmployeeById
+);
+
+//  CRUD  //
 
 router.post(
   "/",
   authenticate,
   authorizeOwner,
+  withShopContext,
   createEmployeeValidation,
   validateRequest,
   createEmployee
@@ -50,7 +68,9 @@ router.delete(
   "/:employeeId",
   authenticate,
   authorizeOwner,
+  withShopContext,
   deleteEmployeeValidation,
+  validateRequest,
   deleteEmployee
 );
 
@@ -58,25 +78,19 @@ router.put(
   "/:employeeId",
   authenticate,
   authorizeOwner,
+  withShopContext,
   updateEmployeeValidation,
   validateRequest,
   updateEmployee
 );
 
-router.get("/", authenticate, authorizeOwner, getAllEmployees);
-
-router.get(
-  "/:employeeId",
-  authenticate,
-  authorizeOwner,
-  getEmployeeByIdValidation,
-  getEmployeeById
-);
+//  SERVICES  //
 
 router.patch(
   "/:employeeId/active",
   authenticate,
   authorizeOwner,
+  withShopContext,
   toggleEmployeeActiveValidation,
   validateRequest,
   toggleEmployeeActiveStatus
@@ -86,6 +100,7 @@ router.post(
   "/:employeeId/services",
   authenticate,
   authorizeOwner,
+  withShopContext,
   assignServicesValidation,
   validateRequest,
   assignServicesToEmployee
@@ -95,14 +110,19 @@ router.delete(
   "/:employeeId/services/:serviceId",
   authenticate,
   authorizeOwner,
+  withShopContext,
   removeServiceFromEmployeeValdation,
+  validateRequest,
   removeServiceFromEmployee
 );
+
+//  WORKING HOURS //
 
 router.post(
   "/:employeeId/working-range",
   authenticate,
   authorizeOwner,
+  withShopContext,
   createWorkingHourRangeValidation,
   validateRequest,
   createWorkingHourRange
@@ -112,6 +132,7 @@ router.post(
   "/:employeeId/:rangeId/clone",
   authenticate,
   authorizeOwner,
+  withShopContext,
   cloneExistingWorkingHourRangeValidation,
   validateRequest,
   cloneExistingWorkingHourRange
@@ -121,7 +142,9 @@ router.delete(
   "/:employeeId/working-range/:rangeId",
   authenticate,
   authorizeOwner,
+  withShopContext,
   deleteWorkingHourRangeValidation,
+  validateRequest,
   deleteWorkingHourRange
 );
 
@@ -129,17 +152,20 @@ router.put(
   "/:employeeId/ /:rangeId",
   authenticate,
   authorizeOwner,
+  withShopContext,
   editWorkingHourRangeValidation,
   validateRequest,
   editWorkingHourRange
 );
 
+//  AVAILABLE SLOTS  //
+
 router.get(
-  '/:employeeId/available-slots',
-  availableSlotsValidation, 
+  "/:employeeId/available-slots",
+  withShopContext,
+  availableSlotsValidation,
   validateRequest,
   getAvailableSlots
 );
-
 
 export default router;

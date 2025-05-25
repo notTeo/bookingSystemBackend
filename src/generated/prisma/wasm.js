@@ -120,6 +120,15 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.ShopScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  address: 'address',
+  password: 'password',
+  createdAt: 'createdAt',
+  ownerId: 'ownerId'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -127,7 +136,8 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   role: 'role',
   createdAt: 'createdAt',
-  isActive: 'isActive'
+  isActive: 'isActive',
+  shopId: 'shopId'
 };
 
 exports.Prisma.CustomerScalarFieldEnum = {
@@ -143,7 +153,8 @@ exports.Prisma.ServiceScalarFieldEnum = {
   name: 'name',
   duration: 'duration',
   price: 'price',
-  createdById: 'createdById'
+  createdById: 'createdById',
+  shopId: 'shopId'
 };
 
 exports.Prisma.EmployeeServiceScalarFieldEnum = {
@@ -157,6 +168,7 @@ exports.Prisma.BookingScalarFieldEnum = {
   customerId: 'customerId',
   serviceId: 'serviceId',
   employeeId: 'employeeId',
+  shopId: 'shopId',
   status: 'status',
   notes: 'notes',
   createdAt: 'createdAt',
@@ -169,8 +181,9 @@ exports.Prisma.WorkingSlotScalarFieldEnum = {
   date: 'date',
   startTime: 'startTime',
   endTime: 'endTime',
+  onlyInStore: 'onlyInStore',
   createdAt: 'createdAt',
-  onlyInStore: 'onlyInStore'
+  shopId: 'shopId'
 };
 
 exports.Prisma.WorkingHourRangeScalarFieldEnum = {
@@ -188,6 +201,14 @@ exports.Prisma.RecurringSlotScalarFieldEnum = {
   startTime: 'startTime',
   endTime: 'endTime',
   onlyInStore: 'onlyInStore'
+};
+
+exports.Prisma.InventoryItemScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  quantity: 'quantity',
+  shopId: 'shopId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -233,6 +254,7 @@ exports.WeekDay = exports.$Enums.WeekDay = {
 };
 
 exports.Prisma.ModelName = {
+  Shop: 'Shop',
   User: 'User',
   Customer: 'Customer',
   Service: 'Service',
@@ -240,7 +262,8 @@ exports.Prisma.ModelName = {
   Booking: 'Booking',
   WorkingSlot: 'WorkingSlot',
   WorkingHourRange: 'WorkingHourRange',
-  RecurringSlot: 'RecurringSlot'
+  RecurringSlot: 'RecurringSlot',
+  InventoryItem: 'InventoryItem'
 };
 
 /**
