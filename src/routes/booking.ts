@@ -19,7 +19,7 @@ const router = express.Router();
 //  OWNER  //
 
 router.post(
-  "/inStore",
+  "/manual",
   authenticate,
   authorizeOwner,
   withShopContext,

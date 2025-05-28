@@ -31,7 +31,7 @@ import {
   deleteWorkingHourRangeValidation,
   editWorkingHourRangeValidation,
 } from "../validators/workingHourRangeValidator";
-import { removeServiceFromEmployeeValdation } from "../validators/serviceValidator";
+import { removeServiceFromEmployeeValidation } from "../validators/serviceValidator";
 import { getAvailableSlots } from "../controllers/bookingController";
 import { availableSlotsValidation } from "../validators/bookingValidator";
 import { withShopContext } from "../middlewares/shopMiddleware";
@@ -111,7 +111,7 @@ router.delete(
   authenticate,
   authorizeOwner,
   withShopContext,
-  removeServiceFromEmployeeValdation,
+  removeServiceFromEmployeeValidation,
   validateRequest,
   removeServiceFromEmployee
 );
@@ -149,7 +149,7 @@ router.delete(
 );
 
 router.put(
-  "/:employeeId/ /:rangeId",
+  "/:employeeId/:rangeId",
   authenticate,
   authorizeOwner,
   withShopContext,
