@@ -39,7 +39,7 @@ export const registerOwnerService = async (data: RegisterInput) => {
   return { id: newUser.id, email: newUser.email, name: newUser.name };
 };
 
-export const loginOwnerService = async (data: LoginInput) => {
+export const loginUserService = async (data: LoginInput) => {
     const { email, password } = data;
 
     if (!email || !password) {

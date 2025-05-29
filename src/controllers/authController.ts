@@ -1,7 +1,7 @@
 import { sendSuccessResponse, sendErrorResponse } from "../utils/responses";
 import { Request, Response } from "express";
 import {
-  loginOwnerService,
+  loginUserService,
   registerOwnerService,
 } from "../services/authService";
 
@@ -24,12 +24,12 @@ export const registerOwner = async (
   }
 };
 
-export const loginOwner = async (
+export const loginUser = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const result = await loginOwnerService(req.body);
+    const result = await loginUserService(req.body);
     return sendSuccessResponse(res, {
       message: "Owner logged in successfully",
       userInfo: result,
