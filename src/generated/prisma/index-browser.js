@@ -135,6 +135,7 @@ exports.Prisma.UserScalarFieldEnum = {
   hashedPassword: 'hashedPassword',
   name: 'name',
   role: 'role',
+  subscription: 'subscription',
   createdAt: 'createdAt',
   isActive: 'isActive',
   shopId: 'shopId'
@@ -229,6 +230,12 @@ exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   OWNER: 'OWNER',
   EMPLOYEE: 'EMPLOYEE'
+};
+
+exports.Subscription = exports.$Enums.Subscription = {
+  BASIC: 'BASIC',
+  PRO: 'PRO',
+  PREMIUM: 'PREMIUM'
 };
 
 exports.BookingStatus = exports.$Enums.BookingStatus = {

@@ -77,6 +77,15 @@ export namespace $Enums {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const Subscription: {
+  BASIC: 'BASIC',
+  PRO: 'PRO',
+  PREMIUM: 'PREMIUM'
+};
+
+export type Subscription = (typeof Subscription)[keyof typeof Subscription]
+
+
 export const BookingStatus: {
   PENDING: 'PENDING',
   CONFIRMED: 'CONFIRMED',
@@ -112,6 +121,10 @@ export type WeekDay = (typeof WeekDay)[keyof typeof WeekDay]
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type Subscription = $Enums.Subscription
+
+export const Subscription: typeof $Enums.Subscription
 
 export type BookingStatus = $Enums.BookingStatus
 
@@ -3272,6 +3285,7 @@ export namespace Prisma {
     hashedPassword: string | null
     name: string | null
     role: $Enums.Role | null
+    subscription: $Enums.Subscription | null
     createdAt: Date | null
     isActive: boolean | null
     shopId: number | null
@@ -3283,6 +3297,7 @@ export namespace Prisma {
     hashedPassword: string | null
     name: string | null
     role: $Enums.Role | null
+    subscription: $Enums.Subscription | null
     createdAt: Date | null
     isActive: boolean | null
     shopId: number | null
@@ -3294,6 +3309,7 @@ export namespace Prisma {
     hashedPassword: number
     name: number
     role: number
+    subscription: number
     createdAt: number
     isActive: number
     shopId: number
@@ -3317,6 +3333,7 @@ export namespace Prisma {
     hashedPassword?: true
     name?: true
     role?: true
+    subscription?: true
     createdAt?: true
     isActive?: true
     shopId?: true
@@ -3328,6 +3345,7 @@ export namespace Prisma {
     hashedPassword?: true
     name?: true
     role?: true
+    subscription?: true
     createdAt?: true
     isActive?: true
     shopId?: true
@@ -3339,6 +3357,7 @@ export namespace Prisma {
     hashedPassword?: true
     name?: true
     role?: true
+    subscription?: true
     createdAt?: true
     isActive?: true
     shopId?: true
@@ -3437,6 +3456,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role: $Enums.Role
+    subscription: $Enums.Subscription
     createdAt: Date
     isActive: boolean
     shopId: number | null
@@ -3467,6 +3487,7 @@ export namespace Prisma {
     hashedPassword?: boolean
     name?: boolean
     role?: boolean
+    subscription?: boolean
     createdAt?: boolean
     isActive?: boolean
     shopId?: boolean
@@ -3486,6 +3507,7 @@ export namespace Prisma {
     hashedPassword?: boolean
     name?: boolean
     role?: boolean
+    subscription?: boolean
     createdAt?: boolean
     isActive?: boolean
     shopId?: boolean
@@ -3498,6 +3520,7 @@ export namespace Prisma {
     hashedPassword?: boolean
     name?: boolean
     role?: boolean
+    subscription?: boolean
     createdAt?: boolean
     isActive?: boolean
     shopId?: boolean
@@ -3510,12 +3533,13 @@ export namespace Prisma {
     hashedPassword?: boolean
     name?: boolean
     role?: boolean
+    subscription?: boolean
     createdAt?: boolean
     isActive?: boolean
     shopId?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "hashedPassword" | "name" | "role" | "createdAt" | "isActive" | "shopId", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "hashedPassword" | "name" | "role" | "subscription" | "createdAt" | "isActive" | "shopId", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     shop?: boolean | User$shopArgs<ExtArgs>
     shops?: boolean | User$shopsArgs<ExtArgs>
@@ -3550,6 +3574,7 @@ export namespace Prisma {
       hashedPassword: string
       name: string
       role: $Enums.Role
+      subscription: $Enums.Subscription
       createdAt: Date
       isActive: boolean
       shopId: number | null
@@ -3988,6 +4013,7 @@ export namespace Prisma {
     readonly hashedPassword: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
+    readonly subscription: FieldRef<"User", 'Subscription'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly isActive: FieldRef<"User", 'Boolean'>
     readonly shopId: FieldRef<"User", 'Int'>
@@ -13635,6 +13661,7 @@ export namespace Prisma {
     hashedPassword: 'hashedPassword',
     name: 'name',
     role: 'role',
+    subscription: 'subscription',
     createdAt: 'createdAt',
     isActive: 'isActive',
     shopId: 'shopId'
@@ -13824,6 +13851,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Subscription'
+   */
+  export type EnumSubscriptionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Subscription'>
+    
+
+
+  /**
+   * Reference to a field of type 'Subscription[]'
+   */
+  export type ListEnumSubscriptionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Subscription[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -13975,6 +14016,7 @@ export namespace Prisma {
     hashedPassword?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    subscription?: EnumSubscriptionFilter<"User"> | $Enums.Subscription
     createdAt?: DateTimeFilter<"User"> | Date | string
     isActive?: BoolFilter<"User"> | boolean
     shopId?: IntNullableFilter<"User"> | number | null
@@ -13993,6 +14035,7 @@ export namespace Prisma {
     hashedPassword?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    subscription?: SortOrder
     createdAt?: SortOrder
     isActive?: SortOrder
     shopId?: SortOrderInput | SortOrder
@@ -14014,6 +14057,7 @@ export namespace Prisma {
     hashedPassword?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    subscription?: EnumSubscriptionFilter<"User"> | $Enums.Subscription
     createdAt?: DateTimeFilter<"User"> | Date | string
     isActive?: BoolFilter<"User"> | boolean
     shopId?: IntNullableFilter<"User"> | number | null
@@ -14032,6 +14076,7 @@ export namespace Prisma {
     hashedPassword?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    subscription?: SortOrder
     createdAt?: SortOrder
     isActive?: SortOrder
     shopId?: SortOrderInput | SortOrder
@@ -14051,6 +14096,7 @@ export namespace Prisma {
     hashedPassword?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+    subscription?: EnumSubscriptionWithAggregatesFilter<"User"> | $Enums.Subscription
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     isActive?: BoolWithAggregatesFilter<"User"> | boolean
     shopId?: IntNullableWithAggregatesFilter<"User"> | number | null
@@ -14659,6 +14705,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shop?: ShopCreateNestedOneWithoutEmployeesInput
@@ -14676,6 +14723,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shopId?: number | null
@@ -14692,6 +14740,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shop?: ShopUpdateOneWithoutEmployeesNestedInput
@@ -14709,6 +14758,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shopId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -14726,6 +14776,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shopId?: number | null
@@ -14736,6 +14787,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
   }
@@ -14746,6 +14798,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shopId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -15415,6 +15468,13 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type EnumSubscriptionFilter<$PrismaModel = never> = {
+    equals?: $Enums.Subscription | EnumSubscriptionFieldRefInput<$PrismaModel>
+    in?: $Enums.Subscription[] | ListEnumSubscriptionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Subscription[] | ListEnumSubscriptionFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubscriptionFilter<$PrismaModel> | $Enums.Subscription
+  }
+
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -15477,6 +15537,7 @@ export namespace Prisma {
     hashedPassword?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    subscription?: SortOrder
     createdAt?: SortOrder
     isActive?: SortOrder
     shopId?: SortOrder
@@ -15493,6 +15554,7 @@ export namespace Prisma {
     hashedPassword?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    subscription?: SortOrder
     createdAt?: SortOrder
     isActive?: SortOrder
     shopId?: SortOrder
@@ -15504,6 +15566,7 @@ export namespace Prisma {
     hashedPassword?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    subscription?: SortOrder
     createdAt?: SortOrder
     isActive?: SortOrder
     shopId?: SortOrder
@@ -15522,6 +15585,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
+  export type EnumSubscriptionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Subscription | EnumSubscriptionFieldRefInput<$PrismaModel>
+    in?: $Enums.Subscription[] | ListEnumSubscriptionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Subscription[] | ListEnumSubscriptionFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubscriptionWithAggregatesFilter<$PrismaModel> | $Enums.Subscription
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSubscriptionFilter<$PrismaModel>
+    _max?: NestedEnumSubscriptionFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -16335,6 +16408,10 @@ export namespace Prisma {
     set?: $Enums.Role
   }
 
+  export type EnumSubscriptionFieldUpdateOperationsInput = {
+    set?: $Enums.Subscription
+  }
+
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
   }
@@ -17000,6 +17077,13 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type NestedEnumSubscriptionFilter<$PrismaModel = never> = {
+    equals?: $Enums.Subscription | EnumSubscriptionFieldRefInput<$PrismaModel>
+    in?: $Enums.Subscription[] | ListEnumSubscriptionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Subscription[] | ListEnumSubscriptionFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubscriptionFilter<$PrismaModel> | $Enums.Subscription
+  }
+
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -17024,6 +17108,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
+  export type NestedEnumSubscriptionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Subscription | EnumSubscriptionFieldRefInput<$PrismaModel>
+    in?: $Enums.Subscription[] | ListEnumSubscriptionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Subscription[] | ListEnumSubscriptionFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubscriptionWithAggregatesFilter<$PrismaModel> | $Enums.Subscription
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSubscriptionFilter<$PrismaModel>
+    _max?: NestedEnumSubscriptionFilter<$PrismaModel>
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -17164,6 +17258,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shop?: ShopCreateNestedOneWithoutEmployeesInput
@@ -17180,6 +17275,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shopId?: number | null
@@ -17200,6 +17296,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shops?: ShopCreateNestedManyWithoutOwnerInput
@@ -17216,6 +17313,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
@@ -17366,6 +17464,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shop?: ShopUpdateOneWithoutEmployeesNestedInput
@@ -17382,6 +17481,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shopId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -17417,6 +17517,7 @@ export namespace Prisma {
     hashedPassword?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    subscription?: EnumSubscriptionFilter<"User"> | $Enums.Subscription
     createdAt?: DateTimeFilter<"User"> | Date | string
     isActive?: BoolFilter<"User"> | boolean
     shopId?: IntNullableFilter<"User"> | number | null
@@ -17955,6 +18056,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shop?: ShopCreateNestedOneWithoutEmployeesInput
@@ -17971,6 +18073,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shopId?: number | null
@@ -18083,6 +18186,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shop?: ShopUpdateOneWithoutEmployeesNestedInput
@@ -18099,6 +18203,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shopId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -18182,6 +18287,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shop?: ShopCreateNestedOneWithoutEmployeesInput
@@ -18198,6 +18304,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shopId?: number | null
@@ -18253,6 +18360,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shop?: ShopUpdateOneWithoutEmployeesNestedInput
@@ -18269,6 +18377,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shopId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -18358,6 +18467,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shop?: ShopCreateNestedOneWithoutEmployeesInput
@@ -18374,6 +18484,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shopId?: number | null
@@ -18491,6 +18602,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shop?: ShopUpdateOneWithoutEmployeesNestedInput
@@ -18507,6 +18619,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shopId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -18558,6 +18671,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shop?: ShopCreateNestedOneWithoutEmployeesInput
@@ -18574,6 +18688,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shopId?: number | null
@@ -18635,6 +18750,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shop?: ShopUpdateOneWithoutEmployeesNestedInput
@@ -18651,6 +18767,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shopId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -18702,6 +18819,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shop?: ShopCreateNestedOneWithoutEmployeesInput
@@ -18718,6 +18836,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
     shopId?: number | null
@@ -18774,6 +18893,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shop?: ShopUpdateOneWithoutEmployeesNestedInput
@@ -18790,6 +18910,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shopId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -18946,6 +19067,7 @@ export namespace Prisma {
     hashedPassword: string
     name: string
     role?: $Enums.Role
+    subscription?: $Enums.Subscription
     createdAt?: Date | string
     isActive?: boolean
   }
@@ -18992,6 +19114,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shops?: ShopUpdateManyWithoutOwnerNestedInput
@@ -19008,6 +19131,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
@@ -19024,6 +19148,7 @@ export namespace Prisma {
     hashedPassword?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
   }

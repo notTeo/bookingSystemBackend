@@ -3,7 +3,6 @@ import {
   assignServicesToEmployee,
   createEmployee,
   deleteEmployee,
-  getAllEmployees,
   getEmployeeById,
   removeServiceFromEmployee,
   toggleEmployeeActiveStatus,
@@ -39,8 +38,6 @@ import { withShopContext } from "../middlewares/shopMiddleware";
 const router = express.Router();
 
 //  GETTERS //
-
-router.get("/", authenticate, authorizeOwner, withShopContext, getAllEmployees);
 
 router.get(
   "/:employeeId",
