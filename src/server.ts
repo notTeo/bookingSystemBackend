@@ -9,6 +9,7 @@ import bookingRoutes from "./routes/booking";
 import shopRoutes from "./routes/shop";
 import inventoryRoutes from "./routes/inventory";
 import dashboradRoutes from "./routes/dashboard";
+import subscriptionRoutes from "./routes/subscription";
 
 dotenv.config();
 const app = express();
@@ -24,6 +25,7 @@ app.use("/booking", bookingRoutes);
 app.use("/shop", shopRoutes);
 app.use("/inventory", inventoryRoutes);
 app.use("/dashboard", dashboradRoutes);
+app.use("/subscription", subscriptionRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
