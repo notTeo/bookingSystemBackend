@@ -11,6 +11,7 @@ import {
   getShopProfileService,
   updateShopProfileService,
   getInventoryItemsService,
+  getAllBookingsPerDayService,
 } from "../services/dashboardService";
 
 const prisma = new PrismaClient();
@@ -47,6 +48,23 @@ export const getMyServices = async (req: Request, res: Response) => {
     );
   }
 };
+
+//GET BOOKINGS PER DAY
+export const getAllBookingsPerDay = async (req: Request, res: Response) => {
+  try {
+    const shopId = getShopId(req);
+    const { date } = req.params;
+    const result = await getAllBookingsPerDayService(shopId, date);
+
+    return sendSuccessResponse(res, result);
+  } catch (error: any) {
+    return sendErrorResponse(
+      res,
+      error.message || "Server error",
+      error.status || 500
+    );
+  }
+}
 
 // POST /dashboard/bookings
 export const createBookingByOwner = async (
@@ -94,7 +112,8 @@ export const createBookingByOwner = async (
 export const getProfile = async (req: Request, res: Response) => {
   try {
     const userId = getUserId(req);
-    const result = await getProfileService(userId);
+    const shopId = getShopId(req);
+    const result = await getProfileService(userId, shopId);
     return sendSuccessResponse(res, result);
   } catch (error: any) {
     return sendErrorResponse(

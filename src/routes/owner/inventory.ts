@@ -1,6 +1,6 @@
 import express from "express";
 import { authenticate, authorizeOwner } from "../../middlewares/authMiddleware";
-import { withShopContext } from "../../middlewares/shopMiddleware";
+import { withShopContext } from "../../middlewares/shop/shopMiddleware";
 import { validateRequest } from "../../middlewares/validateRequest";
 import {
   createInventoryItem,

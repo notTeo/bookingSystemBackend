@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { PrismaClient } from "../generated/prisma";
 import { sendErrorResponse, sendSuccessResponse } from "../utils/responses";
 import { getShopId, getUserId } from "../utils/getIds";
-import { createServiceService, deleteServiceService, getAllServicesService } from "../services/serviceService";
+import { createServiceService, deleteServiceService } from "../services/serviceService";
 
 const prisma = new PrismaClient();
 
@@ -52,19 +52,3 @@ export const deleteService = async (
   }
 };
 
-export const getAllServices = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const shopId = getShopId(req);
-    const result = await getAllServicesService(shopId);
-    return sendSuccessResponse(res, result);
-  } catch (error: any) {
-    return sendErrorResponse(
-      res,
-      error.message || "Server error",
-      error.status || 500
-    );
-  }
-};

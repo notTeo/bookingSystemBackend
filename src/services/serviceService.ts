@@ -2,6 +2,8 @@ import { PrismaClient } from "../generated/prisma";
 import { AppError } from "../utils/errors";
 
 const prisma = new PrismaClient();
+
+
 export const createServiceService = async (
   shopId: number,
   userId: number,
@@ -64,17 +66,3 @@ export const deleteServiceService = async (
   };
 };
 
-export const getAllServicesService = async (shopId: number) => {
-  const services = await prisma.service.findMany({
-    where: { shopId },
-    select: {
-      id: true,
-      name: true,
-      duration: true,
-      price: true,
-    },
-    orderBy: { name: "asc" },
-  });
-
-  return { services };
-};

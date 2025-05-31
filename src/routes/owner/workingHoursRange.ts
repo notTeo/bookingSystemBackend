@@ -14,7 +14,7 @@ import {
   editWorkingHourRangeValidation,
 } from "../../validators/workingHourRangeValidator";
 
-import { withShopContext } from "../../middlewares/shopMiddleware";
+import { withShopContext } from "../../middlewares/shop/shopMiddleware";
 const router = express.Router();
 
 router.post(

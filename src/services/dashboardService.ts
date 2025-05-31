@@ -57,6 +57,44 @@ export const getMyServicesService = async (shopId: number) => {
   return services;
 };
 
+export const getAllBookingsPerDayService = async (shopId: number, date: string) => {
+  const [year, month, day] = date.split("-").map(Number);
+
+  const targetDate = new Date(Date.UTC(year, month - 1, day));
+
+  const dayStart = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
+  const dayEnd = new Date(Date.UTC(year, month - 1, day, 23, 59, 59));
+
+  const bookings = await prisma.booking.findMany({
+    where: {
+      shopId,
+      date: {
+        gte: dayStart,
+        lte: dayEnd,
+      },
+    },
+    include: {
+      employee: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      service: {
+        select: {
+          id: true,
+          name: true,
+          duration: true,
+          price: true,
+        },
+      },
+    },
+    orderBy: { date: "asc" },
+  });
+
+  return bookings;
+};
+
 export const createBookingByOwnerService = async ({
   shopId,
   employeeId,
@@ -162,7 +200,7 @@ export const createBookingByOwnerService = async ({
   return { bookingId: booking.id };
 };
 
-export const getProfileService = async (userId: number) => {
+export const getProfileService = async (userId: number, shopId: number) => {
   const profile = await prisma.user.findUnique({
     where: { id: userId },
   });
@@ -224,6 +262,7 @@ export const updateShopProfileService = async (
     shopId: updated.id,
   };
 };
+
 export const getInventoryItemsService = async (shopId: number) => {
   const items = await prisma.inventoryItem.findMany({ where: { shopId } });
   return { items };

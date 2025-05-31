@@ -12,7 +12,7 @@ import {
   createBookingByCustomer,
   createBookingByOwner,
 } from "../../controllers/bookingController";
-import { withShopContext } from "../../middlewares/shopMiddleware";
+import { withShopContext } from "../../middlewares/shop/shopMiddleware";
 
 const router = express.Router();
 
@@ -55,7 +55,5 @@ router.patch(
   validateRequest,
   completeBooking
 );
-
-
 
 export default router;

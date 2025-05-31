@@ -7,12 +7,12 @@ import {
   updateProfile,
   getShopProfile,
   getInventoryItems,
+  getAllBookingsPerDay,
 } from "../../controllers/dashboardController";
 import { authenticate, authorizeOwner } from "../../middlewares/authMiddleware";
-import { withShopContext } from "../../middlewares/shopMiddleware";
+import { withShopContext } from "../../middlewares/shop/shopMiddleware";
 
 const router = Router();
-
 
 router.get(
   "/employees",
@@ -36,6 +36,14 @@ router.get(
   authorizeOwner,
   withShopContext,
   getMyServices
+);
+
+router.get(
+  "/bookings",
+  authenticate,
+  authorizeOwner,
+  withShopContext,
+  getAllBookingsPerDay
 );
 
 router.post(

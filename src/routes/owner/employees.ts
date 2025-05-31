@@ -33,7 +33,7 @@ import {
 import { removeServiceFromEmployeeValidation } from "../../validators/serviceValidator";
 import { getAvailableSlots } from "../../controllers/bookingController";
 import { availableSlotsValidation } from "../../validators/bookingValidator";
-import { withShopContext } from "../../middlewares/shopMiddleware";
+import { withShopContext } from "../../middlewares/shop/shopMiddleware";
 
 const router = express.Router();
 
@@ -108,7 +108,5 @@ router.delete(
   validateRequest,
   removeServiceFromEmployee
 );
-
-
 
 export default router;
