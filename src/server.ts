@@ -2,14 +2,18 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { PrismaClient } from "./generated/prisma";
-import authRoutes from "./routes/auth";
-import employeeRoutes from "./routes/employees";
-import serviceRoutes from "./routes/services";
-import bookingRoutes from "./routes/booking";
-import shopRoutes from "./routes/shop";
-import inventoryRoutes from "./routes/inventory";
-import dashboradRoutes from "./routes/dashboard";
-import subscriptionRoutes from "./routes/subscription";
+import authRoutes from "./routes/auth/auth";
+import employeeRoutes from "./routes/owner/employees";
+import serviceRoutes from "./routes/owner/services";
+import bookingRoutes from "./routes/owner/booking";
+import customersBookingRoutes from "./routes/customer/booking";
+import shopRoutes from "./routes/owner/shop";
+import inventoryRoutes from "./routes/owner/inventory";
+import dashboradOwnerRoutes from "./routes/owner/dashboard";
+import dashboardEmployeeRoutes from "./routes/employee/dashboard";
+import subscriptionRoutes from "./routes/owner/subscription";
+import availableSlotsRoutes from "./routes/public/slots"
+import workingRangeRoutes from "./routes/owner/workingHoursRange"
 
 dotenv.config();
 const app = express();
@@ -20,12 +24,15 @@ app.use(express.json());
 
 app.use("/auth", authRoutes);
 app.use("/employees", employeeRoutes);
+app.use("/working-range", workingRangeRoutes);
 app.use("/services", serviceRoutes);
-app.use("/booking", bookingRoutes);
+app.use("/booking", bookingRoutes, customersBookingRoutes);
 app.use("/shop", shopRoutes);
 app.use("/inventory", inventoryRoutes);
-app.use("/dashboard", dashboradRoutes);
+app.use("/dashboardOwner", dashboradOwnerRoutes);
+app.use("/dashboardEmployee", dashboardEmployeeRoutes);
 app.use("/subscription", subscriptionRoutes);
+app.use("/available-slots", availableSlotsRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

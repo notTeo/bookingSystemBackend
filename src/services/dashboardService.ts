@@ -22,17 +22,6 @@ type CreateBookingByOwnerInput = {
   };
 };
 
-export const getMeService = async (userId: number) => {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-  });
-
-  if (!user) {
-    throw new AppError("User not found", 404);
-  }
-
-  return user;
-};
 
 export const getMyEmployeesService = async (shopId: number) => {
   const employees = await prisma.user.findMany({
@@ -176,12 +165,6 @@ export const createBookingByOwnerService = async ({
 export const getProfileService = async (userId: number) => {
   const profile = await prisma.user.findUnique({
     where: { id: userId },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      createdAt: true,
-    },
   });
 
   if (!profile) {
@@ -225,12 +208,11 @@ export const getShopProfileService = async (shopId: number) => {
 
 export const updateShopProfileService = async (
   shopId: number,
-  data: { name?: string; address?: string; phone?: string }
+  data: { name?: string; address?: string;}
 ) => {
   const updateData: any = {};
   if (data.name) updateData.name = data.name;
   if (data.address) updateData.address = data.address;
-  if (data.phone) updateData.phone = data.phone;
 
   const updated = await prisma.shop.update({
     where: { id: shopId },
@@ -241,4 +223,8 @@ export const updateShopProfileService = async (
     message: "Shop profile updated",
     shopId: updated.id,
   };
+};
+export const getInventoryItemsService = async (shopId: number) => {
+  const items = await prisma.inventoryItem.findMany({ where: { shopId } });
+  return { items };
 };

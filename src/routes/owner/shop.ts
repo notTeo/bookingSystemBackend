@@ -6,16 +6,16 @@ import {
   deleteShop,
   loginToShop,
   getAllShops,
-} from "../controllers/shopController";
-import { authenticate, authorizeOwner } from "../middlewares/authMiddleware";
+} from "../../controllers/shopController";
+import { authenticate, authorizeOwner } from "../../middlewares/authMiddleware";
 import {
   createShopValidation,
   deleteShopValidation,
   getShopByIdValidation,
   loginToShopValidation,
   updateShopValidation,
-} from "../validators/shopValidator";
-import { validateRequest } from "../middlewares/validateRequest";
+} from "../../validators/shopValidator";
+import { validateRequest } from "../../middlewares/validateRequest";
 
 const router = Router();
 
@@ -58,15 +58,5 @@ router.delete(
   deleteShop
 );
 
-//  LOGIN  //
-
-router.post(
-  "/login",
-  authenticate,
-  authorizeOwner,
-  loginToShopValidation,
-  validateRequest,
-  loginToShop
-);
 
 export default router;

@@ -1,22 +1,20 @@
 import express from "express";
-import { authenticate, authorizeOwner } from "../middlewares/authMiddleware";
+import { authenticate, authorizeOwner } from "../../middlewares/authMiddleware";
 import {
   changeBookingStatusValidation,
   createBookingValidation,
-} from "../validators/bookingValidator";
-import { validateRequest } from "../middlewares/validateRequest";
+} from "../../validators/bookingValidator";
+import { validateRequest } from "../../middlewares/validateRequest";
 import {
   cancelBooking,
   confirmBooking,
   completeBooking,
   createBookingByCustomer,
   createBookingByOwner,
-} from "../controllers/bookingController";
-import { withShopContext } from "../middlewares/shopMiddleware";
+} from "../../controllers/bookingController";
+import { withShopContext } from "../../middlewares/shopMiddleware";
 
 const router = express.Router();
-
-//  OWNER  //
 
 router.post(
   "/manual",
@@ -58,14 +56,6 @@ router.patch(
   completeBooking
 );
 
-//  CUSTOMER  //
 
-router.post(
-  "/customer",
-  withShopContext,
-  createBookingValidation,
-  validateRequest,
-  createBookingByCustomer
-);
 
 export default router;

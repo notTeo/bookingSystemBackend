@@ -5,7 +5,6 @@ import { getShopId } from "../utils/getIds";
 import {
   createInventoryItemService,
   deleteInventoryItemService,
-  getInventoryItemsService,
   updateInventoryItemService,
 } from "../services/inventoryService";
 
@@ -65,16 +64,4 @@ export const deleteInventoryItem = async (req: Request, res: Response) => {
   }
 };
 
-export const getInventoryItems = async (req: Request, res: Response) => {
-  try {
-    const shopId = getShopId(req);
-    const result = await getInventoryItemsService(shopId);
-    return sendSuccessResponse(res, result);
-  } catch (error: any) {
-    return sendErrorResponse(
-      res,
-      error.message || "Server error",
-      error.status || 500
-    );
-  }
-};
+

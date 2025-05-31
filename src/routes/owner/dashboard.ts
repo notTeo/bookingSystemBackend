@@ -1,22 +1,19 @@
 import { Router } from "express";
 import {
-  getMe,
   getMyEmployees,
   getMyServices,
   createBookingByOwner,
   getProfile,
   updateProfile,
   getShopProfile,
-  updateShopProfile,
-} from "../controllers/dashboardController";
-import { authenticate, authorizeOwner } from "../middlewares/authMiddleware";
-import { withShopContext } from "../middlewares/shopMiddleware";
+  getInventoryItems,
+} from "../../controllers/dashboardController";
+import { authenticate, authorizeOwner } from "../../middlewares/authMiddleware";
+import { withShopContext } from "../../middlewares/shopMiddleware";
 
 const router = Router();
-// GET /me
-router.get("/me", authenticate, authorizeOwner, withShopContext, getMe);
 
-// Owner dashboard
+
 router.get(
   "/employees",
   authenticate,
@@ -26,12 +23,13 @@ router.get(
 );
 
 router.get(
-    "/inventory",
-    authenticate,
-    authorizeOwner,
-    withShopContext,
-    getMyEmployees
-  );
+  "/inventory",
+  authenticate,
+  authorizeOwner,
+  withShopContext,
+  getInventoryItems
+);
+
 router.get(
   "/services",
   authenticate,
@@ -39,6 +37,7 @@ router.get(
   withShopContext,
   getMyServices
 );
+
 router.post(
   "/bookings",
   authenticate,
@@ -54,6 +53,7 @@ router.get(
   withShopContext,
   getProfile
 );
+
 router.patch(
   "/profile",
   authenticate,
@@ -68,13 +68,6 @@ router.get(
   authorizeOwner,
   withShopContext,
   getShopProfile
-);
-router.patch(
-  "/shop",
-  authenticate,
-  authorizeOwner,
-  withShopContext,
-  updateShopProfile
 );
 
 export default router;

@@ -3,7 +3,6 @@ import { PrismaClient } from "../generated/prisma";
 import { sendErrorResponse, sendSuccessResponse } from "../utils/responses";
 import { getShopId, getUserId } from "../utils/getIds";
 import {
-  getMeService,
   getMyEmployeesService,
   getMyServicesService,
   createBookingByOwnerService,
@@ -11,24 +10,11 @@ import {
   updateProfileService,
   getShopProfileService,
   updateShopProfileService,
+  getInventoryItemsService,
 } from "../services/dashboardService";
 
 const prisma = new PrismaClient();
 
-export const getMe = async (req: Request, res: Response) => {
-  try {
-    const userId = getUserId(req);
-    const result = await getMeService(userId);
-
-    return sendSuccessResponse(res, result);
-  } catch (error: any) {
-    return sendErrorResponse(
-      res,
-      error.message || "Server error",
-      error.status || 500
-    );
-  }
-};
 
 // GET /dashboard/employees
 export const getMyEmployees = async (req: Request, res: Response) => {
@@ -154,6 +140,19 @@ export const updateShopProfile = async (req: Request, res: Response) => {
   try {
     const shopId = getShopId(req);
     const result = await updateShopProfileService(shopId, req.body);
+    return sendSuccessResponse(res, result);
+  } catch (error: any) {
+    return sendErrorResponse(
+      res,
+      error.message || "Server error",
+      error.status || 500
+    );
+  }
+};
+export const getInventoryItems = async (req: Request, res: Response) => {
+  try {
+    const shopId = getShopId(req);
+    const result = await getInventoryItemsService(shopId);
     return sendSuccessResponse(res, result);
   } catch (error: any) {
     return sendErrorResponse(

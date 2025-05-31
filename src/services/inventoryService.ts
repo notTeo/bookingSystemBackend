@@ -64,7 +64,4 @@ export const deleteInventoryItemService = async (
   };
 };
 
-export const getInventoryItemsService = async (shopId: number) => {
-  const items = await prisma.inventoryItem.findMany({ where: { shopId } });
-  return { items };
-};
+

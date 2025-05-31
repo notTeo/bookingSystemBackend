@@ -7,8 +7,8 @@ import {
   removeServiceFromEmployee,
   toggleEmployeeActiveStatus,
   updateEmployee,
-} from "../controllers/employeeController";
-import { authenticate, authorizeOwner } from "../middlewares/authMiddleware";
+} from "../../controllers/employeeController";
+import { authenticate, authorizeOwner } from "../../middlewares/authMiddleware";
 import {
   assignServicesValidation,
   createEmployeeValidation,
@@ -16,28 +16,26 @@ import {
   getEmployeeByIdValidation,
   toggleEmployeeActiveValidation,
   updateEmployeeValidation,
-} from "../validators/employeeValidator";
-import { validateRequest } from "../middlewares/validateRequest";
+} from "../../validators/employeeValidator";
+import { validateRequest } from "../../middlewares/validateRequest";
 import {
   cloneExistingWorkingHourRange,
   createWorkingHourRange,
   deleteWorkingHourRange,
   editWorkingHourRange,
-} from "../controllers/workingHoursRangeController";
+} from "../../controllers/workingHoursRangeController";
 import {
   cloneExistingWorkingHourRangeValidation,
   createWorkingHourRangeValidation,
   deleteWorkingHourRangeValidation,
   editWorkingHourRangeValidation,
-} from "../validators/workingHourRangeValidator";
-import { removeServiceFromEmployeeValidation } from "../validators/serviceValidator";
-import { getAvailableSlots } from "../controllers/bookingController";
-import { availableSlotsValidation } from "../validators/bookingValidator";
-import { withShopContext } from "../middlewares/shopMiddleware";
+} from "../../validators/workingHourRangeValidator";
+import { removeServiceFromEmployeeValidation } from "../../validators/serviceValidator";
+import { getAvailableSlots } from "../../controllers/bookingController";
+import { availableSlotsValidation } from "../../validators/bookingValidator";
+import { withShopContext } from "../../middlewares/shopMiddleware";
 
 const router = express.Router();
-
-//  GETTERS //
 
 router.get(
   "/:employeeId",
@@ -48,8 +46,6 @@ router.get(
   validateRequest,
   getEmployeeById
 );
-
-//  CRUD  //
 
 router.post(
   "/",
@@ -113,56 +109,6 @@ router.delete(
   removeServiceFromEmployee
 );
 
-//  WORKING HOURS //
 
-router.post(
-  "/:employeeId/working-range",
-  authenticate,
-  authorizeOwner,
-  withShopContext,
-  createWorkingHourRangeValidation,
-  validateRequest,
-  createWorkingHourRange
-);
-
-router.post(
-  "/:employeeId/:rangeId/clone",
-  authenticate,
-  authorizeOwner,
-  withShopContext,
-  cloneExistingWorkingHourRangeValidation,
-  validateRequest,
-  cloneExistingWorkingHourRange
-);
-
-router.delete(
-  "/:employeeId/working-range/:rangeId",
-  authenticate,
-  authorizeOwner,
-  withShopContext,
-  deleteWorkingHourRangeValidation,
-  validateRequest,
-  deleteWorkingHourRange
-);
-
-router.put(
-  "/:employeeId/:rangeId",
-  authenticate,
-  authorizeOwner,
-  withShopContext,
-  editWorkingHourRangeValidation,
-  validateRequest,
-  editWorkingHourRange
-);
-
-//  AVAILABLE SLOTS  //
-
-router.get(
-  "/:employeeId/available-slots",
-  withShopContext,
-  availableSlotsValidation,
-  validateRequest,
-  getAvailableSlots
-);
 
 export default router;

@@ -3,14 +3,14 @@ import {
   createService,
   deleteService,
   getAllServices,
-} from "../controllers/serviceController";
-import { authenticate, authorizeOwner } from "../middlewares/authMiddleware";
-import { validateRequest } from "../middlewares/validateRequest";
+} from "../../controllers/serviceController";
+import { authenticate, authorizeOwner } from "../../middlewares/authMiddleware";
+import { validateRequest } from "../../middlewares/validateRequest";
 import {
   createServiceValidation,
   deleteServiceValidation,
-} from "../validators/serviceValidator";
-import { withShopContext } from "../middlewares/shopMiddleware";
+} from "../../validators/serviceValidator";
+import { withShopContext } from "../../middlewares/shopMiddleware";
 
 const router = express.Router();
 
@@ -35,12 +35,6 @@ router.delete(
   validateRequest,
   deleteService
 );
-router.get(
-  "/",
-  authenticate,
-  authorizeOwner,
-  withShopContext,
-  getAllServices
-);
+router.get("/", authenticate, authorizeOwner, withShopContext, getAllServices);
 
 export default router;

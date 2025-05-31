@@ -1,16 +1,16 @@
-import { updateSubscriptionValidator } from "../validators/subscriptionValidator";
-import { validateRequest } from "../middlewares/validateRequest";
+import { updateSubscriptionValidator } from "../../validators/subscriptionValidator";
+import { validateRequest } from "../../middlewares/validateRequest";
 import { Router } from "express";
 import {
   getMySubscription,
   updateSubscription,
-} from "../controllers/subscriptionController.ts";
-import { authenticate, authorizeOwner } from "../middlewares/authMiddleware";
+} from "../../controllers/subscriptionController.ts";
+import { authenticate, authorizeOwner } from "../../middlewares/authMiddleware";
 
 const router = Router();
 
 router.patch(
-  "/change-subscription",
+  "/change",
   authenticate,
   authorizeOwner,
   updateSubscriptionValidator,
@@ -19,7 +19,7 @@ router.patch(
 );
 
 router.get(
-  "/get-subscription",
+  "/",
   authenticate,
   authorizeOwner,
   getMySubscription
