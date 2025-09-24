@@ -6,7 +6,7 @@ import {
   deleteShop,
   loginToShop,
   getAllShops,
-} from "../../controllers/shopController";
+} from "../../controllers/shop.controller";
 import { authenticate, authorizeOwner } from "../../middlewares/authMiddleware";
 import {
   createShopValidation,
@@ -57,6 +57,5 @@ router.delete(
   validateRequest,
   deleteShop
 );
-
 
 export default router;

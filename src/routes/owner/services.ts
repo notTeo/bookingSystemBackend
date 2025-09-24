@@ -2,18 +2,16 @@ import express from "express";
 import {
   createService,
   deleteService,
-} from "../../controllers/serviceController";
+} from "../../controllers/service.controller";
 import { authenticate, authorizeOwner } from "../../middlewares/authMiddleware";
 import { validateRequest } from "../../middlewares/validateRequest";
 import {
   createServiceValidation,
   deleteServiceValidation,
 } from "../../validators/serviceValidator";
-import { withShopContext } from "../../middlewares/shop/shopMiddleware";
+import { withShopContext } from "../../middlewares/shop/shop.middleware";
 
 const router = express.Router();
-
-//  CRUD  //
 
 router.post(
   "/",

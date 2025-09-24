@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { PrismaClient } from "../../generated/prisma";
 import { sendErrorResponse } from "../../utils/responses";
+import { getShopId, getUserId } from "../../utils/getIds";
 
 const prisma = new PrismaClient();
 
@@ -9,10 +10,10 @@ export const verifyShopOwnership = async (
   res: Response,
   next: NextFunction
 ) => {
-  const user = (req as any).user;
-  const shopId = (req as any).shop?.id;
+  const userId = getUserId(req)
+  const shopId = getShopId(req)
 
-  if (!shopId || !user?.userId) {
+  if (!shopId || !userId) {
     return sendErrorResponse(res, "Missing context for ownership check", 400);
   }
 
@@ -21,7 +22,7 @@ export const verifyShopOwnership = async (
     select: { ownerId: true },
   });
 
-  if (!shop || shop.ownerId !== user.userId) {
+  if (!shop || shop.ownerId !== userId) {
     return sendErrorResponse(res, "Unauthorized access to shop", 403);
   }
 

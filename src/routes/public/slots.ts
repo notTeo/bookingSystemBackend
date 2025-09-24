@@ -1,8 +1,8 @@
-import { withShopContext } from "../../middlewares/shop/shopMiddleware";
+import { withShopContext } from "../../middlewares/shop/shop.middleware";
 import { validateRequest } from "../../middlewares/validateRequest";
 import { Router } from "express";
 import { availableSlotsValidation } from "../../validators/bookingValidator";
-import { getAvailableSlots } from "../../controllers/bookingController";
+import { getAvailableSlots } from "../../controllers/booking.controller";
 
 const router = Router();
 

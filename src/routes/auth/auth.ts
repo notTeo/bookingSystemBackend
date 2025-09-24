@@ -1,22 +1,30 @@
 import { Router } from "express";
-import { registerOwner, loginUser } from "../../controllers/authController";
+import { registerOwner, loginUser } from "../../controllers/auth.controller";
 import {
   registerValidation,
   loginValidation,
 } from "../../validators/authValidator";
 import { validateRequest } from "../../middlewares/validateRequest";
-import { authenticate, authorizeOwner } from "../../middlewares/authMiddleware";
+import {
+  authenticateJWT,
+  authorizeOwner,
+} from "../../middlewares/authMiddleware";
 import { loginToShopValidation } from "../../validators/shopValidator";
-import { loginToShop } from "../../controllers/shopController";
+import { loginToShop } from "../../controllers/shop.controller";
 
 const router = Router();
 
-router.post("/register", registerValidation, validateRequest, registerOwner);
+router.post(
+  "/register-user",
+  registerValidation,
+  validateRequest,
+  registerOwner
+);
 router.post("/login-user", loginValidation, validateRequest, loginUser);
 
 router.post(
   "/login-to-shop",
-  authenticate,
+  authenticateJWT,
   authorizeOwner,
   loginToShopValidation,
   validateRequest,

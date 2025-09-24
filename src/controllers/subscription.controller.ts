@@ -3,15 +3,15 @@ import { sendErrorResponse, sendSuccessResponse } from "../utils/responses";
 import { getUserId } from "../utils/getIds";
 import {
   getMySubscriptionService,
-  updateSubscriptionService,
-} from "../services/subscriptionService";
+  changeUserSubscriptionService,
+} from "../services/subscription.service";
 
-export const updateSubscription = async (req: Request, res: Response) => {
+export const changeUserSubscription = async (req: Request, res: Response) => {
   try {
     const userId = getUserId(req);
     const { subscription } = req.body;
 
-    const result = await updateSubscriptionService(userId, subscription);
+    const result = await changeUserSubscriptionService(userId, subscription);
     return sendSuccessResponse(res, {
       message: "Subscription updated successfully",
       subscription: result.subscription,

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { PrismaClient } from "../generated/prisma";
 import { sendErrorResponse, sendSuccessResponse } from "../utils/responses";
 import { getShopId, getUserId } from "../utils/getIds";
-import { createServiceService, deleteServiceService } from "../services/serviceService";
+import { createServiceService, deleteServiceService } from "../services/service.service";
 
 const prisma = new PrismaClient();
 

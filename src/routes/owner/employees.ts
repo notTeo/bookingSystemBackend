@@ -7,7 +7,7 @@ import {
   removeServiceFromEmployee,
   toggleEmployeeActiveStatus,
   updateEmployee,
-} from "../../controllers/employeeController";
+} from "../../controllers/employee.controller";
 import { authenticate, authorizeOwner } from "../../middlewares/authMiddleware";
 import {
   assignServicesValidation,
@@ -18,22 +18,8 @@ import {
   updateEmployeeValidation,
 } from "../../validators/employeeValidator";
 import { validateRequest } from "../../middlewares/validateRequest";
-import {
-  cloneExistingWorkingHourRange,
-  createWorkingHourRange,
-  deleteWorkingHourRange,
-  editWorkingHourRange,
-} from "../../controllers/workingHoursRangeController";
-import {
-  cloneExistingWorkingHourRangeValidation,
-  createWorkingHourRangeValidation,
-  deleteWorkingHourRangeValidation,
-  editWorkingHourRangeValidation,
-} from "../../validators/workingHourRangeValidator";
 import { removeServiceFromEmployeeValidation } from "../../validators/serviceValidator";
-import { getAvailableSlots } from "../../controllers/bookingController";
-import { availableSlotsValidation } from "../../validators/bookingValidator";
-import { withShopContext } from "../../middlewares/shop/shopMiddleware";
+import { withShopContext } from "../../middlewares/shop/shop.middleware";
 
 const router = express.Router();
 

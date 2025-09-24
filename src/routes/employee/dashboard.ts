@@ -4,11 +4,11 @@ import {
   authenticate,
   authorizeEmployee,
 } from "../../middlewares/authMiddleware";
-import { withShopContext } from "../../middlewares/shop/shopMiddleware";
+import { withShopContext } from "../../middlewares/shop/shop.middleware";
 import {
   getProfile,
   updateProfile,
-} from "../../controllers/dashboardController";
+} from "../../controllers/dashboard.controller";
 
 const router = Router();
 

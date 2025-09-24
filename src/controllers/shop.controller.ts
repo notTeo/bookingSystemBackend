@@ -6,7 +6,7 @@ import {
   getShopByIdService,
   updateShopService,
   deleteShopService,
-} from "../services/shopService";
+} from "../services/shop.service";
 import { sendSuccessResponse, sendErrorResponse } from "../utils/responses";
 import { getUserId } from "../utils/getIds";
 

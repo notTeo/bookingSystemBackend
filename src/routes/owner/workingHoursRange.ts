@@ -1,12 +1,12 @@
 import express from "express";
-import { authenticate, authorizeOwner } from "../../middlewares/authMiddleware";
+import { authenticateJWT, authorizeOwner } from "../../middlewares/authMiddleware";
 import { validateRequest } from "../../middlewares/validateRequest";
 import {
   cloneExistingWorkingHourRange,
   createWorkingHourRange,
   deleteWorkingHourRange,
   editWorkingHourRange,
-} from "../../controllers/workingHoursRangeController";
+} from "../../controllers/workingHoursRange.controller";
 import {
   cloneExistingWorkingHourRangeValidation,
   createWorkingHourRangeValidation,
@@ -14,12 +14,12 @@ import {
   editWorkingHourRangeValidation,
 } from "../../validators/workingHourRangeValidator";
 
-import { withShopContext } from "../../middlewares/shop/shopMiddleware";
+import { withShopContext } from "../../middlewares/shop/shop.middleware";
 const router = express.Router();
 
 router.post(
   "/:employeeId",
-  authenticate,
+  authenticateJWT,
   authorizeOwner,
   withShopContext,
   createWorkingHourRangeValidation,
@@ -29,7 +29,7 @@ router.post(
 
 router.post(
   "/:employeeId/:rangeId/clone",
-  authenticate,
+  authenticateJWT,
   authorizeOwner,
   withShopContext,
   cloneExistingWorkingHourRangeValidation,
@@ -39,7 +39,7 @@ router.post(
 
 router.delete(
   "/:employeeId/:rangeId",
-  authenticate,
+  authenticateJWT,
   authorizeOwner,
   withShopContext,
   deleteWorkingHourRangeValidation,
@@ -49,7 +49,7 @@ router.delete(
 
 router.put(
   "/:employeeId/:rangeId",
-  authenticate,
+  authenticateJWT,
   authorizeOwner,
   withShopContext,
   editWorkingHourRangeValidation,

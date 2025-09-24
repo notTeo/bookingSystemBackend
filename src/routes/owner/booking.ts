@@ -9,10 +9,9 @@ import {
   cancelBooking,
   confirmBooking,
   completeBooking,
-  createBookingByCustomer,
   createBookingByOwner,
-} from "../../controllers/bookingController";
-import { withShopContext } from "../../middlewares/shop/shopMiddleware";
+} from "../../controllers/booking.controller";
+import { withShopContext } from "../../middlewares/shop/shop.middleware";
 
 const router = express.Router();
 

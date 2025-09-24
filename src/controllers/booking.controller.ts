@@ -9,7 +9,7 @@ import {
   createBookingByOwnerService,
   createCustomerBookingService,
   getAvailableSlotsService,
-} from "../services/bookingService";
+} from "../services/booking.service";
 import { AppError } from "../utils/errors";
 
 const prisma = new PrismaClient();

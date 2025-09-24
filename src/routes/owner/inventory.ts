@@ -1,12 +1,12 @@
 import express from "express";
 import { authenticate, authorizeOwner } from "../../middlewares/authMiddleware";
-import { withShopContext } from "../../middlewares/shop/shopMiddleware";
+import { withShopContext } from "../../middlewares/shop/shop.middleware";
 import { validateRequest } from "../../middlewares/validateRequest";
 import {
   createInventoryItem,
   deleteInventoryItem,
   updateInventoryItem,
-} from "../../controllers/inventoryController";
+} from "../../controllers/inventory.controller";
 import {
   createInventoryItemValidation,
   deleteInventoryItemValidator,
@@ -14,8 +14,6 @@ import {
 } from "../../validators/inventoryValidator";
 
 const router = express.Router();
-
-//  CRUD  //
 
 router.post(
   "/",

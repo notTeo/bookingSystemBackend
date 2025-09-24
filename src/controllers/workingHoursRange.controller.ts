@@ -4,7 +4,7 @@ import {
   deleteWorkingHourRangeService,
   editWorkingHourRangeService,
   cloneWorkingHourRangeService,
-} from "../services/worikingHoursRangeService";
+} from "../services/worikingHoursRange.service";
 import { getShopId } from "../utils/getIds";
 import { sendSuccessResponse, sendErrorResponse } from "../utils/responses";
 

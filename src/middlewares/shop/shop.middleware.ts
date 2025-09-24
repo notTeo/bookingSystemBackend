@@ -6,7 +6,7 @@ export const withShopContext = (
   res: Response,
   next: NextFunction
 ) => {
-  const shopId = Number(req.headers["shopid"]);
+  const shopId = Number(req.params.shopId);
   if (!shopId || isNaN(shopId)) {
     return sendErrorResponse(res, "Missing or invalid shopId in header", 400);
   }

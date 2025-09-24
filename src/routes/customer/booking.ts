@@ -1,8 +1,8 @@
 import express from "express";
 import { createBookingValidation } from "../../validators/bookingValidator";
 import { validateRequest } from "../../middlewares/validateRequest";
-import { createBookingByCustomer } from "../../controllers/bookingController";
-import { withShopContext } from "../../middlewares/shop/shopMiddleware";
+import { createBookingByCustomer } from "../../controllers/booking.controller";
+import { withShopContext } from "../../middlewares/shop/shop.middleware";
 
 const router = express.Router();
 

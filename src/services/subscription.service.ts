@@ -3,7 +3,7 @@ import { AppError } from "../utils/errors";
 
 const prisma = new PrismaClient();
 
-export const updateSubscriptionService = async (
+export const changeUserSubscriptionService = async (
   userId: number,
   subscription: Subscription
 ) => {

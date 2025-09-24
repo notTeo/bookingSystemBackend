@@ -11,7 +11,7 @@ import {
   removeServiceFromEmployeeService,
   toggleEmployeeActiveStatusService,
   updateEmployeeService,
-} from "../services/employeeService";
+} from "../services/employee.service";
 
 const prisma = new PrismaClient();
 

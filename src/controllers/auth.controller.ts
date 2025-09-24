@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import {
   loginUserService,
   registerOwnerService,
-} from "../services/authService";
+} from "../services/auth.service";
 
 export const registerOwner = async (
   req: Request,

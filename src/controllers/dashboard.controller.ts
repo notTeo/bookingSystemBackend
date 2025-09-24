@@ -12,7 +12,7 @@ import {
   updateShopProfileService,
   getInventoryItemsService,
   getAllBookingsPerDayService,
-} from "../services/dashboardService";
+} from "../services/dashboard.service";
 
 const prisma = new PrismaClient();
 

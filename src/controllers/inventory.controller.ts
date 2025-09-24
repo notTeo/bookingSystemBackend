@@ -6,7 +6,7 @@ import {
   createInventoryItemService,
   deleteInventoryItemService,
   updateInventoryItemService,
-} from "../services/inventoryService";
+} from "../services/inventory.service";
 
 const prisma = new PrismaClient();
 
