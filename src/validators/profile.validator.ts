@@ -5,6 +5,6 @@ export const updateOwnerProfileValidation = [
       .withMessage("Name must be 2–80 chars"),
     body("email").optional().isEmail().withMessage("Email must be valid"),
     // guard against forbidden fields
-    body(["role","hashedPassword","id"]).not().exists()
+    body(["role","password","id"]).not().exists()
       .withMessage("Field not allowed to update"),
   ];

@@ -2,6 +2,7 @@ import { sendSuccessResponse, sendErrorResponse } from "../utils/responses";
 import { Request, Response } from "express";
 import {
   loginUserService,
+  refreshAccessTokenService,
   registerOwnerService,
 } from "../services/auth.service";
 
@@ -42,3 +43,19 @@ export const loginUser = async (
     );
   }
 };
+
+export const refreshAccessToken = async (req: Request, res: Response) => {
+  try {
+    const { refreshToken } = req.body;
+
+    const result = await refreshAccessTokenService(refreshToken);
+
+    return sendSuccessResponse(res, {
+      message: "New access token issued",
+      ...result,
+    });
+  } catch (err: any) {
+    return sendErrorResponse(res, err.message || "Invalid refresh token", 403);
+  }
+};
+

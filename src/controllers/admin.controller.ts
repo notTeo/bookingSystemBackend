@@ -17,7 +17,7 @@ export const getAllOwners = async (
       const result = await getAllOwnersService();
       return sendSuccessResponse(res, {
         message: "All Owners",
-        user: result,
+        users: result,
       });
     } catch (error: any) {
       return sendErrorResponse(
@@ -78,7 +78,7 @@ export const getCustomerByID = async (
     const result = await getCustomerByIDService(customerID);
     return sendSuccessResponse(res, {
       message: `Cusotomer with id: ${customerID}`,
-      user: result,
+      customer: result,
     });
   } catch (error: any) {
     return sendErrorResponse(
@@ -97,7 +97,7 @@ export const getAllCustomers = async (
     const result = await getAllCustomersService();
     return sendSuccessResponse(res, {
       message: "All Customers",
-      user: result,
+      customers: result,
     });
   } catch (error: any) {
     return sendErrorResponse(

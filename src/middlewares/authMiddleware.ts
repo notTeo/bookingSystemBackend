@@ -34,38 +34,6 @@ export const authenticateJWT = (
   }
 };
 
-export const authorizeOwner = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const user = (req as AuthenticatedRequest).user;
-  if (!user?.role) {
-    return sendErrorResponse(res, "Unauthorized: no role found", 401);
-  }
-  if (user?.role !== "OWNER") {
-    return sendErrorResponse(res, "Forbidden: only Owners allowed", 403);
-  }
-
-  next();
-};
-
-export const authorizeEmployee = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const user = (req as AuthenticatedRequest).user;
-  if (!user?.role) {
-    return sendErrorResponse(res, "Unauthorized: no role found", 401);
-  }
-  if (user?.role !== "EMPLOYEE") {
-    return sendErrorResponse(res, "Forbidden: only Employees allowed", 403);
-  }
-
-  next();
-};
-
 export const authorizeSubscription = (subscriptions: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const user = (req as AuthenticatedRequest).user;

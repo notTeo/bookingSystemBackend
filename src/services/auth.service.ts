@@ -39,36 +39,80 @@ export const registerOwnerService = async (data: RegisterInput) => {
 };
 
 export const loginUserService = async (data: LoginInput) => {
-    const { email, password } = data;
+  const { email, password } = data;
 
-    if (!email || !password) {
-      throw new AppError("Email and password are required", 401);
+  if (!email || !password) {
+    throw new AppError("Email and password are required", 401);
+  }
+
+  const user = await prisma.user.findUnique({ where: { email } });
+
+  if (!user) {
+    throw new Error("Invalid credentials");
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
+  if (!isPasswordValid) {
+    throw new AppError("Invalid credentials", 401);
+  }
+  const expiresIn = user.role === "ADMIN" ? "15m" : "1d";
+
+  const accessToken = jwt.sign(
+    { id: user.id, role: user.role },
+    process.env.JWT_SECRET!,
+    { expiresIn } // 15m for Admin, 1d for others
+  );
+
+  const refreshToken = jwt.sign(
+    { id: user.id, role: user.role },
+    process.env.JWT_REFRESH_SECRET!, // different secret in .env
+    { expiresIn: "7d" } // refresh valid for 7 days
+  );
+
+  return {
+    accessToken,
+    refreshToken,
+
+    user: {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    },
+  };
+};
+
+
+interface DecodedRefreshToken {
+  id: number;
+  role: string;
+  iat: number;
+  exp: number;
+}
+
+export const refreshAccessTokenService = async (refreshToken: string) => {
+  try {
+    const decoded = jwt.verify(
+      refreshToken,
+      process.env.JWT_REFRESH_SECRET!
+    ) as DecodedRefreshToken;
+
+    // You could also verify user still exists and is active
+    const user = await prisma.user.findUnique({ where: { id: decoded.id } });
+    if (!user || !user.isActive) {
+      throw new AppError("User not found or inactive");
     }
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    const expiresIn = user.role === "ADMIN" ? "15m" : "1d";
 
-    if (!user) {
-      throw new Error("Invalid credentials");
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
-    if (!isPasswordValid) {
-      throw new AppError("Invalid credentials", 401);
-    }
-
-    const token = jwt.sign(
-      { userId: user.id, role: user.role },
+    const newAccessToken = jwt.sign(
+      { id: user.id, role: user.role },
       process.env.JWT_SECRET!,
-      { expiresIn: "1d" }
+      { expiresIn }
     );
 
-    return {
-      token,
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-      },
-    };
+    return { accessToken: newAccessToken };
+  } catch (err) {
+    throw new AppError("Invalid or expired refresh token");
+  }
 };

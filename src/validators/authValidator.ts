@@ -27,3 +27,10 @@ export const loginValidation = [
     .trim()
     .notEmpty().withMessage("Password is required"),
 ];
+
+export const refreshAccessTokenValidator = [
+  body("refreshToken")
+    .trim()
+    .notEmpty().withMessage("RefreshToken is required")
+    .isString().withMessage("Refresh token must be a string"),
+]
