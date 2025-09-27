@@ -23,7 +23,6 @@ router.put("/:shopID", (req: Request, res: Response) => {
   res.send({ data: "SHOP UPDATED" });
 });
 
-// nested resources — always tied to a specific shop
 router.use("/:shopID/inventory", inventoryRoutes);
 router.use("/:shopID/services", serviceRoutes);
 router.use("/:shopID/employees", employeeManagmentRoutes);

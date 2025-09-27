@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
 import { sendErrorResponse, sendSuccessResponse } from "../utils/responses";
-import { getOwnerProfileService, updateOwnerProfileService } from "../services/profile.service";
+import { getProfileService, updateOwnerProfileService } from "../services/profile.service";
 
-export const getOwnerProfile = async (req: Request, res: Response) => {
+export const getProfile = async (req: Request, res: Response) => {
     try {
       const userId = (req as any).user?.id;
+      const role  = (req as any).user?.role;
       if (!userId) return sendErrorResponse(res, "Unauthorized", 401);
   
-      const profile = await getOwnerProfileService(userId);
-      if (!profile) return sendErrorResponse(res, "Owner not found", 404);
+      const profile = await getProfileService(userId, role);
+      if (!profile) return sendErrorResponse(res, "User not found", 404);
   
       return sendSuccessResponse(res, { owner: profile });
     } catch (err: any) {

@@ -87,6 +87,8 @@ model Customer {
   name      String
   phone     String
   email     String?
+  notes     String?
+  isbanned  Boolean @default(false)
   bookings  Booking[]
   createdAt DateTime  @default(now())
 }

@@ -1,50 +1,36 @@
-import { PrismaClient } from "../generated/prisma";
+import { PrismaClient, Role } from "../generated/prisma";
 const prisma = new PrismaClient();
 
-export const getOwnerProfileService = async (userId: number) => {
-  return prisma.user.findUnique({
-    where: { id: userId, role: "OWNER" },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      subscription: true,
-      createdAt: true,
-      shops: {
-        select: {
-          id: true,
-          name: true,
-          address: true,
-          createdAt: true,
-          employees: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              isActive: true,
-            },
-          },
-          services: {
-            select: {
-              id: true,
-              name: true,
-              duration: true,
-              price: true,
-            },
-          },
-          _count: {
-            select: {
-              bookings: true,
-              inventory: true,
-              workingSlots: true,
-            },
-          },
-        },
-        orderBy: { id: "asc" },
+export const getProfileService = async (userId: number, role: Role) => {
+  if (role === "OWNER") {
+    return prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        shops: {
+          select: { id: true, name: true, address: true }
+        }
       },
-    },
-  });
+    });
+  }
+
+  if (role === "EMPLOYEE") {
+    return prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        shop: {
+          select: { id: true, name: true, address: true }
+        }
+      },
+    });
+  }
 };
 
 type UpdateOwnerProfileInput = {
