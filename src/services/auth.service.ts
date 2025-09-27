@@ -8,6 +8,7 @@ interface RegisterInput {
   email: string;
   password: string;
   name: string;
+  confirmPassword: string;
 }
 
 interface LoginInput {
@@ -58,10 +59,10 @@ export const loginUserService = async (data: LoginInput) => {
   }
 
   if (user.role === "ADMIN") {
-    const adminSecret = process.env.ADMIN_SECRET;
-    const providedSecret = data.adminSecret;
+    const expectedSecret = process.env.ADMIN_SECRET;
+    const providedSecret = adminSecret;
   
-    if (!adminSecret || providedSecret !== adminSecret) {
+    if (!expectedSecret || providedSecret !== expectedSecret) {
       throw new AppError("Invalid admin secret", 403);
     }
   }
