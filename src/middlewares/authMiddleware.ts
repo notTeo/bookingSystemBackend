@@ -83,8 +83,6 @@ export const authorizeSubscription = (subscriptions: string[]) => {
   };
 };
 
-
-//!this is not implemented in project yet 
 export const authorizeRole = (roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const user = (req as AuthenticatedRequest).user;

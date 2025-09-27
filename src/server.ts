@@ -1,17 +1,15 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { PrismaClient } from "./generated/prisma";
-import authRoutes from "./routes2/auth.routes";
-import adminRoutes from "./routes2/admin.routes";
-import employeeRoutes from "./routes2/employeeManagment.routes";
-import publicRoutes from "./routes2/public.routes";
-import ownerRoutes from "./routes2/owner.routes";
+import authRoutes from "./routes/auth.routes";
+import adminRoutes from "./routes/admin.routes";
+import employeeRoutes from "./routes/employeeManagment.routes";
+import publicRoutes from "./routes/public.routes";
+import ownerRoutes from "./routes/owner.routes";
 import { authenticateJWT, authorizeRole } from "./middlewares/authMiddleware";
 
 dotenv.config();
 const app = express();
-const prisma = new PrismaClient();
 
 app.use(cors());
 app.use(express.json());

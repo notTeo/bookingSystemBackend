@@ -25,9 +25,9 @@ router.put("/:shopID", (req: Request, res: Response) => {
 });
 
 // nested resources — always tied to a specific shop
-router.use("/:shopId/inventory", inventoryRoutes);
-router.use("/:shopId/services", serviceRoutes);
-router.use("/:shopId/employees", employeeManagmentRoutes);
-router.use("/:shopId/bookings", bookingRoutes);
+router.use("/:shopID/inventory", inventoryRoutes);
+router.use("/:shopID/services", serviceRoutes);
+router.use("/:shopID/employees", employeeManagmentRoutes);
+router.use("/:shopID/bookings", bookingRoutes);
 
 export default router;
