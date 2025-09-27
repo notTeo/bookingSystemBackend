@@ -3,7 +3,6 @@ import inventoryRoutes from "./inventory.routes";
 import serviceRoutes from "./service.routes";
 import employeeManagmentRoutes from "./employeeManagment.routes";
 import bookingRoutes from "./booking.routes";
-import { withShopContext } from "../middlewares/shop/shop.middleware";
 
 const router = Router();
 
