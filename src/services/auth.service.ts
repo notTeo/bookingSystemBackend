@@ -14,6 +14,7 @@ interface LoginInput {
   email: string;
   password: string;
   name: string;
+  adminSecret?: string;
 }
 
 export const registerOwnerService = async (data: RegisterInput) => {
@@ -39,7 +40,7 @@ export const registerOwnerService = async (data: RegisterInput) => {
 };
 
 export const loginUserService = async (data: LoginInput) => {
-  const { email, password } = data;
+  const { email, password, adminSecret } = data;
 
   if (!email || !password) {
     throw new AppError("Email and password are required", 401);
@@ -55,18 +56,28 @@ export const loginUserService = async (data: LoginInput) => {
   if (!isPasswordValid) {
     throw new AppError("Invalid credentials", 401);
   }
+
+  if (user.role === "ADMIN") {
+    const adminSecret = process.env.ADMIN_SECRET;
+    const providedSecret = data.adminSecret;
+  
+    if (!adminSecret || providedSecret !== adminSecret) {
+      throw new AppError("Invalid admin secret", 403);
+    }
+  }
+
   const expiresIn = user.role === "ADMIN" ? "15m" : "1d";
 
   const accessToken = jwt.sign(
     { id: user.id, role: user.role },
     process.env.JWT_SECRET!,
-    { expiresIn } // 15m for Admin, 1d for others
+    { expiresIn } 
   );
 
   const refreshToken = jwt.sign(
     { id: user.id, role: user.role },
-    process.env.JWT_REFRESH_SECRET!, // different secret in .env
-    { expiresIn: "7d" } // refresh valid for 7 days
+    process.env.JWT_REFRESH_SECRET!, 
+    { expiresIn: "7d" } 
   );
 
   return {

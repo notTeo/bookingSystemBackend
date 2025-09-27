@@ -26,6 +26,10 @@ export const loginValidation = [
   body("password")
     .trim()
     .notEmpty().withMessage("Password is required"),
+  
+    body("adminSecret")
+    .trim()
+    .notEmpty().withMessage("adminSecret is required"),
 ];
 
 export const refreshAccessTokenValidator = [

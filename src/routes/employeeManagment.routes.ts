@@ -28,7 +28,7 @@ router.delete("/:employeeID/:servicesID", (req: Request, res: Response) => {
   res.send({ data: "SERVICE REMOVED FROM EMPLOYEE" });
 });
 
-// nested resources — always tied to a specific employee
+
 router.use("/:employeeID/working-hours", workingHoursRoutes);
 
 export default router;

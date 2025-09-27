@@ -4,15 +4,24 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
-  const hashedPassword = await bcrypt.hash("SuperSecret123!", 12);
+
+  const email = process.env.ADMIN_EMAIL!;
+  const password = process.env.ADMIN_PASSWORD!;
+  const name = process.env.ADMIN_NAME!;
+
+  if (!email || !password || !name) {
+    throw new Error("Missing admin environment variables");
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 12);
 
   await prisma.user.upsert({
-    where: { email: "you@domain.com" },
+    where: { email },
     update: {}, 
     create: {
-      email: "you@domain.com",
+      email,
       hashedPassword,
-      name: "Platform Admin",
+      name,
       role: "ADMIN",
     },
   });
