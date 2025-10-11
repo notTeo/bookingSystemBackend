@@ -3,18 +3,18 @@ import { Request, Response } from "express";
 import {
   loginUserService,
   refreshAccessTokenService,
-  registerOwnerService,
+  registerUserService,
 } from "../services/auth.service";
 
-export const registerOwner = async (
+export const registerUser = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const result = await registerOwnerService(req.body);
+    const result = await registerUserService(req.body);
     return sendSuccessResponse(res, {
       message: "Owner registered successfully",
-      user: result,
+      data: result,
     });
   } catch (error: any) {
     return sendErrorResponse(
@@ -33,7 +33,7 @@ export const loginUser = async (
     const result = await loginUserService(req.body);
     return sendSuccessResponse(res, {
       message: "Owner logged in successfully",
-      userInfo: result,
+      data: result,
     });
   }catch (error: any) {
     return sendErrorResponse(
@@ -58,4 +58,3 @@ export const refreshAccessToken = async (req: Request, res: Response) => {
     return sendErrorResponse(res, err.message || "Invalid refresh token", 403);
   }
 };
-

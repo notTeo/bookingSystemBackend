@@ -1,0 +1,170 @@
+// ------------------
+// GENERATOR & DB
+// ------------------
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ------------------
+// ENUMS
+// ------------------
+enum Role {
+  OWNER
+  MANAGER
+  STAFF
+  NONE
+}
+
+enum Subscription {
+  MEMBER
+  STARTER
+  PRO
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+}
+
+// ------------------
+// MODELS
+// ------------------
+model User {
+  id             Int     @id @default(autoincrement())
+  name           String
+  email          String  @unique
+  hashedPassword String
+  subscription   Subscription
+  role           Role
+  active         Boolean @default(true)
+  bookable       Boolean @default(false)
+
+  // Relation to Owner (only if this user was created by an Owner)
+  ownerId Int?
+  owner   User?  @relation("OwnerUsers", fields: [ownerId], references: [id])
+  users   User[] @relation("OwnerUsers")
+
+  // Shops
+  shopId Int?
+  shop   Shop?  @relation("ShopMembers", fields: [shopId], references: [id]) // shop where user works
+  shops  Shop[] @relation("OwnerShops") // shops owned
+
+  // Services
+  services         Service[] @relation("OwnerServices")
+  assignedServices Service[] @relation("AssignedServices")
+
+  // Working hours & bookings
+  workingHours WorkingHour[]
+  bookings     Booking[]     @relation("UserBookings")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Shop {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  ownerId Int
+  owner   User @relation("OwnerShops", fields: [ownerId], references: [id])
+
+  assignedUsers User[]          @relation("ShopMembers") // users assigned to this shop
+  inventory     InventoryItem[]
+  bookings      Booking[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Service {
+  id       Int    @id @default(autoincrement())
+  name     String
+  duration Int
+  price    Float
+
+  ownerId Int
+  owner   User @relation("OwnerServices", fields: [ownerId], references: [id])
+
+  assignedUsers User[]    @relation("AssignedServices")
+  bookings      Booking[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Customer {
+  id    Int     @id @default(autoincrement())
+  name  String
+  phone String
+  email String?
+
+  bookings Booking[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Booking {
+  id        Int           @id @default(autoincrement())
+  startTime DateTime
+  endTime   DateTime
+  status    BookingStatus @default(PENDING)
+
+  customerId Int
+  customer   Customer @relation(fields: [customerId], references: [id])
+
+  shopId Int
+  shop   Shop @relation(fields: [shopId], references: [id])
+
+  userId Int
+  user   User @relation("UserBookings", fields: [userId], references: [id])
+
+  serviceId Int
+  service   Service @relation(fields: [serviceId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model WorkingHour {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  dayOfWeek DayOfWeek
+  startTime DateTime
+  endTime   DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model InventoryItem {
+  id       Int    @id @default(autoincrement())
+  name     String
+  quantity Int    @default(0)
+  price    Float?
+
+  shopId Int
+  shop   Shop @relation(fields: [shopId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

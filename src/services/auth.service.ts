@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { PrismaClient } from "../generated/prisma";
+import { PrismaClient, Subscription, Role } from "../db/generated/prisma";
 import { AppError } from "../utils/errors";
 const prisma = new PrismaClient();
 
@@ -9,17 +9,16 @@ interface RegisterInput {
   password: string;
   name: string;
   confirmPassword: string;
+  subscription: Subscription
 }
 
 interface LoginInput {
   email: string;
   password: string;
   name: string;
-  adminSecret?: string;
 }
-
-export const registerOwnerService = async (data: RegisterInput) => {
-  const { email, password, name } = data;
+export const registerUserService = async (data: RegisterInput) => {
+  const { email, password, name, subscription } = data;
 
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
@@ -28,20 +27,32 @@ export const registerOwnerService = async (data: RegisterInput) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
+  const normalizedSub = subscription.toUpperCase() as keyof typeof Subscription;
+  const assignedRole = normalizedSub === Subscription.MEMBER ? Role.NONE : Role.OWNER;
+
   const newUser = await prisma.user.create({
     data: {
+      name,
       email,
       hashedPassword,
-      name,
-      role: "OWNER",
+      subscription: normalizedSub,
+      role: assignedRole,
     },
   });
 
-  return { id: newUser.id, email: newUser.email, name: newUser.name };
+  return {
+    user: {
+      id: newUser.id,
+      email: newUser.email,
+      name: newUser.name,
+      role: newUser.role,
+    },
+  };
 };
 
+
 export const loginUserService = async (data: LoginInput) => {
-  const { email, password, adminSecret } = data;
+  const { email, password } = data;
 
   if (!email || !password) {
     throw new AppError("Email and password are required", 401);
@@ -58,16 +69,8 @@ export const loginUserService = async (data: LoginInput) => {
     throw new AppError("Invalid credentials", 401);
   }
 
-  if (user.role === "ADMIN") {
-    const expectedSecret = process.env.ADMIN_SECRET;
-    const providedSecret = adminSecret;
-  
-    if (!expectedSecret || providedSecret !== expectedSecret) {
-      throw new AppError("Invalid admin secret", 403);
-    }
-  }
 
-  const expiresIn = user.role === "ADMIN" ? "15m" : "1d";
+  const expiresIn =  "1d";
 
   const accessToken = jwt.sign(
     { id: user.id, role: user.role },
@@ -84,7 +87,6 @@ export const loginUserService = async (data: LoginInput) => {
   return {
     accessToken,
     refreshToken,
-
     user: {
       id: user.id,
       email: user.email,
@@ -111,11 +113,11 @@ export const refreshAccessTokenService = async (refreshToken: string) => {
 
     // You could also verify user still exists and is active
     const user = await prisma.user.findUnique({ where: { id: decoded.id } });
-    if (!user || !user.isActive) {
+    if (!user || !user.active) {
       throw new AppError("User not found or inactive");
     }
 
-    const expiresIn = user.role === "ADMIN" ? "15m" : "1d";
+    const expiresIn = "1d";
 
     const newAccessToken = jwt.sign(
       { id: user.id, role: user.role },

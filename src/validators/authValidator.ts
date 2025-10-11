@@ -26,6 +26,14 @@ export const registerValidation = [
     .withMessage("Name is required")
     .isLength({ min: 2 })
     .withMessage("Name must be at least 2 characters long"),
+
+  body("subscription")
+    .exists()
+    .withMessage("Subscription is required")
+    .isString()
+    .withMessage("Subscription must be a string")
+    .isIn(["MEMBER", "STARTER", "PRO"])
+    .withMessage("Subscription must be one of: MEMBER, STARTER, PRO"),
 ];
 
 export const loginValidation = [
@@ -37,8 +45,6 @@ export const loginValidation = [
     .withMessage("Email must be a valid email address"),
 
   body("password").trim().notEmpty().withMessage("Password is required"),
-
-  body("adminSecret").trim().notEmpty().withMessage("adminSecret is required"),
 ];
 
 export const refreshAccessTokenValidator = [
