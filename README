@@ -1,0 +1,31 @@
+# ✂️ CutForm SaaS — Backend Server
+
+Backend API for the **CutForm** platform — a multi-tenant booking and management system for barbershops and salons.
+
+---
+
+## 🚀 Tech Stack
+
+- **Node.js** + **Express.js**
+- **TypeScript**
+- **Prisma ORM** + **PostgreSQL**
+- **JWT Authentication**
+- **Express Validator** for input validation
+
+---
+
+## ⚙️ Setup
+
+```bash
+# 1. Clone repository
+git clone https://github.com/nicktheodosis/cutform-saas-server.git
+
+# 2. Install dependencies
+npm install
+
+# 3. Setup database and Prisma
+npx prisma migrate dev --name init
+npx prisma generate
+
+# 4. Run in development
+npm run dev
