@@ -28,7 +28,7 @@ export const registerUserService = async (data: RegisterInput) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const normalizedSub = subscription.toUpperCase() as keyof typeof Subscription;
-  const assignedRole = normalizedSub === Subscription.MEMBER ? Role.NONE : Role.OWNER;
+  const assignedRole = normalizedSub === Subscription.MEMBER ? Role.NONE : Role.BUSINESS;
 
   const newUser = await prisma.user.create({
     data: {

@@ -15,7 +15,7 @@ datasource db {
 // ENUMS
 // ------------------
 enum Role {
-  OWNER
+  BUSINESS
   MANAGER
   STAFF
   NONE

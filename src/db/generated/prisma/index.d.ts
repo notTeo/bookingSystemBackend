@@ -54,7 +54,7 @@ export type InventoryItem = $Result.DefaultSelection<Prisma.$InventoryItemPayloa
  */
 export namespace $Enums {
   export const Role: {
-  OWNER: 'OWNER',
+  BUSINESS: 'BUSINESS',
   MANAGER: 'MANAGER',
   STAFF: 'STAFF',
   NONE: 'NONE'

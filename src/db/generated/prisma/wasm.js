@@ -216,7 +216,7 @@ exports.Subscription = exports.$Enums.Subscription = {
 };
 
 exports.Role = exports.$Enums.Role = {
-  OWNER: 'OWNER',
+  BUSINESS: 'BUSINESS',
   MANAGER: 'MANAGER',
   STAFF: 'STAFF',
   NONE: 'NONE'
