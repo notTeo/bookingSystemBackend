@@ -85,12 +85,28 @@ model Shop {
   ownerId Int
   owner   User @relation("OwnerShops", fields: [ownerId], references: [id])
 
-  assignedUsers User[]          @relation("ShopMembers") // users assigned to this shop
+  assignedUsers User[]          @relation("ShopMembers")
   inventory     InventoryItem[]
   bookings      Booking[]
 
+  openingRanges ShopOpeningRange[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model ShopOpeningRange {
+  id     Int  @id @default(autoincrement())
+  shopId Int
+  shop   Shop @relation(fields: [shopId], references: [id])
+
+  startDate DateTime // when this schedule starts
+  endDate   DateTime? // optional (open-ended)
+
+  dayOfWeek DayOfWeek
+  openTime  String
+  closeTime String
+  isClosed  Boolean   @default(false)
 }
 
 model Service {

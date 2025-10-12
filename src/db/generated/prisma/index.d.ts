@@ -24,6 +24,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Shop = $Result.DefaultSelection<Prisma.$ShopPayload>
 /**
+ * Model ShopOpeningRange
+ * 
+ */
+export type ShopOpeningRange = $Result.DefaultSelection<Prisma.$ShopOpeningRangePayload>
+/**
  * Model Service
  * 
  */
@@ -255,6 +260,16 @@ export class PrismaClient<
     * ```
     */
   get shop(): Prisma.ShopDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.shopOpeningRange`: Exposes CRUD operations for the **ShopOpeningRange** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ShopOpeningRanges
+    * const shopOpeningRanges = await prisma.shopOpeningRange.findMany()
+    * ```
+    */
+  get shopOpeningRange(): Prisma.ShopOpeningRangeDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.service`: Exposes CRUD operations for the **Service** model.
@@ -747,6 +762,7 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Shop: 'Shop',
+    ShopOpeningRange: 'ShopOpeningRange',
     Service: 'Service',
     Customer: 'Customer',
     Booking: 'Booking',
@@ -770,7 +786,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "shop" | "service" | "customer" | "booking" | "workingHour" | "inventoryItem"
+      modelProps: "user" | "shop" | "shopOpeningRange" | "service" | "customer" | "booking" | "workingHour" | "inventoryItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -919,6 +935,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ShopCountArgs<ExtArgs>
             result: $Utils.Optional<ShopCountAggregateOutputType> | number
+          }
+        }
+      }
+      ShopOpeningRange: {
+        payload: Prisma.$ShopOpeningRangePayload<ExtArgs>
+        fields: Prisma.ShopOpeningRangeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShopOpeningRangeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShopOpeningRangeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>
+          }
+          findFirst: {
+            args: Prisma.ShopOpeningRangeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShopOpeningRangeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>
+          }
+          findMany: {
+            args: Prisma.ShopOpeningRangeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>[]
+          }
+          create: {
+            args: Prisma.ShopOpeningRangeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>
+          }
+          createMany: {
+            args: Prisma.ShopOpeningRangeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShopOpeningRangeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>[]
+          }
+          delete: {
+            args: Prisma.ShopOpeningRangeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>
+          }
+          update: {
+            args: Prisma.ShopOpeningRangeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>
+          }
+          deleteMany: {
+            args: Prisma.ShopOpeningRangeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShopOpeningRangeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ShopOpeningRangeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>[]
+          }
+          upsert: {
+            args: Prisma.ShopOpeningRangeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>
+          }
+          aggregate: {
+            args: Prisma.ShopOpeningRangeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShopOpeningRange>
+          }
+          groupBy: {
+            args: Prisma.ShopOpeningRangeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShopOpeningRangeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShopOpeningRangeCountArgs<ExtArgs>
+            result: $Utils.Optional<ShopOpeningRangeCountAggregateOutputType> | number
           }
         }
       }
@@ -1378,6 +1468,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     shop?: ShopOmit
+    shopOpeningRange?: ShopOpeningRangeOmit
     service?: ServiceOmit
     customer?: CustomerOmit
     booking?: BookingOmit
@@ -1556,12 +1647,14 @@ export namespace Prisma {
     assignedUsers: number
     inventory: number
     bookings: number
+    openingRanges: number
   }
 
   export type ShopCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     assignedUsers?: boolean | ShopCountOutputTypeCountAssignedUsersArgs
     inventory?: boolean | ShopCountOutputTypeCountInventoryArgs
     bookings?: boolean | ShopCountOutputTypeCountBookingsArgs
+    openingRanges?: boolean | ShopCountOutputTypeCountOpeningRangesArgs
   }
 
   // Custom InputTypes
@@ -1594,6 +1687,13 @@ export namespace Prisma {
    */
   export type ShopCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BookingWhereInput
+  }
+
+  /**
+   * ShopCountOutputType without action
+   */
+  export type ShopCountOutputTypeCountOpeningRangesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopOpeningRangeWhereInput
   }
 
 
@@ -3285,6 +3385,7 @@ export namespace Prisma {
     assignedUsers?: boolean | Shop$assignedUsersArgs<ExtArgs>
     inventory?: boolean | Shop$inventoryArgs<ExtArgs>
     bookings?: boolean | Shop$bookingsArgs<ExtArgs>
+    openingRanges?: boolean | Shop$openingRangesArgs<ExtArgs>
     _count?: boolean | ShopCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["shop"]>
 
@@ -3320,6 +3421,7 @@ export namespace Prisma {
     assignedUsers?: boolean | Shop$assignedUsersArgs<ExtArgs>
     inventory?: boolean | Shop$inventoryArgs<ExtArgs>
     bookings?: boolean | Shop$bookingsArgs<ExtArgs>
+    openingRanges?: boolean | Shop$openingRangesArgs<ExtArgs>
     _count?: boolean | ShopCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ShopIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3336,6 +3438,7 @@ export namespace Prisma {
       assignedUsers: Prisma.$UserPayload<ExtArgs>[]
       inventory: Prisma.$InventoryItemPayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
+      openingRanges: Prisma.$ShopOpeningRangePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -3741,6 +3844,7 @@ export namespace Prisma {
     assignedUsers<T extends Shop$assignedUsersArgs<ExtArgs> = {}>(args?: Subset<T, Shop$assignedUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     inventory<T extends Shop$inventoryArgs<ExtArgs> = {}>(args?: Subset<T, Shop$inventoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookings<T extends Shop$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Shop$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    openingRanges<T extends Shop$openingRangesArgs<ExtArgs> = {}>(args?: Subset<T, Shop$openingRangesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4243,6 +4347,30 @@ export namespace Prisma {
   }
 
   /**
+   * Shop.openingRanges
+   */
+  export type Shop$openingRangesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopOpeningRange
+     */
+    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopOpeningRange
+     */
+    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    where?: ShopOpeningRangeWhereInput
+    orderBy?: ShopOpeningRangeOrderByWithRelationInput | ShopOpeningRangeOrderByWithRelationInput[]
+    cursor?: ShopOpeningRangeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShopOpeningRangeScalarFieldEnum | ShopOpeningRangeScalarFieldEnum[]
+  }
+
+  /**
    * Shop without action
    */
   export type ShopDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4258,6 +4386,1141 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ShopInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ShopOpeningRange
+   */
+
+  export type AggregateShopOpeningRange = {
+    _count: ShopOpeningRangeCountAggregateOutputType | null
+    _avg: ShopOpeningRangeAvgAggregateOutputType | null
+    _sum: ShopOpeningRangeSumAggregateOutputType | null
+    _min: ShopOpeningRangeMinAggregateOutputType | null
+    _max: ShopOpeningRangeMaxAggregateOutputType | null
+  }
+
+  export type ShopOpeningRangeAvgAggregateOutputType = {
+    id: number | null
+    shopId: number | null
+  }
+
+  export type ShopOpeningRangeSumAggregateOutputType = {
+    id: number | null
+    shopId: number | null
+  }
+
+  export type ShopOpeningRangeMinAggregateOutputType = {
+    id: number | null
+    shopId: number | null
+    startDate: Date | null
+    endDate: Date | null
+    dayOfWeek: $Enums.DayOfWeek | null
+    openTime: string | null
+    closeTime: string | null
+    isClosed: boolean | null
+  }
+
+  export type ShopOpeningRangeMaxAggregateOutputType = {
+    id: number | null
+    shopId: number | null
+    startDate: Date | null
+    endDate: Date | null
+    dayOfWeek: $Enums.DayOfWeek | null
+    openTime: string | null
+    closeTime: string | null
+    isClosed: boolean | null
+  }
+
+  export type ShopOpeningRangeCountAggregateOutputType = {
+    id: number
+    shopId: number
+    startDate: number
+    endDate: number
+    dayOfWeek: number
+    openTime: number
+    closeTime: number
+    isClosed: number
+    _all: number
+  }
+
+
+  export type ShopOpeningRangeAvgAggregateInputType = {
+    id?: true
+    shopId?: true
+  }
+
+  export type ShopOpeningRangeSumAggregateInputType = {
+    id?: true
+    shopId?: true
+  }
+
+  export type ShopOpeningRangeMinAggregateInputType = {
+    id?: true
+    shopId?: true
+    startDate?: true
+    endDate?: true
+    dayOfWeek?: true
+    openTime?: true
+    closeTime?: true
+    isClosed?: true
+  }
+
+  export type ShopOpeningRangeMaxAggregateInputType = {
+    id?: true
+    shopId?: true
+    startDate?: true
+    endDate?: true
+    dayOfWeek?: true
+    openTime?: true
+    closeTime?: true
+    isClosed?: true
+  }
+
+  export type ShopOpeningRangeCountAggregateInputType = {
+    id?: true
+    shopId?: true
+    startDate?: true
+    endDate?: true
+    dayOfWeek?: true
+    openTime?: true
+    closeTime?: true
+    isClosed?: true
+    _all?: true
+  }
+
+  export type ShopOpeningRangeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShopOpeningRange to aggregate.
+     */
+    where?: ShopOpeningRangeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopOpeningRanges to fetch.
+     */
+    orderBy?: ShopOpeningRangeOrderByWithRelationInput | ShopOpeningRangeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShopOpeningRangeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopOpeningRanges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopOpeningRanges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShopOpeningRanges
+    **/
+    _count?: true | ShopOpeningRangeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShopOpeningRangeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShopOpeningRangeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShopOpeningRangeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShopOpeningRangeMaxAggregateInputType
+  }
+
+  export type GetShopOpeningRangeAggregateType<T extends ShopOpeningRangeAggregateArgs> = {
+        [P in keyof T & keyof AggregateShopOpeningRange]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShopOpeningRange[P]>
+      : GetScalarType<T[P], AggregateShopOpeningRange[P]>
+  }
+
+
+
+
+  export type ShopOpeningRangeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopOpeningRangeWhereInput
+    orderBy?: ShopOpeningRangeOrderByWithAggregationInput | ShopOpeningRangeOrderByWithAggregationInput[]
+    by: ShopOpeningRangeScalarFieldEnum[] | ShopOpeningRangeScalarFieldEnum
+    having?: ShopOpeningRangeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShopOpeningRangeCountAggregateInputType | true
+    _avg?: ShopOpeningRangeAvgAggregateInputType
+    _sum?: ShopOpeningRangeSumAggregateInputType
+    _min?: ShopOpeningRangeMinAggregateInputType
+    _max?: ShopOpeningRangeMaxAggregateInputType
+  }
+
+  export type ShopOpeningRangeGroupByOutputType = {
+    id: number
+    shopId: number
+    startDate: Date
+    endDate: Date | null
+    dayOfWeek: $Enums.DayOfWeek
+    openTime: string
+    closeTime: string
+    isClosed: boolean
+    _count: ShopOpeningRangeCountAggregateOutputType | null
+    _avg: ShopOpeningRangeAvgAggregateOutputType | null
+    _sum: ShopOpeningRangeSumAggregateOutputType | null
+    _min: ShopOpeningRangeMinAggregateOutputType | null
+    _max: ShopOpeningRangeMaxAggregateOutputType | null
+  }
+
+  type GetShopOpeningRangeGroupByPayload<T extends ShopOpeningRangeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShopOpeningRangeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShopOpeningRangeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShopOpeningRangeGroupByOutputType[P]>
+            : GetScalarType<T[P], ShopOpeningRangeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShopOpeningRangeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shopId?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    dayOfWeek?: boolean
+    openTime?: boolean
+    closeTime?: boolean
+    isClosed?: boolean
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopOpeningRange"]>
+
+  export type ShopOpeningRangeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shopId?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    dayOfWeek?: boolean
+    openTime?: boolean
+    closeTime?: boolean
+    isClosed?: boolean
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopOpeningRange"]>
+
+  export type ShopOpeningRangeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shopId?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    dayOfWeek?: boolean
+    openTime?: boolean
+    closeTime?: boolean
+    isClosed?: boolean
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopOpeningRange"]>
+
+  export type ShopOpeningRangeSelectScalar = {
+    id?: boolean
+    shopId?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    dayOfWeek?: boolean
+    openTime?: boolean
+    closeTime?: boolean
+    isClosed?: boolean
+  }
+
+  export type ShopOpeningRangeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shopId" | "startDate" | "endDate" | "dayOfWeek" | "openTime" | "closeTime" | "isClosed", ExtArgs["result"]["shopOpeningRange"]>
+  export type ShopOpeningRangeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }
+  export type ShopOpeningRangeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }
+  export type ShopOpeningRangeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }
+
+  export type $ShopOpeningRangePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShopOpeningRange"
+    objects: {
+      shop: Prisma.$ShopPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      shopId: number
+      startDate: Date
+      endDate: Date | null
+      dayOfWeek: $Enums.DayOfWeek
+      openTime: string
+      closeTime: string
+      isClosed: boolean
+    }, ExtArgs["result"]["shopOpeningRange"]>
+    composites: {}
+  }
+
+  type ShopOpeningRangeGetPayload<S extends boolean | null | undefined | ShopOpeningRangeDefaultArgs> = $Result.GetResult<Prisma.$ShopOpeningRangePayload, S>
+
+  type ShopOpeningRangeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShopOpeningRangeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShopOpeningRangeCountAggregateInputType | true
+    }
+
+  export interface ShopOpeningRangeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShopOpeningRange'], meta: { name: 'ShopOpeningRange' } }
+    /**
+     * Find zero or one ShopOpeningRange that matches the filter.
+     * @param {ShopOpeningRangeFindUniqueArgs} args - Arguments to find a ShopOpeningRange
+     * @example
+     * // Get one ShopOpeningRange
+     * const shopOpeningRange = await prisma.shopOpeningRange.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShopOpeningRangeFindUniqueArgs>(args: SelectSubset<T, ShopOpeningRangeFindUniqueArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ShopOpeningRange that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ShopOpeningRangeFindUniqueOrThrowArgs} args - Arguments to find a ShopOpeningRange
+     * @example
+     * // Get one ShopOpeningRange
+     * const shopOpeningRange = await prisma.shopOpeningRange.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShopOpeningRangeFindUniqueOrThrowArgs>(args: SelectSubset<T, ShopOpeningRangeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShopOpeningRange that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopOpeningRangeFindFirstArgs} args - Arguments to find a ShopOpeningRange
+     * @example
+     * // Get one ShopOpeningRange
+     * const shopOpeningRange = await prisma.shopOpeningRange.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShopOpeningRangeFindFirstArgs>(args?: SelectSubset<T, ShopOpeningRangeFindFirstArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShopOpeningRange that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopOpeningRangeFindFirstOrThrowArgs} args - Arguments to find a ShopOpeningRange
+     * @example
+     * // Get one ShopOpeningRange
+     * const shopOpeningRange = await prisma.shopOpeningRange.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShopOpeningRangeFindFirstOrThrowArgs>(args?: SelectSubset<T, ShopOpeningRangeFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ShopOpeningRanges that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopOpeningRangeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShopOpeningRanges
+     * const shopOpeningRanges = await prisma.shopOpeningRange.findMany()
+     * 
+     * // Get first 10 ShopOpeningRanges
+     * const shopOpeningRanges = await prisma.shopOpeningRange.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shopOpeningRangeWithIdOnly = await prisma.shopOpeningRange.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShopOpeningRangeFindManyArgs>(args?: SelectSubset<T, ShopOpeningRangeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ShopOpeningRange.
+     * @param {ShopOpeningRangeCreateArgs} args - Arguments to create a ShopOpeningRange.
+     * @example
+     * // Create one ShopOpeningRange
+     * const ShopOpeningRange = await prisma.shopOpeningRange.create({
+     *   data: {
+     *     // ... data to create a ShopOpeningRange
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShopOpeningRangeCreateArgs>(args: SelectSubset<T, ShopOpeningRangeCreateArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ShopOpeningRanges.
+     * @param {ShopOpeningRangeCreateManyArgs} args - Arguments to create many ShopOpeningRanges.
+     * @example
+     * // Create many ShopOpeningRanges
+     * const shopOpeningRange = await prisma.shopOpeningRange.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShopOpeningRangeCreateManyArgs>(args?: SelectSubset<T, ShopOpeningRangeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShopOpeningRanges and returns the data saved in the database.
+     * @param {ShopOpeningRangeCreateManyAndReturnArgs} args - Arguments to create many ShopOpeningRanges.
+     * @example
+     * // Create many ShopOpeningRanges
+     * const shopOpeningRange = await prisma.shopOpeningRange.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShopOpeningRanges and only return the `id`
+     * const shopOpeningRangeWithIdOnly = await prisma.shopOpeningRange.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShopOpeningRangeCreateManyAndReturnArgs>(args?: SelectSubset<T, ShopOpeningRangeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ShopOpeningRange.
+     * @param {ShopOpeningRangeDeleteArgs} args - Arguments to delete one ShopOpeningRange.
+     * @example
+     * // Delete one ShopOpeningRange
+     * const ShopOpeningRange = await prisma.shopOpeningRange.delete({
+     *   where: {
+     *     // ... filter to delete one ShopOpeningRange
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShopOpeningRangeDeleteArgs>(args: SelectSubset<T, ShopOpeningRangeDeleteArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ShopOpeningRange.
+     * @param {ShopOpeningRangeUpdateArgs} args - Arguments to update one ShopOpeningRange.
+     * @example
+     * // Update one ShopOpeningRange
+     * const shopOpeningRange = await prisma.shopOpeningRange.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShopOpeningRangeUpdateArgs>(args: SelectSubset<T, ShopOpeningRangeUpdateArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ShopOpeningRanges.
+     * @param {ShopOpeningRangeDeleteManyArgs} args - Arguments to filter ShopOpeningRanges to delete.
+     * @example
+     * // Delete a few ShopOpeningRanges
+     * const { count } = await prisma.shopOpeningRange.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShopOpeningRangeDeleteManyArgs>(args?: SelectSubset<T, ShopOpeningRangeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShopOpeningRanges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopOpeningRangeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShopOpeningRanges
+     * const shopOpeningRange = await prisma.shopOpeningRange.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShopOpeningRangeUpdateManyArgs>(args: SelectSubset<T, ShopOpeningRangeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShopOpeningRanges and returns the data updated in the database.
+     * @param {ShopOpeningRangeUpdateManyAndReturnArgs} args - Arguments to update many ShopOpeningRanges.
+     * @example
+     * // Update many ShopOpeningRanges
+     * const shopOpeningRange = await prisma.shopOpeningRange.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ShopOpeningRanges and only return the `id`
+     * const shopOpeningRangeWithIdOnly = await prisma.shopOpeningRange.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ShopOpeningRangeUpdateManyAndReturnArgs>(args: SelectSubset<T, ShopOpeningRangeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ShopOpeningRange.
+     * @param {ShopOpeningRangeUpsertArgs} args - Arguments to update or create a ShopOpeningRange.
+     * @example
+     * // Update or create a ShopOpeningRange
+     * const shopOpeningRange = await prisma.shopOpeningRange.upsert({
+     *   create: {
+     *     // ... data to create a ShopOpeningRange
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShopOpeningRange we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShopOpeningRangeUpsertArgs>(args: SelectSubset<T, ShopOpeningRangeUpsertArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ShopOpeningRanges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopOpeningRangeCountArgs} args - Arguments to filter ShopOpeningRanges to count.
+     * @example
+     * // Count the number of ShopOpeningRanges
+     * const count = await prisma.shopOpeningRange.count({
+     *   where: {
+     *     // ... the filter for the ShopOpeningRanges we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShopOpeningRangeCountArgs>(
+      args?: Subset<T, ShopOpeningRangeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShopOpeningRangeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShopOpeningRange.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopOpeningRangeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShopOpeningRangeAggregateArgs>(args: Subset<T, ShopOpeningRangeAggregateArgs>): Prisma.PrismaPromise<GetShopOpeningRangeAggregateType<T>>
+
+    /**
+     * Group by ShopOpeningRange.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopOpeningRangeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShopOpeningRangeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShopOpeningRangeGroupByArgs['orderBy'] }
+        : { orderBy?: ShopOpeningRangeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShopOpeningRangeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShopOpeningRangeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShopOpeningRange model
+   */
+  readonly fields: ShopOpeningRangeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShopOpeningRange.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShopOpeningRangeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    shop<T extends ShopDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopDefaultArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShopOpeningRange model
+   */
+  interface ShopOpeningRangeFieldRefs {
+    readonly id: FieldRef<"ShopOpeningRange", 'Int'>
+    readonly shopId: FieldRef<"ShopOpeningRange", 'Int'>
+    readonly startDate: FieldRef<"ShopOpeningRange", 'DateTime'>
+    readonly endDate: FieldRef<"ShopOpeningRange", 'DateTime'>
+    readonly dayOfWeek: FieldRef<"ShopOpeningRange", 'DayOfWeek'>
+    readonly openTime: FieldRef<"ShopOpeningRange", 'String'>
+    readonly closeTime: FieldRef<"ShopOpeningRange", 'String'>
+    readonly isClosed: FieldRef<"ShopOpeningRange", 'Boolean'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShopOpeningRange findUnique
+   */
+  export type ShopOpeningRangeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopOpeningRange
+     */
+    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopOpeningRange
+     */
+    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopOpeningRange to fetch.
+     */
+    where: ShopOpeningRangeWhereUniqueInput
+  }
+
+  /**
+   * ShopOpeningRange findUniqueOrThrow
+   */
+  export type ShopOpeningRangeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopOpeningRange
+     */
+    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopOpeningRange
+     */
+    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopOpeningRange to fetch.
+     */
+    where: ShopOpeningRangeWhereUniqueInput
+  }
+
+  /**
+   * ShopOpeningRange findFirst
+   */
+  export type ShopOpeningRangeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopOpeningRange
+     */
+    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopOpeningRange
+     */
+    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopOpeningRange to fetch.
+     */
+    where?: ShopOpeningRangeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopOpeningRanges to fetch.
+     */
+    orderBy?: ShopOpeningRangeOrderByWithRelationInput | ShopOpeningRangeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShopOpeningRanges.
+     */
+    cursor?: ShopOpeningRangeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopOpeningRanges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopOpeningRanges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShopOpeningRanges.
+     */
+    distinct?: ShopOpeningRangeScalarFieldEnum | ShopOpeningRangeScalarFieldEnum[]
+  }
+
+  /**
+   * ShopOpeningRange findFirstOrThrow
+   */
+  export type ShopOpeningRangeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopOpeningRange
+     */
+    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopOpeningRange
+     */
+    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopOpeningRange to fetch.
+     */
+    where?: ShopOpeningRangeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopOpeningRanges to fetch.
+     */
+    orderBy?: ShopOpeningRangeOrderByWithRelationInput | ShopOpeningRangeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShopOpeningRanges.
+     */
+    cursor?: ShopOpeningRangeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopOpeningRanges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopOpeningRanges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShopOpeningRanges.
+     */
+    distinct?: ShopOpeningRangeScalarFieldEnum | ShopOpeningRangeScalarFieldEnum[]
+  }
+
+  /**
+   * ShopOpeningRange findMany
+   */
+  export type ShopOpeningRangeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopOpeningRange
+     */
+    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopOpeningRange
+     */
+    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopOpeningRanges to fetch.
+     */
+    where?: ShopOpeningRangeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopOpeningRanges to fetch.
+     */
+    orderBy?: ShopOpeningRangeOrderByWithRelationInput | ShopOpeningRangeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShopOpeningRanges.
+     */
+    cursor?: ShopOpeningRangeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopOpeningRanges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopOpeningRanges.
+     */
+    skip?: number
+    distinct?: ShopOpeningRangeScalarFieldEnum | ShopOpeningRangeScalarFieldEnum[]
+  }
+
+  /**
+   * ShopOpeningRange create
+   */
+  export type ShopOpeningRangeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopOpeningRange
+     */
+    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopOpeningRange
+     */
+    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ShopOpeningRange.
+     */
+    data: XOR<ShopOpeningRangeCreateInput, ShopOpeningRangeUncheckedCreateInput>
+  }
+
+  /**
+   * ShopOpeningRange createMany
+   */
+  export type ShopOpeningRangeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShopOpeningRanges.
+     */
+    data: ShopOpeningRangeCreateManyInput | ShopOpeningRangeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShopOpeningRange createManyAndReturn
+   */
+  export type ShopOpeningRangeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopOpeningRange
+     */
+    select?: ShopOpeningRangeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopOpeningRange
+     */
+    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    /**
+     * The data used to create many ShopOpeningRanges.
+     */
+    data: ShopOpeningRangeCreateManyInput | ShopOpeningRangeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopOpeningRangeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShopOpeningRange update
+   */
+  export type ShopOpeningRangeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopOpeningRange
+     */
+    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopOpeningRange
+     */
+    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ShopOpeningRange.
+     */
+    data: XOR<ShopOpeningRangeUpdateInput, ShopOpeningRangeUncheckedUpdateInput>
+    /**
+     * Choose, which ShopOpeningRange to update.
+     */
+    where: ShopOpeningRangeWhereUniqueInput
+  }
+
+  /**
+   * ShopOpeningRange updateMany
+   */
+  export type ShopOpeningRangeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShopOpeningRanges.
+     */
+    data: XOR<ShopOpeningRangeUpdateManyMutationInput, ShopOpeningRangeUncheckedUpdateManyInput>
+    /**
+     * Filter which ShopOpeningRanges to update
+     */
+    where?: ShopOpeningRangeWhereInput
+    /**
+     * Limit how many ShopOpeningRanges to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShopOpeningRange updateManyAndReturn
+   */
+  export type ShopOpeningRangeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopOpeningRange
+     */
+    select?: ShopOpeningRangeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopOpeningRange
+     */
+    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    /**
+     * The data used to update ShopOpeningRanges.
+     */
+    data: XOR<ShopOpeningRangeUpdateManyMutationInput, ShopOpeningRangeUncheckedUpdateManyInput>
+    /**
+     * Filter which ShopOpeningRanges to update
+     */
+    where?: ShopOpeningRangeWhereInput
+    /**
+     * Limit how many ShopOpeningRanges to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopOpeningRangeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShopOpeningRange upsert
+   */
+  export type ShopOpeningRangeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopOpeningRange
+     */
+    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopOpeningRange
+     */
+    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ShopOpeningRange to update in case it exists.
+     */
+    where: ShopOpeningRangeWhereUniqueInput
+    /**
+     * In case the ShopOpeningRange found by the `where` argument doesn't exist, create a new ShopOpeningRange with this data.
+     */
+    create: XOR<ShopOpeningRangeCreateInput, ShopOpeningRangeUncheckedCreateInput>
+    /**
+     * In case the ShopOpeningRange was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShopOpeningRangeUpdateInput, ShopOpeningRangeUncheckedUpdateInput>
+  }
+
+  /**
+   * ShopOpeningRange delete
+   */
+  export type ShopOpeningRangeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopOpeningRange
+     */
+    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopOpeningRange
+     */
+    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    /**
+     * Filter which ShopOpeningRange to delete.
+     */
+    where: ShopOpeningRangeWhereUniqueInput
+  }
+
+  /**
+   * ShopOpeningRange deleteMany
+   */
+  export type ShopOpeningRangeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShopOpeningRanges to delete
+     */
+    where?: ShopOpeningRangeWhereInput
+    /**
+     * Limit how many ShopOpeningRanges to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShopOpeningRange without action
+   */
+  export type ShopOpeningRangeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopOpeningRange
+     */
+    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopOpeningRange
+     */
+    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopOpeningRangeInclude<ExtArgs> | null
   }
 
 
@@ -10058,6 +11321,20 @@ export namespace Prisma {
   export type ShopScalarFieldEnum = (typeof ShopScalarFieldEnum)[keyof typeof ShopScalarFieldEnum]
 
 
+  export const ShopOpeningRangeScalarFieldEnum: {
+    id: 'id',
+    shopId: 'shopId',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    dayOfWeek: 'dayOfWeek',
+    openTime: 'openTime',
+    closeTime: 'closeTime',
+    isClosed: 'isClosed'
+  };
+
+  export type ShopOpeningRangeScalarFieldEnum = (typeof ShopOpeningRangeScalarFieldEnum)[keyof typeof ShopOpeningRangeScalarFieldEnum]
+
+
   export const ServiceScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -10232,6 +11509,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'DayOfWeek'
+   */
+  export type EnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek'>
+    
+
+
+  /**
+   * Reference to a field of type 'DayOfWeek[]'
+   */
+  export type ListEnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -10256,20 +11547,6 @@ export namespace Prisma {
    * Reference to a field of type 'BookingStatus[]'
    */
   export type ListEnumBookingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingStatus[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'DayOfWeek'
-   */
-  export type EnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek'>
-    
-
-
-  /**
-   * Reference to a field of type 'DayOfWeek[]'
-   */
-  export type ListEnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek[]'>
     
   /**
    * Deep Input Types
@@ -10402,6 +11679,7 @@ export namespace Prisma {
     assignedUsers?: UserListRelationFilter
     inventory?: InventoryItemListRelationFilter
     bookings?: BookingListRelationFilter
+    openingRanges?: ShopOpeningRangeListRelationFilter
   }
 
   export type ShopOrderByWithRelationInput = {
@@ -10414,6 +11692,7 @@ export namespace Prisma {
     assignedUsers?: UserOrderByRelationAggregateInput
     inventory?: InventoryItemOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
+    openingRanges?: ShopOpeningRangeOrderByRelationAggregateInput
   }
 
   export type ShopWhereUniqueInput = Prisma.AtLeast<{
@@ -10429,6 +11708,7 @@ export namespace Prisma {
     assignedUsers?: UserListRelationFilter
     inventory?: InventoryItemListRelationFilter
     bookings?: BookingListRelationFilter
+    openingRanges?: ShopOpeningRangeListRelationFilter
   }, "id">
 
   export type ShopOrderByWithAggregationInput = {
@@ -10453,6 +11733,78 @@ export namespace Prisma {
     ownerId?: IntWithAggregatesFilter<"Shop"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Shop"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Shop"> | Date | string
+  }
+
+  export type ShopOpeningRangeWhereInput = {
+    AND?: ShopOpeningRangeWhereInput | ShopOpeningRangeWhereInput[]
+    OR?: ShopOpeningRangeWhereInput[]
+    NOT?: ShopOpeningRangeWhereInput | ShopOpeningRangeWhereInput[]
+    id?: IntFilter<"ShopOpeningRange"> | number
+    shopId?: IntFilter<"ShopOpeningRange"> | number
+    startDate?: DateTimeFilter<"ShopOpeningRange"> | Date | string
+    endDate?: DateTimeNullableFilter<"ShopOpeningRange"> | Date | string | null
+    dayOfWeek?: EnumDayOfWeekFilter<"ShopOpeningRange"> | $Enums.DayOfWeek
+    openTime?: StringFilter<"ShopOpeningRange"> | string
+    closeTime?: StringFilter<"ShopOpeningRange"> | string
+    isClosed?: BoolFilter<"ShopOpeningRange"> | boolean
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
+  }
+
+  export type ShopOpeningRangeOrderByWithRelationInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrderInput | SortOrder
+    dayOfWeek?: SortOrder
+    openTime?: SortOrder
+    closeTime?: SortOrder
+    isClosed?: SortOrder
+    shop?: ShopOrderByWithRelationInput
+  }
+
+  export type ShopOpeningRangeWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ShopOpeningRangeWhereInput | ShopOpeningRangeWhereInput[]
+    OR?: ShopOpeningRangeWhereInput[]
+    NOT?: ShopOpeningRangeWhereInput | ShopOpeningRangeWhereInput[]
+    shopId?: IntFilter<"ShopOpeningRange"> | number
+    startDate?: DateTimeFilter<"ShopOpeningRange"> | Date | string
+    endDate?: DateTimeNullableFilter<"ShopOpeningRange"> | Date | string | null
+    dayOfWeek?: EnumDayOfWeekFilter<"ShopOpeningRange"> | $Enums.DayOfWeek
+    openTime?: StringFilter<"ShopOpeningRange"> | string
+    closeTime?: StringFilter<"ShopOpeningRange"> | string
+    isClosed?: BoolFilter<"ShopOpeningRange"> | boolean
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
+  }, "id">
+
+  export type ShopOpeningRangeOrderByWithAggregationInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrderInput | SortOrder
+    dayOfWeek?: SortOrder
+    openTime?: SortOrder
+    closeTime?: SortOrder
+    isClosed?: SortOrder
+    _count?: ShopOpeningRangeCountOrderByAggregateInput
+    _avg?: ShopOpeningRangeAvgOrderByAggregateInput
+    _max?: ShopOpeningRangeMaxOrderByAggregateInput
+    _min?: ShopOpeningRangeMinOrderByAggregateInput
+    _sum?: ShopOpeningRangeSumOrderByAggregateInput
+  }
+
+  export type ShopOpeningRangeScalarWhereWithAggregatesInput = {
+    AND?: ShopOpeningRangeScalarWhereWithAggregatesInput | ShopOpeningRangeScalarWhereWithAggregatesInput[]
+    OR?: ShopOpeningRangeScalarWhereWithAggregatesInput[]
+    NOT?: ShopOpeningRangeScalarWhereWithAggregatesInput | ShopOpeningRangeScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ShopOpeningRange"> | number
+    shopId?: IntWithAggregatesFilter<"ShopOpeningRange"> | number
+    startDate?: DateTimeWithAggregatesFilter<"ShopOpeningRange"> | Date | string
+    endDate?: DateTimeNullableWithAggregatesFilter<"ShopOpeningRange"> | Date | string | null
+    dayOfWeek?: EnumDayOfWeekWithAggregatesFilter<"ShopOpeningRange"> | $Enums.DayOfWeek
+    openTime?: StringWithAggregatesFilter<"ShopOpeningRange"> | string
+    closeTime?: StringWithAggregatesFilter<"ShopOpeningRange"> | string
+    isClosed?: BoolWithAggregatesFilter<"ShopOpeningRange"> | boolean
   }
 
   export type ServiceWhereInput = {
@@ -10947,6 +12299,7 @@ export namespace Prisma {
     assignedUsers?: UserCreateNestedManyWithoutShopInput
     inventory?: InventoryItemCreateNestedManyWithoutShopInput
     bookings?: BookingCreateNestedManyWithoutShopInput
+    openingRanges?: ShopOpeningRangeCreateNestedManyWithoutShopInput
   }
 
   export type ShopUncheckedCreateInput = {
@@ -10958,6 +12311,7 @@ export namespace Prisma {
     assignedUsers?: UserUncheckedCreateNestedManyWithoutShopInput
     inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
     bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
+    openingRanges?: ShopOpeningRangeUncheckedCreateNestedManyWithoutShopInput
   }
 
   export type ShopUpdateInput = {
@@ -10968,6 +12322,7 @@ export namespace Prisma {
     assignedUsers?: UserUpdateManyWithoutShopNestedInput
     inventory?: InventoryItemUpdateManyWithoutShopNestedInput
     bookings?: BookingUpdateManyWithoutShopNestedInput
+    openingRanges?: ShopOpeningRangeUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateInput = {
@@ -10979,6 +12334,7 @@ export namespace Prisma {
     assignedUsers?: UserUncheckedUpdateManyWithoutShopNestedInput
     inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
+    openingRanges?: ShopOpeningRangeUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type ShopCreateManyInput = {
@@ -11001,6 +12357,79 @@ export namespace Prisma {
     ownerId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopOpeningRangeCreateInput = {
+    startDate: Date | string
+    endDate?: Date | string | null
+    dayOfWeek: $Enums.DayOfWeek
+    openTime: string
+    closeTime: string
+    isClosed?: boolean
+    shop: ShopCreateNestedOneWithoutOpeningRangesInput
+  }
+
+  export type ShopOpeningRangeUncheckedCreateInput = {
+    id?: number
+    shopId: number
+    startDate: Date | string
+    endDate?: Date | string | null
+    dayOfWeek: $Enums.DayOfWeek
+    openTime: string
+    closeTime: string
+    isClosed?: boolean
+  }
+
+  export type ShopOpeningRangeUpdateInput = {
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
+    shop?: ShopUpdateOneRequiredWithoutOpeningRangesNestedInput
+  }
+
+  export type ShopOpeningRangeUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ShopOpeningRangeCreateManyInput = {
+    id?: number
+    shopId: number
+    startDate: Date | string
+    endDate?: Date | string | null
+    dayOfWeek: $Enums.DayOfWeek
+    openTime: string
+    closeTime: string
+    isClosed?: boolean
+  }
+
+  export type ShopOpeningRangeUpdateManyMutationInput = {
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ShopOpeningRangeUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ServiceCreateInput = {
@@ -11649,7 +13078,17 @@ export namespace Prisma {
     none?: InventoryItemWhereInput
   }
 
+  export type ShopOpeningRangeListRelationFilter = {
+    every?: ShopOpeningRangeWhereInput
+    some?: ShopOpeningRangeWhereInput
+    none?: ShopOpeningRangeWhereInput
+  }
+
   export type InventoryItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ShopOpeningRangeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11685,6 +13124,96 @@ export namespace Prisma {
   export type ShopSumOrderByAggregateInput = {
     id?: SortOrder
     ownerId?: SortOrder
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type EnumDayOfWeekFilter<$PrismaModel = never> = {
+    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
+    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    not?: NestedEnumDayOfWeekFilter<$PrismaModel> | $Enums.DayOfWeek
+  }
+
+  export type ShopScalarRelationFilter = {
+    is?: ShopWhereInput
+    isNot?: ShopWhereInput
+  }
+
+  export type ShopOpeningRangeCountOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    dayOfWeek?: SortOrder
+    openTime?: SortOrder
+    closeTime?: SortOrder
+    isClosed?: SortOrder
+  }
+
+  export type ShopOpeningRangeAvgOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+  }
+
+  export type ShopOpeningRangeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    dayOfWeek?: SortOrder
+    openTime?: SortOrder
+    closeTime?: SortOrder
+    isClosed?: SortOrder
+  }
+
+  export type ShopOpeningRangeMinOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    dayOfWeek?: SortOrder
+    openTime?: SortOrder
+    closeTime?: SortOrder
+    isClosed?: SortOrder
+  }
+
+  export type ShopOpeningRangeSumOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type EnumDayOfWeekWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
+    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    not?: NestedEnumDayOfWeekWithAggregatesFilter<$PrismaModel> | $Enums.DayOfWeek
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDayOfWeekFilter<$PrismaModel>
+    _max?: NestedEnumDayOfWeekFilter<$PrismaModel>
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -11838,11 +13367,6 @@ export namespace Prisma {
     isNot?: CustomerWhereInput
   }
 
-  export type ShopScalarRelationFilter = {
-    is?: ShopWhereInput
-    isNot?: ShopWhereInput
-  }
-
   export type ServiceScalarRelationFilter = {
     is?: ServiceWhereInput
     isNot?: ServiceWhereInput
@@ -11913,13 +13437,6 @@ export namespace Prisma {
     _max?: NestedEnumBookingStatusFilter<$PrismaModel>
   }
 
-  export type EnumDayOfWeekFilter<$PrismaModel = never> = {
-    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
-    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    not?: NestedEnumDayOfWeekFilter<$PrismaModel> | $Enums.DayOfWeek
-  }
-
   export type WorkingHourCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -11958,16 +13475,6 @@ export namespace Prisma {
   export type WorkingHourSumOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-  }
-
-  export type EnumDayOfWeekWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
-    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    not?: NestedEnumDayOfWeekWithAggregatesFilter<$PrismaModel> | $Enums.DayOfWeek
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumDayOfWeekFilter<$PrismaModel>
-    _max?: NestedEnumDayOfWeekFilter<$PrismaModel>
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -12384,6 +13891,13 @@ export namespace Prisma {
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
   }
 
+  export type ShopOpeningRangeCreateNestedManyWithoutShopInput = {
+    create?: XOR<ShopOpeningRangeCreateWithoutShopInput, ShopOpeningRangeUncheckedCreateWithoutShopInput> | ShopOpeningRangeCreateWithoutShopInput[] | ShopOpeningRangeUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ShopOpeningRangeCreateOrConnectWithoutShopInput | ShopOpeningRangeCreateOrConnectWithoutShopInput[]
+    createMany?: ShopOpeningRangeCreateManyShopInputEnvelope
+    connect?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutShopInput = {
     create?: XOR<UserCreateWithoutShopInput, UserUncheckedCreateWithoutShopInput> | UserCreateWithoutShopInput[] | UserUncheckedCreateWithoutShopInput[]
     connectOrCreate?: UserCreateOrConnectWithoutShopInput | UserCreateOrConnectWithoutShopInput[]
@@ -12403,6 +13917,13 @@ export namespace Prisma {
     connectOrCreate?: BookingCreateOrConnectWithoutShopInput | BookingCreateOrConnectWithoutShopInput[]
     createMany?: BookingCreateManyShopInputEnvelope
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
+  export type ShopOpeningRangeUncheckedCreateNestedManyWithoutShopInput = {
+    create?: XOR<ShopOpeningRangeCreateWithoutShopInput, ShopOpeningRangeUncheckedCreateWithoutShopInput> | ShopOpeningRangeCreateWithoutShopInput[] | ShopOpeningRangeUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ShopOpeningRangeCreateOrConnectWithoutShopInput | ShopOpeningRangeCreateOrConnectWithoutShopInput[]
+    createMany?: ShopOpeningRangeCreateManyShopInputEnvelope
+    connect?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutShopsNestedInput = {
@@ -12455,6 +13976,20 @@ export namespace Prisma {
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
+  export type ShopOpeningRangeUpdateManyWithoutShopNestedInput = {
+    create?: XOR<ShopOpeningRangeCreateWithoutShopInput, ShopOpeningRangeUncheckedCreateWithoutShopInput> | ShopOpeningRangeCreateWithoutShopInput[] | ShopOpeningRangeUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ShopOpeningRangeCreateOrConnectWithoutShopInput | ShopOpeningRangeCreateOrConnectWithoutShopInput[]
+    upsert?: ShopOpeningRangeUpsertWithWhereUniqueWithoutShopInput | ShopOpeningRangeUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: ShopOpeningRangeCreateManyShopInputEnvelope
+    set?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
+    disconnect?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
+    delete?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
+    connect?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
+    update?: ShopOpeningRangeUpdateWithWhereUniqueWithoutShopInput | ShopOpeningRangeUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: ShopOpeningRangeUpdateManyWithWhereWithoutShopInput | ShopOpeningRangeUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: ShopOpeningRangeScalarWhereInput | ShopOpeningRangeScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutShopNestedInput = {
     create?: XOR<UserCreateWithoutShopInput, UserUncheckedCreateWithoutShopInput> | UserCreateWithoutShopInput[] | UserUncheckedCreateWithoutShopInput[]
     connectOrCreate?: UserCreateOrConnectWithoutShopInput | UserCreateOrConnectWithoutShopInput[]
@@ -12495,6 +14030,42 @@ export namespace Prisma {
     update?: BookingUpdateWithWhereUniqueWithoutShopInput | BookingUpdateWithWhereUniqueWithoutShopInput[]
     updateMany?: BookingUpdateManyWithWhereWithoutShopInput | BookingUpdateManyWithWhereWithoutShopInput[]
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
+  }
+
+  export type ShopOpeningRangeUncheckedUpdateManyWithoutShopNestedInput = {
+    create?: XOR<ShopOpeningRangeCreateWithoutShopInput, ShopOpeningRangeUncheckedCreateWithoutShopInput> | ShopOpeningRangeCreateWithoutShopInput[] | ShopOpeningRangeUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ShopOpeningRangeCreateOrConnectWithoutShopInput | ShopOpeningRangeCreateOrConnectWithoutShopInput[]
+    upsert?: ShopOpeningRangeUpsertWithWhereUniqueWithoutShopInput | ShopOpeningRangeUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: ShopOpeningRangeCreateManyShopInputEnvelope
+    set?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
+    disconnect?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
+    delete?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
+    connect?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
+    update?: ShopOpeningRangeUpdateWithWhereUniqueWithoutShopInput | ShopOpeningRangeUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: ShopOpeningRangeUpdateManyWithWhereWithoutShopInput | ShopOpeningRangeUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: ShopOpeningRangeScalarWhereInput | ShopOpeningRangeScalarWhereInput[]
+  }
+
+  export type ShopCreateNestedOneWithoutOpeningRangesInput = {
+    create?: XOR<ShopCreateWithoutOpeningRangesInput, ShopUncheckedCreateWithoutOpeningRangesInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutOpeningRangesInput
+    connect?: ShopWhereUniqueInput
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type EnumDayOfWeekFieldUpdateOperationsInput = {
+    set?: $Enums.DayOfWeek
+  }
+
+  export type ShopUpdateOneRequiredWithoutOpeningRangesNestedInput = {
+    create?: XOR<ShopCreateWithoutOpeningRangesInput, ShopUncheckedCreateWithoutOpeningRangesInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutOpeningRangesInput
+    upsert?: ShopUpsertWithoutOpeningRangesInput
+    connect?: ShopWhereUniqueInput
+    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutOpeningRangesInput, ShopUpdateWithoutOpeningRangesInput>, ShopUncheckedUpdateWithoutOpeningRangesInput>
   }
 
   export type UserCreateNestedOneWithoutServicesInput = {
@@ -12711,10 +14282,6 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type EnumDayOfWeekFieldUpdateOperationsInput = {
-    set?: $Enums.DayOfWeek
-  }
-
   export type UserUpdateOneRequiredWithoutWorkingHoursNestedInput = {
     create?: XOR<UserCreateWithoutWorkingHoursInput, UserUncheckedCreateWithoutWorkingHoursInput>
     connectOrCreate?: UserCreateOrConnectWithoutWorkingHoursInput
@@ -12924,6 +14491,48 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumDayOfWeekFilter<$PrismaModel = never> = {
+    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
+    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    not?: NestedEnumDayOfWeekFilter<$PrismaModel> | $Enums.DayOfWeek
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDayOfWeekWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
+    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    not?: NestedEnumDayOfWeekWithAggregatesFilter<$PrismaModel> | $Enums.DayOfWeek
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDayOfWeekFilter<$PrismaModel>
+    _max?: NestedEnumDayOfWeekFilter<$PrismaModel>
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -12986,23 +14595,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumBookingStatusFilter<$PrismaModel>
     _max?: NestedEnumBookingStatusFilter<$PrismaModel>
-  }
-
-  export type NestedEnumDayOfWeekFilter<$PrismaModel = never> = {
-    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
-    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    not?: NestedEnumDayOfWeekFilter<$PrismaModel> | $Enums.DayOfWeek
-  }
-
-  export type NestedEnumDayOfWeekWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
-    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    not?: NestedEnumDayOfWeekWithAggregatesFilter<$PrismaModel> | $Enums.DayOfWeek
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumDayOfWeekFilter<$PrismaModel>
-    _max?: NestedEnumDayOfWeekFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -13121,6 +14713,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutShopsInput
     inventory?: InventoryItemCreateNestedManyWithoutShopInput
     bookings?: BookingCreateNestedManyWithoutShopInput
+    openingRanges?: ShopOpeningRangeCreateNestedManyWithoutShopInput
   }
 
   export type ShopUncheckedCreateWithoutAssignedUsersInput = {
@@ -13131,6 +14724,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
     bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
+    openingRanges?: ShopOpeningRangeUncheckedCreateNestedManyWithoutShopInput
   }
 
   export type ShopCreateOrConnectWithoutAssignedUsersInput = {
@@ -13145,6 +14739,7 @@ export namespace Prisma {
     assignedUsers?: UserCreateNestedManyWithoutShopInput
     inventory?: InventoryItemCreateNestedManyWithoutShopInput
     bookings?: BookingCreateNestedManyWithoutShopInput
+    openingRanges?: ShopOpeningRangeCreateNestedManyWithoutShopInput
   }
 
   export type ShopUncheckedCreateWithoutOwnerInput = {
@@ -13155,6 +14750,7 @@ export namespace Prisma {
     assignedUsers?: UserUncheckedCreateNestedManyWithoutShopInput
     inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
     bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
+    openingRanges?: ShopOpeningRangeUncheckedCreateNestedManyWithoutShopInput
   }
 
   export type ShopCreateOrConnectWithoutOwnerInput = {
@@ -13386,6 +14982,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutShopsNestedInput
     inventory?: InventoryItemUpdateManyWithoutShopNestedInput
     bookings?: BookingUpdateManyWithoutShopNestedInput
+    openingRanges?: ShopOpeningRangeUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateWithoutAssignedUsersInput = {
@@ -13396,6 +14993,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
+    openingRanges?: ShopOpeningRangeUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUpsertWithWhereUniqueWithoutOwnerInput = {
@@ -13684,6 +15282,35 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ShopOpeningRangeCreateWithoutShopInput = {
+    startDate: Date | string
+    endDate?: Date | string | null
+    dayOfWeek: $Enums.DayOfWeek
+    openTime: string
+    closeTime: string
+    isClosed?: boolean
+  }
+
+  export type ShopOpeningRangeUncheckedCreateWithoutShopInput = {
+    id?: number
+    startDate: Date | string
+    endDate?: Date | string | null
+    dayOfWeek: $Enums.DayOfWeek
+    openTime: string
+    closeTime: string
+    isClosed?: boolean
+  }
+
+  export type ShopOpeningRangeCreateOrConnectWithoutShopInput = {
+    where: ShopOpeningRangeWhereUniqueInput
+    create: XOR<ShopOpeningRangeCreateWithoutShopInput, ShopOpeningRangeUncheckedCreateWithoutShopInput>
+  }
+
+  export type ShopOpeningRangeCreateManyShopInputEnvelope = {
+    data: ShopOpeningRangeCreateManyShopInput | ShopOpeningRangeCreateManyShopInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutShopsInput = {
     update: XOR<UserUpdateWithoutShopsInput, UserUncheckedUpdateWithoutShopsInput>
     create: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
@@ -13793,6 +15420,94 @@ export namespace Prisma {
   export type BookingUpdateManyWithWhereWithoutShopInput = {
     where: BookingScalarWhereInput
     data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutShopInput>
+  }
+
+  export type ShopOpeningRangeUpsertWithWhereUniqueWithoutShopInput = {
+    where: ShopOpeningRangeWhereUniqueInput
+    update: XOR<ShopOpeningRangeUpdateWithoutShopInput, ShopOpeningRangeUncheckedUpdateWithoutShopInput>
+    create: XOR<ShopOpeningRangeCreateWithoutShopInput, ShopOpeningRangeUncheckedCreateWithoutShopInput>
+  }
+
+  export type ShopOpeningRangeUpdateWithWhereUniqueWithoutShopInput = {
+    where: ShopOpeningRangeWhereUniqueInput
+    data: XOR<ShopOpeningRangeUpdateWithoutShopInput, ShopOpeningRangeUncheckedUpdateWithoutShopInput>
+  }
+
+  export type ShopOpeningRangeUpdateManyWithWhereWithoutShopInput = {
+    where: ShopOpeningRangeScalarWhereInput
+    data: XOR<ShopOpeningRangeUpdateManyMutationInput, ShopOpeningRangeUncheckedUpdateManyWithoutShopInput>
+  }
+
+  export type ShopOpeningRangeScalarWhereInput = {
+    AND?: ShopOpeningRangeScalarWhereInput | ShopOpeningRangeScalarWhereInput[]
+    OR?: ShopOpeningRangeScalarWhereInput[]
+    NOT?: ShopOpeningRangeScalarWhereInput | ShopOpeningRangeScalarWhereInput[]
+    id?: IntFilter<"ShopOpeningRange"> | number
+    shopId?: IntFilter<"ShopOpeningRange"> | number
+    startDate?: DateTimeFilter<"ShopOpeningRange"> | Date | string
+    endDate?: DateTimeNullableFilter<"ShopOpeningRange"> | Date | string | null
+    dayOfWeek?: EnumDayOfWeekFilter<"ShopOpeningRange"> | $Enums.DayOfWeek
+    openTime?: StringFilter<"ShopOpeningRange"> | string
+    closeTime?: StringFilter<"ShopOpeningRange"> | string
+    isClosed?: BoolFilter<"ShopOpeningRange"> | boolean
+  }
+
+  export type ShopCreateWithoutOpeningRangesInput = {
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutShopsInput
+    assignedUsers?: UserCreateNestedManyWithoutShopInput
+    inventory?: InventoryItemCreateNestedManyWithoutShopInput
+    bookings?: BookingCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUncheckedCreateWithoutOpeningRangesInput = {
+    id?: number
+    name: string
+    ownerId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignedUsers?: UserUncheckedCreateNestedManyWithoutShopInput
+    inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopCreateOrConnectWithoutOpeningRangesInput = {
+    where: ShopWhereUniqueInput
+    create: XOR<ShopCreateWithoutOpeningRangesInput, ShopUncheckedCreateWithoutOpeningRangesInput>
+  }
+
+  export type ShopUpsertWithoutOpeningRangesInput = {
+    update: XOR<ShopUpdateWithoutOpeningRangesInput, ShopUncheckedUpdateWithoutOpeningRangesInput>
+    create: XOR<ShopCreateWithoutOpeningRangesInput, ShopUncheckedCreateWithoutOpeningRangesInput>
+    where?: ShopWhereInput
+  }
+
+  export type ShopUpdateToOneWithWhereWithoutOpeningRangesInput = {
+    where?: ShopWhereInput
+    data: XOR<ShopUpdateWithoutOpeningRangesInput, ShopUncheckedUpdateWithoutOpeningRangesInput>
+  }
+
+  export type ShopUpdateWithoutOpeningRangesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
+    assignedUsers?: UserUpdateManyWithoutShopNestedInput
+    inventory?: InventoryItemUpdateManyWithoutShopNestedInput
+    bookings?: BookingUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateWithoutOpeningRangesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    ownerId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignedUsers?: UserUncheckedUpdateManyWithoutShopNestedInput
+    inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type UserCreateWithoutServicesInput = {
@@ -14076,6 +15791,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutShopsInput
     assignedUsers?: UserCreateNestedManyWithoutShopInput
     inventory?: InventoryItemCreateNestedManyWithoutShopInput
+    openingRanges?: ShopOpeningRangeCreateNestedManyWithoutShopInput
   }
 
   export type ShopUncheckedCreateWithoutBookingsInput = {
@@ -14086,6 +15802,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     assignedUsers?: UserUncheckedCreateNestedManyWithoutShopInput
     inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
+    openingRanges?: ShopOpeningRangeUncheckedCreateNestedManyWithoutShopInput
   }
 
   export type ShopCreateOrConnectWithoutBookingsInput = {
@@ -14209,6 +15926,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutShopsNestedInput
     assignedUsers?: UserUpdateManyWithoutShopNestedInput
     inventory?: InventoryItemUpdateManyWithoutShopNestedInput
+    openingRanges?: ShopOpeningRangeUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateWithoutBookingsInput = {
@@ -14219,6 +15937,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     assignedUsers?: UserUncheckedUpdateManyWithoutShopNestedInput
     inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
+    openingRanges?: ShopOpeningRangeUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type UserUpsertWithoutBookingsInput = {
@@ -14404,6 +16123,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutShopsInput
     assignedUsers?: UserCreateNestedManyWithoutShopInput
     bookings?: BookingCreateNestedManyWithoutShopInput
+    openingRanges?: ShopOpeningRangeCreateNestedManyWithoutShopInput
   }
 
   export type ShopUncheckedCreateWithoutInventoryInput = {
@@ -14414,6 +16134,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     assignedUsers?: UserUncheckedCreateNestedManyWithoutShopInput
     bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
+    openingRanges?: ShopOpeningRangeUncheckedCreateNestedManyWithoutShopInput
   }
 
   export type ShopCreateOrConnectWithoutInventoryInput = {
@@ -14439,6 +16160,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutShopsNestedInput
     assignedUsers?: UserUpdateManyWithoutShopNestedInput
     bookings?: BookingUpdateManyWithoutShopNestedInput
+    openingRanges?: ShopOpeningRangeUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateWithoutInventoryInput = {
@@ -14449,6 +16171,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     assignedUsers?: UserUncheckedUpdateManyWithoutShopNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
+    openingRanges?: ShopOpeningRangeUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type UserCreateManyOwnerInput = {
@@ -14562,6 +16285,7 @@ export namespace Prisma {
     assignedUsers?: UserUpdateManyWithoutShopNestedInput
     inventory?: InventoryItemUpdateManyWithoutShopNestedInput
     bookings?: BookingUpdateManyWithoutShopNestedInput
+    openingRanges?: ShopOpeningRangeUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateWithoutOwnerInput = {
@@ -14572,6 +16296,7 @@ export namespace Prisma {
     assignedUsers?: UserUncheckedUpdateManyWithoutShopNestedInput
     inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
+    openingRanges?: ShopOpeningRangeUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateManyWithoutOwnerInput = {
@@ -14738,6 +16463,16 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ShopOpeningRangeCreateManyShopInput = {
+    id?: number
+    startDate: Date | string
+    endDate?: Date | string | null
+    dayOfWeek: $Enums.DayOfWeek
+    openTime: string
+    closeTime: string
+    isClosed?: boolean
+  }
+
   export type UserUpdateWithoutShopInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -14850,6 +16585,35 @@ export namespace Prisma {
     serviceId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopOpeningRangeUpdateWithoutShopInput = {
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ShopOpeningRangeUncheckedUpdateWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ShopOpeningRangeUncheckedUpdateManyWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type BookingCreateManyServiceInput = {

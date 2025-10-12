@@ -1,6 +1,6 @@
 import Router  from "express";
 import { registerUser, loginUser, refreshAccessToken }  from "../controllers/auth.controller";
-import { loginValidation, refreshAccessTokenValidator, registerValidation } from "../validators/authValidator";
+import { loginValidation, refreshAccessTokenValidator, registerValidation } from "../validators/auth.validator";
 import { validateRequest } from "../middlewares/validateRequest";
 import { loginRateLimiter } from "../middlewares/rateLimit";
 

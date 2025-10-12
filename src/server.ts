@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
+import shopRoutes from "./routes/shop.routes";
 
 import { authenticateJWT, authorizeRole } from "./middlewares/auth.middleware";
 
@@ -20,6 +21,7 @@ app.use("/auth", authRoutes);
 
 app.use(authenticateJWT);
 app.use("/me", userRoutes)
+app.use("/shop", shopRoutes)
 
 
 const PORT = process.env.PORT || 5000;

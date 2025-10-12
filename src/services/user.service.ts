@@ -1,5 +1,4 @@
 import { AppError } from "../utils/errors";
-import jwt from "jsonwebtoken";
 import { PrismaClient } from "../db/generated/prisma";
 
 const prisma = new PrismaClient();
@@ -14,7 +13,7 @@ export const getUserInfoService = async (userId: number) => {
         email: true,
         role: true,
         subscription: true,
-        shops: {
+        shops: { 
           select: {
             id: true,
             name: true,
