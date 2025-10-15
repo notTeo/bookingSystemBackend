@@ -14,7 +14,7 @@ export const registerUser = async (
     const result = await registerUserService(req.body);
     return sendSuccessResponse(res, {
       message: "Owner registered successfully",
-      data: result,
+      result,
     });
   } catch (error: any) {
     return sendErrorResponse(
@@ -33,7 +33,7 @@ export const loginUser = async (
     const result = await loginUserService(req.body);
     return sendSuccessResponse(res, {
       message: "Owner logged in successfully",
-      data: result,
+      result,
     });
   }catch (error: any) {
     return sendErrorResponse(

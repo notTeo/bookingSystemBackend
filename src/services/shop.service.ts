@@ -1,8 +1,7 @@
 import { AppError } from "../utils/errors";
-import { PrismaClient } from "../db/generated/prisma";
+import prisma from "../db/prisma/prisma";
 import { DayOfWeek } from "@prisma/client";
 
-const prisma = new PrismaClient();
 
 interface OpeningHourInput {
   dayOfWeek: DayOfWeek;

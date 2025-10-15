@@ -1,8 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { PrismaClient, Subscription, Role } from "../db/generated/prisma";
+import prisma from "../db/prisma/prisma";
+import { Subscription, Role } from "../db/generated/prisma";
 import { AppError } from "../utils/errors";
-const prisma = new PrismaClient();
 
 interface RegisterInput {
   email: string;
@@ -30,7 +30,7 @@ export const registerUserService = async (data: RegisterInput) => {
   const normalizedSub = subscription.toUpperCase() as keyof typeof Subscription;
   const assignedRole = normalizedSub === Subscription.MEMBER ? Role.NONE : Role.BUSINESS;
 
-  const newUser = await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       name,
       email,
@@ -40,12 +40,28 @@ export const registerUserService = async (data: RegisterInput) => {
     },
   });
 
+  const expiresIn =  "1d";
+
+  const accessToken = jwt.sign(
+    { id: user.id, role: user.role },
+    process.env.JWT_SECRET!,
+    { expiresIn } 
+  );
+
+  const refreshToken = jwt.sign(
+    { id: user.id, role: user.role },
+    process.env.JWT_REFRESH_SECRET!, 
+    { expiresIn: "7d" } 
+  );
+
   return {
+    accessToken,
+    refreshToken,
     user: {
-      id: newUser.id,
-      email: newUser.email,
-      name: newUser.name,
-      role: newUser.role,
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
     },
   };
 };

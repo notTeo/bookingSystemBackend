@@ -1,7 +1,5 @@
 import { AppError } from "../utils/errors";
-import { PrismaClient } from "../db/generated/prisma";
-
-const prisma = new PrismaClient();
+import prisma from "../db/prisma/prisma";
 
 export const getUserInfoService = async (userId: number) => {
   try {
