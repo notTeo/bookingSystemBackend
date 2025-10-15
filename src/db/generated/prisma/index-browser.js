@@ -126,11 +126,7 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   hashedPassword: 'hashedPassword',
   subscription: 'subscription',
-  role: 'role',
   active: 'active',
-  bookable: 'bookable',
-  ownerId: 'ownerId',
-  shopId: 'shopId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -138,30 +134,60 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.ShopScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  address: 'address',
   ownerId: 'ownerId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.ShopOpeningRangeScalarFieldEnum = {
+exports.Prisma.ShopUserScalarFieldEnum = {
   id: 'id',
   shopId: 'shopId',
-  startDate: 'startDate',
-  endDate: 'endDate',
+  userId: 'userId',
+  role: 'role',
+  active: 'active',
+  bookable: 'bookable',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ShopWorkingHourScalarFieldEnum = {
+  id: 'id',
+  shopId: 'shopId',
   dayOfWeek: 'dayOfWeek',
   openTime: 'openTime',
   closeTime: 'closeTime',
-  isClosed: 'isClosed'
+  isClosed: 'isClosed',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UserWorkingHourScalarFieldEnum = {
+  id: 'id',
+  shopUserId: 'shopUserId',
+  shopId: 'shopId',
+  dayOfWeek: 'dayOfWeek',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  isOff: 'isOff',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ServiceScalarFieldEnum = {
   id: 'id',
+  shopId: 'shopId',
   name: 'name',
   duration: 'duration',
   price: 'price',
-  ownerId: 'ownerId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ServiceAssignmentScalarFieldEnum = {
+  id: 'id',
+  serviceId: 'serviceId',
+  shopUserId: 'shopUserId'
 };
 
 exports.Prisma.CustomerScalarFieldEnum = {
@@ -169,39 +195,21 @@ exports.Prisma.CustomerScalarFieldEnum = {
   name: 'name',
   phone: 'phone',
   email: 'email',
+  note: 'note',
+  banned: 'banned',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
 exports.Prisma.BookingScalarFieldEnum = {
   id: 'id',
+  shopId: 'shopId',
+  serviceId: 'serviceId',
+  providerId: 'providerId',
+  customerId: 'customerId',
   startTime: 'startTime',
   endTime: 'endTime',
   status: 'status',
-  customerId: 'customerId',
-  shopId: 'shopId',
-  userId: 'userId',
-  serviceId: 'serviceId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.WorkingHourScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  dayOfWeek: 'dayOfWeek',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.InventoryItemScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  quantity: 'quantity',
-  price: 'price',
-  shopId: 'shopId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -226,11 +234,10 @@ exports.Subscription = exports.$Enums.Subscription = {
   PRO: 'PRO'
 };
 
-exports.Role = exports.$Enums.Role = {
-  BUSINESS: 'BUSINESS',
+exports.ShopRole = exports.$Enums.ShopRole = {
+  OWNER: 'OWNER',
   MANAGER: 'MANAGER',
-  STAFF: 'STAFF',
-  NONE: 'NONE'
+  STAFF: 'STAFF'
 };
 
 exports.DayOfWeek = exports.$Enums.DayOfWeek = {
@@ -246,18 +253,20 @@ exports.DayOfWeek = exports.$Enums.DayOfWeek = {
 exports.BookingStatus = exports.$Enums.BookingStatus = {
   PENDING: 'PENDING',
   CONFIRMED: 'CONFIRMED',
-  CANCELED: 'CANCELED'
+  CANCELED: 'CANCELED',
+  COMPLETED: 'COMPLETED'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
   Shop: 'Shop',
-  ShopOpeningRange: 'ShopOpeningRange',
+  ShopUser: 'ShopUser',
+  ShopWorkingHour: 'ShopWorkingHour',
+  UserWorkingHour: 'UserWorkingHour',
   Service: 'Service',
+  ServiceAssignment: 'ServiceAssignment',
   Customer: 'Customer',
-  Booking: 'Booking',
-  WorkingHour: 'WorkingHour',
-  InventoryItem: 'InventoryItem'
+  Booking: 'Booking'
 };
 
 /**

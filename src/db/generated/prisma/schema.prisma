@@ -1,6 +1,6 @@
-// ------------------
+// ==================
 // GENERATOR & DB
-// ------------------
+// ==================
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -11,20 +11,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ------------------
+// ==================
 // ENUMS
-// ------------------
-enum Role {
-  BUSINESS
-  MANAGER
-  STAFF
-  NONE
-}
-
+// ==================
 enum Subscription {
   MEMBER
   STARTER
   PRO
+}
+
+enum ShopRole {
+  OWNER
+  MANAGER
+  STAFF
 }
 
 enum DayOfWeek {
@@ -41,95 +40,149 @@ enum BookingStatus {
   PENDING
   CONFIRMED
   CANCELED
+  COMPLETED
 }
 
-// ------------------
+// ==================
 // MODELS
-// ------------------
+// ==================
+
+// -------- User --------
 model User {
-  id             Int          @id @default(autoincrement())
+  id             Int    @id @default(autoincrement())
   name           String
-  email          String       @unique
+  email          String @unique
   hashedPassword String
-  subscription   Subscription
-  role           Role
-  active         Boolean      @default(true)
-  bookable       Boolean      @default(false)
 
-  // Relation to Owner (only if this user was created by an Owner)
-  ownerId Int?
-  owner   User?  @relation("OwnerUsers", fields: [ownerId], references: [id])
-  users   User[] @relation("OwnerUsers")
+  subscription Subscription
+  active       Boolean      @default(true)
 
-  // Shops
-  shopId Int?
-  shop   Shop?  @relation("ShopMembers", fields: [shopId], references: [id]) // shop where user works
-  shops  Shop[] @relation("OwnerShops") // shops owned
+  // Shops this user created (they'll also have an OWNER membership via ShopUser)
+  ownedShops Shop[] @relation("OwnedShops")
 
-  // Services
-  services         Service[] @relation("OwnerServices")
-  assignedServices Service[] @relation("AssignedServices")
-
-  // Working hours & bookings
-  workingHours WorkingHour[]
-  bookings     Booking[]     @relation("UserBookings")
+  // Memberships across shops (role, bookable, active are per shop)
+  memberships ShopUser[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+// -------- Shop --------
 model Shop {
-  id   Int    @id @default(autoincrement())
-  name String
+  id      Int     @id @default(autoincrement())
+  name    String
+  address String?
 
+  // Owner (creator)
   ownerId Int
-  owner   User @relation("OwnerShops", fields: [ownerId], references: [id])
+  owner   User @relation("OwnedShops", fields: [ownerId], references: [id])
 
-  assignedUsers User[]          @relation("ShopMembers")
-  inventory     InventoryItem[]
-  bookings      Booking[]
-
-  openingRanges ShopOpeningRange[]
+  // Relations
+  members          ShopUser[]
+  workingHours     ShopWorkingHour[]
+  userWorkingHours UserWorkingHour[] // <— added reverse relation
+  services         Service[]
+  bookings         Booking[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model ShopOpeningRange {
+// -------- ShopUser (membership per shop) --------
+model ShopUser {
+  id     Int      @id @default(autoincrement())
+  shopId Int
+  userId Int
+  role   ShopRole
+
+  active   Boolean @default(true)
+  bookable Boolean @default(false)
+
+  shop Shop @relation(fields: [shopId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  workingHours     UserWorkingHour[]
+  assignedServices ServiceAssignment[]
+  bookings         Booking[] // <— added reverse relation
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([shopId, userId]) // one membership per shop
+}
+
+// -------- ShopWorkingHour (general opening hours) --------
+model ShopWorkingHour {
   id     Int  @id @default(autoincrement())
   shopId Int
   shop   Shop @relation(fields: [shopId], references: [id])
-
-  startDate DateTime // when this schedule starts
-  endDate   DateTime? // optional (open-ended)
 
   dayOfWeek DayOfWeek
   openTime  String
   closeTime String
   isClosed  Boolean   @default(false)
-}
-
-model Service {
-  id       Int    @id @default(autoincrement())
-  name     String
-  duration Int
-  price    Float
-
-  ownerId Int
-  owner   User @relation("OwnerServices", fields: [ownerId], references: [id])
-
-  assignedUsers User[]    @relation("AssignedServices")
-  bookings      Booking[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+// -------- UserWorkingHour (personal schedule per shop member) --------
+model UserWorkingHour {
+  id         Int @id @default(autoincrement())
+  shopUserId Int
+  shopId     Int
+
+  shopUser ShopUser @relation(fields: [shopUserId], references: [id])
+  shop     Shop     @relation(fields: [shopId], references: [id])
+
+  dayOfWeek DayOfWeek
+  startTime String
+  endTime   String
+  isOff     Boolean   @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// -------- Service (per shop) --------
+model Service {
+  id     Int  @id @default(autoincrement())
+  shopId Int
+  shop   Shop @relation(fields: [shopId], references: [id])
+
+  name     String
+  duration Int // minutes
+  price    Float
+
+  assignedUsers ServiceAssignment[]
+  bookings      Booking[] // <— added reverse relation
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// -------- ServiceAssignment (many-to-many join) --------
+model ServiceAssignment {
+  id Int @id @default(autoincrement())
+
+  serviceId  Int
+  shopUserId Int
+
+  service  Service  @relation(fields: [serviceId], references: [id])
+  shopUser ShopUser @relation(fields: [shopUserId], references: [id])
+
+  @@unique([serviceId, shopUserId])
+}
+
+// -------- Customer --------
 model Customer {
   id    Int     @id @default(autoincrement())
   name  String
   phone String
   email String?
+
+  note   String? // extra info
+  banned Boolean @default(false) // block bookings
 
   bookings Booking[]
 
@@ -137,49 +190,23 @@ model Customer {
   updatedAt DateTime @updatedAt
 }
 
+// -------- Booking --------
 model Booking {
-  id        Int           @id @default(autoincrement())
+  id Int @id @default(autoincrement())
+
+  shopId     Int
+  serviceId  Int
+  providerId Int? // can be null if ShopUser removed
+  customerId Int
+
   startTime DateTime
   endTime   DateTime
   status    BookingStatus @default(PENDING)
 
-  customerId Int
-  customer   Customer @relation(fields: [customerId], references: [id])
-
-  shopId Int
-  shop   Shop @relation(fields: [shopId], references: [id])
-
-  userId Int
-  user   User @relation("UserBookings", fields: [userId], references: [id])
-
-  serviceId Int
-  service   Service @relation(fields: [serviceId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model WorkingHour {
-  id     Int  @id @default(autoincrement())
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
-
-  dayOfWeek DayOfWeek
-  startTime DateTime
-  endTime   DateTime
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model InventoryItem {
-  id       Int    @id @default(autoincrement())
-  name     String
-  quantity Int    @default(0)
-  price    Float?
-
-  shopId Int
-  shop   Shop @relation(fields: [shopId], references: [id])
+  shop     Shop      @relation(fields: [shopId], references: [id])
+  service  Service   @relation(fields: [serviceId], references: [id])
+  provider ShopUser? @relation(fields: [providerId], references: [id], onDelete: SetNull)
+  customer Customer  @relation(fields: [customerId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

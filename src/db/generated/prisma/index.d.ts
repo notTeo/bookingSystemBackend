@@ -24,15 +24,30 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Shop = $Result.DefaultSelection<Prisma.$ShopPayload>
 /**
- * Model ShopOpeningRange
+ * Model ShopUser
  * 
  */
-export type ShopOpeningRange = $Result.DefaultSelection<Prisma.$ShopOpeningRangePayload>
+export type ShopUser = $Result.DefaultSelection<Prisma.$ShopUserPayload>
+/**
+ * Model ShopWorkingHour
+ * 
+ */
+export type ShopWorkingHour = $Result.DefaultSelection<Prisma.$ShopWorkingHourPayload>
+/**
+ * Model UserWorkingHour
+ * 
+ */
+export type UserWorkingHour = $Result.DefaultSelection<Prisma.$UserWorkingHourPayload>
 /**
  * Model Service
  * 
  */
 export type Service = $Result.DefaultSelection<Prisma.$ServicePayload>
+/**
+ * Model ServiceAssignment
+ * 
+ */
+export type ServiceAssignment = $Result.DefaultSelection<Prisma.$ServiceAssignmentPayload>
 /**
  * Model Customer
  * 
@@ -43,38 +58,27 @@ export type Customer = $Result.DefaultSelection<Prisma.$CustomerPayload>
  * 
  */
 export type Booking = $Result.DefaultSelection<Prisma.$BookingPayload>
-/**
- * Model WorkingHour
- * 
- */
-export type WorkingHour = $Result.DefaultSelection<Prisma.$WorkingHourPayload>
-/**
- * Model InventoryItem
- * 
- */
-export type InventoryItem = $Result.DefaultSelection<Prisma.$InventoryItemPayload>
 
 /**
  * Enums
  */
 export namespace $Enums {
-  export const Role: {
-  BUSINESS: 'BUSINESS',
-  MANAGER: 'MANAGER',
-  STAFF: 'STAFF',
-  NONE: 'NONE'
-};
-
-export type Role = (typeof Role)[keyof typeof Role]
-
-
-export const Subscription: {
+  export const Subscription: {
   MEMBER: 'MEMBER',
   STARTER: 'STARTER',
   PRO: 'PRO'
 };
 
 export type Subscription = (typeof Subscription)[keyof typeof Subscription]
+
+
+export const ShopRole: {
+  OWNER: 'OWNER',
+  MANAGER: 'MANAGER',
+  STAFF: 'STAFF'
+};
+
+export type ShopRole = (typeof ShopRole)[keyof typeof ShopRole]
 
 
 export const DayOfWeek: {
@@ -93,20 +97,21 @@ export type DayOfWeek = (typeof DayOfWeek)[keyof typeof DayOfWeek]
 export const BookingStatus: {
   PENDING: 'PENDING',
   CONFIRMED: 'CONFIRMED',
-  CANCELED: 'CANCELED'
+  CANCELED: 'CANCELED',
+  COMPLETED: 'COMPLETED'
 };
 
 export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
 
 }
 
-export type Role = $Enums.Role
-
-export const Role: typeof $Enums.Role
-
 export type Subscription = $Enums.Subscription
 
 export const Subscription: typeof $Enums.Subscription
+
+export type ShopRole = $Enums.ShopRole
+
+export const ShopRole: typeof $Enums.ShopRole
 
 export type DayOfWeek = $Enums.DayOfWeek
 
@@ -262,14 +267,34 @@ export class PrismaClient<
   get shop(): Prisma.ShopDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.shopOpeningRange`: Exposes CRUD operations for the **ShopOpeningRange** model.
+   * `prisma.shopUser`: Exposes CRUD operations for the **ShopUser** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more ShopOpeningRanges
-    * const shopOpeningRanges = await prisma.shopOpeningRange.findMany()
+    * // Fetch zero or more ShopUsers
+    * const shopUsers = await prisma.shopUser.findMany()
     * ```
     */
-  get shopOpeningRange(): Prisma.ShopOpeningRangeDelegate<ExtArgs, ClientOptions>;
+  get shopUser(): Prisma.ShopUserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.shopWorkingHour`: Exposes CRUD operations for the **ShopWorkingHour** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ShopWorkingHours
+    * const shopWorkingHours = await prisma.shopWorkingHour.findMany()
+    * ```
+    */
+  get shopWorkingHour(): Prisma.ShopWorkingHourDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userWorkingHour`: Exposes CRUD operations for the **UserWorkingHour** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserWorkingHours
+    * const userWorkingHours = await prisma.userWorkingHour.findMany()
+    * ```
+    */
+  get userWorkingHour(): Prisma.UserWorkingHourDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.service`: Exposes CRUD operations for the **Service** model.
@@ -280,6 +305,16 @@ export class PrismaClient<
     * ```
     */
   get service(): Prisma.ServiceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.serviceAssignment`: Exposes CRUD operations for the **ServiceAssignment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ServiceAssignments
+    * const serviceAssignments = await prisma.serviceAssignment.findMany()
+    * ```
+    */
+  get serviceAssignment(): Prisma.ServiceAssignmentDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.customer`: Exposes CRUD operations for the **Customer** model.
@@ -300,26 +335,6 @@ export class PrismaClient<
     * ```
     */
   get booking(): Prisma.BookingDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.workingHour`: Exposes CRUD operations for the **WorkingHour** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more WorkingHours
-    * const workingHours = await prisma.workingHour.findMany()
-    * ```
-    */
-  get workingHour(): Prisma.WorkingHourDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.inventoryItem`: Exposes CRUD operations for the **InventoryItem** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more InventoryItems
-    * const inventoryItems = await prisma.inventoryItem.findMany()
-    * ```
-    */
-  get inventoryItem(): Prisma.InventoryItemDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -762,12 +777,13 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Shop: 'Shop',
-    ShopOpeningRange: 'ShopOpeningRange',
+    ShopUser: 'ShopUser',
+    ShopWorkingHour: 'ShopWorkingHour',
+    UserWorkingHour: 'UserWorkingHour',
     Service: 'Service',
+    ServiceAssignment: 'ServiceAssignment',
     Customer: 'Customer',
-    Booking: 'Booking',
-    WorkingHour: 'WorkingHour',
-    InventoryItem: 'InventoryItem'
+    Booking: 'Booking'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -786,7 +802,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "shop" | "shopOpeningRange" | "service" | "customer" | "booking" | "workingHour" | "inventoryItem"
+      modelProps: "user" | "shop" | "shopUser" | "shopWorkingHour" | "userWorkingHour" | "service" | "serviceAssignment" | "customer" | "booking"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -938,77 +954,225 @@ export namespace Prisma {
           }
         }
       }
-      ShopOpeningRange: {
-        payload: Prisma.$ShopOpeningRangePayload<ExtArgs>
-        fields: Prisma.ShopOpeningRangeFieldRefs
+      ShopUser: {
+        payload: Prisma.$ShopUserPayload<ExtArgs>
+        fields: Prisma.ShopUserFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.ShopOpeningRangeFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload> | null
+            args: Prisma.ShopUserFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopUserPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.ShopOpeningRangeFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>
+            args: Prisma.ShopUserFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopUserPayload>
           }
           findFirst: {
-            args: Prisma.ShopOpeningRangeFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload> | null
+            args: Prisma.ShopUserFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopUserPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.ShopOpeningRangeFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>
+            args: Prisma.ShopUserFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopUserPayload>
           }
           findMany: {
-            args: Prisma.ShopOpeningRangeFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>[]
+            args: Prisma.ShopUserFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopUserPayload>[]
           }
           create: {
-            args: Prisma.ShopOpeningRangeCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>
+            args: Prisma.ShopUserCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopUserPayload>
           }
           createMany: {
-            args: Prisma.ShopOpeningRangeCreateManyArgs<ExtArgs>
+            args: Prisma.ShopUserCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.ShopOpeningRangeCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>[]
+            args: Prisma.ShopUserCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopUserPayload>[]
           }
           delete: {
-            args: Prisma.ShopOpeningRangeDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>
+            args: Prisma.ShopUserDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopUserPayload>
           }
           update: {
-            args: Prisma.ShopOpeningRangeUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>
+            args: Prisma.ShopUserUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopUserPayload>
           }
           deleteMany: {
-            args: Prisma.ShopOpeningRangeDeleteManyArgs<ExtArgs>
+            args: Prisma.ShopUserDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.ShopOpeningRangeUpdateManyArgs<ExtArgs>
+            args: Prisma.ShopUserUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.ShopOpeningRangeUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>[]
+            args: Prisma.ShopUserUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopUserPayload>[]
           }
           upsert: {
-            args: Prisma.ShopOpeningRangeUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopOpeningRangePayload>
+            args: Prisma.ShopUserUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopUserPayload>
           }
           aggregate: {
-            args: Prisma.ShopOpeningRangeAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateShopOpeningRange>
+            args: Prisma.ShopUserAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShopUser>
           }
           groupBy: {
-            args: Prisma.ShopOpeningRangeGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ShopOpeningRangeGroupByOutputType>[]
+            args: Prisma.ShopUserGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShopUserGroupByOutputType>[]
           }
           count: {
-            args: Prisma.ShopOpeningRangeCountArgs<ExtArgs>
-            result: $Utils.Optional<ShopOpeningRangeCountAggregateOutputType> | number
+            args: Prisma.ShopUserCountArgs<ExtArgs>
+            result: $Utils.Optional<ShopUserCountAggregateOutputType> | number
+          }
+        }
+      }
+      ShopWorkingHour: {
+        payload: Prisma.$ShopWorkingHourPayload<ExtArgs>
+        fields: Prisma.ShopWorkingHourFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShopWorkingHourFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopWorkingHourPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShopWorkingHourFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopWorkingHourPayload>
+          }
+          findFirst: {
+            args: Prisma.ShopWorkingHourFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopWorkingHourPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShopWorkingHourFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopWorkingHourPayload>
+          }
+          findMany: {
+            args: Prisma.ShopWorkingHourFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopWorkingHourPayload>[]
+          }
+          create: {
+            args: Prisma.ShopWorkingHourCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopWorkingHourPayload>
+          }
+          createMany: {
+            args: Prisma.ShopWorkingHourCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShopWorkingHourCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopWorkingHourPayload>[]
+          }
+          delete: {
+            args: Prisma.ShopWorkingHourDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopWorkingHourPayload>
+          }
+          update: {
+            args: Prisma.ShopWorkingHourUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopWorkingHourPayload>
+          }
+          deleteMany: {
+            args: Prisma.ShopWorkingHourDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShopWorkingHourUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ShopWorkingHourUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopWorkingHourPayload>[]
+          }
+          upsert: {
+            args: Prisma.ShopWorkingHourUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopWorkingHourPayload>
+          }
+          aggregate: {
+            args: Prisma.ShopWorkingHourAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShopWorkingHour>
+          }
+          groupBy: {
+            args: Prisma.ShopWorkingHourGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShopWorkingHourGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShopWorkingHourCountArgs<ExtArgs>
+            result: $Utils.Optional<ShopWorkingHourCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserWorkingHour: {
+        payload: Prisma.$UserWorkingHourPayload<ExtArgs>
+        fields: Prisma.UserWorkingHourFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserWorkingHourFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWorkingHourPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserWorkingHourFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWorkingHourPayload>
+          }
+          findFirst: {
+            args: Prisma.UserWorkingHourFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWorkingHourPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserWorkingHourFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWorkingHourPayload>
+          }
+          findMany: {
+            args: Prisma.UserWorkingHourFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWorkingHourPayload>[]
+          }
+          create: {
+            args: Prisma.UserWorkingHourCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWorkingHourPayload>
+          }
+          createMany: {
+            args: Prisma.UserWorkingHourCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserWorkingHourCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWorkingHourPayload>[]
+          }
+          delete: {
+            args: Prisma.UserWorkingHourDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWorkingHourPayload>
+          }
+          update: {
+            args: Prisma.UserWorkingHourUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWorkingHourPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserWorkingHourDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserWorkingHourUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserWorkingHourUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWorkingHourPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserWorkingHourUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserWorkingHourPayload>
+          }
+          aggregate: {
+            args: Prisma.UserWorkingHourAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserWorkingHour>
+          }
+          groupBy: {
+            args: Prisma.UserWorkingHourGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserWorkingHourGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserWorkingHourCountArgs<ExtArgs>
+            result: $Utils.Optional<UserWorkingHourCountAggregateOutputType> | number
           }
         }
       }
@@ -1083,6 +1247,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ServiceCountArgs<ExtArgs>
             result: $Utils.Optional<ServiceCountAggregateOutputType> | number
+          }
+        }
+      }
+      ServiceAssignment: {
+        payload: Prisma.$ServiceAssignmentPayload<ExtArgs>
+        fields: Prisma.ServiceAssignmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ServiceAssignmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAssignmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ServiceAssignmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAssignmentPayload>
+          }
+          findFirst: {
+            args: Prisma.ServiceAssignmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAssignmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ServiceAssignmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAssignmentPayload>
+          }
+          findMany: {
+            args: Prisma.ServiceAssignmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAssignmentPayload>[]
+          }
+          create: {
+            args: Prisma.ServiceAssignmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAssignmentPayload>
+          }
+          createMany: {
+            args: Prisma.ServiceAssignmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ServiceAssignmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAssignmentPayload>[]
+          }
+          delete: {
+            args: Prisma.ServiceAssignmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAssignmentPayload>
+          }
+          update: {
+            args: Prisma.ServiceAssignmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAssignmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.ServiceAssignmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ServiceAssignmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ServiceAssignmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAssignmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.ServiceAssignmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceAssignmentPayload>
+          }
+          aggregate: {
+            args: Prisma.ServiceAssignmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateServiceAssignment>
+          }
+          groupBy: {
+            args: Prisma.ServiceAssignmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ServiceAssignmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ServiceAssignmentCountArgs<ExtArgs>
+            result: $Utils.Optional<ServiceAssignmentCountAggregateOutputType> | number
           }
         }
       }
@@ -1234,154 +1472,6 @@ export namespace Prisma {
           }
         }
       }
-      WorkingHour: {
-        payload: Prisma.$WorkingHourPayload<ExtArgs>
-        fields: Prisma.WorkingHourFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.WorkingHourFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHourPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.WorkingHourFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHourPayload>
-          }
-          findFirst: {
-            args: Prisma.WorkingHourFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHourPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.WorkingHourFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHourPayload>
-          }
-          findMany: {
-            args: Prisma.WorkingHourFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHourPayload>[]
-          }
-          create: {
-            args: Prisma.WorkingHourCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHourPayload>
-          }
-          createMany: {
-            args: Prisma.WorkingHourCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.WorkingHourCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHourPayload>[]
-          }
-          delete: {
-            args: Prisma.WorkingHourDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHourPayload>
-          }
-          update: {
-            args: Prisma.WorkingHourUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHourPayload>
-          }
-          deleteMany: {
-            args: Prisma.WorkingHourDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.WorkingHourUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.WorkingHourUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHourPayload>[]
-          }
-          upsert: {
-            args: Prisma.WorkingHourUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WorkingHourPayload>
-          }
-          aggregate: {
-            args: Prisma.WorkingHourAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateWorkingHour>
-          }
-          groupBy: {
-            args: Prisma.WorkingHourGroupByArgs<ExtArgs>
-            result: $Utils.Optional<WorkingHourGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.WorkingHourCountArgs<ExtArgs>
-            result: $Utils.Optional<WorkingHourCountAggregateOutputType> | number
-          }
-        }
-      }
-      InventoryItem: {
-        payload: Prisma.$InventoryItemPayload<ExtArgs>
-        fields: Prisma.InventoryItemFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.InventoryItemFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.InventoryItemFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>
-          }
-          findFirst: {
-            args: Prisma.InventoryItemFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.InventoryItemFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>
-          }
-          findMany: {
-            args: Prisma.InventoryItemFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>[]
-          }
-          create: {
-            args: Prisma.InventoryItemCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>
-          }
-          createMany: {
-            args: Prisma.InventoryItemCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.InventoryItemCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>[]
-          }
-          delete: {
-            args: Prisma.InventoryItemDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>
-          }
-          update: {
-            args: Prisma.InventoryItemUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>
-          }
-          deleteMany: {
-            args: Prisma.InventoryItemDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.InventoryItemUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.InventoryItemUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>[]
-          }
-          upsert: {
-            args: Prisma.InventoryItemUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$InventoryItemPayload>
-          }
-          aggregate: {
-            args: Prisma.InventoryItemAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateInventoryItem>
-          }
-          groupBy: {
-            args: Prisma.InventoryItemGroupByArgs<ExtArgs>
-            result: $Utils.Optional<InventoryItemGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.InventoryItemCountArgs<ExtArgs>
-            result: $Utils.Optional<InventoryItemCountAggregateOutputType> | number
-          }
-        }
-      }
     }
   } & {
     other: {
@@ -1468,12 +1558,13 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     shop?: ShopOmit
-    shopOpeningRange?: ShopOpeningRangeOmit
+    shopUser?: ShopUserOmit
+    shopWorkingHour?: ShopWorkingHourOmit
+    userWorkingHour?: UserWorkingHourOmit
     service?: ServiceOmit
+    serviceAssignment?: ServiceAssignmentOmit
     customer?: CustomerOmit
     booking?: BookingOmit
-    workingHour?: WorkingHourOmit
-    inventoryItem?: InventoryItemOmit
   }
 
   /* Types for Logging */
@@ -1568,21 +1659,13 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    users: number
-    shops: number
-    services: number
-    assignedServices: number
-    workingHours: number
-    bookings: number
+    ownedShops: number
+    memberships: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    users?: boolean | UserCountOutputTypeCountUsersArgs
-    shops?: boolean | UserCountOutputTypeCountShopsArgs
-    services?: boolean | UserCountOutputTypeCountServicesArgs
-    assignedServices?: boolean | UserCountOutputTypeCountAssignedServicesArgs
-    workingHours?: boolean | UserCountOutputTypeCountWorkingHoursArgs
-    bookings?: boolean | UserCountOutputTypeCountBookingsArgs
+    ownedShops?: boolean | UserCountOutputTypeCountOwnedShopsArgs
+    memberships?: boolean | UserCountOutputTypeCountMembershipsArgs
   }
 
   // Custom InputTypes
@@ -1599,43 +1682,15 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountShopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountOwnedShopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ShopWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountServicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ServiceWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountAssignedServicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ServiceWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountWorkingHoursArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: WorkingHourWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BookingWhereInput
+  export type UserCountOutputTypeCountMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopUserWhereInput
   }
 
 
@@ -1644,17 +1699,19 @@ export namespace Prisma {
    */
 
   export type ShopCountOutputType = {
-    assignedUsers: number
-    inventory: number
+    members: number
+    workingHours: number
+    userWorkingHours: number
+    services: number
     bookings: number
-    openingRanges: number
   }
 
   export type ShopCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    assignedUsers?: boolean | ShopCountOutputTypeCountAssignedUsersArgs
-    inventory?: boolean | ShopCountOutputTypeCountInventoryArgs
+    members?: boolean | ShopCountOutputTypeCountMembersArgs
+    workingHours?: boolean | ShopCountOutputTypeCountWorkingHoursArgs
+    userWorkingHours?: boolean | ShopCountOutputTypeCountUserWorkingHoursArgs
+    services?: boolean | ShopCountOutputTypeCountServicesArgs
     bookings?: boolean | ShopCountOutputTypeCountBookingsArgs
-    openingRanges?: boolean | ShopCountOutputTypeCountOpeningRangesArgs
   }
 
   // Custom InputTypes
@@ -1671,15 +1728,29 @@ export namespace Prisma {
   /**
    * ShopCountOutputType without action
    */
-  export type ShopCountOutputTypeCountAssignedUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
+  export type ShopCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopUserWhereInput
   }
 
   /**
    * ShopCountOutputType without action
    */
-  export type ShopCountOutputTypeCountInventoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: InventoryItemWhereInput
+  export type ShopCountOutputTypeCountWorkingHoursArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopWorkingHourWhereInput
+  }
+
+  /**
+   * ShopCountOutputType without action
+   */
+  export type ShopCountOutputTypeCountUserWorkingHoursArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWorkingHourWhereInput
+  }
+
+  /**
+   * ShopCountOutputType without action
+   */
+  export type ShopCountOutputTypeCountServicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceWhereInput
   }
 
   /**
@@ -1689,11 +1760,53 @@ export namespace Prisma {
     where?: BookingWhereInput
   }
 
+
   /**
-   * ShopCountOutputType without action
+   * Count Type ShopUserCountOutputType
    */
-  export type ShopCountOutputTypeCountOpeningRangesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ShopOpeningRangeWhereInput
+
+  export type ShopUserCountOutputType = {
+    workingHours: number
+    assignedServices: number
+    bookings: number
+  }
+
+  export type ShopUserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workingHours?: boolean | ShopUserCountOutputTypeCountWorkingHoursArgs
+    assignedServices?: boolean | ShopUserCountOutputTypeCountAssignedServicesArgs
+    bookings?: boolean | ShopUserCountOutputTypeCountBookingsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ShopUserCountOutputType without action
+   */
+  export type ShopUserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopUserCountOutputType
+     */
+    select?: ShopUserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ShopUserCountOutputType without action
+   */
+  export type ShopUserCountOutputTypeCountWorkingHoursArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWorkingHourWhereInput
+  }
+
+  /**
+   * ShopUserCountOutputType without action
+   */
+  export type ShopUserCountOutputTypeCountAssignedServicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceAssignmentWhereInput
+  }
+
+  /**
+   * ShopUserCountOutputType without action
+   */
+  export type ShopUserCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BookingWhereInput
   }
 
 
@@ -1726,7 +1839,7 @@ export namespace Prisma {
    * ServiceCountOutputType without action
    */
   export type ServiceCountOutputTypeCountAssignedUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
+    where?: ServiceAssignmentWhereInput
   }
 
   /**
@@ -1786,14 +1899,10 @@ export namespace Prisma {
 
   export type UserAvgAggregateOutputType = {
     id: number | null
-    ownerId: number | null
-    shopId: number | null
   }
 
   export type UserSumAggregateOutputType = {
     id: number | null
-    ownerId: number | null
-    shopId: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1802,11 +1911,7 @@ export namespace Prisma {
     email: string | null
     hashedPassword: string | null
     subscription: $Enums.Subscription | null
-    role: $Enums.Role | null
     active: boolean | null
-    bookable: boolean | null
-    ownerId: number | null
-    shopId: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1817,11 +1922,7 @@ export namespace Prisma {
     email: string | null
     hashedPassword: string | null
     subscription: $Enums.Subscription | null
-    role: $Enums.Role | null
     active: boolean | null
-    bookable: boolean | null
-    ownerId: number | null
-    shopId: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1832,11 +1933,7 @@ export namespace Prisma {
     email: number
     hashedPassword: number
     subscription: number
-    role: number
     active: number
-    bookable: number
-    ownerId: number
-    shopId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -1845,14 +1942,10 @@ export namespace Prisma {
 
   export type UserAvgAggregateInputType = {
     id?: true
-    ownerId?: true
-    shopId?: true
   }
 
   export type UserSumAggregateInputType = {
     id?: true
-    ownerId?: true
-    shopId?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -1861,11 +1954,7 @@ export namespace Prisma {
     email?: true
     hashedPassword?: true
     subscription?: true
-    role?: true
     active?: true
-    bookable?: true
-    ownerId?: true
-    shopId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1876,11 +1965,7 @@ export namespace Prisma {
     email?: true
     hashedPassword?: true
     subscription?: true
-    role?: true
     active?: true
-    bookable?: true
-    ownerId?: true
-    shopId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1891,11 +1976,7 @@ export namespace Prisma {
     email?: true
     hashedPassword?: true
     subscription?: true
-    role?: true
     active?: true
-    bookable?: true
-    ownerId?: true
-    shopId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1993,11 +2074,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     subscription: $Enums.Subscription
-    role: $Enums.Role
     active: boolean
-    bookable: boolean
-    ownerId: number | null
-    shopId: number | null
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -2027,21 +2104,11 @@ export namespace Prisma {
     email?: boolean
     hashedPassword?: boolean
     subscription?: boolean
-    role?: boolean
     active?: boolean
-    bookable?: boolean
-    ownerId?: boolean
-    shopId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    owner?: boolean | User$ownerArgs<ExtArgs>
-    users?: boolean | User$usersArgs<ExtArgs>
-    shop?: boolean | User$shopArgs<ExtArgs>
-    shops?: boolean | User$shopsArgs<ExtArgs>
-    services?: boolean | User$servicesArgs<ExtArgs>
-    assignedServices?: boolean | User$assignedServicesArgs<ExtArgs>
-    workingHours?: boolean | User$workingHoursArgs<ExtArgs>
-    bookings?: boolean | User$bookingsArgs<ExtArgs>
+    ownedShops?: boolean | User$ownedShopsArgs<ExtArgs>
+    memberships?: boolean | User$membershipsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2051,15 +2118,9 @@ export namespace Prisma {
     email?: boolean
     hashedPassword?: boolean
     subscription?: boolean
-    role?: boolean
     active?: boolean
-    bookable?: boolean
-    ownerId?: boolean
-    shopId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    owner?: boolean | User$ownerArgs<ExtArgs>
-    shop?: boolean | User$shopArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2068,15 +2129,9 @@ export namespace Prisma {
     email?: boolean
     hashedPassword?: boolean
     subscription?: boolean
-    role?: boolean
     active?: boolean
-    bookable?: boolean
-    ownerId?: boolean
-    shopId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    owner?: boolean | User$ownerArgs<ExtArgs>
-    shop?: boolean | User$shopArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -2085,47 +2140,25 @@ export namespace Prisma {
     email?: boolean
     hashedPassword?: boolean
     subscription?: boolean
-    role?: boolean
     active?: boolean
-    bookable?: boolean
-    ownerId?: boolean
-    shopId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "hashedPassword" | "subscription" | "role" | "active" | "bookable" | "ownerId" | "shopId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "hashedPassword" | "subscription" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    owner?: boolean | User$ownerArgs<ExtArgs>
-    users?: boolean | User$usersArgs<ExtArgs>
-    shop?: boolean | User$shopArgs<ExtArgs>
-    shops?: boolean | User$shopsArgs<ExtArgs>
-    services?: boolean | User$servicesArgs<ExtArgs>
-    assignedServices?: boolean | User$assignedServicesArgs<ExtArgs>
-    workingHours?: boolean | User$workingHoursArgs<ExtArgs>
-    bookings?: boolean | User$bookingsArgs<ExtArgs>
+    ownedShops?: boolean | User$ownedShopsArgs<ExtArgs>
+    memberships?: boolean | User$membershipsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    owner?: boolean | User$ownerArgs<ExtArgs>
-    shop?: boolean | User$shopArgs<ExtArgs>
-  }
-  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    owner?: boolean | User$ownerArgs<ExtArgs>
-    shop?: boolean | User$shopArgs<ExtArgs>
-  }
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      owner: Prisma.$UserPayload<ExtArgs> | null
-      users: Prisma.$UserPayload<ExtArgs>[]
-      shop: Prisma.$ShopPayload<ExtArgs> | null
-      shops: Prisma.$ShopPayload<ExtArgs>[]
-      services: Prisma.$ServicePayload<ExtArgs>[]
-      assignedServices: Prisma.$ServicePayload<ExtArgs>[]
-      workingHours: Prisma.$WorkingHourPayload<ExtArgs>[]
-      bookings: Prisma.$BookingPayload<ExtArgs>[]
+      ownedShops: Prisma.$ShopPayload<ExtArgs>[]
+      memberships: Prisma.$ShopUserPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2133,11 +2166,7 @@ export namespace Prisma {
       email: string
       hashedPassword: string
       subscription: $Enums.Subscription
-      role: $Enums.Role
       active: boolean
-      bookable: boolean
-      ownerId: number | null
-      shopId: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -2534,14 +2563,8 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    owner<T extends User$ownerArgs<ExtArgs> = {}>(args?: Subset<T, User$ownerArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    users<T extends User$usersArgs<ExtArgs> = {}>(args?: Subset<T, User$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    shop<T extends User$shopArgs<ExtArgs> = {}>(args?: Subset<T, User$shopArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    shops<T extends User$shopsArgs<ExtArgs> = {}>(args?: Subset<T, User$shopsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    services<T extends User$servicesArgs<ExtArgs> = {}>(args?: Subset<T, User$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    assignedServices<T extends User$assignedServicesArgs<ExtArgs> = {}>(args?: Subset<T, User$assignedServicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    workingHours<T extends User$workingHoursArgs<ExtArgs> = {}>(args?: Subset<T, User$workingHoursArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkingHourPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    bookings<T extends User$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ownedShops<T extends User$ownedShopsArgs<ExtArgs> = {}>(args?: Subset<T, User$ownedShopsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    memberships<T extends User$membershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2576,11 +2599,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly hashedPassword: FieldRef<"User", 'String'>
     readonly subscription: FieldRef<"User", 'Subscription'>
-    readonly role: FieldRef<"User", 'Role'>
     readonly active: FieldRef<"User", 'Boolean'>
-    readonly bookable: FieldRef<"User", 'Boolean'>
-    readonly ownerId: FieldRef<"User", 'Int'>
-    readonly shopId: FieldRef<"User", 'Int'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -2832,10 +2851,6 @@ export namespace Prisma {
      */
     data: UserCreateManyInput | UserCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2906,10 +2921,6 @@ export namespace Prisma {
      * Limit how many Users to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2979,71 +2990,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.owner
+   * User.ownedShops
    */
-  export type User$ownerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-  }
-
-  /**
-   * User.users
-   */
-  export type User$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    cursor?: UserWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
-  }
-
-  /**
-   * User.shop
-   */
-  export type User$shopArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Shop
-     */
-    select?: ShopSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Shop
-     */
-    omit?: ShopOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ShopInclude<ExtArgs> | null
-    where?: ShopWhereInput
-  }
-
-  /**
-   * User.shops
-   */
-  export type User$shopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$ownedShopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Shop
      */
@@ -3065,99 +3014,27 @@ export namespace Prisma {
   }
 
   /**
-   * User.services
+   * User.memberships
    */
-  export type User$servicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$membershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Service
+     * Select specific fields to fetch from the ShopUser
      */
-    select?: ServiceSelect<ExtArgs> | null
+    select?: ShopUserSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Service
+     * Omit specific fields from the ShopUser
      */
-    omit?: ServiceOmit<ExtArgs> | null
+    omit?: ShopUserOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ServiceInclude<ExtArgs> | null
-    where?: ServiceWhereInput
-    orderBy?: ServiceOrderByWithRelationInput | ServiceOrderByWithRelationInput[]
-    cursor?: ServiceWhereUniqueInput
+    include?: ShopUserInclude<ExtArgs> | null
+    where?: ShopUserWhereInput
+    orderBy?: ShopUserOrderByWithRelationInput | ShopUserOrderByWithRelationInput[]
+    cursor?: ShopUserWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: ServiceScalarFieldEnum | ServiceScalarFieldEnum[]
-  }
-
-  /**
-   * User.assignedServices
-   */
-  export type User$assignedServicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Service
-     */
-    select?: ServiceSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Service
-     */
-    omit?: ServiceOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ServiceInclude<ExtArgs> | null
-    where?: ServiceWhereInput
-    orderBy?: ServiceOrderByWithRelationInput | ServiceOrderByWithRelationInput[]
-    cursor?: ServiceWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ServiceScalarFieldEnum | ServiceScalarFieldEnum[]
-  }
-
-  /**
-   * User.workingHours
-   */
-  export type User$workingHoursArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHour
-     */
-    select?: WorkingHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHour
-     */
-    omit?: WorkingHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHourInclude<ExtArgs> | null
-    where?: WorkingHourWhereInput
-    orderBy?: WorkingHourOrderByWithRelationInput | WorkingHourOrderByWithRelationInput[]
-    cursor?: WorkingHourWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: WorkingHourScalarFieldEnum | WorkingHourScalarFieldEnum[]
-  }
-
-  /**
-   * User.bookings
-   */
-  export type User$bookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Booking
-     */
-    select?: BookingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Booking
-     */
-    omit?: BookingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: BookingInclude<ExtArgs> | null
-    where?: BookingWhereInput
-    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
-    cursor?: BookingWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
+    distinct?: ShopUserScalarFieldEnum | ShopUserScalarFieldEnum[]
   }
 
   /**
@@ -3204,6 +3081,7 @@ export namespace Prisma {
   export type ShopMinAggregateOutputType = {
     id: number | null
     name: string | null
+    address: string | null
     ownerId: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3212,6 +3090,7 @@ export namespace Prisma {
   export type ShopMaxAggregateOutputType = {
     id: number | null
     name: string | null
+    address: string | null
     ownerId: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3220,6 +3099,7 @@ export namespace Prisma {
   export type ShopCountAggregateOutputType = {
     id: number
     name: number
+    address: number
     ownerId: number
     createdAt: number
     updatedAt: number
@@ -3240,6 +3120,7 @@ export namespace Prisma {
   export type ShopMinAggregateInputType = {
     id?: true
     name?: true
+    address?: true
     ownerId?: true
     createdAt?: true
     updatedAt?: true
@@ -3248,6 +3129,7 @@ export namespace Prisma {
   export type ShopMaxAggregateInputType = {
     id?: true
     name?: true
+    address?: true
     ownerId?: true
     createdAt?: true
     updatedAt?: true
@@ -3256,6 +3138,7 @@ export namespace Prisma {
   export type ShopCountAggregateInputType = {
     id?: true
     name?: true
+    address?: true
     ownerId?: true
     createdAt?: true
     updatedAt?: true
@@ -3351,6 +3234,7 @@ export namespace Prisma {
   export type ShopGroupByOutputType = {
     id: number
     name: string
+    address: string | null
     ownerId: number
     createdAt: Date
     updatedAt: Date
@@ -3378,20 +3262,23 @@ export namespace Prisma {
   export type ShopSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    address?: boolean
     ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
-    assignedUsers?: boolean | Shop$assignedUsersArgs<ExtArgs>
-    inventory?: boolean | Shop$inventoryArgs<ExtArgs>
+    members?: boolean | Shop$membersArgs<ExtArgs>
+    workingHours?: boolean | Shop$workingHoursArgs<ExtArgs>
+    userWorkingHours?: boolean | Shop$userWorkingHoursArgs<ExtArgs>
+    services?: boolean | Shop$servicesArgs<ExtArgs>
     bookings?: boolean | Shop$bookingsArgs<ExtArgs>
-    openingRanges?: boolean | Shop$openingRangesArgs<ExtArgs>
     _count?: boolean | ShopCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["shop"]>
 
   export type ShopSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    address?: boolean
     ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3401,6 +3288,7 @@ export namespace Prisma {
   export type ShopSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    address?: boolean
     ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3410,18 +3298,20 @@ export namespace Prisma {
   export type ShopSelectScalar = {
     id?: boolean
     name?: boolean
+    address?: boolean
     ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ShopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "ownerId" | "createdAt" | "updatedAt", ExtArgs["result"]["shop"]>
+  export type ShopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "address" | "ownerId" | "createdAt" | "updatedAt", ExtArgs["result"]["shop"]>
   export type ShopInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
-    assignedUsers?: boolean | Shop$assignedUsersArgs<ExtArgs>
-    inventory?: boolean | Shop$inventoryArgs<ExtArgs>
+    members?: boolean | Shop$membersArgs<ExtArgs>
+    workingHours?: boolean | Shop$workingHoursArgs<ExtArgs>
+    userWorkingHours?: boolean | Shop$userWorkingHoursArgs<ExtArgs>
+    services?: boolean | Shop$servicesArgs<ExtArgs>
     bookings?: boolean | Shop$bookingsArgs<ExtArgs>
-    openingRanges?: boolean | Shop$openingRangesArgs<ExtArgs>
     _count?: boolean | ShopCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ShopIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3435,14 +3325,16 @@ export namespace Prisma {
     name: "Shop"
     objects: {
       owner: Prisma.$UserPayload<ExtArgs>
-      assignedUsers: Prisma.$UserPayload<ExtArgs>[]
-      inventory: Prisma.$InventoryItemPayload<ExtArgs>[]
+      members: Prisma.$ShopUserPayload<ExtArgs>[]
+      workingHours: Prisma.$ShopWorkingHourPayload<ExtArgs>[]
+      userWorkingHours: Prisma.$UserWorkingHourPayload<ExtArgs>[]
+      services: Prisma.$ServicePayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
-      openingRanges: Prisma.$ShopOpeningRangePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
+      address: string | null
       ownerId: number
       createdAt: Date
       updatedAt: Date
@@ -3841,10 +3733,11 @@ export namespace Prisma {
   export interface Prisma__ShopClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    assignedUsers<T extends Shop$assignedUsersArgs<ExtArgs> = {}>(args?: Subset<T, Shop$assignedUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    inventory<T extends Shop$inventoryArgs<ExtArgs> = {}>(args?: Subset<T, Shop$inventoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    members<T extends Shop$membersArgs<ExtArgs> = {}>(args?: Subset<T, Shop$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    workingHours<T extends Shop$workingHoursArgs<ExtArgs> = {}>(args?: Subset<T, Shop$workingHoursArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopWorkingHourPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    userWorkingHours<T extends Shop$userWorkingHoursArgs<ExtArgs> = {}>(args?: Subset<T, Shop$userWorkingHoursArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserWorkingHourPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    services<T extends Shop$servicesArgs<ExtArgs> = {}>(args?: Subset<T, Shop$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookings<T extends Shop$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Shop$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    openingRanges<T extends Shop$openingRangesArgs<ExtArgs> = {}>(args?: Subset<T, Shop$openingRangesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3876,6 +3769,7 @@ export namespace Prisma {
   interface ShopFieldRefs {
     readonly id: FieldRef<"Shop", 'Int'>
     readonly name: FieldRef<"Shop", 'String'>
+    readonly address: FieldRef<"Shop", 'String'>
     readonly ownerId: FieldRef<"Shop", 'Int'>
     readonly createdAt: FieldRef<"Shop", 'DateTime'>
     readonly updatedAt: FieldRef<"Shop", 'DateTime'>
@@ -4275,51 +4169,99 @@ export namespace Prisma {
   }
 
   /**
-   * Shop.assignedUsers
+   * Shop.members
    */
-  export type Shop$assignedUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Shop$membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the ShopUser
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: ShopUserSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the ShopUser
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: ShopUserOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    cursor?: UserWhereUniqueInput
+    include?: ShopUserInclude<ExtArgs> | null
+    where?: ShopUserWhereInput
+    orderBy?: ShopUserOrderByWithRelationInput | ShopUserOrderByWithRelationInput[]
+    cursor?: ShopUserWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+    distinct?: ShopUserScalarFieldEnum | ShopUserScalarFieldEnum[]
   }
 
   /**
-   * Shop.inventory
+   * Shop.workingHours
    */
-  export type Shop$inventoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Shop$workingHoursArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the InventoryItem
+     * Select specific fields to fetch from the ShopWorkingHour
      */
-    select?: InventoryItemSelect<ExtArgs> | null
+    select?: ShopWorkingHourSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the InventoryItem
+     * Omit specific fields from the ShopWorkingHour
      */
-    omit?: InventoryItemOmit<ExtArgs> | null
+    omit?: ShopWorkingHourOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: InventoryItemInclude<ExtArgs> | null
-    where?: InventoryItemWhereInput
-    orderBy?: InventoryItemOrderByWithRelationInput | InventoryItemOrderByWithRelationInput[]
-    cursor?: InventoryItemWhereUniqueInput
+    include?: ShopWorkingHourInclude<ExtArgs> | null
+    where?: ShopWorkingHourWhereInput
+    orderBy?: ShopWorkingHourOrderByWithRelationInput | ShopWorkingHourOrderByWithRelationInput[]
+    cursor?: ShopWorkingHourWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: InventoryItemScalarFieldEnum | InventoryItemScalarFieldEnum[]
+    distinct?: ShopWorkingHourScalarFieldEnum | ShopWorkingHourScalarFieldEnum[]
+  }
+
+  /**
+   * Shop.userWorkingHours
+   */
+  export type Shop$userWorkingHoursArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWorkingHour
+     */
+    select?: UserWorkingHourSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWorkingHour
+     */
+    omit?: UserWorkingHourOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWorkingHourInclude<ExtArgs> | null
+    where?: UserWorkingHourWhereInput
+    orderBy?: UserWorkingHourOrderByWithRelationInput | UserWorkingHourOrderByWithRelationInput[]
+    cursor?: UserWorkingHourWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserWorkingHourScalarFieldEnum | UserWorkingHourScalarFieldEnum[]
+  }
+
+  /**
+   * Shop.services
+   */
+  export type Shop$servicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Service
+     */
+    select?: ServiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Service
+     */
+    omit?: ServiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceInclude<ExtArgs> | null
+    where?: ServiceWhereInput
+    orderBy?: ServiceOrderByWithRelationInput | ServiceOrderByWithRelationInput[]
+    cursor?: ServiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServiceScalarFieldEnum | ServiceScalarFieldEnum[]
   }
 
   /**
@@ -4347,30 +4289,6 @@ export namespace Prisma {
   }
 
   /**
-   * Shop.openingRanges
-   */
-  export type Shop$openingRangesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ShopOpeningRange
-     */
-    select?: ShopOpeningRangeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ShopOpeningRange
-     */
-    omit?: ShopOpeningRangeOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ShopOpeningRangeInclude<ExtArgs> | null
-    where?: ShopOpeningRangeWhereInput
-    orderBy?: ShopOpeningRangeOrderByWithRelationInput | ShopOpeningRangeOrderByWithRelationInput[]
-    cursor?: ShopOpeningRangeWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ShopOpeningRangeScalarFieldEnum | ShopOpeningRangeScalarFieldEnum[]
-  }
-
-  /**
    * Shop without action
    */
   export type ShopDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4390,424 +4308,446 @@ export namespace Prisma {
 
 
   /**
-   * Model ShopOpeningRange
+   * Model ShopUser
    */
 
-  export type AggregateShopOpeningRange = {
-    _count: ShopOpeningRangeCountAggregateOutputType | null
-    _avg: ShopOpeningRangeAvgAggregateOutputType | null
-    _sum: ShopOpeningRangeSumAggregateOutputType | null
-    _min: ShopOpeningRangeMinAggregateOutputType | null
-    _max: ShopOpeningRangeMaxAggregateOutputType | null
+  export type AggregateShopUser = {
+    _count: ShopUserCountAggregateOutputType | null
+    _avg: ShopUserAvgAggregateOutputType | null
+    _sum: ShopUserSumAggregateOutputType | null
+    _min: ShopUserMinAggregateOutputType | null
+    _max: ShopUserMaxAggregateOutputType | null
   }
 
-  export type ShopOpeningRangeAvgAggregateOutputType = {
+  export type ShopUserAvgAggregateOutputType = {
     id: number | null
     shopId: number | null
+    userId: number | null
   }
 
-  export type ShopOpeningRangeSumAggregateOutputType = {
+  export type ShopUserSumAggregateOutputType = {
     id: number | null
     shopId: number | null
+    userId: number | null
   }
 
-  export type ShopOpeningRangeMinAggregateOutputType = {
+  export type ShopUserMinAggregateOutputType = {
     id: number | null
     shopId: number | null
-    startDate: Date | null
-    endDate: Date | null
-    dayOfWeek: $Enums.DayOfWeek | null
-    openTime: string | null
-    closeTime: string | null
-    isClosed: boolean | null
+    userId: number | null
+    role: $Enums.ShopRole | null
+    active: boolean | null
+    bookable: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
-  export type ShopOpeningRangeMaxAggregateOutputType = {
+  export type ShopUserMaxAggregateOutputType = {
     id: number | null
     shopId: number | null
-    startDate: Date | null
-    endDate: Date | null
-    dayOfWeek: $Enums.DayOfWeek | null
-    openTime: string | null
-    closeTime: string | null
-    isClosed: boolean | null
+    userId: number | null
+    role: $Enums.ShopRole | null
+    active: boolean | null
+    bookable: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
-  export type ShopOpeningRangeCountAggregateOutputType = {
+  export type ShopUserCountAggregateOutputType = {
     id: number
     shopId: number
-    startDate: number
-    endDate: number
-    dayOfWeek: number
-    openTime: number
-    closeTime: number
-    isClosed: number
+    userId: number
+    role: number
+    active: number
+    bookable: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
-  export type ShopOpeningRangeAvgAggregateInputType = {
+  export type ShopUserAvgAggregateInputType = {
     id?: true
     shopId?: true
+    userId?: true
   }
 
-  export type ShopOpeningRangeSumAggregateInputType = {
+  export type ShopUserSumAggregateInputType = {
     id?: true
     shopId?: true
+    userId?: true
   }
 
-  export type ShopOpeningRangeMinAggregateInputType = {
+  export type ShopUserMinAggregateInputType = {
     id?: true
     shopId?: true
-    startDate?: true
-    endDate?: true
-    dayOfWeek?: true
-    openTime?: true
-    closeTime?: true
-    isClosed?: true
+    userId?: true
+    role?: true
+    active?: true
+    bookable?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
-  export type ShopOpeningRangeMaxAggregateInputType = {
+  export type ShopUserMaxAggregateInputType = {
     id?: true
     shopId?: true
-    startDate?: true
-    endDate?: true
-    dayOfWeek?: true
-    openTime?: true
-    closeTime?: true
-    isClosed?: true
+    userId?: true
+    role?: true
+    active?: true
+    bookable?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
-  export type ShopOpeningRangeCountAggregateInputType = {
+  export type ShopUserCountAggregateInputType = {
     id?: true
     shopId?: true
-    startDate?: true
-    endDate?: true
-    dayOfWeek?: true
-    openTime?: true
-    closeTime?: true
-    isClosed?: true
+    userId?: true
+    role?: true
+    active?: true
+    bookable?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
-  export type ShopOpeningRangeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopUserAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which ShopOpeningRange to aggregate.
+     * Filter which ShopUser to aggregate.
      */
-    where?: ShopOpeningRangeWhereInput
+    where?: ShopUserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ShopOpeningRanges to fetch.
+     * Determine the order of ShopUsers to fetch.
      */
-    orderBy?: ShopOpeningRangeOrderByWithRelationInput | ShopOpeningRangeOrderByWithRelationInput[]
+    orderBy?: ShopUserOrderByWithRelationInput | ShopUserOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: ShopOpeningRangeWhereUniqueInput
+    cursor?: ShopUserWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ShopOpeningRanges from the position of the cursor.
+     * Take `±n` ShopUsers from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ShopOpeningRanges.
+     * Skip the first `n` ShopUsers.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned ShopOpeningRanges
+     * Count returned ShopUsers
     **/
-    _count?: true | ShopOpeningRangeCountAggregateInputType
+    _count?: true | ShopUserCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: ShopOpeningRangeAvgAggregateInputType
+    _avg?: ShopUserAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: ShopOpeningRangeSumAggregateInputType
+    _sum?: ShopUserSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: ShopOpeningRangeMinAggregateInputType
+    _min?: ShopUserMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: ShopOpeningRangeMaxAggregateInputType
+    _max?: ShopUserMaxAggregateInputType
   }
 
-  export type GetShopOpeningRangeAggregateType<T extends ShopOpeningRangeAggregateArgs> = {
-        [P in keyof T & keyof AggregateShopOpeningRange]: P extends '_count' | 'count'
+  export type GetShopUserAggregateType<T extends ShopUserAggregateArgs> = {
+        [P in keyof T & keyof AggregateShopUser]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateShopOpeningRange[P]>
-      : GetScalarType<T[P], AggregateShopOpeningRange[P]>
+        : GetScalarType<T[P], AggregateShopUser[P]>
+      : GetScalarType<T[P], AggregateShopUser[P]>
   }
 
 
 
 
-  export type ShopOpeningRangeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ShopOpeningRangeWhereInput
-    orderBy?: ShopOpeningRangeOrderByWithAggregationInput | ShopOpeningRangeOrderByWithAggregationInput[]
-    by: ShopOpeningRangeScalarFieldEnum[] | ShopOpeningRangeScalarFieldEnum
-    having?: ShopOpeningRangeScalarWhereWithAggregatesInput
+  export type ShopUserGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopUserWhereInput
+    orderBy?: ShopUserOrderByWithAggregationInput | ShopUserOrderByWithAggregationInput[]
+    by: ShopUserScalarFieldEnum[] | ShopUserScalarFieldEnum
+    having?: ShopUserScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: ShopOpeningRangeCountAggregateInputType | true
-    _avg?: ShopOpeningRangeAvgAggregateInputType
-    _sum?: ShopOpeningRangeSumAggregateInputType
-    _min?: ShopOpeningRangeMinAggregateInputType
-    _max?: ShopOpeningRangeMaxAggregateInputType
+    _count?: ShopUserCountAggregateInputType | true
+    _avg?: ShopUserAvgAggregateInputType
+    _sum?: ShopUserSumAggregateInputType
+    _min?: ShopUserMinAggregateInputType
+    _max?: ShopUserMaxAggregateInputType
   }
 
-  export type ShopOpeningRangeGroupByOutputType = {
+  export type ShopUserGroupByOutputType = {
     id: number
     shopId: number
-    startDate: Date
-    endDate: Date | null
-    dayOfWeek: $Enums.DayOfWeek
-    openTime: string
-    closeTime: string
-    isClosed: boolean
-    _count: ShopOpeningRangeCountAggregateOutputType | null
-    _avg: ShopOpeningRangeAvgAggregateOutputType | null
-    _sum: ShopOpeningRangeSumAggregateOutputType | null
-    _min: ShopOpeningRangeMinAggregateOutputType | null
-    _max: ShopOpeningRangeMaxAggregateOutputType | null
+    userId: number
+    role: $Enums.ShopRole
+    active: boolean
+    bookable: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: ShopUserCountAggregateOutputType | null
+    _avg: ShopUserAvgAggregateOutputType | null
+    _sum: ShopUserSumAggregateOutputType | null
+    _min: ShopUserMinAggregateOutputType | null
+    _max: ShopUserMaxAggregateOutputType | null
   }
 
-  type GetShopOpeningRangeGroupByPayload<T extends ShopOpeningRangeGroupByArgs> = Prisma.PrismaPromise<
+  type GetShopUserGroupByPayload<T extends ShopUserGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<ShopOpeningRangeGroupByOutputType, T['by']> &
+      PickEnumerable<ShopUserGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof ShopOpeningRangeGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ShopUserGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], ShopOpeningRangeGroupByOutputType[P]>
-            : GetScalarType<T[P], ShopOpeningRangeGroupByOutputType[P]>
+              : GetScalarType<T[P], ShopUserGroupByOutputType[P]>
+            : GetScalarType<T[P], ShopUserGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type ShopOpeningRangeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ShopUserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     shopId?: boolean
-    startDate?: boolean
-    endDate?: boolean
-    dayOfWeek?: boolean
-    openTime?: boolean
-    closeTime?: boolean
-    isClosed?: boolean
+    userId?: boolean
+    role?: boolean
+    active?: boolean
+    bookable?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     shop?: boolean | ShopDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["shopOpeningRange"]>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    workingHours?: boolean | ShopUser$workingHoursArgs<ExtArgs>
+    assignedServices?: boolean | ShopUser$assignedServicesArgs<ExtArgs>
+    bookings?: boolean | ShopUser$bookingsArgs<ExtArgs>
+    _count?: boolean | ShopUserCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopUser"]>
 
-  export type ShopOpeningRangeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ShopUserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     shopId?: boolean
-    startDate?: boolean
-    endDate?: boolean
-    dayOfWeek?: boolean
-    openTime?: boolean
-    closeTime?: boolean
-    isClosed?: boolean
+    userId?: boolean
+    role?: boolean
+    active?: boolean
+    bookable?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     shop?: boolean | ShopDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["shopOpeningRange"]>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopUser"]>
 
-  export type ShopOpeningRangeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ShopUserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     shopId?: boolean
-    startDate?: boolean
-    endDate?: boolean
-    dayOfWeek?: boolean
-    openTime?: boolean
-    closeTime?: boolean
-    isClosed?: boolean
+    userId?: boolean
+    role?: boolean
+    active?: boolean
+    bookable?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     shop?: boolean | ShopDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["shopOpeningRange"]>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopUser"]>
 
-  export type ShopOpeningRangeSelectScalar = {
+  export type ShopUserSelectScalar = {
     id?: boolean
     shopId?: boolean
-    startDate?: boolean
-    endDate?: boolean
-    dayOfWeek?: boolean
-    openTime?: boolean
-    closeTime?: boolean
-    isClosed?: boolean
+    userId?: boolean
+    role?: boolean
+    active?: boolean
+    bookable?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type ShopOpeningRangeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shopId" | "startDate" | "endDate" | "dayOfWeek" | "openTime" | "closeTime" | "isClosed", ExtArgs["result"]["shopOpeningRange"]>
-  export type ShopOpeningRangeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shopId" | "userId" | "role" | "active" | "bookable" | "createdAt" | "updatedAt", ExtArgs["result"]["shopUser"]>
+  export type ShopUserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     shop?: boolean | ShopDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    workingHours?: boolean | ShopUser$workingHoursArgs<ExtArgs>
+    assignedServices?: boolean | ShopUser$assignedServicesArgs<ExtArgs>
+    bookings?: boolean | ShopUser$bookingsArgs<ExtArgs>
+    _count?: boolean | ShopUserCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type ShopOpeningRangeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopUserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     shop?: boolean | ShopDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
-  export type ShopOpeningRangeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopUserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     shop?: boolean | ShopDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
-  export type $ShopOpeningRangePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "ShopOpeningRange"
+  export type $ShopUserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShopUser"
     objects: {
       shop: Prisma.$ShopPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+      workingHours: Prisma.$UserWorkingHourPayload<ExtArgs>[]
+      assignedServices: Prisma.$ServiceAssignmentPayload<ExtArgs>[]
+      bookings: Prisma.$BookingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       shopId: number
-      startDate: Date
-      endDate: Date | null
-      dayOfWeek: $Enums.DayOfWeek
-      openTime: string
-      closeTime: string
-      isClosed: boolean
-    }, ExtArgs["result"]["shopOpeningRange"]>
+      userId: number
+      role: $Enums.ShopRole
+      active: boolean
+      bookable: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["shopUser"]>
     composites: {}
   }
 
-  type ShopOpeningRangeGetPayload<S extends boolean | null | undefined | ShopOpeningRangeDefaultArgs> = $Result.GetResult<Prisma.$ShopOpeningRangePayload, S>
+  type ShopUserGetPayload<S extends boolean | null | undefined | ShopUserDefaultArgs> = $Result.GetResult<Prisma.$ShopUserPayload, S>
 
-  type ShopOpeningRangeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ShopOpeningRangeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ShopOpeningRangeCountAggregateInputType | true
+  type ShopUserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShopUserFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShopUserCountAggregateInputType | true
     }
 
-  export interface ShopOpeningRangeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShopOpeningRange'], meta: { name: 'ShopOpeningRange' } }
+  export interface ShopUserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShopUser'], meta: { name: 'ShopUser' } }
     /**
-     * Find zero or one ShopOpeningRange that matches the filter.
-     * @param {ShopOpeningRangeFindUniqueArgs} args - Arguments to find a ShopOpeningRange
+     * Find zero or one ShopUser that matches the filter.
+     * @param {ShopUserFindUniqueArgs} args - Arguments to find a ShopUser
      * @example
-     * // Get one ShopOpeningRange
-     * const shopOpeningRange = await prisma.shopOpeningRange.findUnique({
+     * // Get one ShopUser
+     * const shopUser = await prisma.shopUser.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends ShopOpeningRangeFindUniqueArgs>(args: SelectSubset<T, ShopOpeningRangeFindUniqueArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends ShopUserFindUniqueArgs>(args: SelectSubset<T, ShopUserFindUniqueArgs<ExtArgs>>): Prisma__ShopUserClient<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one ShopOpeningRange that matches the filter or throw an error with `error.code='P2025'`
+     * Find one ShopUser that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {ShopOpeningRangeFindUniqueOrThrowArgs} args - Arguments to find a ShopOpeningRange
+     * @param {ShopUserFindUniqueOrThrowArgs} args - Arguments to find a ShopUser
      * @example
-     * // Get one ShopOpeningRange
-     * const shopOpeningRange = await prisma.shopOpeningRange.findUniqueOrThrow({
+     * // Get one ShopUser
+     * const shopUser = await prisma.shopUser.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends ShopOpeningRangeFindUniqueOrThrowArgs>(args: SelectSubset<T, ShopOpeningRangeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends ShopUserFindUniqueOrThrowArgs>(args: SelectSubset<T, ShopUserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShopUserClient<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first ShopOpeningRange that matches the filter.
+     * Find the first ShopUser that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ShopOpeningRangeFindFirstArgs} args - Arguments to find a ShopOpeningRange
+     * @param {ShopUserFindFirstArgs} args - Arguments to find a ShopUser
      * @example
-     * // Get one ShopOpeningRange
-     * const shopOpeningRange = await prisma.shopOpeningRange.findFirst({
+     * // Get one ShopUser
+     * const shopUser = await prisma.shopUser.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends ShopOpeningRangeFindFirstArgs>(args?: SelectSubset<T, ShopOpeningRangeFindFirstArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends ShopUserFindFirstArgs>(args?: SelectSubset<T, ShopUserFindFirstArgs<ExtArgs>>): Prisma__ShopUserClient<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first ShopOpeningRange that matches the filter or
+     * Find the first ShopUser that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ShopOpeningRangeFindFirstOrThrowArgs} args - Arguments to find a ShopOpeningRange
+     * @param {ShopUserFindFirstOrThrowArgs} args - Arguments to find a ShopUser
      * @example
-     * // Get one ShopOpeningRange
-     * const shopOpeningRange = await prisma.shopOpeningRange.findFirstOrThrow({
+     * // Get one ShopUser
+     * const shopUser = await prisma.shopUser.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends ShopOpeningRangeFindFirstOrThrowArgs>(args?: SelectSubset<T, ShopOpeningRangeFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends ShopUserFindFirstOrThrowArgs>(args?: SelectSubset<T, ShopUserFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShopUserClient<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more ShopOpeningRanges that matches the filter.
+     * Find zero or more ShopUsers that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ShopOpeningRangeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {ShopUserFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all ShopOpeningRanges
-     * const shopOpeningRanges = await prisma.shopOpeningRange.findMany()
+     * // Get all ShopUsers
+     * const shopUsers = await prisma.shopUser.findMany()
      * 
-     * // Get first 10 ShopOpeningRanges
-     * const shopOpeningRanges = await prisma.shopOpeningRange.findMany({ take: 10 })
+     * // Get first 10 ShopUsers
+     * const shopUsers = await prisma.shopUser.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const shopOpeningRangeWithIdOnly = await prisma.shopOpeningRange.findMany({ select: { id: true } })
+     * const shopUserWithIdOnly = await prisma.shopUser.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends ShopOpeningRangeFindManyArgs>(args?: SelectSubset<T, ShopOpeningRangeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends ShopUserFindManyArgs>(args?: SelectSubset<T, ShopUserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a ShopOpeningRange.
-     * @param {ShopOpeningRangeCreateArgs} args - Arguments to create a ShopOpeningRange.
+     * Create a ShopUser.
+     * @param {ShopUserCreateArgs} args - Arguments to create a ShopUser.
      * @example
-     * // Create one ShopOpeningRange
-     * const ShopOpeningRange = await prisma.shopOpeningRange.create({
+     * // Create one ShopUser
+     * const ShopUser = await prisma.shopUser.create({
      *   data: {
-     *     // ... data to create a ShopOpeningRange
+     *     // ... data to create a ShopUser
      *   }
      * })
      * 
      */
-    create<T extends ShopOpeningRangeCreateArgs>(args: SelectSubset<T, ShopOpeningRangeCreateArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends ShopUserCreateArgs>(args: SelectSubset<T, ShopUserCreateArgs<ExtArgs>>): Prisma__ShopUserClient<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many ShopOpeningRanges.
-     * @param {ShopOpeningRangeCreateManyArgs} args - Arguments to create many ShopOpeningRanges.
+     * Create many ShopUsers.
+     * @param {ShopUserCreateManyArgs} args - Arguments to create many ShopUsers.
      * @example
-     * // Create many ShopOpeningRanges
-     * const shopOpeningRange = await prisma.shopOpeningRange.createMany({
+     * // Create many ShopUsers
+     * const shopUser = await prisma.shopUser.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends ShopOpeningRangeCreateManyArgs>(args?: SelectSubset<T, ShopOpeningRangeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends ShopUserCreateManyArgs>(args?: SelectSubset<T, ShopUserCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many ShopOpeningRanges and returns the data saved in the database.
-     * @param {ShopOpeningRangeCreateManyAndReturnArgs} args - Arguments to create many ShopOpeningRanges.
+     * Create many ShopUsers and returns the data saved in the database.
+     * @param {ShopUserCreateManyAndReturnArgs} args - Arguments to create many ShopUsers.
      * @example
-     * // Create many ShopOpeningRanges
-     * const shopOpeningRange = await prisma.shopOpeningRange.createManyAndReturn({
+     * // Create many ShopUsers
+     * const shopUser = await prisma.shopUser.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many ShopOpeningRanges and only return the `id`
-     * const shopOpeningRangeWithIdOnly = await prisma.shopOpeningRange.createManyAndReturn({
+     * // Create many ShopUsers and only return the `id`
+     * const shopUserWithIdOnly = await prisma.shopUser.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -4817,28 +4757,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends ShopOpeningRangeCreateManyAndReturnArgs>(args?: SelectSubset<T, ShopOpeningRangeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends ShopUserCreateManyAndReturnArgs>(args?: SelectSubset<T, ShopUserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a ShopOpeningRange.
-     * @param {ShopOpeningRangeDeleteArgs} args - Arguments to delete one ShopOpeningRange.
+     * Delete a ShopUser.
+     * @param {ShopUserDeleteArgs} args - Arguments to delete one ShopUser.
      * @example
-     * // Delete one ShopOpeningRange
-     * const ShopOpeningRange = await prisma.shopOpeningRange.delete({
+     * // Delete one ShopUser
+     * const ShopUser = await prisma.shopUser.delete({
      *   where: {
-     *     // ... filter to delete one ShopOpeningRange
+     *     // ... filter to delete one ShopUser
      *   }
      * })
      * 
      */
-    delete<T extends ShopOpeningRangeDeleteArgs>(args: SelectSubset<T, ShopOpeningRangeDeleteArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends ShopUserDeleteArgs>(args: SelectSubset<T, ShopUserDeleteArgs<ExtArgs>>): Prisma__ShopUserClient<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one ShopOpeningRange.
-     * @param {ShopOpeningRangeUpdateArgs} args - Arguments to update one ShopOpeningRange.
+     * Update one ShopUser.
+     * @param {ShopUserUpdateArgs} args - Arguments to update one ShopUser.
      * @example
-     * // Update one ShopOpeningRange
-     * const shopOpeningRange = await prisma.shopOpeningRange.update({
+     * // Update one ShopUser
+     * const shopUser = await prisma.shopUser.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4848,30 +4788,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends ShopOpeningRangeUpdateArgs>(args: SelectSubset<T, ShopOpeningRangeUpdateArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends ShopUserUpdateArgs>(args: SelectSubset<T, ShopUserUpdateArgs<ExtArgs>>): Prisma__ShopUserClient<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more ShopOpeningRanges.
-     * @param {ShopOpeningRangeDeleteManyArgs} args - Arguments to filter ShopOpeningRanges to delete.
+     * Delete zero or more ShopUsers.
+     * @param {ShopUserDeleteManyArgs} args - Arguments to filter ShopUsers to delete.
      * @example
-     * // Delete a few ShopOpeningRanges
-     * const { count } = await prisma.shopOpeningRange.deleteMany({
+     * // Delete a few ShopUsers
+     * const { count } = await prisma.shopUser.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends ShopOpeningRangeDeleteManyArgs>(args?: SelectSubset<T, ShopOpeningRangeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends ShopUserDeleteManyArgs>(args?: SelectSubset<T, ShopUserDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more ShopOpeningRanges.
+     * Update zero or more ShopUsers.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ShopOpeningRangeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ShopUserUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many ShopOpeningRanges
-     * const shopOpeningRange = await prisma.shopOpeningRange.updateMany({
+     * // Update many ShopUsers
+     * const shopUser = await prisma.shopUser.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4881,14 +4821,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends ShopOpeningRangeUpdateManyArgs>(args: SelectSubset<T, ShopOpeningRangeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends ShopUserUpdateManyArgs>(args: SelectSubset<T, ShopUserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more ShopOpeningRanges and returns the data updated in the database.
-     * @param {ShopOpeningRangeUpdateManyAndReturnArgs} args - Arguments to update many ShopOpeningRanges.
+     * Update zero or more ShopUsers and returns the data updated in the database.
+     * @param {ShopUserUpdateManyAndReturnArgs} args - Arguments to update many ShopUsers.
      * @example
-     * // Update many ShopOpeningRanges
-     * const shopOpeningRange = await prisma.shopOpeningRange.updateManyAndReturn({
+     * // Update many ShopUsers
+     * const shopUser = await prisma.shopUser.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4897,8 +4837,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more ShopOpeningRanges and only return the `id`
-     * const shopOpeningRangeWithIdOnly = await prisma.shopOpeningRange.updateManyAndReturn({
+     * // Update zero or more ShopUsers and only return the `id`
+     * const shopUserWithIdOnly = await prisma.shopUser.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -4911,56 +4851,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends ShopOpeningRangeUpdateManyAndReturnArgs>(args: SelectSubset<T, ShopOpeningRangeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends ShopUserUpdateManyAndReturnArgs>(args: SelectSubset<T, ShopUserUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one ShopOpeningRange.
-     * @param {ShopOpeningRangeUpsertArgs} args - Arguments to update or create a ShopOpeningRange.
+     * Create or update one ShopUser.
+     * @param {ShopUserUpsertArgs} args - Arguments to update or create a ShopUser.
      * @example
-     * // Update or create a ShopOpeningRange
-     * const shopOpeningRange = await prisma.shopOpeningRange.upsert({
+     * // Update or create a ShopUser
+     * const shopUser = await prisma.shopUser.upsert({
      *   create: {
-     *     // ... data to create a ShopOpeningRange
+     *     // ... data to create a ShopUser
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the ShopOpeningRange we want to update
+     *     // ... the filter for the ShopUser we want to update
      *   }
      * })
      */
-    upsert<T extends ShopOpeningRangeUpsertArgs>(args: SelectSubset<T, ShopOpeningRangeUpsertArgs<ExtArgs>>): Prisma__ShopOpeningRangeClient<$Result.GetResult<Prisma.$ShopOpeningRangePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends ShopUserUpsertArgs>(args: SelectSubset<T, ShopUserUpsertArgs<ExtArgs>>): Prisma__ShopUserClient<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of ShopOpeningRanges.
+     * Count the number of ShopUsers.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ShopOpeningRangeCountArgs} args - Arguments to filter ShopOpeningRanges to count.
+     * @param {ShopUserCountArgs} args - Arguments to filter ShopUsers to count.
      * @example
-     * // Count the number of ShopOpeningRanges
-     * const count = await prisma.shopOpeningRange.count({
+     * // Count the number of ShopUsers
+     * const count = await prisma.shopUser.count({
      *   where: {
-     *     // ... the filter for the ShopOpeningRanges we want to count
+     *     // ... the filter for the ShopUsers we want to count
      *   }
      * })
     **/
-    count<T extends ShopOpeningRangeCountArgs>(
-      args?: Subset<T, ShopOpeningRangeCountArgs>,
+    count<T extends ShopUserCountArgs>(
+      args?: Subset<T, ShopUserCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], ShopOpeningRangeCountAggregateOutputType>
+          : GetScalarType<T['select'], ShopUserCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a ShopOpeningRange.
+     * Allows you to perform aggregations operations on a ShopUser.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ShopOpeningRangeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ShopUserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -4980,13 +4920,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends ShopOpeningRangeAggregateArgs>(args: Subset<T, ShopOpeningRangeAggregateArgs>): Prisma.PrismaPromise<GetShopOpeningRangeAggregateType<T>>
+    aggregate<T extends ShopUserAggregateArgs>(args: Subset<T, ShopUserAggregateArgs>): Prisma.PrismaPromise<GetShopUserAggregateType<T>>
 
     /**
-     * Group by ShopOpeningRange.
+     * Group by ShopUser.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ShopOpeningRangeGroupByArgs} args - Group by arguments.
+     * @param {ShopUserGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -5001,14 +4941,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends ShopOpeningRangeGroupByArgs,
+      T extends ShopUserGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ShopOpeningRangeGroupByArgs['orderBy'] }
-        : { orderBy?: ShopOpeningRangeGroupByArgs['orderBy'] },
+        ? { orderBy: ShopUserGroupByArgs['orderBy'] }
+        : { orderBy?: ShopUserGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -5057,20 +4997,1231 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, ShopOpeningRangeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShopOpeningRangeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ShopUserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShopUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the ShopOpeningRange model
+   * Fields of the ShopUser model
    */
-  readonly fields: ShopOpeningRangeFieldRefs;
+  readonly fields: ShopUserFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for ShopOpeningRange.
+   * The delegate class that acts as a "Promise-like" for ShopUser.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__ShopOpeningRangeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__ShopUserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    shop<T extends ShopDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopDefaultArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    workingHours<T extends ShopUser$workingHoursArgs<ExtArgs> = {}>(args?: Subset<T, ShopUser$workingHoursArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserWorkingHourPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    assignedServices<T extends ShopUser$assignedServicesArgs<ExtArgs> = {}>(args?: Subset<T, ShopUser$assignedServicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bookings<T extends ShopUser$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, ShopUser$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShopUser model
+   */
+  interface ShopUserFieldRefs {
+    readonly id: FieldRef<"ShopUser", 'Int'>
+    readonly shopId: FieldRef<"ShopUser", 'Int'>
+    readonly userId: FieldRef<"ShopUser", 'Int'>
+    readonly role: FieldRef<"ShopUser", 'ShopRole'>
+    readonly active: FieldRef<"ShopUser", 'Boolean'>
+    readonly bookable: FieldRef<"ShopUser", 'Boolean'>
+    readonly createdAt: FieldRef<"ShopUser", 'DateTime'>
+    readonly updatedAt: FieldRef<"ShopUser", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShopUser findUnique
+   */
+  export type ShopUserFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopUser
+     */
+    select?: ShopUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopUser
+     */
+    omit?: ShopUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopUserInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopUser to fetch.
+     */
+    where: ShopUserWhereUniqueInput
+  }
+
+  /**
+   * ShopUser findUniqueOrThrow
+   */
+  export type ShopUserFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopUser
+     */
+    select?: ShopUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopUser
+     */
+    omit?: ShopUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopUserInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopUser to fetch.
+     */
+    where: ShopUserWhereUniqueInput
+  }
+
+  /**
+   * ShopUser findFirst
+   */
+  export type ShopUserFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopUser
+     */
+    select?: ShopUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopUser
+     */
+    omit?: ShopUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopUserInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopUser to fetch.
+     */
+    where?: ShopUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopUsers to fetch.
+     */
+    orderBy?: ShopUserOrderByWithRelationInput | ShopUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShopUsers.
+     */
+    cursor?: ShopUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShopUsers.
+     */
+    distinct?: ShopUserScalarFieldEnum | ShopUserScalarFieldEnum[]
+  }
+
+  /**
+   * ShopUser findFirstOrThrow
+   */
+  export type ShopUserFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopUser
+     */
+    select?: ShopUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopUser
+     */
+    omit?: ShopUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopUserInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopUser to fetch.
+     */
+    where?: ShopUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopUsers to fetch.
+     */
+    orderBy?: ShopUserOrderByWithRelationInput | ShopUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShopUsers.
+     */
+    cursor?: ShopUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShopUsers.
+     */
+    distinct?: ShopUserScalarFieldEnum | ShopUserScalarFieldEnum[]
+  }
+
+  /**
+   * ShopUser findMany
+   */
+  export type ShopUserFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopUser
+     */
+    select?: ShopUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopUser
+     */
+    omit?: ShopUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopUserInclude<ExtArgs> | null
+    /**
+     * Filter, which ShopUsers to fetch.
+     */
+    where?: ShopUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopUsers to fetch.
+     */
+    orderBy?: ShopUserOrderByWithRelationInput | ShopUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShopUsers.
+     */
+    cursor?: ShopUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopUsers.
+     */
+    skip?: number
+    distinct?: ShopUserScalarFieldEnum | ShopUserScalarFieldEnum[]
+  }
+
+  /**
+   * ShopUser create
+   */
+  export type ShopUserCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopUser
+     */
+    select?: ShopUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopUser
+     */
+    omit?: ShopUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopUserInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ShopUser.
+     */
+    data: XOR<ShopUserCreateInput, ShopUserUncheckedCreateInput>
+  }
+
+  /**
+   * ShopUser createMany
+   */
+  export type ShopUserCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShopUsers.
+     */
+    data: ShopUserCreateManyInput | ShopUserCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShopUser createManyAndReturn
+   */
+  export type ShopUserCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopUser
+     */
+    select?: ShopUserSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopUser
+     */
+    omit?: ShopUserOmit<ExtArgs> | null
+    /**
+     * The data used to create many ShopUsers.
+     */
+    data: ShopUserCreateManyInput | ShopUserCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopUserIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShopUser update
+   */
+  export type ShopUserUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopUser
+     */
+    select?: ShopUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopUser
+     */
+    omit?: ShopUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopUserInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ShopUser.
+     */
+    data: XOR<ShopUserUpdateInput, ShopUserUncheckedUpdateInput>
+    /**
+     * Choose, which ShopUser to update.
+     */
+    where: ShopUserWhereUniqueInput
+  }
+
+  /**
+   * ShopUser updateMany
+   */
+  export type ShopUserUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShopUsers.
+     */
+    data: XOR<ShopUserUpdateManyMutationInput, ShopUserUncheckedUpdateManyInput>
+    /**
+     * Filter which ShopUsers to update
+     */
+    where?: ShopUserWhereInput
+    /**
+     * Limit how many ShopUsers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShopUser updateManyAndReturn
+   */
+  export type ShopUserUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopUser
+     */
+    select?: ShopUserSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopUser
+     */
+    omit?: ShopUserOmit<ExtArgs> | null
+    /**
+     * The data used to update ShopUsers.
+     */
+    data: XOR<ShopUserUpdateManyMutationInput, ShopUserUncheckedUpdateManyInput>
+    /**
+     * Filter which ShopUsers to update
+     */
+    where?: ShopUserWhereInput
+    /**
+     * Limit how many ShopUsers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopUserIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShopUser upsert
+   */
+  export type ShopUserUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopUser
+     */
+    select?: ShopUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopUser
+     */
+    omit?: ShopUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopUserInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ShopUser to update in case it exists.
+     */
+    where: ShopUserWhereUniqueInput
+    /**
+     * In case the ShopUser found by the `where` argument doesn't exist, create a new ShopUser with this data.
+     */
+    create: XOR<ShopUserCreateInput, ShopUserUncheckedCreateInput>
+    /**
+     * In case the ShopUser was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShopUserUpdateInput, ShopUserUncheckedUpdateInput>
+  }
+
+  /**
+   * ShopUser delete
+   */
+  export type ShopUserDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopUser
+     */
+    select?: ShopUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopUser
+     */
+    omit?: ShopUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopUserInclude<ExtArgs> | null
+    /**
+     * Filter which ShopUser to delete.
+     */
+    where: ShopUserWhereUniqueInput
+  }
+
+  /**
+   * ShopUser deleteMany
+   */
+  export type ShopUserDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShopUsers to delete
+     */
+    where?: ShopUserWhereInput
+    /**
+     * Limit how many ShopUsers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShopUser.workingHours
+   */
+  export type ShopUser$workingHoursArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWorkingHour
+     */
+    select?: UserWorkingHourSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWorkingHour
+     */
+    omit?: UserWorkingHourOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWorkingHourInclude<ExtArgs> | null
+    where?: UserWorkingHourWhereInput
+    orderBy?: UserWorkingHourOrderByWithRelationInput | UserWorkingHourOrderByWithRelationInput[]
+    cursor?: UserWorkingHourWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserWorkingHourScalarFieldEnum | UserWorkingHourScalarFieldEnum[]
+  }
+
+  /**
+   * ShopUser.assignedServices
+   */
+  export type ShopUser$assignedServicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAssignment
+     */
+    select?: ServiceAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAssignment
+     */
+    omit?: ServiceAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAssignmentInclude<ExtArgs> | null
+    where?: ServiceAssignmentWhereInput
+    orderBy?: ServiceAssignmentOrderByWithRelationInput | ServiceAssignmentOrderByWithRelationInput[]
+    cursor?: ServiceAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServiceAssignmentScalarFieldEnum | ServiceAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * ShopUser.bookings
+   */
+  export type ShopUser$bookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingInclude<ExtArgs> | null
+    where?: BookingWhereInput
+    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
+    cursor?: BookingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
+  }
+
+  /**
+   * ShopUser without action
+   */
+  export type ShopUserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopUser
+     */
+    select?: ShopUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopUser
+     */
+    omit?: ShopUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopUserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ShopWorkingHour
+   */
+
+  export type AggregateShopWorkingHour = {
+    _count: ShopWorkingHourCountAggregateOutputType | null
+    _avg: ShopWorkingHourAvgAggregateOutputType | null
+    _sum: ShopWorkingHourSumAggregateOutputType | null
+    _min: ShopWorkingHourMinAggregateOutputType | null
+    _max: ShopWorkingHourMaxAggregateOutputType | null
+  }
+
+  export type ShopWorkingHourAvgAggregateOutputType = {
+    id: number | null
+    shopId: number | null
+  }
+
+  export type ShopWorkingHourSumAggregateOutputType = {
+    id: number | null
+    shopId: number | null
+  }
+
+  export type ShopWorkingHourMinAggregateOutputType = {
+    id: number | null
+    shopId: number | null
+    dayOfWeek: $Enums.DayOfWeek | null
+    openTime: string | null
+    closeTime: string | null
+    isClosed: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShopWorkingHourMaxAggregateOutputType = {
+    id: number | null
+    shopId: number | null
+    dayOfWeek: $Enums.DayOfWeek | null
+    openTime: string | null
+    closeTime: string | null
+    isClosed: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShopWorkingHourCountAggregateOutputType = {
+    id: number
+    shopId: number
+    dayOfWeek: number
+    openTime: number
+    closeTime: number
+    isClosed: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ShopWorkingHourAvgAggregateInputType = {
+    id?: true
+    shopId?: true
+  }
+
+  export type ShopWorkingHourSumAggregateInputType = {
+    id?: true
+    shopId?: true
+  }
+
+  export type ShopWorkingHourMinAggregateInputType = {
+    id?: true
+    shopId?: true
+    dayOfWeek?: true
+    openTime?: true
+    closeTime?: true
+    isClosed?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShopWorkingHourMaxAggregateInputType = {
+    id?: true
+    shopId?: true
+    dayOfWeek?: true
+    openTime?: true
+    closeTime?: true
+    isClosed?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShopWorkingHourCountAggregateInputType = {
+    id?: true
+    shopId?: true
+    dayOfWeek?: true
+    openTime?: true
+    closeTime?: true
+    isClosed?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ShopWorkingHourAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShopWorkingHour to aggregate.
+     */
+    where?: ShopWorkingHourWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShopWorkingHours to fetch.
+     */
+    orderBy?: ShopWorkingHourOrderByWithRelationInput | ShopWorkingHourOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShopWorkingHourWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShopWorkingHours from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShopWorkingHours.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShopWorkingHours
+    **/
+    _count?: true | ShopWorkingHourCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShopWorkingHourAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShopWorkingHourSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShopWorkingHourMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShopWorkingHourMaxAggregateInputType
+  }
+
+  export type GetShopWorkingHourAggregateType<T extends ShopWorkingHourAggregateArgs> = {
+        [P in keyof T & keyof AggregateShopWorkingHour]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShopWorkingHour[P]>
+      : GetScalarType<T[P], AggregateShopWorkingHour[P]>
+  }
+
+
+
+
+  export type ShopWorkingHourGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopWorkingHourWhereInput
+    orderBy?: ShopWorkingHourOrderByWithAggregationInput | ShopWorkingHourOrderByWithAggregationInput[]
+    by: ShopWorkingHourScalarFieldEnum[] | ShopWorkingHourScalarFieldEnum
+    having?: ShopWorkingHourScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShopWorkingHourCountAggregateInputType | true
+    _avg?: ShopWorkingHourAvgAggregateInputType
+    _sum?: ShopWorkingHourSumAggregateInputType
+    _min?: ShopWorkingHourMinAggregateInputType
+    _max?: ShopWorkingHourMaxAggregateInputType
+  }
+
+  export type ShopWorkingHourGroupByOutputType = {
+    id: number
+    shopId: number
+    dayOfWeek: $Enums.DayOfWeek
+    openTime: string
+    closeTime: string
+    isClosed: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: ShopWorkingHourCountAggregateOutputType | null
+    _avg: ShopWorkingHourAvgAggregateOutputType | null
+    _sum: ShopWorkingHourSumAggregateOutputType | null
+    _min: ShopWorkingHourMinAggregateOutputType | null
+    _max: ShopWorkingHourMaxAggregateOutputType | null
+  }
+
+  type GetShopWorkingHourGroupByPayload<T extends ShopWorkingHourGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShopWorkingHourGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShopWorkingHourGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShopWorkingHourGroupByOutputType[P]>
+            : GetScalarType<T[P], ShopWorkingHourGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShopWorkingHourSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shopId?: boolean
+    dayOfWeek?: boolean
+    openTime?: boolean
+    closeTime?: boolean
+    isClosed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopWorkingHour"]>
+
+  export type ShopWorkingHourSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shopId?: boolean
+    dayOfWeek?: boolean
+    openTime?: boolean
+    closeTime?: boolean
+    isClosed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopWorkingHour"]>
+
+  export type ShopWorkingHourSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shopId?: boolean
+    dayOfWeek?: boolean
+    openTime?: boolean
+    closeTime?: boolean
+    isClosed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shopWorkingHour"]>
+
+  export type ShopWorkingHourSelectScalar = {
+    id?: boolean
+    shopId?: boolean
+    dayOfWeek?: boolean
+    openTime?: boolean
+    closeTime?: boolean
+    isClosed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ShopWorkingHourOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shopId" | "dayOfWeek" | "openTime" | "closeTime" | "isClosed" | "createdAt" | "updatedAt", ExtArgs["result"]["shopWorkingHour"]>
+  export type ShopWorkingHourInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }
+  export type ShopWorkingHourIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }
+  export type ShopWorkingHourIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }
+
+  export type $ShopWorkingHourPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShopWorkingHour"
+    objects: {
+      shop: Prisma.$ShopPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      shopId: number
+      dayOfWeek: $Enums.DayOfWeek
+      openTime: string
+      closeTime: string
+      isClosed: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["shopWorkingHour"]>
+    composites: {}
+  }
+
+  type ShopWorkingHourGetPayload<S extends boolean | null | undefined | ShopWorkingHourDefaultArgs> = $Result.GetResult<Prisma.$ShopWorkingHourPayload, S>
+
+  type ShopWorkingHourCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShopWorkingHourFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShopWorkingHourCountAggregateInputType | true
+    }
+
+  export interface ShopWorkingHourDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShopWorkingHour'], meta: { name: 'ShopWorkingHour' } }
+    /**
+     * Find zero or one ShopWorkingHour that matches the filter.
+     * @param {ShopWorkingHourFindUniqueArgs} args - Arguments to find a ShopWorkingHour
+     * @example
+     * // Get one ShopWorkingHour
+     * const shopWorkingHour = await prisma.shopWorkingHour.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShopWorkingHourFindUniqueArgs>(args: SelectSubset<T, ShopWorkingHourFindUniqueArgs<ExtArgs>>): Prisma__ShopWorkingHourClient<$Result.GetResult<Prisma.$ShopWorkingHourPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ShopWorkingHour that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ShopWorkingHourFindUniqueOrThrowArgs} args - Arguments to find a ShopWorkingHour
+     * @example
+     * // Get one ShopWorkingHour
+     * const shopWorkingHour = await prisma.shopWorkingHour.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShopWorkingHourFindUniqueOrThrowArgs>(args: SelectSubset<T, ShopWorkingHourFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShopWorkingHourClient<$Result.GetResult<Prisma.$ShopWorkingHourPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShopWorkingHour that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopWorkingHourFindFirstArgs} args - Arguments to find a ShopWorkingHour
+     * @example
+     * // Get one ShopWorkingHour
+     * const shopWorkingHour = await prisma.shopWorkingHour.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShopWorkingHourFindFirstArgs>(args?: SelectSubset<T, ShopWorkingHourFindFirstArgs<ExtArgs>>): Prisma__ShopWorkingHourClient<$Result.GetResult<Prisma.$ShopWorkingHourPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShopWorkingHour that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopWorkingHourFindFirstOrThrowArgs} args - Arguments to find a ShopWorkingHour
+     * @example
+     * // Get one ShopWorkingHour
+     * const shopWorkingHour = await prisma.shopWorkingHour.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShopWorkingHourFindFirstOrThrowArgs>(args?: SelectSubset<T, ShopWorkingHourFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShopWorkingHourClient<$Result.GetResult<Prisma.$ShopWorkingHourPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ShopWorkingHours that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopWorkingHourFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShopWorkingHours
+     * const shopWorkingHours = await prisma.shopWorkingHour.findMany()
+     * 
+     * // Get first 10 ShopWorkingHours
+     * const shopWorkingHours = await prisma.shopWorkingHour.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shopWorkingHourWithIdOnly = await prisma.shopWorkingHour.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShopWorkingHourFindManyArgs>(args?: SelectSubset<T, ShopWorkingHourFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopWorkingHourPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ShopWorkingHour.
+     * @param {ShopWorkingHourCreateArgs} args - Arguments to create a ShopWorkingHour.
+     * @example
+     * // Create one ShopWorkingHour
+     * const ShopWorkingHour = await prisma.shopWorkingHour.create({
+     *   data: {
+     *     // ... data to create a ShopWorkingHour
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShopWorkingHourCreateArgs>(args: SelectSubset<T, ShopWorkingHourCreateArgs<ExtArgs>>): Prisma__ShopWorkingHourClient<$Result.GetResult<Prisma.$ShopWorkingHourPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ShopWorkingHours.
+     * @param {ShopWorkingHourCreateManyArgs} args - Arguments to create many ShopWorkingHours.
+     * @example
+     * // Create many ShopWorkingHours
+     * const shopWorkingHour = await prisma.shopWorkingHour.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShopWorkingHourCreateManyArgs>(args?: SelectSubset<T, ShopWorkingHourCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShopWorkingHours and returns the data saved in the database.
+     * @param {ShopWorkingHourCreateManyAndReturnArgs} args - Arguments to create many ShopWorkingHours.
+     * @example
+     * // Create many ShopWorkingHours
+     * const shopWorkingHour = await prisma.shopWorkingHour.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShopWorkingHours and only return the `id`
+     * const shopWorkingHourWithIdOnly = await prisma.shopWorkingHour.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShopWorkingHourCreateManyAndReturnArgs>(args?: SelectSubset<T, ShopWorkingHourCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopWorkingHourPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ShopWorkingHour.
+     * @param {ShopWorkingHourDeleteArgs} args - Arguments to delete one ShopWorkingHour.
+     * @example
+     * // Delete one ShopWorkingHour
+     * const ShopWorkingHour = await prisma.shopWorkingHour.delete({
+     *   where: {
+     *     // ... filter to delete one ShopWorkingHour
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShopWorkingHourDeleteArgs>(args: SelectSubset<T, ShopWorkingHourDeleteArgs<ExtArgs>>): Prisma__ShopWorkingHourClient<$Result.GetResult<Prisma.$ShopWorkingHourPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ShopWorkingHour.
+     * @param {ShopWorkingHourUpdateArgs} args - Arguments to update one ShopWorkingHour.
+     * @example
+     * // Update one ShopWorkingHour
+     * const shopWorkingHour = await prisma.shopWorkingHour.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShopWorkingHourUpdateArgs>(args: SelectSubset<T, ShopWorkingHourUpdateArgs<ExtArgs>>): Prisma__ShopWorkingHourClient<$Result.GetResult<Prisma.$ShopWorkingHourPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ShopWorkingHours.
+     * @param {ShopWorkingHourDeleteManyArgs} args - Arguments to filter ShopWorkingHours to delete.
+     * @example
+     * // Delete a few ShopWorkingHours
+     * const { count } = await prisma.shopWorkingHour.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShopWorkingHourDeleteManyArgs>(args?: SelectSubset<T, ShopWorkingHourDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShopWorkingHours.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopWorkingHourUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShopWorkingHours
+     * const shopWorkingHour = await prisma.shopWorkingHour.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShopWorkingHourUpdateManyArgs>(args: SelectSubset<T, ShopWorkingHourUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShopWorkingHours and returns the data updated in the database.
+     * @param {ShopWorkingHourUpdateManyAndReturnArgs} args - Arguments to update many ShopWorkingHours.
+     * @example
+     * // Update many ShopWorkingHours
+     * const shopWorkingHour = await prisma.shopWorkingHour.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ShopWorkingHours and only return the `id`
+     * const shopWorkingHourWithIdOnly = await prisma.shopWorkingHour.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ShopWorkingHourUpdateManyAndReturnArgs>(args: SelectSubset<T, ShopWorkingHourUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopWorkingHourPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ShopWorkingHour.
+     * @param {ShopWorkingHourUpsertArgs} args - Arguments to update or create a ShopWorkingHour.
+     * @example
+     * // Update or create a ShopWorkingHour
+     * const shopWorkingHour = await prisma.shopWorkingHour.upsert({
+     *   create: {
+     *     // ... data to create a ShopWorkingHour
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShopWorkingHour we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShopWorkingHourUpsertArgs>(args: SelectSubset<T, ShopWorkingHourUpsertArgs<ExtArgs>>): Prisma__ShopWorkingHourClient<$Result.GetResult<Prisma.$ShopWorkingHourPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ShopWorkingHours.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopWorkingHourCountArgs} args - Arguments to filter ShopWorkingHours to count.
+     * @example
+     * // Count the number of ShopWorkingHours
+     * const count = await prisma.shopWorkingHour.count({
+     *   where: {
+     *     // ... the filter for the ShopWorkingHours we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShopWorkingHourCountArgs>(
+      args?: Subset<T, ShopWorkingHourCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShopWorkingHourCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShopWorkingHour.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopWorkingHourAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShopWorkingHourAggregateArgs>(args: Subset<T, ShopWorkingHourAggregateArgs>): Prisma.PrismaPromise<GetShopWorkingHourAggregateType<T>>
+
+    /**
+     * Group by ShopWorkingHour.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopWorkingHourGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShopWorkingHourGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShopWorkingHourGroupByArgs['orderBy'] }
+        : { orderBy?: ShopWorkingHourGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShopWorkingHourGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShopWorkingHourGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShopWorkingHour model
+   */
+  readonly fields: ShopWorkingHourFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShopWorkingHour.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShopWorkingHourClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     shop<T extends ShopDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopDefaultArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
@@ -5099,428 +6250,1588 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the ShopOpeningRange model
+   * Fields of the ShopWorkingHour model
    */
-  interface ShopOpeningRangeFieldRefs {
-    readonly id: FieldRef<"ShopOpeningRange", 'Int'>
-    readonly shopId: FieldRef<"ShopOpeningRange", 'Int'>
-    readonly startDate: FieldRef<"ShopOpeningRange", 'DateTime'>
-    readonly endDate: FieldRef<"ShopOpeningRange", 'DateTime'>
-    readonly dayOfWeek: FieldRef<"ShopOpeningRange", 'DayOfWeek'>
-    readonly openTime: FieldRef<"ShopOpeningRange", 'String'>
-    readonly closeTime: FieldRef<"ShopOpeningRange", 'String'>
-    readonly isClosed: FieldRef<"ShopOpeningRange", 'Boolean'>
+  interface ShopWorkingHourFieldRefs {
+    readonly id: FieldRef<"ShopWorkingHour", 'Int'>
+    readonly shopId: FieldRef<"ShopWorkingHour", 'Int'>
+    readonly dayOfWeek: FieldRef<"ShopWorkingHour", 'DayOfWeek'>
+    readonly openTime: FieldRef<"ShopWorkingHour", 'String'>
+    readonly closeTime: FieldRef<"ShopWorkingHour", 'String'>
+    readonly isClosed: FieldRef<"ShopWorkingHour", 'Boolean'>
+    readonly createdAt: FieldRef<"ShopWorkingHour", 'DateTime'>
+    readonly updatedAt: FieldRef<"ShopWorkingHour", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * ShopOpeningRange findUnique
+   * ShopWorkingHour findUnique
    */
-  export type ShopOpeningRangeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopWorkingHourFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ShopOpeningRange
+     * Select specific fields to fetch from the ShopWorkingHour
      */
-    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    select?: ShopWorkingHourSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ShopOpeningRange
+     * Omit specific fields from the ShopWorkingHour
      */
-    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    omit?: ShopWorkingHourOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    include?: ShopWorkingHourInclude<ExtArgs> | null
     /**
-     * Filter, which ShopOpeningRange to fetch.
+     * Filter, which ShopWorkingHour to fetch.
      */
-    where: ShopOpeningRangeWhereUniqueInput
+    where: ShopWorkingHourWhereUniqueInput
   }
 
   /**
-   * ShopOpeningRange findUniqueOrThrow
+   * ShopWorkingHour findUniqueOrThrow
    */
-  export type ShopOpeningRangeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopWorkingHourFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ShopOpeningRange
+     * Select specific fields to fetch from the ShopWorkingHour
      */
-    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    select?: ShopWorkingHourSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ShopOpeningRange
+     * Omit specific fields from the ShopWorkingHour
      */
-    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    omit?: ShopWorkingHourOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    include?: ShopWorkingHourInclude<ExtArgs> | null
     /**
-     * Filter, which ShopOpeningRange to fetch.
+     * Filter, which ShopWorkingHour to fetch.
      */
-    where: ShopOpeningRangeWhereUniqueInput
+    where: ShopWorkingHourWhereUniqueInput
   }
 
   /**
-   * ShopOpeningRange findFirst
+   * ShopWorkingHour findFirst
    */
-  export type ShopOpeningRangeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopWorkingHourFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ShopOpeningRange
+     * Select specific fields to fetch from the ShopWorkingHour
      */
-    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    select?: ShopWorkingHourSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ShopOpeningRange
+     * Omit specific fields from the ShopWorkingHour
      */
-    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    omit?: ShopWorkingHourOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    include?: ShopWorkingHourInclude<ExtArgs> | null
     /**
-     * Filter, which ShopOpeningRange to fetch.
+     * Filter, which ShopWorkingHour to fetch.
      */
-    where?: ShopOpeningRangeWhereInput
+    where?: ShopWorkingHourWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ShopOpeningRanges to fetch.
+     * Determine the order of ShopWorkingHours to fetch.
      */
-    orderBy?: ShopOpeningRangeOrderByWithRelationInput | ShopOpeningRangeOrderByWithRelationInput[]
+    orderBy?: ShopWorkingHourOrderByWithRelationInput | ShopWorkingHourOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ShopOpeningRanges.
+     * Sets the position for searching for ShopWorkingHours.
      */
-    cursor?: ShopOpeningRangeWhereUniqueInput
+    cursor?: ShopWorkingHourWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ShopOpeningRanges from the position of the cursor.
+     * Take `±n` ShopWorkingHours from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ShopOpeningRanges.
+     * Skip the first `n` ShopWorkingHours.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ShopOpeningRanges.
+     * Filter by unique combinations of ShopWorkingHours.
      */
-    distinct?: ShopOpeningRangeScalarFieldEnum | ShopOpeningRangeScalarFieldEnum[]
+    distinct?: ShopWorkingHourScalarFieldEnum | ShopWorkingHourScalarFieldEnum[]
   }
 
   /**
-   * ShopOpeningRange findFirstOrThrow
+   * ShopWorkingHour findFirstOrThrow
    */
-  export type ShopOpeningRangeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopWorkingHourFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ShopOpeningRange
+     * Select specific fields to fetch from the ShopWorkingHour
      */
-    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    select?: ShopWorkingHourSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ShopOpeningRange
+     * Omit specific fields from the ShopWorkingHour
      */
-    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    omit?: ShopWorkingHourOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    include?: ShopWorkingHourInclude<ExtArgs> | null
     /**
-     * Filter, which ShopOpeningRange to fetch.
+     * Filter, which ShopWorkingHour to fetch.
      */
-    where?: ShopOpeningRangeWhereInput
+    where?: ShopWorkingHourWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ShopOpeningRanges to fetch.
+     * Determine the order of ShopWorkingHours to fetch.
      */
-    orderBy?: ShopOpeningRangeOrderByWithRelationInput | ShopOpeningRangeOrderByWithRelationInput[]
+    orderBy?: ShopWorkingHourOrderByWithRelationInput | ShopWorkingHourOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ShopOpeningRanges.
+     * Sets the position for searching for ShopWorkingHours.
      */
-    cursor?: ShopOpeningRangeWhereUniqueInput
+    cursor?: ShopWorkingHourWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ShopOpeningRanges from the position of the cursor.
+     * Take `±n` ShopWorkingHours from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ShopOpeningRanges.
+     * Skip the first `n` ShopWorkingHours.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ShopOpeningRanges.
+     * Filter by unique combinations of ShopWorkingHours.
      */
-    distinct?: ShopOpeningRangeScalarFieldEnum | ShopOpeningRangeScalarFieldEnum[]
+    distinct?: ShopWorkingHourScalarFieldEnum | ShopWorkingHourScalarFieldEnum[]
   }
 
   /**
-   * ShopOpeningRange findMany
+   * ShopWorkingHour findMany
    */
-  export type ShopOpeningRangeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopWorkingHourFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ShopOpeningRange
+     * Select specific fields to fetch from the ShopWorkingHour
      */
-    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    select?: ShopWorkingHourSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ShopOpeningRange
+     * Omit specific fields from the ShopWorkingHour
      */
-    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    omit?: ShopWorkingHourOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    include?: ShopWorkingHourInclude<ExtArgs> | null
     /**
-     * Filter, which ShopOpeningRanges to fetch.
+     * Filter, which ShopWorkingHours to fetch.
      */
-    where?: ShopOpeningRangeWhereInput
+    where?: ShopWorkingHourWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ShopOpeningRanges to fetch.
+     * Determine the order of ShopWorkingHours to fetch.
      */
-    orderBy?: ShopOpeningRangeOrderByWithRelationInput | ShopOpeningRangeOrderByWithRelationInput[]
+    orderBy?: ShopWorkingHourOrderByWithRelationInput | ShopWorkingHourOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing ShopOpeningRanges.
+     * Sets the position for listing ShopWorkingHours.
      */
-    cursor?: ShopOpeningRangeWhereUniqueInput
+    cursor?: ShopWorkingHourWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ShopOpeningRanges from the position of the cursor.
+     * Take `±n` ShopWorkingHours from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ShopOpeningRanges.
+     * Skip the first `n` ShopWorkingHours.
      */
     skip?: number
-    distinct?: ShopOpeningRangeScalarFieldEnum | ShopOpeningRangeScalarFieldEnum[]
+    distinct?: ShopWorkingHourScalarFieldEnum | ShopWorkingHourScalarFieldEnum[]
   }
 
   /**
-   * ShopOpeningRange create
+   * ShopWorkingHour create
    */
-  export type ShopOpeningRangeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopWorkingHourCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ShopOpeningRange
+     * Select specific fields to fetch from the ShopWorkingHour
      */
-    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    select?: ShopWorkingHourSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ShopOpeningRange
+     * Omit specific fields from the ShopWorkingHour
      */
-    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    omit?: ShopWorkingHourOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    include?: ShopWorkingHourInclude<ExtArgs> | null
     /**
-     * The data needed to create a ShopOpeningRange.
+     * The data needed to create a ShopWorkingHour.
      */
-    data: XOR<ShopOpeningRangeCreateInput, ShopOpeningRangeUncheckedCreateInput>
+    data: XOR<ShopWorkingHourCreateInput, ShopWorkingHourUncheckedCreateInput>
   }
 
   /**
-   * ShopOpeningRange createMany
+   * ShopWorkingHour createMany
    */
-  export type ShopOpeningRangeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopWorkingHourCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many ShopOpeningRanges.
+     * The data used to create many ShopWorkingHours.
      */
-    data: ShopOpeningRangeCreateManyInput | ShopOpeningRangeCreateManyInput[]
+    data: ShopWorkingHourCreateManyInput | ShopWorkingHourCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * ShopOpeningRange createManyAndReturn
+   * ShopWorkingHour createManyAndReturn
    */
-  export type ShopOpeningRangeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopWorkingHourCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ShopOpeningRange
+     * Select specific fields to fetch from the ShopWorkingHour
      */
-    select?: ShopOpeningRangeSelectCreateManyAndReturn<ExtArgs> | null
+    select?: ShopWorkingHourSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the ShopOpeningRange
+     * Omit specific fields from the ShopWorkingHour
      */
-    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    omit?: ShopWorkingHourOmit<ExtArgs> | null
     /**
-     * The data used to create many ShopOpeningRanges.
+     * The data used to create many ShopWorkingHours.
      */
-    data: ShopOpeningRangeCreateManyInput | ShopOpeningRangeCreateManyInput[]
+    data: ShopWorkingHourCreateManyInput | ShopWorkingHourCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ShopOpeningRangeIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: ShopWorkingHourIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * ShopOpeningRange update
+   * ShopWorkingHour update
    */
-  export type ShopOpeningRangeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopWorkingHourUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ShopOpeningRange
+     * Select specific fields to fetch from the ShopWorkingHour
      */
-    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    select?: ShopWorkingHourSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ShopOpeningRange
+     * Omit specific fields from the ShopWorkingHour
      */
-    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    omit?: ShopWorkingHourOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    include?: ShopWorkingHourInclude<ExtArgs> | null
     /**
-     * The data needed to update a ShopOpeningRange.
+     * The data needed to update a ShopWorkingHour.
      */
-    data: XOR<ShopOpeningRangeUpdateInput, ShopOpeningRangeUncheckedUpdateInput>
+    data: XOR<ShopWorkingHourUpdateInput, ShopWorkingHourUncheckedUpdateInput>
     /**
-     * Choose, which ShopOpeningRange to update.
+     * Choose, which ShopWorkingHour to update.
      */
-    where: ShopOpeningRangeWhereUniqueInput
+    where: ShopWorkingHourWhereUniqueInput
   }
 
   /**
-   * ShopOpeningRange updateMany
+   * ShopWorkingHour updateMany
    */
-  export type ShopOpeningRangeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopWorkingHourUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update ShopOpeningRanges.
+     * The data used to update ShopWorkingHours.
      */
-    data: XOR<ShopOpeningRangeUpdateManyMutationInput, ShopOpeningRangeUncheckedUpdateManyInput>
+    data: XOR<ShopWorkingHourUpdateManyMutationInput, ShopWorkingHourUncheckedUpdateManyInput>
     /**
-     * Filter which ShopOpeningRanges to update
+     * Filter which ShopWorkingHours to update
      */
-    where?: ShopOpeningRangeWhereInput
+    where?: ShopWorkingHourWhereInput
     /**
-     * Limit how many ShopOpeningRanges to update.
+     * Limit how many ShopWorkingHours to update.
      */
     limit?: number
   }
 
   /**
-   * ShopOpeningRange updateManyAndReturn
+   * ShopWorkingHour updateManyAndReturn
    */
-  export type ShopOpeningRangeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopWorkingHourUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ShopOpeningRange
+     * Select specific fields to fetch from the ShopWorkingHour
      */
-    select?: ShopOpeningRangeSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: ShopWorkingHourSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the ShopOpeningRange
+     * Omit specific fields from the ShopWorkingHour
      */
-    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    omit?: ShopWorkingHourOmit<ExtArgs> | null
     /**
-     * The data used to update ShopOpeningRanges.
+     * The data used to update ShopWorkingHours.
      */
-    data: XOR<ShopOpeningRangeUpdateManyMutationInput, ShopOpeningRangeUncheckedUpdateManyInput>
+    data: XOR<ShopWorkingHourUpdateManyMutationInput, ShopWorkingHourUncheckedUpdateManyInput>
     /**
-     * Filter which ShopOpeningRanges to update
+     * Filter which ShopWorkingHours to update
      */
-    where?: ShopOpeningRangeWhereInput
+    where?: ShopWorkingHourWhereInput
     /**
-     * Limit how many ShopOpeningRanges to update.
+     * Limit how many ShopWorkingHours to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ShopOpeningRangeIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: ShopWorkingHourIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * ShopOpeningRange upsert
+   * ShopWorkingHour upsert
    */
-  export type ShopOpeningRangeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopWorkingHourUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ShopOpeningRange
+     * Select specific fields to fetch from the ShopWorkingHour
      */
-    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    select?: ShopWorkingHourSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ShopOpeningRange
+     * Omit specific fields from the ShopWorkingHour
      */
-    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    omit?: ShopWorkingHourOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    include?: ShopWorkingHourInclude<ExtArgs> | null
     /**
-     * The filter to search for the ShopOpeningRange to update in case it exists.
+     * The filter to search for the ShopWorkingHour to update in case it exists.
      */
-    where: ShopOpeningRangeWhereUniqueInput
+    where: ShopWorkingHourWhereUniqueInput
     /**
-     * In case the ShopOpeningRange found by the `where` argument doesn't exist, create a new ShopOpeningRange with this data.
+     * In case the ShopWorkingHour found by the `where` argument doesn't exist, create a new ShopWorkingHour with this data.
      */
-    create: XOR<ShopOpeningRangeCreateInput, ShopOpeningRangeUncheckedCreateInput>
+    create: XOR<ShopWorkingHourCreateInput, ShopWorkingHourUncheckedCreateInput>
     /**
-     * In case the ShopOpeningRange was found with the provided `where` argument, update it with this data.
+     * In case the ShopWorkingHour was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<ShopOpeningRangeUpdateInput, ShopOpeningRangeUncheckedUpdateInput>
+    update: XOR<ShopWorkingHourUpdateInput, ShopWorkingHourUncheckedUpdateInput>
   }
 
   /**
-   * ShopOpeningRange delete
+   * ShopWorkingHour delete
    */
-  export type ShopOpeningRangeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopWorkingHourDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ShopOpeningRange
+     * Select specific fields to fetch from the ShopWorkingHour
      */
-    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    select?: ShopWorkingHourSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ShopOpeningRange
+     * Omit specific fields from the ShopWorkingHour
      */
-    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    omit?: ShopWorkingHourOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    include?: ShopWorkingHourInclude<ExtArgs> | null
     /**
-     * Filter which ShopOpeningRange to delete.
+     * Filter which ShopWorkingHour to delete.
      */
-    where: ShopOpeningRangeWhereUniqueInput
+    where: ShopWorkingHourWhereUniqueInput
   }
 
   /**
-   * ShopOpeningRange deleteMany
+   * ShopWorkingHour deleteMany
    */
-  export type ShopOpeningRangeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopWorkingHourDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which ShopOpeningRanges to delete
+     * Filter which ShopWorkingHours to delete
      */
-    where?: ShopOpeningRangeWhereInput
+    where?: ShopWorkingHourWhereInput
     /**
-     * Limit how many ShopOpeningRanges to delete.
+     * Limit how many ShopWorkingHours to delete.
      */
     limit?: number
   }
 
   /**
-   * ShopOpeningRange without action
+   * ShopWorkingHour without action
    */
-  export type ShopOpeningRangeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ShopWorkingHourDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ShopOpeningRange
+     * Select specific fields to fetch from the ShopWorkingHour
      */
-    select?: ShopOpeningRangeSelect<ExtArgs> | null
+    select?: ShopWorkingHourSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ShopOpeningRange
+     * Omit specific fields from the ShopWorkingHour
      */
-    omit?: ShopOpeningRangeOmit<ExtArgs> | null
+    omit?: ShopWorkingHourOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ShopOpeningRangeInclude<ExtArgs> | null
+    include?: ShopWorkingHourInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserWorkingHour
+   */
+
+  export type AggregateUserWorkingHour = {
+    _count: UserWorkingHourCountAggregateOutputType | null
+    _avg: UserWorkingHourAvgAggregateOutputType | null
+    _sum: UserWorkingHourSumAggregateOutputType | null
+    _min: UserWorkingHourMinAggregateOutputType | null
+    _max: UserWorkingHourMaxAggregateOutputType | null
+  }
+
+  export type UserWorkingHourAvgAggregateOutputType = {
+    id: number | null
+    shopUserId: number | null
+    shopId: number | null
+  }
+
+  export type UserWorkingHourSumAggregateOutputType = {
+    id: number | null
+    shopUserId: number | null
+    shopId: number | null
+  }
+
+  export type UserWorkingHourMinAggregateOutputType = {
+    id: number | null
+    shopUserId: number | null
+    shopId: number | null
+    dayOfWeek: $Enums.DayOfWeek | null
+    startTime: string | null
+    endTime: string | null
+    isOff: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserWorkingHourMaxAggregateOutputType = {
+    id: number | null
+    shopUserId: number | null
+    shopId: number | null
+    dayOfWeek: $Enums.DayOfWeek | null
+    startTime: string | null
+    endTime: string | null
+    isOff: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserWorkingHourCountAggregateOutputType = {
+    id: number
+    shopUserId: number
+    shopId: number
+    dayOfWeek: number
+    startTime: number
+    endTime: number
+    isOff: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UserWorkingHourAvgAggregateInputType = {
+    id?: true
+    shopUserId?: true
+    shopId?: true
+  }
+
+  export type UserWorkingHourSumAggregateInputType = {
+    id?: true
+    shopUserId?: true
+    shopId?: true
+  }
+
+  export type UserWorkingHourMinAggregateInputType = {
+    id?: true
+    shopUserId?: true
+    shopId?: true
+    dayOfWeek?: true
+    startTime?: true
+    endTime?: true
+    isOff?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserWorkingHourMaxAggregateInputType = {
+    id?: true
+    shopUserId?: true
+    shopId?: true
+    dayOfWeek?: true
+    startTime?: true
+    endTime?: true
+    isOff?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserWorkingHourCountAggregateInputType = {
+    id?: true
+    shopUserId?: true
+    shopId?: true
+    dayOfWeek?: true
+    startTime?: true
+    endTime?: true
+    isOff?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UserWorkingHourAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserWorkingHour to aggregate.
+     */
+    where?: UserWorkingHourWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserWorkingHours to fetch.
+     */
+    orderBy?: UserWorkingHourOrderByWithRelationInput | UserWorkingHourOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserWorkingHourWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserWorkingHours from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserWorkingHours.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserWorkingHours
+    **/
+    _count?: true | UserWorkingHourCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserWorkingHourAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserWorkingHourSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserWorkingHourMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserWorkingHourMaxAggregateInputType
+  }
+
+  export type GetUserWorkingHourAggregateType<T extends UserWorkingHourAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserWorkingHour]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserWorkingHour[P]>
+      : GetScalarType<T[P], AggregateUserWorkingHour[P]>
+  }
+
+
+
+
+  export type UserWorkingHourGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWorkingHourWhereInput
+    orderBy?: UserWorkingHourOrderByWithAggregationInput | UserWorkingHourOrderByWithAggregationInput[]
+    by: UserWorkingHourScalarFieldEnum[] | UserWorkingHourScalarFieldEnum
+    having?: UserWorkingHourScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserWorkingHourCountAggregateInputType | true
+    _avg?: UserWorkingHourAvgAggregateInputType
+    _sum?: UserWorkingHourSumAggregateInputType
+    _min?: UserWorkingHourMinAggregateInputType
+    _max?: UserWorkingHourMaxAggregateInputType
+  }
+
+  export type UserWorkingHourGroupByOutputType = {
+    id: number
+    shopUserId: number
+    shopId: number
+    dayOfWeek: $Enums.DayOfWeek
+    startTime: string
+    endTime: string
+    isOff: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: UserWorkingHourCountAggregateOutputType | null
+    _avg: UserWorkingHourAvgAggregateOutputType | null
+    _sum: UserWorkingHourSumAggregateOutputType | null
+    _min: UserWorkingHourMinAggregateOutputType | null
+    _max: UserWorkingHourMaxAggregateOutputType | null
+  }
+
+  type GetUserWorkingHourGroupByPayload<T extends UserWorkingHourGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserWorkingHourGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserWorkingHourGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserWorkingHourGroupByOutputType[P]>
+            : GetScalarType<T[P], UserWorkingHourGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserWorkingHourSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shopUserId?: boolean
+    shopId?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    isOff?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    shopUser?: boolean | ShopUserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userWorkingHour"]>
+
+  export type UserWorkingHourSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shopUserId?: boolean
+    shopId?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    isOff?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    shopUser?: boolean | ShopUserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userWorkingHour"]>
+
+  export type UserWorkingHourSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shopUserId?: boolean
+    shopId?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    isOff?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    shopUser?: boolean | ShopUserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userWorkingHour"]>
+
+  export type UserWorkingHourSelectScalar = {
+    id?: boolean
+    shopUserId?: boolean
+    shopId?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    isOff?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UserWorkingHourOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shopUserId" | "shopId" | "dayOfWeek" | "startTime" | "endTime" | "isOff" | "createdAt" | "updatedAt", ExtArgs["result"]["userWorkingHour"]>
+  export type UserWorkingHourInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shopUser?: boolean | ShopUserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }
+  export type UserWorkingHourIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shopUser?: boolean | ShopUserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }
+  export type UserWorkingHourIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shopUser?: boolean | ShopUserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }
+
+  export type $UserWorkingHourPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserWorkingHour"
+    objects: {
+      shopUser: Prisma.$ShopUserPayload<ExtArgs>
+      shop: Prisma.$ShopPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      shopUserId: number
+      shopId: number
+      dayOfWeek: $Enums.DayOfWeek
+      startTime: string
+      endTime: string
+      isOff: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["userWorkingHour"]>
+    composites: {}
+  }
+
+  type UserWorkingHourGetPayload<S extends boolean | null | undefined | UserWorkingHourDefaultArgs> = $Result.GetResult<Prisma.$UserWorkingHourPayload, S>
+
+  type UserWorkingHourCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserWorkingHourFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserWorkingHourCountAggregateInputType | true
+    }
+
+  export interface UserWorkingHourDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserWorkingHour'], meta: { name: 'UserWorkingHour' } }
+    /**
+     * Find zero or one UserWorkingHour that matches the filter.
+     * @param {UserWorkingHourFindUniqueArgs} args - Arguments to find a UserWorkingHour
+     * @example
+     * // Get one UserWorkingHour
+     * const userWorkingHour = await prisma.userWorkingHour.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserWorkingHourFindUniqueArgs>(args: SelectSubset<T, UserWorkingHourFindUniqueArgs<ExtArgs>>): Prisma__UserWorkingHourClient<$Result.GetResult<Prisma.$UserWorkingHourPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserWorkingHour that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserWorkingHourFindUniqueOrThrowArgs} args - Arguments to find a UserWorkingHour
+     * @example
+     * // Get one UserWorkingHour
+     * const userWorkingHour = await prisma.userWorkingHour.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserWorkingHourFindUniqueOrThrowArgs>(args: SelectSubset<T, UserWorkingHourFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserWorkingHourClient<$Result.GetResult<Prisma.$UserWorkingHourPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserWorkingHour that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserWorkingHourFindFirstArgs} args - Arguments to find a UserWorkingHour
+     * @example
+     * // Get one UserWorkingHour
+     * const userWorkingHour = await prisma.userWorkingHour.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserWorkingHourFindFirstArgs>(args?: SelectSubset<T, UserWorkingHourFindFirstArgs<ExtArgs>>): Prisma__UserWorkingHourClient<$Result.GetResult<Prisma.$UserWorkingHourPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserWorkingHour that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserWorkingHourFindFirstOrThrowArgs} args - Arguments to find a UserWorkingHour
+     * @example
+     * // Get one UserWorkingHour
+     * const userWorkingHour = await prisma.userWorkingHour.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserWorkingHourFindFirstOrThrowArgs>(args?: SelectSubset<T, UserWorkingHourFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserWorkingHourClient<$Result.GetResult<Prisma.$UserWorkingHourPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserWorkingHours that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserWorkingHourFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserWorkingHours
+     * const userWorkingHours = await prisma.userWorkingHour.findMany()
+     * 
+     * // Get first 10 UserWorkingHours
+     * const userWorkingHours = await prisma.userWorkingHour.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userWorkingHourWithIdOnly = await prisma.userWorkingHour.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserWorkingHourFindManyArgs>(args?: SelectSubset<T, UserWorkingHourFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserWorkingHourPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserWorkingHour.
+     * @param {UserWorkingHourCreateArgs} args - Arguments to create a UserWorkingHour.
+     * @example
+     * // Create one UserWorkingHour
+     * const UserWorkingHour = await prisma.userWorkingHour.create({
+     *   data: {
+     *     // ... data to create a UserWorkingHour
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserWorkingHourCreateArgs>(args: SelectSubset<T, UserWorkingHourCreateArgs<ExtArgs>>): Prisma__UserWorkingHourClient<$Result.GetResult<Prisma.$UserWorkingHourPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserWorkingHours.
+     * @param {UserWorkingHourCreateManyArgs} args - Arguments to create many UserWorkingHours.
+     * @example
+     * // Create many UserWorkingHours
+     * const userWorkingHour = await prisma.userWorkingHour.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserWorkingHourCreateManyArgs>(args?: SelectSubset<T, UserWorkingHourCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserWorkingHours and returns the data saved in the database.
+     * @param {UserWorkingHourCreateManyAndReturnArgs} args - Arguments to create many UserWorkingHours.
+     * @example
+     * // Create many UserWorkingHours
+     * const userWorkingHour = await prisma.userWorkingHour.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserWorkingHours and only return the `id`
+     * const userWorkingHourWithIdOnly = await prisma.userWorkingHour.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserWorkingHourCreateManyAndReturnArgs>(args?: SelectSubset<T, UserWorkingHourCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserWorkingHourPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserWorkingHour.
+     * @param {UserWorkingHourDeleteArgs} args - Arguments to delete one UserWorkingHour.
+     * @example
+     * // Delete one UserWorkingHour
+     * const UserWorkingHour = await prisma.userWorkingHour.delete({
+     *   where: {
+     *     // ... filter to delete one UserWorkingHour
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserWorkingHourDeleteArgs>(args: SelectSubset<T, UserWorkingHourDeleteArgs<ExtArgs>>): Prisma__UserWorkingHourClient<$Result.GetResult<Prisma.$UserWorkingHourPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserWorkingHour.
+     * @param {UserWorkingHourUpdateArgs} args - Arguments to update one UserWorkingHour.
+     * @example
+     * // Update one UserWorkingHour
+     * const userWorkingHour = await prisma.userWorkingHour.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserWorkingHourUpdateArgs>(args: SelectSubset<T, UserWorkingHourUpdateArgs<ExtArgs>>): Prisma__UserWorkingHourClient<$Result.GetResult<Prisma.$UserWorkingHourPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserWorkingHours.
+     * @param {UserWorkingHourDeleteManyArgs} args - Arguments to filter UserWorkingHours to delete.
+     * @example
+     * // Delete a few UserWorkingHours
+     * const { count } = await prisma.userWorkingHour.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserWorkingHourDeleteManyArgs>(args?: SelectSubset<T, UserWorkingHourDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserWorkingHours.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserWorkingHourUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserWorkingHours
+     * const userWorkingHour = await prisma.userWorkingHour.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserWorkingHourUpdateManyArgs>(args: SelectSubset<T, UserWorkingHourUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserWorkingHours and returns the data updated in the database.
+     * @param {UserWorkingHourUpdateManyAndReturnArgs} args - Arguments to update many UserWorkingHours.
+     * @example
+     * // Update many UserWorkingHours
+     * const userWorkingHour = await prisma.userWorkingHour.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserWorkingHours and only return the `id`
+     * const userWorkingHourWithIdOnly = await prisma.userWorkingHour.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserWorkingHourUpdateManyAndReturnArgs>(args: SelectSubset<T, UserWorkingHourUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserWorkingHourPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserWorkingHour.
+     * @param {UserWorkingHourUpsertArgs} args - Arguments to update or create a UserWorkingHour.
+     * @example
+     * // Update or create a UserWorkingHour
+     * const userWorkingHour = await prisma.userWorkingHour.upsert({
+     *   create: {
+     *     // ... data to create a UserWorkingHour
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserWorkingHour we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserWorkingHourUpsertArgs>(args: SelectSubset<T, UserWorkingHourUpsertArgs<ExtArgs>>): Prisma__UserWorkingHourClient<$Result.GetResult<Prisma.$UserWorkingHourPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserWorkingHours.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserWorkingHourCountArgs} args - Arguments to filter UserWorkingHours to count.
+     * @example
+     * // Count the number of UserWorkingHours
+     * const count = await prisma.userWorkingHour.count({
+     *   where: {
+     *     // ... the filter for the UserWorkingHours we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserWorkingHourCountArgs>(
+      args?: Subset<T, UserWorkingHourCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserWorkingHourCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserWorkingHour.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserWorkingHourAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserWorkingHourAggregateArgs>(args: Subset<T, UserWorkingHourAggregateArgs>): Prisma.PrismaPromise<GetUserWorkingHourAggregateType<T>>
+
+    /**
+     * Group by UserWorkingHour.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserWorkingHourGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserWorkingHourGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserWorkingHourGroupByArgs['orderBy'] }
+        : { orderBy?: UserWorkingHourGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserWorkingHourGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserWorkingHourGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserWorkingHour model
+   */
+  readonly fields: UserWorkingHourFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserWorkingHour.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserWorkingHourClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    shopUser<T extends ShopUserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopUserDefaultArgs<ExtArgs>>): Prisma__ShopUserClient<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    shop<T extends ShopDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopDefaultArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserWorkingHour model
+   */
+  interface UserWorkingHourFieldRefs {
+    readonly id: FieldRef<"UserWorkingHour", 'Int'>
+    readonly shopUserId: FieldRef<"UserWorkingHour", 'Int'>
+    readonly shopId: FieldRef<"UserWorkingHour", 'Int'>
+    readonly dayOfWeek: FieldRef<"UserWorkingHour", 'DayOfWeek'>
+    readonly startTime: FieldRef<"UserWorkingHour", 'String'>
+    readonly endTime: FieldRef<"UserWorkingHour", 'String'>
+    readonly isOff: FieldRef<"UserWorkingHour", 'Boolean'>
+    readonly createdAt: FieldRef<"UserWorkingHour", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserWorkingHour", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserWorkingHour findUnique
+   */
+  export type UserWorkingHourFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWorkingHour
+     */
+    select?: UserWorkingHourSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWorkingHour
+     */
+    omit?: UserWorkingHourOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWorkingHourInclude<ExtArgs> | null
+    /**
+     * Filter, which UserWorkingHour to fetch.
+     */
+    where: UserWorkingHourWhereUniqueInput
+  }
+
+  /**
+   * UserWorkingHour findUniqueOrThrow
+   */
+  export type UserWorkingHourFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWorkingHour
+     */
+    select?: UserWorkingHourSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWorkingHour
+     */
+    omit?: UserWorkingHourOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWorkingHourInclude<ExtArgs> | null
+    /**
+     * Filter, which UserWorkingHour to fetch.
+     */
+    where: UserWorkingHourWhereUniqueInput
+  }
+
+  /**
+   * UserWorkingHour findFirst
+   */
+  export type UserWorkingHourFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWorkingHour
+     */
+    select?: UserWorkingHourSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWorkingHour
+     */
+    omit?: UserWorkingHourOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWorkingHourInclude<ExtArgs> | null
+    /**
+     * Filter, which UserWorkingHour to fetch.
+     */
+    where?: UserWorkingHourWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserWorkingHours to fetch.
+     */
+    orderBy?: UserWorkingHourOrderByWithRelationInput | UserWorkingHourOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserWorkingHours.
+     */
+    cursor?: UserWorkingHourWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserWorkingHours from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserWorkingHours.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserWorkingHours.
+     */
+    distinct?: UserWorkingHourScalarFieldEnum | UserWorkingHourScalarFieldEnum[]
+  }
+
+  /**
+   * UserWorkingHour findFirstOrThrow
+   */
+  export type UserWorkingHourFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWorkingHour
+     */
+    select?: UserWorkingHourSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWorkingHour
+     */
+    omit?: UserWorkingHourOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWorkingHourInclude<ExtArgs> | null
+    /**
+     * Filter, which UserWorkingHour to fetch.
+     */
+    where?: UserWorkingHourWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserWorkingHours to fetch.
+     */
+    orderBy?: UserWorkingHourOrderByWithRelationInput | UserWorkingHourOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserWorkingHours.
+     */
+    cursor?: UserWorkingHourWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserWorkingHours from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserWorkingHours.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserWorkingHours.
+     */
+    distinct?: UserWorkingHourScalarFieldEnum | UserWorkingHourScalarFieldEnum[]
+  }
+
+  /**
+   * UserWorkingHour findMany
+   */
+  export type UserWorkingHourFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWorkingHour
+     */
+    select?: UserWorkingHourSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWorkingHour
+     */
+    omit?: UserWorkingHourOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWorkingHourInclude<ExtArgs> | null
+    /**
+     * Filter, which UserWorkingHours to fetch.
+     */
+    where?: UserWorkingHourWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserWorkingHours to fetch.
+     */
+    orderBy?: UserWorkingHourOrderByWithRelationInput | UserWorkingHourOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserWorkingHours.
+     */
+    cursor?: UserWorkingHourWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserWorkingHours from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserWorkingHours.
+     */
+    skip?: number
+    distinct?: UserWorkingHourScalarFieldEnum | UserWorkingHourScalarFieldEnum[]
+  }
+
+  /**
+   * UserWorkingHour create
+   */
+  export type UserWorkingHourCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWorkingHour
+     */
+    select?: UserWorkingHourSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWorkingHour
+     */
+    omit?: UserWorkingHourOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWorkingHourInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserWorkingHour.
+     */
+    data: XOR<UserWorkingHourCreateInput, UserWorkingHourUncheckedCreateInput>
+  }
+
+  /**
+   * UserWorkingHour createMany
+   */
+  export type UserWorkingHourCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserWorkingHours.
+     */
+    data: UserWorkingHourCreateManyInput | UserWorkingHourCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserWorkingHour createManyAndReturn
+   */
+  export type UserWorkingHourCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWorkingHour
+     */
+    select?: UserWorkingHourSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWorkingHour
+     */
+    omit?: UserWorkingHourOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserWorkingHours.
+     */
+    data: UserWorkingHourCreateManyInput | UserWorkingHourCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWorkingHourIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserWorkingHour update
+   */
+  export type UserWorkingHourUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWorkingHour
+     */
+    select?: UserWorkingHourSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWorkingHour
+     */
+    omit?: UserWorkingHourOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWorkingHourInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserWorkingHour.
+     */
+    data: XOR<UserWorkingHourUpdateInput, UserWorkingHourUncheckedUpdateInput>
+    /**
+     * Choose, which UserWorkingHour to update.
+     */
+    where: UserWorkingHourWhereUniqueInput
+  }
+
+  /**
+   * UserWorkingHour updateMany
+   */
+  export type UserWorkingHourUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserWorkingHours.
+     */
+    data: XOR<UserWorkingHourUpdateManyMutationInput, UserWorkingHourUncheckedUpdateManyInput>
+    /**
+     * Filter which UserWorkingHours to update
+     */
+    where?: UserWorkingHourWhereInput
+    /**
+     * Limit how many UserWorkingHours to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserWorkingHour updateManyAndReturn
+   */
+  export type UserWorkingHourUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWorkingHour
+     */
+    select?: UserWorkingHourSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWorkingHour
+     */
+    omit?: UserWorkingHourOmit<ExtArgs> | null
+    /**
+     * The data used to update UserWorkingHours.
+     */
+    data: XOR<UserWorkingHourUpdateManyMutationInput, UserWorkingHourUncheckedUpdateManyInput>
+    /**
+     * Filter which UserWorkingHours to update
+     */
+    where?: UserWorkingHourWhereInput
+    /**
+     * Limit how many UserWorkingHours to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWorkingHourIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserWorkingHour upsert
+   */
+  export type UserWorkingHourUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWorkingHour
+     */
+    select?: UserWorkingHourSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWorkingHour
+     */
+    omit?: UserWorkingHourOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWorkingHourInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserWorkingHour to update in case it exists.
+     */
+    where: UserWorkingHourWhereUniqueInput
+    /**
+     * In case the UserWorkingHour found by the `where` argument doesn't exist, create a new UserWorkingHour with this data.
+     */
+    create: XOR<UserWorkingHourCreateInput, UserWorkingHourUncheckedCreateInput>
+    /**
+     * In case the UserWorkingHour was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserWorkingHourUpdateInput, UserWorkingHourUncheckedUpdateInput>
+  }
+
+  /**
+   * UserWorkingHour delete
+   */
+  export type UserWorkingHourDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWorkingHour
+     */
+    select?: UserWorkingHourSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWorkingHour
+     */
+    omit?: UserWorkingHourOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWorkingHourInclude<ExtArgs> | null
+    /**
+     * Filter which UserWorkingHour to delete.
+     */
+    where: UserWorkingHourWhereUniqueInput
+  }
+
+  /**
+   * UserWorkingHour deleteMany
+   */
+  export type UserWorkingHourDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserWorkingHours to delete
+     */
+    where?: UserWorkingHourWhereInput
+    /**
+     * Limit how many UserWorkingHours to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserWorkingHour without action
+   */
+  export type UserWorkingHourDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserWorkingHour
+     */
+    select?: UserWorkingHourSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserWorkingHour
+     */
+    omit?: UserWorkingHourOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserWorkingHourInclude<ExtArgs> | null
   }
 
 
@@ -5538,44 +7849,44 @@ export namespace Prisma {
 
   export type ServiceAvgAggregateOutputType = {
     id: number | null
+    shopId: number | null
     duration: number | null
     price: number | null
-    ownerId: number | null
   }
 
   export type ServiceSumAggregateOutputType = {
     id: number | null
+    shopId: number | null
     duration: number | null
     price: number | null
-    ownerId: number | null
   }
 
   export type ServiceMinAggregateOutputType = {
     id: number | null
+    shopId: number | null
     name: string | null
     duration: number | null
     price: number | null
-    ownerId: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type ServiceMaxAggregateOutputType = {
     id: number | null
+    shopId: number | null
     name: string | null
     duration: number | null
     price: number | null
-    ownerId: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type ServiceCountAggregateOutputType = {
     id: number
+    shopId: number
     name: number
     duration: number
     price: number
-    ownerId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -5584,44 +7895,44 @@ export namespace Prisma {
 
   export type ServiceAvgAggregateInputType = {
     id?: true
+    shopId?: true
     duration?: true
     price?: true
-    ownerId?: true
   }
 
   export type ServiceSumAggregateInputType = {
     id?: true
+    shopId?: true
     duration?: true
     price?: true
-    ownerId?: true
   }
 
   export type ServiceMinAggregateInputType = {
     id?: true
+    shopId?: true
     name?: true
     duration?: true
     price?: true
-    ownerId?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type ServiceMaxAggregateInputType = {
     id?: true
+    shopId?: true
     name?: true
     duration?: true
     price?: true
-    ownerId?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type ServiceCountAggregateInputType = {
     id?: true
+    shopId?: true
     name?: true
     duration?: true
     price?: true
-    ownerId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -5715,10 +8026,10 @@ export namespace Prisma {
 
   export type ServiceGroupByOutputType = {
     id: number
+    shopId: number
     name: string
     duration: number
     price: number
-    ownerId: number
     createdAt: Date
     updatedAt: Date
     _count: ServiceCountAggregateOutputType | null
@@ -5744,13 +8055,13 @@ export namespace Prisma {
 
   export type ServiceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    shopId?: boolean
     name?: boolean
     duration?: boolean
     price?: boolean
-    ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    owner?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
     assignedUsers?: boolean | Service$assignedUsersArgs<ExtArgs>
     bookings?: boolean | Service$bookingsArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
@@ -5758,63 +8069,63 @@ export namespace Prisma {
 
   export type ServiceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    shopId?: boolean
     name?: boolean
     duration?: boolean
     price?: boolean
-    ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    owner?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
 
   export type ServiceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    shopId?: boolean
     name?: boolean
     duration?: boolean
     price?: boolean
-    ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    owner?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
 
   export type ServiceSelectScalar = {
     id?: boolean
+    shopId?: boolean
     name?: boolean
     duration?: boolean
     price?: boolean
-    ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "duration" | "price" | "ownerId" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
+  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shopId" | "name" | "duration" | "price" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
   export type ServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    owner?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
     assignedUsers?: boolean | Service$assignedUsersArgs<ExtArgs>
     bookings?: boolean | Service$bookingsArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    owner?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }
   export type ServiceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    owner?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }
 
   export type $ServicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Service"
     objects: {
-      owner: Prisma.$UserPayload<ExtArgs>
-      assignedUsers: Prisma.$UserPayload<ExtArgs>[]
+      shop: Prisma.$ShopPayload<ExtArgs>
+      assignedUsers: Prisma.$ServiceAssignmentPayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
+      shopId: number
       name: string
       duration: number
       price: number
-      ownerId: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["service"]>
@@ -6211,8 +8522,8 @@ export namespace Prisma {
    */
   export interface Prisma__ServiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    assignedUsers<T extends Service$assignedUsersArgs<ExtArgs> = {}>(args?: Subset<T, Service$assignedUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    shop<T extends ShopDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopDefaultArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    assignedUsers<T extends Service$assignedUsersArgs<ExtArgs> = {}>(args?: Subset<T, Service$assignedUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookings<T extends Service$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Service$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6244,10 +8555,10 @@ export namespace Prisma {
    */
   interface ServiceFieldRefs {
     readonly id: FieldRef<"Service", 'Int'>
+    readonly shopId: FieldRef<"Service", 'Int'>
     readonly name: FieldRef<"Service", 'String'>
     readonly duration: FieldRef<"Service", 'Int'>
     readonly price: FieldRef<"Service", 'Float'>
-    readonly ownerId: FieldRef<"Service", 'Int'>
     readonly createdAt: FieldRef<"Service", 'DateTime'>
     readonly updatedAt: FieldRef<"Service", 'DateTime'>
   }
@@ -6650,23 +8961,23 @@ export namespace Prisma {
    */
   export type Service$assignedUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the ServiceAssignment
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: ServiceAssignmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the User
+     * Omit specific fields from the ServiceAssignment
      */
-    omit?: UserOmit<ExtArgs> | null
+    omit?: ServiceAssignmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    cursor?: UserWhereUniqueInput
+    include?: ServiceAssignmentInclude<ExtArgs> | null
+    where?: ServiceAssignmentWhereInput
+    orderBy?: ServiceAssignmentOrderByWithRelationInput | ServiceAssignmentOrderByWithRelationInput[]
+    cursor?: ServiceAssignmentWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+    distinct?: ServiceAssignmentScalarFieldEnum | ServiceAssignmentScalarFieldEnum[]
   }
 
   /**
@@ -6713,6 +9024,1088 @@ export namespace Prisma {
 
 
   /**
+   * Model ServiceAssignment
+   */
+
+  export type AggregateServiceAssignment = {
+    _count: ServiceAssignmentCountAggregateOutputType | null
+    _avg: ServiceAssignmentAvgAggregateOutputType | null
+    _sum: ServiceAssignmentSumAggregateOutputType | null
+    _min: ServiceAssignmentMinAggregateOutputType | null
+    _max: ServiceAssignmentMaxAggregateOutputType | null
+  }
+
+  export type ServiceAssignmentAvgAggregateOutputType = {
+    id: number | null
+    serviceId: number | null
+    shopUserId: number | null
+  }
+
+  export type ServiceAssignmentSumAggregateOutputType = {
+    id: number | null
+    serviceId: number | null
+    shopUserId: number | null
+  }
+
+  export type ServiceAssignmentMinAggregateOutputType = {
+    id: number | null
+    serviceId: number | null
+    shopUserId: number | null
+  }
+
+  export type ServiceAssignmentMaxAggregateOutputType = {
+    id: number | null
+    serviceId: number | null
+    shopUserId: number | null
+  }
+
+  export type ServiceAssignmentCountAggregateOutputType = {
+    id: number
+    serviceId: number
+    shopUserId: number
+    _all: number
+  }
+
+
+  export type ServiceAssignmentAvgAggregateInputType = {
+    id?: true
+    serviceId?: true
+    shopUserId?: true
+  }
+
+  export type ServiceAssignmentSumAggregateInputType = {
+    id?: true
+    serviceId?: true
+    shopUserId?: true
+  }
+
+  export type ServiceAssignmentMinAggregateInputType = {
+    id?: true
+    serviceId?: true
+    shopUserId?: true
+  }
+
+  export type ServiceAssignmentMaxAggregateInputType = {
+    id?: true
+    serviceId?: true
+    shopUserId?: true
+  }
+
+  export type ServiceAssignmentCountAggregateInputType = {
+    id?: true
+    serviceId?: true
+    shopUserId?: true
+    _all?: true
+  }
+
+  export type ServiceAssignmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceAssignment to aggregate.
+     */
+    where?: ServiceAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceAssignments to fetch.
+     */
+    orderBy?: ServiceAssignmentOrderByWithRelationInput | ServiceAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ServiceAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ServiceAssignments
+    **/
+    _count?: true | ServiceAssignmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ServiceAssignmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ServiceAssignmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ServiceAssignmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ServiceAssignmentMaxAggregateInputType
+  }
+
+  export type GetServiceAssignmentAggregateType<T extends ServiceAssignmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateServiceAssignment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateServiceAssignment[P]>
+      : GetScalarType<T[P], AggregateServiceAssignment[P]>
+  }
+
+
+
+
+  export type ServiceAssignmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceAssignmentWhereInput
+    orderBy?: ServiceAssignmentOrderByWithAggregationInput | ServiceAssignmentOrderByWithAggregationInput[]
+    by: ServiceAssignmentScalarFieldEnum[] | ServiceAssignmentScalarFieldEnum
+    having?: ServiceAssignmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ServiceAssignmentCountAggregateInputType | true
+    _avg?: ServiceAssignmentAvgAggregateInputType
+    _sum?: ServiceAssignmentSumAggregateInputType
+    _min?: ServiceAssignmentMinAggregateInputType
+    _max?: ServiceAssignmentMaxAggregateInputType
+  }
+
+  export type ServiceAssignmentGroupByOutputType = {
+    id: number
+    serviceId: number
+    shopUserId: number
+    _count: ServiceAssignmentCountAggregateOutputType | null
+    _avg: ServiceAssignmentAvgAggregateOutputType | null
+    _sum: ServiceAssignmentSumAggregateOutputType | null
+    _min: ServiceAssignmentMinAggregateOutputType | null
+    _max: ServiceAssignmentMaxAggregateOutputType | null
+  }
+
+  type GetServiceAssignmentGroupByPayload<T extends ServiceAssignmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ServiceAssignmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ServiceAssignmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ServiceAssignmentGroupByOutputType[P]>
+            : GetScalarType<T[P], ServiceAssignmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ServiceAssignmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceId?: boolean
+    shopUserId?: boolean
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    shopUser?: boolean | ShopUserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceAssignment"]>
+
+  export type ServiceAssignmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceId?: boolean
+    shopUserId?: boolean
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    shopUser?: boolean | ShopUserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceAssignment"]>
+
+  export type ServiceAssignmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceId?: boolean
+    shopUserId?: boolean
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    shopUser?: boolean | ShopUserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceAssignment"]>
+
+  export type ServiceAssignmentSelectScalar = {
+    id?: boolean
+    serviceId?: boolean
+    shopUserId?: boolean
+  }
+
+  export type ServiceAssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "serviceId" | "shopUserId", ExtArgs["result"]["serviceAssignment"]>
+  export type ServiceAssignmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    shopUser?: boolean | ShopUserDefaultArgs<ExtArgs>
+  }
+  export type ServiceAssignmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    shopUser?: boolean | ShopUserDefaultArgs<ExtArgs>
+  }
+  export type ServiceAssignmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | ServiceDefaultArgs<ExtArgs>
+    shopUser?: boolean | ShopUserDefaultArgs<ExtArgs>
+  }
+
+  export type $ServiceAssignmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ServiceAssignment"
+    objects: {
+      service: Prisma.$ServicePayload<ExtArgs>
+      shopUser: Prisma.$ShopUserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      serviceId: number
+      shopUserId: number
+    }, ExtArgs["result"]["serviceAssignment"]>
+    composites: {}
+  }
+
+  type ServiceAssignmentGetPayload<S extends boolean | null | undefined | ServiceAssignmentDefaultArgs> = $Result.GetResult<Prisma.$ServiceAssignmentPayload, S>
+
+  type ServiceAssignmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ServiceAssignmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ServiceAssignmentCountAggregateInputType | true
+    }
+
+  export interface ServiceAssignmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServiceAssignment'], meta: { name: 'ServiceAssignment' } }
+    /**
+     * Find zero or one ServiceAssignment that matches the filter.
+     * @param {ServiceAssignmentFindUniqueArgs} args - Arguments to find a ServiceAssignment
+     * @example
+     * // Get one ServiceAssignment
+     * const serviceAssignment = await prisma.serviceAssignment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ServiceAssignmentFindUniqueArgs>(args: SelectSubset<T, ServiceAssignmentFindUniqueArgs<ExtArgs>>): Prisma__ServiceAssignmentClient<$Result.GetResult<Prisma.$ServiceAssignmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ServiceAssignment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ServiceAssignmentFindUniqueOrThrowArgs} args - Arguments to find a ServiceAssignment
+     * @example
+     * // Get one ServiceAssignment
+     * const serviceAssignment = await prisma.serviceAssignment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ServiceAssignmentFindUniqueOrThrowArgs>(args: SelectSubset<T, ServiceAssignmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServiceAssignmentClient<$Result.GetResult<Prisma.$ServiceAssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceAssignment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAssignmentFindFirstArgs} args - Arguments to find a ServiceAssignment
+     * @example
+     * // Get one ServiceAssignment
+     * const serviceAssignment = await prisma.serviceAssignment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ServiceAssignmentFindFirstArgs>(args?: SelectSubset<T, ServiceAssignmentFindFirstArgs<ExtArgs>>): Prisma__ServiceAssignmentClient<$Result.GetResult<Prisma.$ServiceAssignmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceAssignment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAssignmentFindFirstOrThrowArgs} args - Arguments to find a ServiceAssignment
+     * @example
+     * // Get one ServiceAssignment
+     * const serviceAssignment = await prisma.serviceAssignment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ServiceAssignmentFindFirstOrThrowArgs>(args?: SelectSubset<T, ServiceAssignmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServiceAssignmentClient<$Result.GetResult<Prisma.$ServiceAssignmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ServiceAssignments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAssignmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ServiceAssignments
+     * const serviceAssignments = await prisma.serviceAssignment.findMany()
+     * 
+     * // Get first 10 ServiceAssignments
+     * const serviceAssignments = await prisma.serviceAssignment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const serviceAssignmentWithIdOnly = await prisma.serviceAssignment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ServiceAssignmentFindManyArgs>(args?: SelectSubset<T, ServiceAssignmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ServiceAssignment.
+     * @param {ServiceAssignmentCreateArgs} args - Arguments to create a ServiceAssignment.
+     * @example
+     * // Create one ServiceAssignment
+     * const ServiceAssignment = await prisma.serviceAssignment.create({
+     *   data: {
+     *     // ... data to create a ServiceAssignment
+     *   }
+     * })
+     * 
+     */
+    create<T extends ServiceAssignmentCreateArgs>(args: SelectSubset<T, ServiceAssignmentCreateArgs<ExtArgs>>): Prisma__ServiceAssignmentClient<$Result.GetResult<Prisma.$ServiceAssignmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ServiceAssignments.
+     * @param {ServiceAssignmentCreateManyArgs} args - Arguments to create many ServiceAssignments.
+     * @example
+     * // Create many ServiceAssignments
+     * const serviceAssignment = await prisma.serviceAssignment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ServiceAssignmentCreateManyArgs>(args?: SelectSubset<T, ServiceAssignmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ServiceAssignments and returns the data saved in the database.
+     * @param {ServiceAssignmentCreateManyAndReturnArgs} args - Arguments to create many ServiceAssignments.
+     * @example
+     * // Create many ServiceAssignments
+     * const serviceAssignment = await prisma.serviceAssignment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ServiceAssignments and only return the `id`
+     * const serviceAssignmentWithIdOnly = await prisma.serviceAssignment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ServiceAssignmentCreateManyAndReturnArgs>(args?: SelectSubset<T, ServiceAssignmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAssignmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ServiceAssignment.
+     * @param {ServiceAssignmentDeleteArgs} args - Arguments to delete one ServiceAssignment.
+     * @example
+     * // Delete one ServiceAssignment
+     * const ServiceAssignment = await prisma.serviceAssignment.delete({
+     *   where: {
+     *     // ... filter to delete one ServiceAssignment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ServiceAssignmentDeleteArgs>(args: SelectSubset<T, ServiceAssignmentDeleteArgs<ExtArgs>>): Prisma__ServiceAssignmentClient<$Result.GetResult<Prisma.$ServiceAssignmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ServiceAssignment.
+     * @param {ServiceAssignmentUpdateArgs} args - Arguments to update one ServiceAssignment.
+     * @example
+     * // Update one ServiceAssignment
+     * const serviceAssignment = await prisma.serviceAssignment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ServiceAssignmentUpdateArgs>(args: SelectSubset<T, ServiceAssignmentUpdateArgs<ExtArgs>>): Prisma__ServiceAssignmentClient<$Result.GetResult<Prisma.$ServiceAssignmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ServiceAssignments.
+     * @param {ServiceAssignmentDeleteManyArgs} args - Arguments to filter ServiceAssignments to delete.
+     * @example
+     * // Delete a few ServiceAssignments
+     * const { count } = await prisma.serviceAssignment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ServiceAssignmentDeleteManyArgs>(args?: SelectSubset<T, ServiceAssignmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceAssignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAssignmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ServiceAssignments
+     * const serviceAssignment = await prisma.serviceAssignment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ServiceAssignmentUpdateManyArgs>(args: SelectSubset<T, ServiceAssignmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceAssignments and returns the data updated in the database.
+     * @param {ServiceAssignmentUpdateManyAndReturnArgs} args - Arguments to update many ServiceAssignments.
+     * @example
+     * // Update many ServiceAssignments
+     * const serviceAssignment = await prisma.serviceAssignment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ServiceAssignments and only return the `id`
+     * const serviceAssignmentWithIdOnly = await prisma.serviceAssignment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ServiceAssignmentUpdateManyAndReturnArgs>(args: SelectSubset<T, ServiceAssignmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceAssignmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ServiceAssignment.
+     * @param {ServiceAssignmentUpsertArgs} args - Arguments to update or create a ServiceAssignment.
+     * @example
+     * // Update or create a ServiceAssignment
+     * const serviceAssignment = await prisma.serviceAssignment.upsert({
+     *   create: {
+     *     // ... data to create a ServiceAssignment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ServiceAssignment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ServiceAssignmentUpsertArgs>(args: SelectSubset<T, ServiceAssignmentUpsertArgs<ExtArgs>>): Prisma__ServiceAssignmentClient<$Result.GetResult<Prisma.$ServiceAssignmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ServiceAssignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAssignmentCountArgs} args - Arguments to filter ServiceAssignments to count.
+     * @example
+     * // Count the number of ServiceAssignments
+     * const count = await prisma.serviceAssignment.count({
+     *   where: {
+     *     // ... the filter for the ServiceAssignments we want to count
+     *   }
+     * })
+    **/
+    count<T extends ServiceAssignmentCountArgs>(
+      args?: Subset<T, ServiceAssignmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ServiceAssignmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ServiceAssignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAssignmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ServiceAssignmentAggregateArgs>(args: Subset<T, ServiceAssignmentAggregateArgs>): Prisma.PrismaPromise<GetServiceAssignmentAggregateType<T>>
+
+    /**
+     * Group by ServiceAssignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceAssignmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ServiceAssignmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ServiceAssignmentGroupByArgs['orderBy'] }
+        : { orderBy?: ServiceAssignmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ServiceAssignmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServiceAssignmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ServiceAssignment model
+   */
+  readonly fields: ServiceAssignmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ServiceAssignment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ServiceAssignmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    service<T extends ServiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceDefaultArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    shopUser<T extends ShopUserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopUserDefaultArgs<ExtArgs>>): Prisma__ShopUserClient<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ServiceAssignment model
+   */
+  interface ServiceAssignmentFieldRefs {
+    readonly id: FieldRef<"ServiceAssignment", 'Int'>
+    readonly serviceId: FieldRef<"ServiceAssignment", 'Int'>
+    readonly shopUserId: FieldRef<"ServiceAssignment", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ServiceAssignment findUnique
+   */
+  export type ServiceAssignmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAssignment
+     */
+    select?: ServiceAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAssignment
+     */
+    omit?: ServiceAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceAssignment to fetch.
+     */
+    where: ServiceAssignmentWhereUniqueInput
+  }
+
+  /**
+   * ServiceAssignment findUniqueOrThrow
+   */
+  export type ServiceAssignmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAssignment
+     */
+    select?: ServiceAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAssignment
+     */
+    omit?: ServiceAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceAssignment to fetch.
+     */
+    where: ServiceAssignmentWhereUniqueInput
+  }
+
+  /**
+   * ServiceAssignment findFirst
+   */
+  export type ServiceAssignmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAssignment
+     */
+    select?: ServiceAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAssignment
+     */
+    omit?: ServiceAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceAssignment to fetch.
+     */
+    where?: ServiceAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceAssignments to fetch.
+     */
+    orderBy?: ServiceAssignmentOrderByWithRelationInput | ServiceAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceAssignments.
+     */
+    cursor?: ServiceAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceAssignments.
+     */
+    distinct?: ServiceAssignmentScalarFieldEnum | ServiceAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceAssignment findFirstOrThrow
+   */
+  export type ServiceAssignmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAssignment
+     */
+    select?: ServiceAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAssignment
+     */
+    omit?: ServiceAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceAssignment to fetch.
+     */
+    where?: ServiceAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceAssignments to fetch.
+     */
+    orderBy?: ServiceAssignmentOrderByWithRelationInput | ServiceAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceAssignments.
+     */
+    cursor?: ServiceAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceAssignments.
+     */
+    distinct?: ServiceAssignmentScalarFieldEnum | ServiceAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceAssignment findMany
+   */
+  export type ServiceAssignmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAssignment
+     */
+    select?: ServiceAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAssignment
+     */
+    omit?: ServiceAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceAssignments to fetch.
+     */
+    where?: ServiceAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceAssignments to fetch.
+     */
+    orderBy?: ServiceAssignmentOrderByWithRelationInput | ServiceAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ServiceAssignments.
+     */
+    cursor?: ServiceAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceAssignments.
+     */
+    skip?: number
+    distinct?: ServiceAssignmentScalarFieldEnum | ServiceAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceAssignment create
+   */
+  export type ServiceAssignmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAssignment
+     */
+    select?: ServiceAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAssignment
+     */
+    omit?: ServiceAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ServiceAssignment.
+     */
+    data: XOR<ServiceAssignmentCreateInput, ServiceAssignmentUncheckedCreateInput>
+  }
+
+  /**
+   * ServiceAssignment createMany
+   */
+  export type ServiceAssignmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ServiceAssignments.
+     */
+    data: ServiceAssignmentCreateManyInput | ServiceAssignmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ServiceAssignment createManyAndReturn
+   */
+  export type ServiceAssignmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAssignment
+     */
+    select?: ServiceAssignmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAssignment
+     */
+    omit?: ServiceAssignmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many ServiceAssignments.
+     */
+    data: ServiceAssignmentCreateManyInput | ServiceAssignmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAssignmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServiceAssignment update
+   */
+  export type ServiceAssignmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAssignment
+     */
+    select?: ServiceAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAssignment
+     */
+    omit?: ServiceAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ServiceAssignment.
+     */
+    data: XOR<ServiceAssignmentUpdateInput, ServiceAssignmentUncheckedUpdateInput>
+    /**
+     * Choose, which ServiceAssignment to update.
+     */
+    where: ServiceAssignmentWhereUniqueInput
+  }
+
+  /**
+   * ServiceAssignment updateMany
+   */
+  export type ServiceAssignmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ServiceAssignments.
+     */
+    data: XOR<ServiceAssignmentUpdateManyMutationInput, ServiceAssignmentUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceAssignments to update
+     */
+    where?: ServiceAssignmentWhereInput
+    /**
+     * Limit how many ServiceAssignments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceAssignment updateManyAndReturn
+   */
+  export type ServiceAssignmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAssignment
+     */
+    select?: ServiceAssignmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAssignment
+     */
+    omit?: ServiceAssignmentOmit<ExtArgs> | null
+    /**
+     * The data used to update ServiceAssignments.
+     */
+    data: XOR<ServiceAssignmentUpdateManyMutationInput, ServiceAssignmentUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceAssignments to update
+     */
+    where?: ServiceAssignmentWhereInput
+    /**
+     * Limit how many ServiceAssignments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAssignmentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServiceAssignment upsert
+   */
+  export type ServiceAssignmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAssignment
+     */
+    select?: ServiceAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAssignment
+     */
+    omit?: ServiceAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAssignmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ServiceAssignment to update in case it exists.
+     */
+    where: ServiceAssignmentWhereUniqueInput
+    /**
+     * In case the ServiceAssignment found by the `where` argument doesn't exist, create a new ServiceAssignment with this data.
+     */
+    create: XOR<ServiceAssignmentCreateInput, ServiceAssignmentUncheckedCreateInput>
+    /**
+     * In case the ServiceAssignment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ServiceAssignmentUpdateInput, ServiceAssignmentUncheckedUpdateInput>
+  }
+
+  /**
+   * ServiceAssignment delete
+   */
+  export type ServiceAssignmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAssignment
+     */
+    select?: ServiceAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAssignment
+     */
+    omit?: ServiceAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter which ServiceAssignment to delete.
+     */
+    where: ServiceAssignmentWhereUniqueInput
+  }
+
+  /**
+   * ServiceAssignment deleteMany
+   */
+  export type ServiceAssignmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceAssignments to delete
+     */
+    where?: ServiceAssignmentWhereInput
+    /**
+     * Limit how many ServiceAssignments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceAssignment without action
+   */
+  export type ServiceAssignmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceAssignment
+     */
+    select?: ServiceAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceAssignment
+     */
+    omit?: ServiceAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceAssignmentInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Customer
    */
 
@@ -6737,6 +10130,8 @@ export namespace Prisma {
     name: string | null
     phone: string | null
     email: string | null
+    note: string | null
+    banned: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6746,6 +10141,8 @@ export namespace Prisma {
     name: string | null
     phone: string | null
     email: string | null
+    note: string | null
+    banned: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6755,6 +10152,8 @@ export namespace Prisma {
     name: number
     phone: number
     email: number
+    note: number
+    banned: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -6774,6 +10173,8 @@ export namespace Prisma {
     name?: true
     phone?: true
     email?: true
+    note?: true
+    banned?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6783,6 +10184,8 @@ export namespace Prisma {
     name?: true
     phone?: true
     email?: true
+    note?: true
+    banned?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6792,6 +10195,8 @@ export namespace Prisma {
     name?: true
     phone?: true
     email?: true
+    note?: true
+    banned?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -6888,6 +10293,8 @@ export namespace Prisma {
     name: string
     phone: string
     email: string | null
+    note: string | null
+    banned: boolean
     createdAt: Date
     updatedAt: Date
     _count: CustomerCountAggregateOutputType | null
@@ -6916,6 +10323,8 @@ export namespace Prisma {
     name?: boolean
     phone?: boolean
     email?: boolean
+    note?: boolean
+    banned?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     bookings?: boolean | Customer$bookingsArgs<ExtArgs>
@@ -6927,6 +10336,8 @@ export namespace Prisma {
     name?: boolean
     phone?: boolean
     email?: boolean
+    note?: boolean
+    banned?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["customer"]>
@@ -6936,6 +10347,8 @@ export namespace Prisma {
     name?: boolean
     phone?: boolean
     email?: boolean
+    note?: boolean
+    banned?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["customer"]>
@@ -6945,11 +10358,13 @@ export namespace Prisma {
     name?: boolean
     phone?: boolean
     email?: boolean
+    note?: boolean
+    banned?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "phone" | "email" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
+  export type CustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "phone" | "email" | "note" | "banned" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
   export type CustomerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookings?: boolean | Customer$bookingsArgs<ExtArgs>
     _count?: boolean | CustomerCountOutputTypeDefaultArgs<ExtArgs>
@@ -6967,6 +10382,8 @@ export namespace Prisma {
       name: string
       phone: string
       email: string | null
+      note: string | null
+      banned: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["customer"]>
@@ -7397,6 +10814,8 @@ export namespace Prisma {
     readonly name: FieldRef<"Customer", 'String'>
     readonly phone: FieldRef<"Customer", 'String'>
     readonly email: FieldRef<"Customer", 'String'>
+    readonly note: FieldRef<"Customer", 'String'>
+    readonly banned: FieldRef<"Customer", 'Boolean'>
     readonly createdAt: FieldRef<"Customer", 'DateTime'>
     readonly updatedAt: FieldRef<"Customer", 'DateTime'>
   }
@@ -7843,55 +11262,55 @@ export namespace Prisma {
 
   export type BookingAvgAggregateOutputType = {
     id: number | null
-    customerId: number | null
     shopId: number | null
-    userId: number | null
     serviceId: number | null
+    providerId: number | null
+    customerId: number | null
   }
 
   export type BookingSumAggregateOutputType = {
     id: number | null
-    customerId: number | null
     shopId: number | null
-    userId: number | null
     serviceId: number | null
+    providerId: number | null
+    customerId: number | null
   }
 
   export type BookingMinAggregateOutputType = {
     id: number | null
+    shopId: number | null
+    serviceId: number | null
+    providerId: number | null
+    customerId: number | null
     startTime: Date | null
     endTime: Date | null
     status: $Enums.BookingStatus | null
-    customerId: number | null
-    shopId: number | null
-    userId: number | null
-    serviceId: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type BookingMaxAggregateOutputType = {
     id: number | null
+    shopId: number | null
+    serviceId: number | null
+    providerId: number | null
+    customerId: number | null
     startTime: Date | null
     endTime: Date | null
     status: $Enums.BookingStatus | null
-    customerId: number | null
-    shopId: number | null
-    userId: number | null
-    serviceId: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type BookingCountAggregateOutputType = {
     id: number
+    shopId: number
+    serviceId: number
+    providerId: number
+    customerId: number
     startTime: number
     endTime: number
     status: number
-    customerId: number
-    shopId: number
-    userId: number
-    serviceId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -7900,55 +11319,55 @@ export namespace Prisma {
 
   export type BookingAvgAggregateInputType = {
     id?: true
-    customerId?: true
     shopId?: true
-    userId?: true
     serviceId?: true
+    providerId?: true
+    customerId?: true
   }
 
   export type BookingSumAggregateInputType = {
     id?: true
-    customerId?: true
     shopId?: true
-    userId?: true
     serviceId?: true
+    providerId?: true
+    customerId?: true
   }
 
   export type BookingMinAggregateInputType = {
     id?: true
+    shopId?: true
+    serviceId?: true
+    providerId?: true
+    customerId?: true
     startTime?: true
     endTime?: true
     status?: true
-    customerId?: true
-    shopId?: true
-    userId?: true
-    serviceId?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type BookingMaxAggregateInputType = {
     id?: true
+    shopId?: true
+    serviceId?: true
+    providerId?: true
+    customerId?: true
     startTime?: true
     endTime?: true
     status?: true
-    customerId?: true
-    shopId?: true
-    userId?: true
-    serviceId?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type BookingCountAggregateInputType = {
     id?: true
+    shopId?: true
+    serviceId?: true
+    providerId?: true
+    customerId?: true
     startTime?: true
     endTime?: true
     status?: true
-    customerId?: true
-    shopId?: true
-    userId?: true
-    serviceId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -8042,13 +11461,13 @@ export namespace Prisma {
 
   export type BookingGroupByOutputType = {
     id: number
+    shopId: number
+    serviceId: number
+    providerId: number | null
+    customerId: number
     startTime: Date
     endTime: Date
     status: $Enums.BookingStatus
-    customerId: number
-    shopId: number
-    userId: number
-    serviceId: number
     createdAt: Date
     updatedAt: Date
     _count: BookingCountAggregateOutputType | null
@@ -8074,105 +11493,105 @@ export namespace Prisma {
 
   export type BookingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    shopId?: boolean
+    serviceId?: boolean
+    providerId?: boolean
+    customerId?: boolean
     startTime?: boolean
     endTime?: boolean
     status?: boolean
-    customerId?: boolean
-    shopId?: boolean
-    userId?: boolean
-    serviceId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    customer?: boolean | CustomerDefaultArgs<ExtArgs>
     shop?: boolean | ShopDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
+    provider?: boolean | Booking$providerArgs<ExtArgs>
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    shopId?: boolean
+    serviceId?: boolean
+    providerId?: boolean
+    customerId?: boolean
     startTime?: boolean
     endTime?: boolean
     status?: boolean
-    customerId?: boolean
-    shopId?: boolean
-    userId?: boolean
-    serviceId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    customer?: boolean | CustomerDefaultArgs<ExtArgs>
     shop?: boolean | ShopDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
+    provider?: boolean | Booking$providerArgs<ExtArgs>
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    shopId?: boolean
+    serviceId?: boolean
+    providerId?: boolean
+    customerId?: boolean
     startTime?: boolean
     endTime?: boolean
     status?: boolean
-    customerId?: boolean
-    shopId?: boolean
-    userId?: boolean
-    serviceId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    customer?: boolean | CustomerDefaultArgs<ExtArgs>
     shop?: boolean | ShopDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
+    provider?: boolean | Booking$providerArgs<ExtArgs>
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectScalar = {
     id?: boolean
+    shopId?: boolean
+    serviceId?: boolean
+    providerId?: boolean
+    customerId?: boolean
     startTime?: boolean
     endTime?: boolean
     status?: boolean
-    customerId?: boolean
-    shopId?: boolean
-    userId?: boolean
-    serviceId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "startTime" | "endTime" | "status" | "customerId" | "shopId" | "userId" | "serviceId" | "createdAt" | "updatedAt", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shopId" | "serviceId" | "providerId" | "customerId" | "startTime" | "endTime" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["booking"]>
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    customer?: boolean | CustomerDefaultArgs<ExtArgs>
     shop?: boolean | ShopDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
+    provider?: boolean | Booking$providerArgs<ExtArgs>
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }
   export type BookingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    customer?: boolean | CustomerDefaultArgs<ExtArgs>
     shop?: boolean | ShopDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
+    provider?: boolean | Booking$providerArgs<ExtArgs>
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }
   export type BookingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    customer?: boolean | CustomerDefaultArgs<ExtArgs>
     shop?: boolean | ShopDefaultArgs<ExtArgs>
-    user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
+    provider?: boolean | Booking$providerArgs<ExtArgs>
+    customer?: boolean | CustomerDefaultArgs<ExtArgs>
   }
 
   export type $BookingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Booking"
     objects: {
-      customer: Prisma.$CustomerPayload<ExtArgs>
       shop: Prisma.$ShopPayload<ExtArgs>
-      user: Prisma.$UserPayload<ExtArgs>
       service: Prisma.$ServicePayload<ExtArgs>
+      provider: Prisma.$ShopUserPayload<ExtArgs> | null
+      customer: Prisma.$CustomerPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
+      shopId: number
+      serviceId: number
+      providerId: number | null
+      customerId: number
       startTime: Date
       endTime: Date
       status: $Enums.BookingStatus
-      customerId: number
-      shopId: number
-      userId: number
-      serviceId: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["booking"]>
@@ -8569,10 +11988,10 @@ export namespace Prisma {
    */
   export interface Prisma__BookingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     shop<T extends ShopDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopDefaultArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     service<T extends ServiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceDefaultArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    provider<T extends Booking$providerArgs<ExtArgs> = {}>(args?: Subset<T, Booking$providerArgs<ExtArgs>>): Prisma__ShopUserClient<$Result.GetResult<Prisma.$ShopUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8603,13 +12022,13 @@ export namespace Prisma {
    */
   interface BookingFieldRefs {
     readonly id: FieldRef<"Booking", 'Int'>
+    readonly shopId: FieldRef<"Booking", 'Int'>
+    readonly serviceId: FieldRef<"Booking", 'Int'>
+    readonly providerId: FieldRef<"Booking", 'Int'>
+    readonly customerId: FieldRef<"Booking", 'Int'>
     readonly startTime: FieldRef<"Booking", 'DateTime'>
     readonly endTime: FieldRef<"Booking", 'DateTime'>
     readonly status: FieldRef<"Booking", 'BookingStatus'>
-    readonly customerId: FieldRef<"Booking", 'Int'>
-    readonly shopId: FieldRef<"Booking", 'Int'>
-    readonly userId: FieldRef<"Booking", 'Int'>
-    readonly serviceId: FieldRef<"Booking", 'Int'>
     readonly createdAt: FieldRef<"Booking", 'DateTime'>
     readonly updatedAt: FieldRef<"Booking", 'DateTime'>
   }
@@ -9008,6 +12427,25 @@ export namespace Prisma {
   }
 
   /**
+   * Booking.provider
+   */
+  export type Booking$providerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopUser
+     */
+    select?: ShopUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShopUser
+     */
+    omit?: ShopUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopUserInclude<ExtArgs> | null
+    where?: ShopUserWhereInput
+  }
+
+  /**
    * Booking without action
    */
   export type BookingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9023,2258 +12461,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: BookingInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model WorkingHour
-   */
-
-  export type AggregateWorkingHour = {
-    _count: WorkingHourCountAggregateOutputType | null
-    _avg: WorkingHourAvgAggregateOutputType | null
-    _sum: WorkingHourSumAggregateOutputType | null
-    _min: WorkingHourMinAggregateOutputType | null
-    _max: WorkingHourMaxAggregateOutputType | null
-  }
-
-  export type WorkingHourAvgAggregateOutputType = {
-    id: number | null
-    userId: number | null
-  }
-
-  export type WorkingHourSumAggregateOutputType = {
-    id: number | null
-    userId: number | null
-  }
-
-  export type WorkingHourMinAggregateOutputType = {
-    id: number | null
-    userId: number | null
-    dayOfWeek: $Enums.DayOfWeek | null
-    startTime: Date | null
-    endTime: Date | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type WorkingHourMaxAggregateOutputType = {
-    id: number | null
-    userId: number | null
-    dayOfWeek: $Enums.DayOfWeek | null
-    startTime: Date | null
-    endTime: Date | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type WorkingHourCountAggregateOutputType = {
-    id: number
-    userId: number
-    dayOfWeek: number
-    startTime: number
-    endTime: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type WorkingHourAvgAggregateInputType = {
-    id?: true
-    userId?: true
-  }
-
-  export type WorkingHourSumAggregateInputType = {
-    id?: true
-    userId?: true
-  }
-
-  export type WorkingHourMinAggregateInputType = {
-    id?: true
-    userId?: true
-    dayOfWeek?: true
-    startTime?: true
-    endTime?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type WorkingHourMaxAggregateInputType = {
-    id?: true
-    userId?: true
-    dayOfWeek?: true
-    startTime?: true
-    endTime?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type WorkingHourCountAggregateInputType = {
-    id?: true
-    userId?: true
-    dayOfWeek?: true
-    startTime?: true
-    endTime?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type WorkingHourAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which WorkingHour to aggregate.
-     */
-    where?: WorkingHourWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WorkingHours to fetch.
-     */
-    orderBy?: WorkingHourOrderByWithRelationInput | WorkingHourOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: WorkingHourWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WorkingHours from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WorkingHours.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned WorkingHours
-    **/
-    _count?: true | WorkingHourCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: WorkingHourAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: WorkingHourSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: WorkingHourMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: WorkingHourMaxAggregateInputType
-  }
-
-  export type GetWorkingHourAggregateType<T extends WorkingHourAggregateArgs> = {
-        [P in keyof T & keyof AggregateWorkingHour]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateWorkingHour[P]>
-      : GetScalarType<T[P], AggregateWorkingHour[P]>
-  }
-
-
-
-
-  export type WorkingHourGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: WorkingHourWhereInput
-    orderBy?: WorkingHourOrderByWithAggregationInput | WorkingHourOrderByWithAggregationInput[]
-    by: WorkingHourScalarFieldEnum[] | WorkingHourScalarFieldEnum
-    having?: WorkingHourScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: WorkingHourCountAggregateInputType | true
-    _avg?: WorkingHourAvgAggregateInputType
-    _sum?: WorkingHourSumAggregateInputType
-    _min?: WorkingHourMinAggregateInputType
-    _max?: WorkingHourMaxAggregateInputType
-  }
-
-  export type WorkingHourGroupByOutputType = {
-    id: number
-    userId: number
-    dayOfWeek: $Enums.DayOfWeek
-    startTime: Date
-    endTime: Date
-    createdAt: Date
-    updatedAt: Date
-    _count: WorkingHourCountAggregateOutputType | null
-    _avg: WorkingHourAvgAggregateOutputType | null
-    _sum: WorkingHourSumAggregateOutputType | null
-    _min: WorkingHourMinAggregateOutputType | null
-    _max: WorkingHourMaxAggregateOutputType | null
-  }
-
-  type GetWorkingHourGroupByPayload<T extends WorkingHourGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<WorkingHourGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof WorkingHourGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], WorkingHourGroupByOutputType[P]>
-            : GetScalarType<T[P], WorkingHourGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type WorkingHourSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    dayOfWeek?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["workingHour"]>
-
-  export type WorkingHourSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    dayOfWeek?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["workingHour"]>
-
-  export type WorkingHourSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    dayOfWeek?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["workingHour"]>
-
-  export type WorkingHourSelectScalar = {
-    id?: boolean
-    userId?: boolean
-    dayOfWeek?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type WorkingHourOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "dayOfWeek" | "startTime" | "endTime" | "createdAt" | "updatedAt", ExtArgs["result"]["workingHour"]>
-  export type WorkingHourInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type WorkingHourIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type WorkingHourIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-
-  export type $WorkingHourPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "WorkingHour"
-    objects: {
-      user: Prisma.$UserPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      userId: number
-      dayOfWeek: $Enums.DayOfWeek
-      startTime: Date
-      endTime: Date
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["workingHour"]>
-    composites: {}
-  }
-
-  type WorkingHourGetPayload<S extends boolean | null | undefined | WorkingHourDefaultArgs> = $Result.GetResult<Prisma.$WorkingHourPayload, S>
-
-  type WorkingHourCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<WorkingHourFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: WorkingHourCountAggregateInputType | true
-    }
-
-  export interface WorkingHourDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WorkingHour'], meta: { name: 'WorkingHour' } }
-    /**
-     * Find zero or one WorkingHour that matches the filter.
-     * @param {WorkingHourFindUniqueArgs} args - Arguments to find a WorkingHour
-     * @example
-     * // Get one WorkingHour
-     * const workingHour = await prisma.workingHour.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends WorkingHourFindUniqueArgs>(args: SelectSubset<T, WorkingHourFindUniqueArgs<ExtArgs>>): Prisma__WorkingHourClient<$Result.GetResult<Prisma.$WorkingHourPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one WorkingHour that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {WorkingHourFindUniqueOrThrowArgs} args - Arguments to find a WorkingHour
-     * @example
-     * // Get one WorkingHour
-     * const workingHour = await prisma.workingHour.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends WorkingHourFindUniqueOrThrowArgs>(args: SelectSubset<T, WorkingHourFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WorkingHourClient<$Result.GetResult<Prisma.$WorkingHourPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first WorkingHour that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WorkingHourFindFirstArgs} args - Arguments to find a WorkingHour
-     * @example
-     * // Get one WorkingHour
-     * const workingHour = await prisma.workingHour.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends WorkingHourFindFirstArgs>(args?: SelectSubset<T, WorkingHourFindFirstArgs<ExtArgs>>): Prisma__WorkingHourClient<$Result.GetResult<Prisma.$WorkingHourPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first WorkingHour that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WorkingHourFindFirstOrThrowArgs} args - Arguments to find a WorkingHour
-     * @example
-     * // Get one WorkingHour
-     * const workingHour = await prisma.workingHour.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends WorkingHourFindFirstOrThrowArgs>(args?: SelectSubset<T, WorkingHourFindFirstOrThrowArgs<ExtArgs>>): Prisma__WorkingHourClient<$Result.GetResult<Prisma.$WorkingHourPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more WorkingHours that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WorkingHourFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all WorkingHours
-     * const workingHours = await prisma.workingHour.findMany()
-     * 
-     * // Get first 10 WorkingHours
-     * const workingHours = await prisma.workingHour.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const workingHourWithIdOnly = await prisma.workingHour.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends WorkingHourFindManyArgs>(args?: SelectSubset<T, WorkingHourFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkingHourPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a WorkingHour.
-     * @param {WorkingHourCreateArgs} args - Arguments to create a WorkingHour.
-     * @example
-     * // Create one WorkingHour
-     * const WorkingHour = await prisma.workingHour.create({
-     *   data: {
-     *     // ... data to create a WorkingHour
-     *   }
-     * })
-     * 
-     */
-    create<T extends WorkingHourCreateArgs>(args: SelectSubset<T, WorkingHourCreateArgs<ExtArgs>>): Prisma__WorkingHourClient<$Result.GetResult<Prisma.$WorkingHourPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many WorkingHours.
-     * @param {WorkingHourCreateManyArgs} args - Arguments to create many WorkingHours.
-     * @example
-     * // Create many WorkingHours
-     * const workingHour = await prisma.workingHour.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends WorkingHourCreateManyArgs>(args?: SelectSubset<T, WorkingHourCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many WorkingHours and returns the data saved in the database.
-     * @param {WorkingHourCreateManyAndReturnArgs} args - Arguments to create many WorkingHours.
-     * @example
-     * // Create many WorkingHours
-     * const workingHour = await prisma.workingHour.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many WorkingHours and only return the `id`
-     * const workingHourWithIdOnly = await prisma.workingHour.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends WorkingHourCreateManyAndReturnArgs>(args?: SelectSubset<T, WorkingHourCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkingHourPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a WorkingHour.
-     * @param {WorkingHourDeleteArgs} args - Arguments to delete one WorkingHour.
-     * @example
-     * // Delete one WorkingHour
-     * const WorkingHour = await prisma.workingHour.delete({
-     *   where: {
-     *     // ... filter to delete one WorkingHour
-     *   }
-     * })
-     * 
-     */
-    delete<T extends WorkingHourDeleteArgs>(args: SelectSubset<T, WorkingHourDeleteArgs<ExtArgs>>): Prisma__WorkingHourClient<$Result.GetResult<Prisma.$WorkingHourPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one WorkingHour.
-     * @param {WorkingHourUpdateArgs} args - Arguments to update one WorkingHour.
-     * @example
-     * // Update one WorkingHour
-     * const workingHour = await prisma.workingHour.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends WorkingHourUpdateArgs>(args: SelectSubset<T, WorkingHourUpdateArgs<ExtArgs>>): Prisma__WorkingHourClient<$Result.GetResult<Prisma.$WorkingHourPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more WorkingHours.
-     * @param {WorkingHourDeleteManyArgs} args - Arguments to filter WorkingHours to delete.
-     * @example
-     * // Delete a few WorkingHours
-     * const { count } = await prisma.workingHour.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends WorkingHourDeleteManyArgs>(args?: SelectSubset<T, WorkingHourDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more WorkingHours.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WorkingHourUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many WorkingHours
-     * const workingHour = await prisma.workingHour.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends WorkingHourUpdateManyArgs>(args: SelectSubset<T, WorkingHourUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more WorkingHours and returns the data updated in the database.
-     * @param {WorkingHourUpdateManyAndReturnArgs} args - Arguments to update many WorkingHours.
-     * @example
-     * // Update many WorkingHours
-     * const workingHour = await prisma.workingHour.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more WorkingHours and only return the `id`
-     * const workingHourWithIdOnly = await prisma.workingHour.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends WorkingHourUpdateManyAndReturnArgs>(args: SelectSubset<T, WorkingHourUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkingHourPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one WorkingHour.
-     * @param {WorkingHourUpsertArgs} args - Arguments to update or create a WorkingHour.
-     * @example
-     * // Update or create a WorkingHour
-     * const workingHour = await prisma.workingHour.upsert({
-     *   create: {
-     *     // ... data to create a WorkingHour
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the WorkingHour we want to update
-     *   }
-     * })
-     */
-    upsert<T extends WorkingHourUpsertArgs>(args: SelectSubset<T, WorkingHourUpsertArgs<ExtArgs>>): Prisma__WorkingHourClient<$Result.GetResult<Prisma.$WorkingHourPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of WorkingHours.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WorkingHourCountArgs} args - Arguments to filter WorkingHours to count.
-     * @example
-     * // Count the number of WorkingHours
-     * const count = await prisma.workingHour.count({
-     *   where: {
-     *     // ... the filter for the WorkingHours we want to count
-     *   }
-     * })
-    **/
-    count<T extends WorkingHourCountArgs>(
-      args?: Subset<T, WorkingHourCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], WorkingHourCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a WorkingHour.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WorkingHourAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends WorkingHourAggregateArgs>(args: Subset<T, WorkingHourAggregateArgs>): Prisma.PrismaPromise<GetWorkingHourAggregateType<T>>
-
-    /**
-     * Group by WorkingHour.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WorkingHourGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends WorkingHourGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: WorkingHourGroupByArgs['orderBy'] }
-        : { orderBy?: WorkingHourGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, WorkingHourGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWorkingHourGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the WorkingHour model
-   */
-  readonly fields: WorkingHourFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for WorkingHour.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__WorkingHourClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the WorkingHour model
-   */
-  interface WorkingHourFieldRefs {
-    readonly id: FieldRef<"WorkingHour", 'Int'>
-    readonly userId: FieldRef<"WorkingHour", 'Int'>
-    readonly dayOfWeek: FieldRef<"WorkingHour", 'DayOfWeek'>
-    readonly startTime: FieldRef<"WorkingHour", 'DateTime'>
-    readonly endTime: FieldRef<"WorkingHour", 'DateTime'>
-    readonly createdAt: FieldRef<"WorkingHour", 'DateTime'>
-    readonly updatedAt: FieldRef<"WorkingHour", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * WorkingHour findUnique
-   */
-  export type WorkingHourFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHour
-     */
-    select?: WorkingHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHour
-     */
-    omit?: WorkingHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHourInclude<ExtArgs> | null
-    /**
-     * Filter, which WorkingHour to fetch.
-     */
-    where: WorkingHourWhereUniqueInput
-  }
-
-  /**
-   * WorkingHour findUniqueOrThrow
-   */
-  export type WorkingHourFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHour
-     */
-    select?: WorkingHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHour
-     */
-    omit?: WorkingHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHourInclude<ExtArgs> | null
-    /**
-     * Filter, which WorkingHour to fetch.
-     */
-    where: WorkingHourWhereUniqueInput
-  }
-
-  /**
-   * WorkingHour findFirst
-   */
-  export type WorkingHourFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHour
-     */
-    select?: WorkingHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHour
-     */
-    omit?: WorkingHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHourInclude<ExtArgs> | null
-    /**
-     * Filter, which WorkingHour to fetch.
-     */
-    where?: WorkingHourWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WorkingHours to fetch.
-     */
-    orderBy?: WorkingHourOrderByWithRelationInput | WorkingHourOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for WorkingHours.
-     */
-    cursor?: WorkingHourWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WorkingHours from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WorkingHours.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of WorkingHours.
-     */
-    distinct?: WorkingHourScalarFieldEnum | WorkingHourScalarFieldEnum[]
-  }
-
-  /**
-   * WorkingHour findFirstOrThrow
-   */
-  export type WorkingHourFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHour
-     */
-    select?: WorkingHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHour
-     */
-    omit?: WorkingHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHourInclude<ExtArgs> | null
-    /**
-     * Filter, which WorkingHour to fetch.
-     */
-    where?: WorkingHourWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WorkingHours to fetch.
-     */
-    orderBy?: WorkingHourOrderByWithRelationInput | WorkingHourOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for WorkingHours.
-     */
-    cursor?: WorkingHourWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WorkingHours from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WorkingHours.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of WorkingHours.
-     */
-    distinct?: WorkingHourScalarFieldEnum | WorkingHourScalarFieldEnum[]
-  }
-
-  /**
-   * WorkingHour findMany
-   */
-  export type WorkingHourFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHour
-     */
-    select?: WorkingHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHour
-     */
-    omit?: WorkingHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHourInclude<ExtArgs> | null
-    /**
-     * Filter, which WorkingHours to fetch.
-     */
-    where?: WorkingHourWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WorkingHours to fetch.
-     */
-    orderBy?: WorkingHourOrderByWithRelationInput | WorkingHourOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing WorkingHours.
-     */
-    cursor?: WorkingHourWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WorkingHours from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WorkingHours.
-     */
-    skip?: number
-    distinct?: WorkingHourScalarFieldEnum | WorkingHourScalarFieldEnum[]
-  }
-
-  /**
-   * WorkingHour create
-   */
-  export type WorkingHourCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHour
-     */
-    select?: WorkingHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHour
-     */
-    omit?: WorkingHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHourInclude<ExtArgs> | null
-    /**
-     * The data needed to create a WorkingHour.
-     */
-    data: XOR<WorkingHourCreateInput, WorkingHourUncheckedCreateInput>
-  }
-
-  /**
-   * WorkingHour createMany
-   */
-  export type WorkingHourCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many WorkingHours.
-     */
-    data: WorkingHourCreateManyInput | WorkingHourCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * WorkingHour createManyAndReturn
-   */
-  export type WorkingHourCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHour
-     */
-    select?: WorkingHourSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHour
-     */
-    omit?: WorkingHourOmit<ExtArgs> | null
-    /**
-     * The data used to create many WorkingHours.
-     */
-    data: WorkingHourCreateManyInput | WorkingHourCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHourIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * WorkingHour update
-   */
-  export type WorkingHourUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHour
-     */
-    select?: WorkingHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHour
-     */
-    omit?: WorkingHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHourInclude<ExtArgs> | null
-    /**
-     * The data needed to update a WorkingHour.
-     */
-    data: XOR<WorkingHourUpdateInput, WorkingHourUncheckedUpdateInput>
-    /**
-     * Choose, which WorkingHour to update.
-     */
-    where: WorkingHourWhereUniqueInput
-  }
-
-  /**
-   * WorkingHour updateMany
-   */
-  export type WorkingHourUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update WorkingHours.
-     */
-    data: XOR<WorkingHourUpdateManyMutationInput, WorkingHourUncheckedUpdateManyInput>
-    /**
-     * Filter which WorkingHours to update
-     */
-    where?: WorkingHourWhereInput
-    /**
-     * Limit how many WorkingHours to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * WorkingHour updateManyAndReturn
-   */
-  export type WorkingHourUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHour
-     */
-    select?: WorkingHourSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHour
-     */
-    omit?: WorkingHourOmit<ExtArgs> | null
-    /**
-     * The data used to update WorkingHours.
-     */
-    data: XOR<WorkingHourUpdateManyMutationInput, WorkingHourUncheckedUpdateManyInput>
-    /**
-     * Filter which WorkingHours to update
-     */
-    where?: WorkingHourWhereInput
-    /**
-     * Limit how many WorkingHours to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHourIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * WorkingHour upsert
-   */
-  export type WorkingHourUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHour
-     */
-    select?: WorkingHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHour
-     */
-    omit?: WorkingHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHourInclude<ExtArgs> | null
-    /**
-     * The filter to search for the WorkingHour to update in case it exists.
-     */
-    where: WorkingHourWhereUniqueInput
-    /**
-     * In case the WorkingHour found by the `where` argument doesn't exist, create a new WorkingHour with this data.
-     */
-    create: XOR<WorkingHourCreateInput, WorkingHourUncheckedCreateInput>
-    /**
-     * In case the WorkingHour was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<WorkingHourUpdateInput, WorkingHourUncheckedUpdateInput>
-  }
-
-  /**
-   * WorkingHour delete
-   */
-  export type WorkingHourDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHour
-     */
-    select?: WorkingHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHour
-     */
-    omit?: WorkingHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHourInclude<ExtArgs> | null
-    /**
-     * Filter which WorkingHour to delete.
-     */
-    where: WorkingHourWhereUniqueInput
-  }
-
-  /**
-   * WorkingHour deleteMany
-   */
-  export type WorkingHourDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which WorkingHours to delete
-     */
-    where?: WorkingHourWhereInput
-    /**
-     * Limit how many WorkingHours to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * WorkingHour without action
-   */
-  export type WorkingHourDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkingHour
-     */
-    select?: WorkingHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkingHour
-     */
-    omit?: WorkingHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkingHourInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model InventoryItem
-   */
-
-  export type AggregateInventoryItem = {
-    _count: InventoryItemCountAggregateOutputType | null
-    _avg: InventoryItemAvgAggregateOutputType | null
-    _sum: InventoryItemSumAggregateOutputType | null
-    _min: InventoryItemMinAggregateOutputType | null
-    _max: InventoryItemMaxAggregateOutputType | null
-  }
-
-  export type InventoryItemAvgAggregateOutputType = {
-    id: number | null
-    quantity: number | null
-    price: number | null
-    shopId: number | null
-  }
-
-  export type InventoryItemSumAggregateOutputType = {
-    id: number | null
-    quantity: number | null
-    price: number | null
-    shopId: number | null
-  }
-
-  export type InventoryItemMinAggregateOutputType = {
-    id: number | null
-    name: string | null
-    quantity: number | null
-    price: number | null
-    shopId: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type InventoryItemMaxAggregateOutputType = {
-    id: number | null
-    name: string | null
-    quantity: number | null
-    price: number | null
-    shopId: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type InventoryItemCountAggregateOutputType = {
-    id: number
-    name: number
-    quantity: number
-    price: number
-    shopId: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type InventoryItemAvgAggregateInputType = {
-    id?: true
-    quantity?: true
-    price?: true
-    shopId?: true
-  }
-
-  export type InventoryItemSumAggregateInputType = {
-    id?: true
-    quantity?: true
-    price?: true
-    shopId?: true
-  }
-
-  export type InventoryItemMinAggregateInputType = {
-    id?: true
-    name?: true
-    quantity?: true
-    price?: true
-    shopId?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type InventoryItemMaxAggregateInputType = {
-    id?: true
-    name?: true
-    quantity?: true
-    price?: true
-    shopId?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type InventoryItemCountAggregateInputType = {
-    id?: true
-    name?: true
-    quantity?: true
-    price?: true
-    shopId?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type InventoryItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which InventoryItem to aggregate.
-     */
-    where?: InventoryItemWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of InventoryItems to fetch.
-     */
-    orderBy?: InventoryItemOrderByWithRelationInput | InventoryItemOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: InventoryItemWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` InventoryItems from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` InventoryItems.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned InventoryItems
-    **/
-    _count?: true | InventoryItemCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: InventoryItemAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: InventoryItemSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: InventoryItemMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: InventoryItemMaxAggregateInputType
-  }
-
-  export type GetInventoryItemAggregateType<T extends InventoryItemAggregateArgs> = {
-        [P in keyof T & keyof AggregateInventoryItem]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateInventoryItem[P]>
-      : GetScalarType<T[P], AggregateInventoryItem[P]>
-  }
-
-
-
-
-  export type InventoryItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: InventoryItemWhereInput
-    orderBy?: InventoryItemOrderByWithAggregationInput | InventoryItemOrderByWithAggregationInput[]
-    by: InventoryItemScalarFieldEnum[] | InventoryItemScalarFieldEnum
-    having?: InventoryItemScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: InventoryItemCountAggregateInputType | true
-    _avg?: InventoryItemAvgAggregateInputType
-    _sum?: InventoryItemSumAggregateInputType
-    _min?: InventoryItemMinAggregateInputType
-    _max?: InventoryItemMaxAggregateInputType
-  }
-
-  export type InventoryItemGroupByOutputType = {
-    id: number
-    name: string
-    quantity: number
-    price: number | null
-    shopId: number
-    createdAt: Date
-    updatedAt: Date
-    _count: InventoryItemCountAggregateOutputType | null
-    _avg: InventoryItemAvgAggregateOutputType | null
-    _sum: InventoryItemSumAggregateOutputType | null
-    _min: InventoryItemMinAggregateOutputType | null
-    _max: InventoryItemMaxAggregateOutputType | null
-  }
-
-  type GetInventoryItemGroupByPayload<T extends InventoryItemGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<InventoryItemGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof InventoryItemGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], InventoryItemGroupByOutputType[P]>
-            : GetScalarType<T[P], InventoryItemGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type InventoryItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    quantity?: boolean
-    price?: boolean
-    shopId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    shop?: boolean | ShopDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["inventoryItem"]>
-
-  export type InventoryItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    quantity?: boolean
-    price?: boolean
-    shopId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    shop?: boolean | ShopDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["inventoryItem"]>
-
-  export type InventoryItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    quantity?: boolean
-    price?: boolean
-    shopId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    shop?: boolean | ShopDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["inventoryItem"]>
-
-  export type InventoryItemSelectScalar = {
-    id?: boolean
-    name?: boolean
-    quantity?: boolean
-    price?: boolean
-    shopId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type InventoryItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "quantity" | "price" | "shopId" | "createdAt" | "updatedAt", ExtArgs["result"]["inventoryItem"]>
-  export type InventoryItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    shop?: boolean | ShopDefaultArgs<ExtArgs>
-  }
-  export type InventoryItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    shop?: boolean | ShopDefaultArgs<ExtArgs>
-  }
-  export type InventoryItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    shop?: boolean | ShopDefaultArgs<ExtArgs>
-  }
-
-  export type $InventoryItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "InventoryItem"
-    objects: {
-      shop: Prisma.$ShopPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      name: string
-      quantity: number
-      price: number | null
-      shopId: number
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["inventoryItem"]>
-    composites: {}
-  }
-
-  type InventoryItemGetPayload<S extends boolean | null | undefined | InventoryItemDefaultArgs> = $Result.GetResult<Prisma.$InventoryItemPayload, S>
-
-  type InventoryItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<InventoryItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: InventoryItemCountAggregateInputType | true
-    }
-
-  export interface InventoryItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InventoryItem'], meta: { name: 'InventoryItem' } }
-    /**
-     * Find zero or one InventoryItem that matches the filter.
-     * @param {InventoryItemFindUniqueArgs} args - Arguments to find a InventoryItem
-     * @example
-     * // Get one InventoryItem
-     * const inventoryItem = await prisma.inventoryItem.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends InventoryItemFindUniqueArgs>(args: SelectSubset<T, InventoryItemFindUniqueArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one InventoryItem that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {InventoryItemFindUniqueOrThrowArgs} args - Arguments to find a InventoryItem
-     * @example
-     * // Get one InventoryItem
-     * const inventoryItem = await prisma.inventoryItem.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends InventoryItemFindUniqueOrThrowArgs>(args: SelectSubset<T, InventoryItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first InventoryItem that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {InventoryItemFindFirstArgs} args - Arguments to find a InventoryItem
-     * @example
-     * // Get one InventoryItem
-     * const inventoryItem = await prisma.inventoryItem.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends InventoryItemFindFirstArgs>(args?: SelectSubset<T, InventoryItemFindFirstArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first InventoryItem that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {InventoryItemFindFirstOrThrowArgs} args - Arguments to find a InventoryItem
-     * @example
-     * // Get one InventoryItem
-     * const inventoryItem = await prisma.inventoryItem.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends InventoryItemFindFirstOrThrowArgs>(args?: SelectSubset<T, InventoryItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more InventoryItems that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {InventoryItemFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all InventoryItems
-     * const inventoryItems = await prisma.inventoryItem.findMany()
-     * 
-     * // Get first 10 InventoryItems
-     * const inventoryItems = await prisma.inventoryItem.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const inventoryItemWithIdOnly = await prisma.inventoryItem.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends InventoryItemFindManyArgs>(args?: SelectSubset<T, InventoryItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a InventoryItem.
-     * @param {InventoryItemCreateArgs} args - Arguments to create a InventoryItem.
-     * @example
-     * // Create one InventoryItem
-     * const InventoryItem = await prisma.inventoryItem.create({
-     *   data: {
-     *     // ... data to create a InventoryItem
-     *   }
-     * })
-     * 
-     */
-    create<T extends InventoryItemCreateArgs>(args: SelectSubset<T, InventoryItemCreateArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many InventoryItems.
-     * @param {InventoryItemCreateManyArgs} args - Arguments to create many InventoryItems.
-     * @example
-     * // Create many InventoryItems
-     * const inventoryItem = await prisma.inventoryItem.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends InventoryItemCreateManyArgs>(args?: SelectSubset<T, InventoryItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many InventoryItems and returns the data saved in the database.
-     * @param {InventoryItemCreateManyAndReturnArgs} args - Arguments to create many InventoryItems.
-     * @example
-     * // Create many InventoryItems
-     * const inventoryItem = await prisma.inventoryItem.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many InventoryItems and only return the `id`
-     * const inventoryItemWithIdOnly = await prisma.inventoryItem.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends InventoryItemCreateManyAndReturnArgs>(args?: SelectSubset<T, InventoryItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a InventoryItem.
-     * @param {InventoryItemDeleteArgs} args - Arguments to delete one InventoryItem.
-     * @example
-     * // Delete one InventoryItem
-     * const InventoryItem = await prisma.inventoryItem.delete({
-     *   where: {
-     *     // ... filter to delete one InventoryItem
-     *   }
-     * })
-     * 
-     */
-    delete<T extends InventoryItemDeleteArgs>(args: SelectSubset<T, InventoryItemDeleteArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one InventoryItem.
-     * @param {InventoryItemUpdateArgs} args - Arguments to update one InventoryItem.
-     * @example
-     * // Update one InventoryItem
-     * const inventoryItem = await prisma.inventoryItem.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends InventoryItemUpdateArgs>(args: SelectSubset<T, InventoryItemUpdateArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more InventoryItems.
-     * @param {InventoryItemDeleteManyArgs} args - Arguments to filter InventoryItems to delete.
-     * @example
-     * // Delete a few InventoryItems
-     * const { count } = await prisma.inventoryItem.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends InventoryItemDeleteManyArgs>(args?: SelectSubset<T, InventoryItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more InventoryItems.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {InventoryItemUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many InventoryItems
-     * const inventoryItem = await prisma.inventoryItem.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends InventoryItemUpdateManyArgs>(args: SelectSubset<T, InventoryItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more InventoryItems and returns the data updated in the database.
-     * @param {InventoryItemUpdateManyAndReturnArgs} args - Arguments to update many InventoryItems.
-     * @example
-     * // Update many InventoryItems
-     * const inventoryItem = await prisma.inventoryItem.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more InventoryItems and only return the `id`
-     * const inventoryItemWithIdOnly = await prisma.inventoryItem.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends InventoryItemUpdateManyAndReturnArgs>(args: SelectSubset<T, InventoryItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one InventoryItem.
-     * @param {InventoryItemUpsertArgs} args - Arguments to update or create a InventoryItem.
-     * @example
-     * // Update or create a InventoryItem
-     * const inventoryItem = await prisma.inventoryItem.upsert({
-     *   create: {
-     *     // ... data to create a InventoryItem
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the InventoryItem we want to update
-     *   }
-     * })
-     */
-    upsert<T extends InventoryItemUpsertArgs>(args: SelectSubset<T, InventoryItemUpsertArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of InventoryItems.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {InventoryItemCountArgs} args - Arguments to filter InventoryItems to count.
-     * @example
-     * // Count the number of InventoryItems
-     * const count = await prisma.inventoryItem.count({
-     *   where: {
-     *     // ... the filter for the InventoryItems we want to count
-     *   }
-     * })
-    **/
-    count<T extends InventoryItemCountArgs>(
-      args?: Subset<T, InventoryItemCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], InventoryItemCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a InventoryItem.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {InventoryItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends InventoryItemAggregateArgs>(args: Subset<T, InventoryItemAggregateArgs>): Prisma.PrismaPromise<GetInventoryItemAggregateType<T>>
-
-    /**
-     * Group by InventoryItem.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {InventoryItemGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends InventoryItemGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: InventoryItemGroupByArgs['orderBy'] }
-        : { orderBy?: InventoryItemGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, InventoryItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInventoryItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the InventoryItem model
-   */
-  readonly fields: InventoryItemFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for InventoryItem.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__InventoryItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    shop<T extends ShopDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopDefaultArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the InventoryItem model
-   */
-  interface InventoryItemFieldRefs {
-    readonly id: FieldRef<"InventoryItem", 'Int'>
-    readonly name: FieldRef<"InventoryItem", 'String'>
-    readonly quantity: FieldRef<"InventoryItem", 'Int'>
-    readonly price: FieldRef<"InventoryItem", 'Float'>
-    readonly shopId: FieldRef<"InventoryItem", 'Int'>
-    readonly createdAt: FieldRef<"InventoryItem", 'DateTime'>
-    readonly updatedAt: FieldRef<"InventoryItem", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * InventoryItem findUnique
-   */
-  export type InventoryItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InventoryItem
-     */
-    select?: InventoryItemSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the InventoryItem
-     */
-    omit?: InventoryItemOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InventoryItemInclude<ExtArgs> | null
-    /**
-     * Filter, which InventoryItem to fetch.
-     */
-    where: InventoryItemWhereUniqueInput
-  }
-
-  /**
-   * InventoryItem findUniqueOrThrow
-   */
-  export type InventoryItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InventoryItem
-     */
-    select?: InventoryItemSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the InventoryItem
-     */
-    omit?: InventoryItemOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InventoryItemInclude<ExtArgs> | null
-    /**
-     * Filter, which InventoryItem to fetch.
-     */
-    where: InventoryItemWhereUniqueInput
-  }
-
-  /**
-   * InventoryItem findFirst
-   */
-  export type InventoryItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InventoryItem
-     */
-    select?: InventoryItemSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the InventoryItem
-     */
-    omit?: InventoryItemOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InventoryItemInclude<ExtArgs> | null
-    /**
-     * Filter, which InventoryItem to fetch.
-     */
-    where?: InventoryItemWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of InventoryItems to fetch.
-     */
-    orderBy?: InventoryItemOrderByWithRelationInput | InventoryItemOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for InventoryItems.
-     */
-    cursor?: InventoryItemWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` InventoryItems from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` InventoryItems.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of InventoryItems.
-     */
-    distinct?: InventoryItemScalarFieldEnum | InventoryItemScalarFieldEnum[]
-  }
-
-  /**
-   * InventoryItem findFirstOrThrow
-   */
-  export type InventoryItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InventoryItem
-     */
-    select?: InventoryItemSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the InventoryItem
-     */
-    omit?: InventoryItemOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InventoryItemInclude<ExtArgs> | null
-    /**
-     * Filter, which InventoryItem to fetch.
-     */
-    where?: InventoryItemWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of InventoryItems to fetch.
-     */
-    orderBy?: InventoryItemOrderByWithRelationInput | InventoryItemOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for InventoryItems.
-     */
-    cursor?: InventoryItemWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` InventoryItems from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` InventoryItems.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of InventoryItems.
-     */
-    distinct?: InventoryItemScalarFieldEnum | InventoryItemScalarFieldEnum[]
-  }
-
-  /**
-   * InventoryItem findMany
-   */
-  export type InventoryItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InventoryItem
-     */
-    select?: InventoryItemSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the InventoryItem
-     */
-    omit?: InventoryItemOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InventoryItemInclude<ExtArgs> | null
-    /**
-     * Filter, which InventoryItems to fetch.
-     */
-    where?: InventoryItemWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of InventoryItems to fetch.
-     */
-    orderBy?: InventoryItemOrderByWithRelationInput | InventoryItemOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing InventoryItems.
-     */
-    cursor?: InventoryItemWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` InventoryItems from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` InventoryItems.
-     */
-    skip?: number
-    distinct?: InventoryItemScalarFieldEnum | InventoryItemScalarFieldEnum[]
-  }
-
-  /**
-   * InventoryItem create
-   */
-  export type InventoryItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InventoryItem
-     */
-    select?: InventoryItemSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the InventoryItem
-     */
-    omit?: InventoryItemOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InventoryItemInclude<ExtArgs> | null
-    /**
-     * The data needed to create a InventoryItem.
-     */
-    data: XOR<InventoryItemCreateInput, InventoryItemUncheckedCreateInput>
-  }
-
-  /**
-   * InventoryItem createMany
-   */
-  export type InventoryItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many InventoryItems.
-     */
-    data: InventoryItemCreateManyInput | InventoryItemCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * InventoryItem createManyAndReturn
-   */
-  export type InventoryItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InventoryItem
-     */
-    select?: InventoryItemSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the InventoryItem
-     */
-    omit?: InventoryItemOmit<ExtArgs> | null
-    /**
-     * The data used to create many InventoryItems.
-     */
-    data: InventoryItemCreateManyInput | InventoryItemCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InventoryItemIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * InventoryItem update
-   */
-  export type InventoryItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InventoryItem
-     */
-    select?: InventoryItemSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the InventoryItem
-     */
-    omit?: InventoryItemOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InventoryItemInclude<ExtArgs> | null
-    /**
-     * The data needed to update a InventoryItem.
-     */
-    data: XOR<InventoryItemUpdateInput, InventoryItemUncheckedUpdateInput>
-    /**
-     * Choose, which InventoryItem to update.
-     */
-    where: InventoryItemWhereUniqueInput
-  }
-
-  /**
-   * InventoryItem updateMany
-   */
-  export type InventoryItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update InventoryItems.
-     */
-    data: XOR<InventoryItemUpdateManyMutationInput, InventoryItemUncheckedUpdateManyInput>
-    /**
-     * Filter which InventoryItems to update
-     */
-    where?: InventoryItemWhereInput
-    /**
-     * Limit how many InventoryItems to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * InventoryItem updateManyAndReturn
-   */
-  export type InventoryItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InventoryItem
-     */
-    select?: InventoryItemSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the InventoryItem
-     */
-    omit?: InventoryItemOmit<ExtArgs> | null
-    /**
-     * The data used to update InventoryItems.
-     */
-    data: XOR<InventoryItemUpdateManyMutationInput, InventoryItemUncheckedUpdateManyInput>
-    /**
-     * Filter which InventoryItems to update
-     */
-    where?: InventoryItemWhereInput
-    /**
-     * Limit how many InventoryItems to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InventoryItemIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * InventoryItem upsert
-   */
-  export type InventoryItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InventoryItem
-     */
-    select?: InventoryItemSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the InventoryItem
-     */
-    omit?: InventoryItemOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InventoryItemInclude<ExtArgs> | null
-    /**
-     * The filter to search for the InventoryItem to update in case it exists.
-     */
-    where: InventoryItemWhereUniqueInput
-    /**
-     * In case the InventoryItem found by the `where` argument doesn't exist, create a new InventoryItem with this data.
-     */
-    create: XOR<InventoryItemCreateInput, InventoryItemUncheckedCreateInput>
-    /**
-     * In case the InventoryItem was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<InventoryItemUpdateInput, InventoryItemUncheckedUpdateInput>
-  }
-
-  /**
-   * InventoryItem delete
-   */
-  export type InventoryItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InventoryItem
-     */
-    select?: InventoryItemSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the InventoryItem
-     */
-    omit?: InventoryItemOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InventoryItemInclude<ExtArgs> | null
-    /**
-     * Filter which InventoryItem to delete.
-     */
-    where: InventoryItemWhereUniqueInput
-  }
-
-  /**
-   * InventoryItem deleteMany
-   */
-  export type InventoryItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which InventoryItems to delete
-     */
-    where?: InventoryItemWhereInput
-    /**
-     * Limit how many InventoryItems to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * InventoryItem without action
-   */
-  export type InventoryItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InventoryItem
-     */
-    select?: InventoryItemSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the InventoryItem
-     */
-    omit?: InventoryItemOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InventoryItemInclude<ExtArgs> | null
   }
 
 
@@ -11298,11 +12484,7 @@ export namespace Prisma {
     email: 'email',
     hashedPassword: 'hashedPassword',
     subscription: 'subscription',
-    role: 'role',
     active: 'active',
-    bookable: 'bookable',
-    ownerId: 'ownerId',
-    shopId: 'shopId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -11313,6 +12495,7 @@ export namespace Prisma {
   export const ShopScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    address: 'address',
     ownerId: 'ownerId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -11321,26 +12504,55 @@ export namespace Prisma {
   export type ShopScalarFieldEnum = (typeof ShopScalarFieldEnum)[keyof typeof ShopScalarFieldEnum]
 
 
-  export const ShopOpeningRangeScalarFieldEnum: {
+  export const ShopUserScalarFieldEnum: {
     id: 'id',
     shopId: 'shopId',
-    startDate: 'startDate',
-    endDate: 'endDate',
+    userId: 'userId',
+    role: 'role',
+    active: 'active',
+    bookable: 'bookable',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ShopUserScalarFieldEnum = (typeof ShopUserScalarFieldEnum)[keyof typeof ShopUserScalarFieldEnum]
+
+
+  export const ShopWorkingHourScalarFieldEnum: {
+    id: 'id',
+    shopId: 'shopId',
     dayOfWeek: 'dayOfWeek',
     openTime: 'openTime',
     closeTime: 'closeTime',
-    isClosed: 'isClosed'
+    isClosed: 'isClosed',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
-  export type ShopOpeningRangeScalarFieldEnum = (typeof ShopOpeningRangeScalarFieldEnum)[keyof typeof ShopOpeningRangeScalarFieldEnum]
+  export type ShopWorkingHourScalarFieldEnum = (typeof ShopWorkingHourScalarFieldEnum)[keyof typeof ShopWorkingHourScalarFieldEnum]
+
+
+  export const UserWorkingHourScalarFieldEnum: {
+    id: 'id',
+    shopUserId: 'shopUserId',
+    shopId: 'shopId',
+    dayOfWeek: 'dayOfWeek',
+    startTime: 'startTime',
+    endTime: 'endTime',
+    isOff: 'isOff',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserWorkingHourScalarFieldEnum = (typeof UserWorkingHourScalarFieldEnum)[keyof typeof UserWorkingHourScalarFieldEnum]
 
 
   export const ServiceScalarFieldEnum: {
     id: 'id',
+    shopId: 'shopId',
     name: 'name',
     duration: 'duration',
     price: 'price',
-    ownerId: 'ownerId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -11348,11 +12560,22 @@ export namespace Prisma {
   export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
 
 
+  export const ServiceAssignmentScalarFieldEnum: {
+    id: 'id',
+    serviceId: 'serviceId',
+    shopUserId: 'shopUserId'
+  };
+
+  export type ServiceAssignmentScalarFieldEnum = (typeof ServiceAssignmentScalarFieldEnum)[keyof typeof ServiceAssignmentScalarFieldEnum]
+
+
   export const CustomerScalarFieldEnum: {
     id: 'id',
     name: 'name',
     phone: 'phone',
     email: 'email',
+    note: 'note',
+    banned: 'banned',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -11362,44 +12585,18 @@ export namespace Prisma {
 
   export const BookingScalarFieldEnum: {
     id: 'id',
+    shopId: 'shopId',
+    serviceId: 'serviceId',
+    providerId: 'providerId',
+    customerId: 'customerId',
     startTime: 'startTime',
     endTime: 'endTime',
     status: 'status',
-    customerId: 'customerId',
-    shopId: 'shopId',
-    userId: 'userId',
-    serviceId: 'serviceId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
-
-
-  export const WorkingHourScalarFieldEnum: {
-    id: 'id',
-    userId: 'userId',
-    dayOfWeek: 'dayOfWeek',
-    startTime: 'startTime',
-    endTime: 'endTime',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type WorkingHourScalarFieldEnum = (typeof WorkingHourScalarFieldEnum)[keyof typeof WorkingHourScalarFieldEnum]
-
-
-  export const InventoryItemScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    quantity: 'quantity',
-    price: 'price',
-    shopId: 'shopId',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type InventoryItemScalarFieldEnum = (typeof InventoryItemScalarFieldEnum)[keyof typeof InventoryItemScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -11474,20 +12671,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Role'
-   */
-  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
-    
-
-
-  /**
-   * Reference to a field of type 'Role[]'
-   */
-  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -11505,6 +12688,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ShopRole'
+   */
+  export type EnumShopRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShopRole'>
+    
+
+
+  /**
+   * Reference to a field of type 'ShopRole[]'
+   */
+  export type ListEnumShopRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShopRole[]'>
     
 
 
@@ -11562,21 +12759,11 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     hashedPassword?: StringFilter<"User"> | string
     subscription?: EnumSubscriptionFilter<"User"> | $Enums.Subscription
-    role?: EnumRoleFilter<"User"> | $Enums.Role
     active?: BoolFilter<"User"> | boolean
-    bookable?: BoolFilter<"User"> | boolean
-    ownerId?: IntNullableFilter<"User"> | number | null
-    shopId?: IntNullableFilter<"User"> | number | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    owner?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-    users?: UserListRelationFilter
-    shop?: XOR<ShopNullableScalarRelationFilter, ShopWhereInput> | null
-    shops?: ShopListRelationFilter
-    services?: ServiceListRelationFilter
-    assignedServices?: ServiceListRelationFilter
-    workingHours?: WorkingHourListRelationFilter
-    bookings?: BookingListRelationFilter
+    ownedShops?: ShopListRelationFilter
+    memberships?: ShopUserListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -11585,21 +12772,11 @@ export namespace Prisma {
     email?: SortOrder
     hashedPassword?: SortOrder
     subscription?: SortOrder
-    role?: SortOrder
     active?: SortOrder
-    bookable?: SortOrder
-    ownerId?: SortOrderInput | SortOrder
-    shopId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    owner?: UserOrderByWithRelationInput
-    users?: UserOrderByRelationAggregateInput
-    shop?: ShopOrderByWithRelationInput
-    shops?: ShopOrderByRelationAggregateInput
-    services?: ServiceOrderByRelationAggregateInput
-    assignedServices?: ServiceOrderByRelationAggregateInput
-    workingHours?: WorkingHourOrderByRelationAggregateInput
-    bookings?: BookingOrderByRelationAggregateInput
+    ownedShops?: ShopOrderByRelationAggregateInput
+    memberships?: ShopUserOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11611,21 +12788,11 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     hashedPassword?: StringFilter<"User"> | string
     subscription?: EnumSubscriptionFilter<"User"> | $Enums.Subscription
-    role?: EnumRoleFilter<"User"> | $Enums.Role
     active?: BoolFilter<"User"> | boolean
-    bookable?: BoolFilter<"User"> | boolean
-    ownerId?: IntNullableFilter<"User"> | number | null
-    shopId?: IntNullableFilter<"User"> | number | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    owner?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-    users?: UserListRelationFilter
-    shop?: XOR<ShopNullableScalarRelationFilter, ShopWhereInput> | null
-    shops?: ShopListRelationFilter
-    services?: ServiceListRelationFilter
-    assignedServices?: ServiceListRelationFilter
-    workingHours?: WorkingHourListRelationFilter
-    bookings?: BookingListRelationFilter
+    ownedShops?: ShopListRelationFilter
+    memberships?: ShopUserListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -11634,11 +12801,7 @@ export namespace Prisma {
     email?: SortOrder
     hashedPassword?: SortOrder
     subscription?: SortOrder
-    role?: SortOrder
     active?: SortOrder
-    bookable?: SortOrder
-    ownerId?: SortOrderInput | SortOrder
-    shopId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -11657,11 +12820,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     hashedPassword?: StringWithAggregatesFilter<"User"> | string
     subscription?: EnumSubscriptionWithAggregatesFilter<"User"> | $Enums.Subscription
-    role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     active?: BoolWithAggregatesFilter<"User"> | boolean
-    bookable?: BoolWithAggregatesFilter<"User"> | boolean
-    ownerId?: IntNullableWithAggregatesFilter<"User"> | number | null
-    shopId?: IntNullableWithAggregatesFilter<"User"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -11672,27 +12831,31 @@ export namespace Prisma {
     NOT?: ShopWhereInput | ShopWhereInput[]
     id?: IntFilter<"Shop"> | number
     name?: StringFilter<"Shop"> | string
+    address?: StringNullableFilter<"Shop"> | string | null
     ownerId?: IntFilter<"Shop"> | number
     createdAt?: DateTimeFilter<"Shop"> | Date | string
     updatedAt?: DateTimeFilter<"Shop"> | Date | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
-    assignedUsers?: UserListRelationFilter
-    inventory?: InventoryItemListRelationFilter
+    members?: ShopUserListRelationFilter
+    workingHours?: ShopWorkingHourListRelationFilter
+    userWorkingHours?: UserWorkingHourListRelationFilter
+    services?: ServiceListRelationFilter
     bookings?: BookingListRelationFilter
-    openingRanges?: ShopOpeningRangeListRelationFilter
   }
 
   export type ShopOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    address?: SortOrderInput | SortOrder
     ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     owner?: UserOrderByWithRelationInput
-    assignedUsers?: UserOrderByRelationAggregateInput
-    inventory?: InventoryItemOrderByRelationAggregateInput
+    members?: ShopUserOrderByRelationAggregateInput
+    workingHours?: ShopWorkingHourOrderByRelationAggregateInput
+    userWorkingHours?: UserWorkingHourOrderByRelationAggregateInput
+    services?: ServiceOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
-    openingRanges?: ShopOpeningRangeOrderByRelationAggregateInput
   }
 
   export type ShopWhereUniqueInput = Prisma.AtLeast<{
@@ -11701,19 +12864,22 @@ export namespace Prisma {
     OR?: ShopWhereInput[]
     NOT?: ShopWhereInput | ShopWhereInput[]
     name?: StringFilter<"Shop"> | string
+    address?: StringNullableFilter<"Shop"> | string | null
     ownerId?: IntFilter<"Shop"> | number
     createdAt?: DateTimeFilter<"Shop"> | Date | string
     updatedAt?: DateTimeFilter<"Shop"> | Date | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
-    assignedUsers?: UserListRelationFilter
-    inventory?: InventoryItemListRelationFilter
+    members?: ShopUserListRelationFilter
+    workingHours?: ShopWorkingHourListRelationFilter
+    userWorkingHours?: UserWorkingHourListRelationFilter
+    services?: ServiceListRelationFilter
     bookings?: BookingListRelationFilter
-    openingRanges?: ShopOpeningRangeListRelationFilter
   }, "id">
 
   export type ShopOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    address?: SortOrderInput | SortOrder
     ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11730,81 +12896,247 @@ export namespace Prisma {
     NOT?: ShopScalarWhereWithAggregatesInput | ShopScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Shop"> | number
     name?: StringWithAggregatesFilter<"Shop"> | string
+    address?: StringNullableWithAggregatesFilter<"Shop"> | string | null
     ownerId?: IntWithAggregatesFilter<"Shop"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Shop"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Shop"> | Date | string
   }
 
-  export type ShopOpeningRangeWhereInput = {
-    AND?: ShopOpeningRangeWhereInput | ShopOpeningRangeWhereInput[]
-    OR?: ShopOpeningRangeWhereInput[]
-    NOT?: ShopOpeningRangeWhereInput | ShopOpeningRangeWhereInput[]
-    id?: IntFilter<"ShopOpeningRange"> | number
-    shopId?: IntFilter<"ShopOpeningRange"> | number
-    startDate?: DateTimeFilter<"ShopOpeningRange"> | Date | string
-    endDate?: DateTimeNullableFilter<"ShopOpeningRange"> | Date | string | null
-    dayOfWeek?: EnumDayOfWeekFilter<"ShopOpeningRange"> | $Enums.DayOfWeek
-    openTime?: StringFilter<"ShopOpeningRange"> | string
-    closeTime?: StringFilter<"ShopOpeningRange"> | string
-    isClosed?: BoolFilter<"ShopOpeningRange"> | boolean
+  export type ShopUserWhereInput = {
+    AND?: ShopUserWhereInput | ShopUserWhereInput[]
+    OR?: ShopUserWhereInput[]
+    NOT?: ShopUserWhereInput | ShopUserWhereInput[]
+    id?: IntFilter<"ShopUser"> | number
+    shopId?: IntFilter<"ShopUser"> | number
+    userId?: IntFilter<"ShopUser"> | number
+    role?: EnumShopRoleFilter<"ShopUser"> | $Enums.ShopRole
+    active?: BoolFilter<"ShopUser"> | boolean
+    bookable?: BoolFilter<"ShopUser"> | boolean
+    createdAt?: DateTimeFilter<"ShopUser"> | Date | string
+    updatedAt?: DateTimeFilter<"ShopUser"> | Date | string
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    workingHours?: UserWorkingHourListRelationFilter
+    assignedServices?: ServiceAssignmentListRelationFilter
+    bookings?: BookingListRelationFilter
+  }
+
+  export type ShopUserOrderByWithRelationInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    userId?: SortOrder
+    role?: SortOrder
+    active?: SortOrder
+    bookable?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    shop?: ShopOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+    workingHours?: UserWorkingHourOrderByRelationAggregateInput
+    assignedServices?: ServiceAssignmentOrderByRelationAggregateInput
+    bookings?: BookingOrderByRelationAggregateInput
+  }
+
+  export type ShopUserWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    shopId_userId?: ShopUserShopIdUserIdCompoundUniqueInput
+    AND?: ShopUserWhereInput | ShopUserWhereInput[]
+    OR?: ShopUserWhereInput[]
+    NOT?: ShopUserWhereInput | ShopUserWhereInput[]
+    shopId?: IntFilter<"ShopUser"> | number
+    userId?: IntFilter<"ShopUser"> | number
+    role?: EnumShopRoleFilter<"ShopUser"> | $Enums.ShopRole
+    active?: BoolFilter<"ShopUser"> | boolean
+    bookable?: BoolFilter<"ShopUser"> | boolean
+    createdAt?: DateTimeFilter<"ShopUser"> | Date | string
+    updatedAt?: DateTimeFilter<"ShopUser"> | Date | string
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    workingHours?: UserWorkingHourListRelationFilter
+    assignedServices?: ServiceAssignmentListRelationFilter
+    bookings?: BookingListRelationFilter
+  }, "id" | "shopId_userId">
+
+  export type ShopUserOrderByWithAggregationInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    userId?: SortOrder
+    role?: SortOrder
+    active?: SortOrder
+    bookable?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ShopUserCountOrderByAggregateInput
+    _avg?: ShopUserAvgOrderByAggregateInput
+    _max?: ShopUserMaxOrderByAggregateInput
+    _min?: ShopUserMinOrderByAggregateInput
+    _sum?: ShopUserSumOrderByAggregateInput
+  }
+
+  export type ShopUserScalarWhereWithAggregatesInput = {
+    AND?: ShopUserScalarWhereWithAggregatesInput | ShopUserScalarWhereWithAggregatesInput[]
+    OR?: ShopUserScalarWhereWithAggregatesInput[]
+    NOT?: ShopUserScalarWhereWithAggregatesInput | ShopUserScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ShopUser"> | number
+    shopId?: IntWithAggregatesFilter<"ShopUser"> | number
+    userId?: IntWithAggregatesFilter<"ShopUser"> | number
+    role?: EnumShopRoleWithAggregatesFilter<"ShopUser"> | $Enums.ShopRole
+    active?: BoolWithAggregatesFilter<"ShopUser"> | boolean
+    bookable?: BoolWithAggregatesFilter<"ShopUser"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"ShopUser"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ShopUser"> | Date | string
+  }
+
+  export type ShopWorkingHourWhereInput = {
+    AND?: ShopWorkingHourWhereInput | ShopWorkingHourWhereInput[]
+    OR?: ShopWorkingHourWhereInput[]
+    NOT?: ShopWorkingHourWhereInput | ShopWorkingHourWhereInput[]
+    id?: IntFilter<"ShopWorkingHour"> | number
+    shopId?: IntFilter<"ShopWorkingHour"> | number
+    dayOfWeek?: EnumDayOfWeekFilter<"ShopWorkingHour"> | $Enums.DayOfWeek
+    openTime?: StringFilter<"ShopWorkingHour"> | string
+    closeTime?: StringFilter<"ShopWorkingHour"> | string
+    isClosed?: BoolFilter<"ShopWorkingHour"> | boolean
+    createdAt?: DateTimeFilter<"ShopWorkingHour"> | Date | string
+    updatedAt?: DateTimeFilter<"ShopWorkingHour"> | Date | string
     shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
   }
 
-  export type ShopOpeningRangeOrderByWithRelationInput = {
+  export type ShopWorkingHourOrderByWithRelationInput = {
     id?: SortOrder
     shopId?: SortOrder
-    startDate?: SortOrder
-    endDate?: SortOrderInput | SortOrder
     dayOfWeek?: SortOrder
     openTime?: SortOrder
     closeTime?: SortOrder
     isClosed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     shop?: ShopOrderByWithRelationInput
   }
 
-  export type ShopOpeningRangeWhereUniqueInput = Prisma.AtLeast<{
+  export type ShopWorkingHourWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    AND?: ShopOpeningRangeWhereInput | ShopOpeningRangeWhereInput[]
-    OR?: ShopOpeningRangeWhereInput[]
-    NOT?: ShopOpeningRangeWhereInput | ShopOpeningRangeWhereInput[]
-    shopId?: IntFilter<"ShopOpeningRange"> | number
-    startDate?: DateTimeFilter<"ShopOpeningRange"> | Date | string
-    endDate?: DateTimeNullableFilter<"ShopOpeningRange"> | Date | string | null
-    dayOfWeek?: EnumDayOfWeekFilter<"ShopOpeningRange"> | $Enums.DayOfWeek
-    openTime?: StringFilter<"ShopOpeningRange"> | string
-    closeTime?: StringFilter<"ShopOpeningRange"> | string
-    isClosed?: BoolFilter<"ShopOpeningRange"> | boolean
+    AND?: ShopWorkingHourWhereInput | ShopWorkingHourWhereInput[]
+    OR?: ShopWorkingHourWhereInput[]
+    NOT?: ShopWorkingHourWhereInput | ShopWorkingHourWhereInput[]
+    shopId?: IntFilter<"ShopWorkingHour"> | number
+    dayOfWeek?: EnumDayOfWeekFilter<"ShopWorkingHour"> | $Enums.DayOfWeek
+    openTime?: StringFilter<"ShopWorkingHour"> | string
+    closeTime?: StringFilter<"ShopWorkingHour"> | string
+    isClosed?: BoolFilter<"ShopWorkingHour"> | boolean
+    createdAt?: DateTimeFilter<"ShopWorkingHour"> | Date | string
+    updatedAt?: DateTimeFilter<"ShopWorkingHour"> | Date | string
     shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
   }, "id">
 
-  export type ShopOpeningRangeOrderByWithAggregationInput = {
+  export type ShopWorkingHourOrderByWithAggregationInput = {
     id?: SortOrder
     shopId?: SortOrder
-    startDate?: SortOrder
-    endDate?: SortOrderInput | SortOrder
     dayOfWeek?: SortOrder
     openTime?: SortOrder
     closeTime?: SortOrder
     isClosed?: SortOrder
-    _count?: ShopOpeningRangeCountOrderByAggregateInput
-    _avg?: ShopOpeningRangeAvgOrderByAggregateInput
-    _max?: ShopOpeningRangeMaxOrderByAggregateInput
-    _min?: ShopOpeningRangeMinOrderByAggregateInput
-    _sum?: ShopOpeningRangeSumOrderByAggregateInput
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ShopWorkingHourCountOrderByAggregateInput
+    _avg?: ShopWorkingHourAvgOrderByAggregateInput
+    _max?: ShopWorkingHourMaxOrderByAggregateInput
+    _min?: ShopWorkingHourMinOrderByAggregateInput
+    _sum?: ShopWorkingHourSumOrderByAggregateInput
   }
 
-  export type ShopOpeningRangeScalarWhereWithAggregatesInput = {
-    AND?: ShopOpeningRangeScalarWhereWithAggregatesInput | ShopOpeningRangeScalarWhereWithAggregatesInput[]
-    OR?: ShopOpeningRangeScalarWhereWithAggregatesInput[]
-    NOT?: ShopOpeningRangeScalarWhereWithAggregatesInput | ShopOpeningRangeScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"ShopOpeningRange"> | number
-    shopId?: IntWithAggregatesFilter<"ShopOpeningRange"> | number
-    startDate?: DateTimeWithAggregatesFilter<"ShopOpeningRange"> | Date | string
-    endDate?: DateTimeNullableWithAggregatesFilter<"ShopOpeningRange"> | Date | string | null
-    dayOfWeek?: EnumDayOfWeekWithAggregatesFilter<"ShopOpeningRange"> | $Enums.DayOfWeek
-    openTime?: StringWithAggregatesFilter<"ShopOpeningRange"> | string
-    closeTime?: StringWithAggregatesFilter<"ShopOpeningRange"> | string
-    isClosed?: BoolWithAggregatesFilter<"ShopOpeningRange"> | boolean
+  export type ShopWorkingHourScalarWhereWithAggregatesInput = {
+    AND?: ShopWorkingHourScalarWhereWithAggregatesInput | ShopWorkingHourScalarWhereWithAggregatesInput[]
+    OR?: ShopWorkingHourScalarWhereWithAggregatesInput[]
+    NOT?: ShopWorkingHourScalarWhereWithAggregatesInput | ShopWorkingHourScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ShopWorkingHour"> | number
+    shopId?: IntWithAggregatesFilter<"ShopWorkingHour"> | number
+    dayOfWeek?: EnumDayOfWeekWithAggregatesFilter<"ShopWorkingHour"> | $Enums.DayOfWeek
+    openTime?: StringWithAggregatesFilter<"ShopWorkingHour"> | string
+    closeTime?: StringWithAggregatesFilter<"ShopWorkingHour"> | string
+    isClosed?: BoolWithAggregatesFilter<"ShopWorkingHour"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"ShopWorkingHour"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ShopWorkingHour"> | Date | string
+  }
+
+  export type UserWorkingHourWhereInput = {
+    AND?: UserWorkingHourWhereInput | UserWorkingHourWhereInput[]
+    OR?: UserWorkingHourWhereInput[]
+    NOT?: UserWorkingHourWhereInput | UserWorkingHourWhereInput[]
+    id?: IntFilter<"UserWorkingHour"> | number
+    shopUserId?: IntFilter<"UserWorkingHour"> | number
+    shopId?: IntFilter<"UserWorkingHour"> | number
+    dayOfWeek?: EnumDayOfWeekFilter<"UserWorkingHour"> | $Enums.DayOfWeek
+    startTime?: StringFilter<"UserWorkingHour"> | string
+    endTime?: StringFilter<"UserWorkingHour"> | string
+    isOff?: BoolFilter<"UserWorkingHour"> | boolean
+    createdAt?: DateTimeFilter<"UserWorkingHour"> | Date | string
+    updatedAt?: DateTimeFilter<"UserWorkingHour"> | Date | string
+    shopUser?: XOR<ShopUserScalarRelationFilter, ShopUserWhereInput>
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
+  }
+
+  export type UserWorkingHourOrderByWithRelationInput = {
+    id?: SortOrder
+    shopUserId?: SortOrder
+    shopId?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    isOff?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    shopUser?: ShopUserOrderByWithRelationInput
+    shop?: ShopOrderByWithRelationInput
+  }
+
+  export type UserWorkingHourWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: UserWorkingHourWhereInput | UserWorkingHourWhereInput[]
+    OR?: UserWorkingHourWhereInput[]
+    NOT?: UserWorkingHourWhereInput | UserWorkingHourWhereInput[]
+    shopUserId?: IntFilter<"UserWorkingHour"> | number
+    shopId?: IntFilter<"UserWorkingHour"> | number
+    dayOfWeek?: EnumDayOfWeekFilter<"UserWorkingHour"> | $Enums.DayOfWeek
+    startTime?: StringFilter<"UserWorkingHour"> | string
+    endTime?: StringFilter<"UserWorkingHour"> | string
+    isOff?: BoolFilter<"UserWorkingHour"> | boolean
+    createdAt?: DateTimeFilter<"UserWorkingHour"> | Date | string
+    updatedAt?: DateTimeFilter<"UserWorkingHour"> | Date | string
+    shopUser?: XOR<ShopUserScalarRelationFilter, ShopUserWhereInput>
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
+  }, "id">
+
+  export type UserWorkingHourOrderByWithAggregationInput = {
+    id?: SortOrder
+    shopUserId?: SortOrder
+    shopId?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    isOff?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserWorkingHourCountOrderByAggregateInput
+    _avg?: UserWorkingHourAvgOrderByAggregateInput
+    _max?: UserWorkingHourMaxOrderByAggregateInput
+    _min?: UserWorkingHourMinOrderByAggregateInput
+    _sum?: UserWorkingHourSumOrderByAggregateInput
+  }
+
+  export type UserWorkingHourScalarWhereWithAggregatesInput = {
+    AND?: UserWorkingHourScalarWhereWithAggregatesInput | UserWorkingHourScalarWhereWithAggregatesInput[]
+    OR?: UserWorkingHourScalarWhereWithAggregatesInput[]
+    NOT?: UserWorkingHourScalarWhereWithAggregatesInput | UserWorkingHourScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"UserWorkingHour"> | number
+    shopUserId?: IntWithAggregatesFilter<"UserWorkingHour"> | number
+    shopId?: IntWithAggregatesFilter<"UserWorkingHour"> | number
+    dayOfWeek?: EnumDayOfWeekWithAggregatesFilter<"UserWorkingHour"> | $Enums.DayOfWeek
+    startTime?: StringWithAggregatesFilter<"UserWorkingHour"> | string
+    endTime?: StringWithAggregatesFilter<"UserWorkingHour"> | string
+    isOff?: BoolWithAggregatesFilter<"UserWorkingHour"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"UserWorkingHour"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserWorkingHour"> | Date | string
   }
 
   export type ServiceWhereInput = {
@@ -11812,27 +13144,27 @@ export namespace Prisma {
     OR?: ServiceWhereInput[]
     NOT?: ServiceWhereInput | ServiceWhereInput[]
     id?: IntFilter<"Service"> | number
+    shopId?: IntFilter<"Service"> | number
     name?: StringFilter<"Service"> | string
     duration?: IntFilter<"Service"> | number
     price?: FloatFilter<"Service"> | number
-    ownerId?: IntFilter<"Service"> | number
     createdAt?: DateTimeFilter<"Service"> | Date | string
     updatedAt?: DateTimeFilter<"Service"> | Date | string
-    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
-    assignedUsers?: UserListRelationFilter
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
+    assignedUsers?: ServiceAssignmentListRelationFilter
     bookings?: BookingListRelationFilter
   }
 
   export type ServiceOrderByWithRelationInput = {
     id?: SortOrder
+    shopId?: SortOrder
     name?: SortOrder
     duration?: SortOrder
     price?: SortOrder
-    ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    owner?: UserOrderByWithRelationInput
-    assignedUsers?: UserOrderByRelationAggregateInput
+    shop?: ShopOrderByWithRelationInput
+    assignedUsers?: ServiceAssignmentOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
   }
 
@@ -11841,23 +13173,23 @@ export namespace Prisma {
     AND?: ServiceWhereInput | ServiceWhereInput[]
     OR?: ServiceWhereInput[]
     NOT?: ServiceWhereInput | ServiceWhereInput[]
+    shopId?: IntFilter<"Service"> | number
     name?: StringFilter<"Service"> | string
     duration?: IntFilter<"Service"> | number
     price?: FloatFilter<"Service"> | number
-    ownerId?: IntFilter<"Service"> | number
     createdAt?: DateTimeFilter<"Service"> | Date | string
     updatedAt?: DateTimeFilter<"Service"> | Date | string
-    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
-    assignedUsers?: UserListRelationFilter
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
+    assignedUsers?: ServiceAssignmentListRelationFilter
     bookings?: BookingListRelationFilter
   }, "id">
 
   export type ServiceOrderByWithAggregationInput = {
     id?: SortOrder
+    shopId?: SortOrder
     name?: SortOrder
     duration?: SortOrder
     price?: SortOrder
-    ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ServiceCountOrderByAggregateInput
@@ -11872,12 +13204,63 @@ export namespace Prisma {
     OR?: ServiceScalarWhereWithAggregatesInput[]
     NOT?: ServiceScalarWhereWithAggregatesInput | ServiceScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Service"> | number
+    shopId?: IntWithAggregatesFilter<"Service"> | number
     name?: StringWithAggregatesFilter<"Service"> | string
     duration?: IntWithAggregatesFilter<"Service"> | number
     price?: FloatWithAggregatesFilter<"Service"> | number
-    ownerId?: IntWithAggregatesFilter<"Service"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Service"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Service"> | Date | string
+  }
+
+  export type ServiceAssignmentWhereInput = {
+    AND?: ServiceAssignmentWhereInput | ServiceAssignmentWhereInput[]
+    OR?: ServiceAssignmentWhereInput[]
+    NOT?: ServiceAssignmentWhereInput | ServiceAssignmentWhereInput[]
+    id?: IntFilter<"ServiceAssignment"> | number
+    serviceId?: IntFilter<"ServiceAssignment"> | number
+    shopUserId?: IntFilter<"ServiceAssignment"> | number
+    service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
+    shopUser?: XOR<ShopUserScalarRelationFilter, ShopUserWhereInput>
+  }
+
+  export type ServiceAssignmentOrderByWithRelationInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    shopUserId?: SortOrder
+    service?: ServiceOrderByWithRelationInput
+    shopUser?: ShopUserOrderByWithRelationInput
+  }
+
+  export type ServiceAssignmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    serviceId_shopUserId?: ServiceAssignmentServiceIdShopUserIdCompoundUniqueInput
+    AND?: ServiceAssignmentWhereInput | ServiceAssignmentWhereInput[]
+    OR?: ServiceAssignmentWhereInput[]
+    NOT?: ServiceAssignmentWhereInput | ServiceAssignmentWhereInput[]
+    serviceId?: IntFilter<"ServiceAssignment"> | number
+    shopUserId?: IntFilter<"ServiceAssignment"> | number
+    service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
+    shopUser?: XOR<ShopUserScalarRelationFilter, ShopUserWhereInput>
+  }, "id" | "serviceId_shopUserId">
+
+  export type ServiceAssignmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    shopUserId?: SortOrder
+    _count?: ServiceAssignmentCountOrderByAggregateInput
+    _avg?: ServiceAssignmentAvgOrderByAggregateInput
+    _max?: ServiceAssignmentMaxOrderByAggregateInput
+    _min?: ServiceAssignmentMinOrderByAggregateInput
+    _sum?: ServiceAssignmentSumOrderByAggregateInput
+  }
+
+  export type ServiceAssignmentScalarWhereWithAggregatesInput = {
+    AND?: ServiceAssignmentScalarWhereWithAggregatesInput | ServiceAssignmentScalarWhereWithAggregatesInput[]
+    OR?: ServiceAssignmentScalarWhereWithAggregatesInput[]
+    NOT?: ServiceAssignmentScalarWhereWithAggregatesInput | ServiceAssignmentScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ServiceAssignment"> | number
+    serviceId?: IntWithAggregatesFilter<"ServiceAssignment"> | number
+    shopUserId?: IntWithAggregatesFilter<"ServiceAssignment"> | number
   }
 
   export type CustomerWhereInput = {
@@ -11888,6 +13271,8 @@ export namespace Prisma {
     name?: StringFilter<"Customer"> | string
     phone?: StringFilter<"Customer"> | string
     email?: StringNullableFilter<"Customer"> | string | null
+    note?: StringNullableFilter<"Customer"> | string | null
+    banned?: BoolFilter<"Customer"> | boolean
     createdAt?: DateTimeFilter<"Customer"> | Date | string
     updatedAt?: DateTimeFilter<"Customer"> | Date | string
     bookings?: BookingListRelationFilter
@@ -11898,6 +13283,8 @@ export namespace Prisma {
     name?: SortOrder
     phone?: SortOrder
     email?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    banned?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     bookings?: BookingOrderByRelationAggregateInput
@@ -11911,6 +13298,8 @@ export namespace Prisma {
     name?: StringFilter<"Customer"> | string
     phone?: StringFilter<"Customer"> | string
     email?: StringNullableFilter<"Customer"> | string | null
+    note?: StringNullableFilter<"Customer"> | string | null
+    banned?: BoolFilter<"Customer"> | boolean
     createdAt?: DateTimeFilter<"Customer"> | Date | string
     updatedAt?: DateTimeFilter<"Customer"> | Date | string
     bookings?: BookingListRelationFilter
@@ -11921,6 +13310,8 @@ export namespace Prisma {
     name?: SortOrder
     phone?: SortOrder
     email?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    banned?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: CustomerCountOrderByAggregateInput
@@ -11938,6 +13329,8 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Customer"> | string
     phone?: StringWithAggregatesFilter<"Customer"> | string
     email?: StringNullableWithAggregatesFilter<"Customer"> | string | null
+    note?: StringNullableWithAggregatesFilter<"Customer"> | string | null
+    banned?: BoolWithAggregatesFilter<"Customer"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Customer"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Customer"> | Date | string
   }
@@ -11947,36 +13340,36 @@ export namespace Prisma {
     OR?: BookingWhereInput[]
     NOT?: BookingWhereInput | BookingWhereInput[]
     id?: IntFilter<"Booking"> | number
+    shopId?: IntFilter<"Booking"> | number
+    serviceId?: IntFilter<"Booking"> | number
+    providerId?: IntNullableFilter<"Booking"> | number | null
+    customerId?: IntFilter<"Booking"> | number
     startTime?: DateTimeFilter<"Booking"> | Date | string
     endTime?: DateTimeFilter<"Booking"> | Date | string
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
-    customerId?: IntFilter<"Booking"> | number
-    shopId?: IntFilter<"Booking"> | number
-    userId?: IntFilter<"Booking"> | number
-    serviceId?: IntFilter<"Booking"> | number
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
-    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
+    provider?: XOR<ShopUserNullableScalarRelationFilter, ShopUserWhereInput> | null
+    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
   }
 
   export type BookingOrderByWithRelationInput = {
     id?: SortOrder
+    shopId?: SortOrder
+    serviceId?: SortOrder
+    providerId?: SortOrderInput | SortOrder
+    customerId?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     status?: SortOrder
-    customerId?: SortOrder
-    shopId?: SortOrder
-    userId?: SortOrder
-    serviceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    customer?: CustomerOrderByWithRelationInput
     shop?: ShopOrderByWithRelationInput
-    user?: UserOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
+    provider?: ShopUserOrderByWithRelationInput
+    customer?: CustomerOrderByWithRelationInput
   }
 
   export type BookingWhereUniqueInput = Prisma.AtLeast<{
@@ -11984,30 +13377,30 @@ export namespace Prisma {
     AND?: BookingWhereInput | BookingWhereInput[]
     OR?: BookingWhereInput[]
     NOT?: BookingWhereInput | BookingWhereInput[]
+    shopId?: IntFilter<"Booking"> | number
+    serviceId?: IntFilter<"Booking"> | number
+    providerId?: IntNullableFilter<"Booking"> | number | null
+    customerId?: IntFilter<"Booking"> | number
     startTime?: DateTimeFilter<"Booking"> | Date | string
     endTime?: DateTimeFilter<"Booking"> | Date | string
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
-    customerId?: IntFilter<"Booking"> | number
-    shopId?: IntFilter<"Booking"> | number
-    userId?: IntFilter<"Booking"> | number
-    serviceId?: IntFilter<"Booking"> | number
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
-    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
+    provider?: XOR<ShopUserNullableScalarRelationFilter, ShopUserWhereInput> | null
+    customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
   }, "id">
 
   export type BookingOrderByWithAggregationInput = {
     id?: SortOrder
+    shopId?: SortOrder
+    serviceId?: SortOrder
+    providerId?: SortOrderInput | SortOrder
+    customerId?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     status?: SortOrder
-    customerId?: SortOrder
-    shopId?: SortOrder
-    userId?: SortOrder
-    serviceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: BookingCountOrderByAggregateInput
@@ -12022,149 +13415,15 @@ export namespace Prisma {
     OR?: BookingScalarWhereWithAggregatesInput[]
     NOT?: BookingScalarWhereWithAggregatesInput | BookingScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Booking"> | number
+    shopId?: IntWithAggregatesFilter<"Booking"> | number
+    serviceId?: IntWithAggregatesFilter<"Booking"> | number
+    providerId?: IntNullableWithAggregatesFilter<"Booking"> | number | null
+    customerId?: IntWithAggregatesFilter<"Booking"> | number
     startTime?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
     endTime?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
     status?: EnumBookingStatusWithAggregatesFilter<"Booking"> | $Enums.BookingStatus
-    customerId?: IntWithAggregatesFilter<"Booking"> | number
-    shopId?: IntWithAggregatesFilter<"Booking"> | number
-    userId?: IntWithAggregatesFilter<"Booking"> | number
-    serviceId?: IntWithAggregatesFilter<"Booking"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
-  }
-
-  export type WorkingHourWhereInput = {
-    AND?: WorkingHourWhereInput | WorkingHourWhereInput[]
-    OR?: WorkingHourWhereInput[]
-    NOT?: WorkingHourWhereInput | WorkingHourWhereInput[]
-    id?: IntFilter<"WorkingHour"> | number
-    userId?: IntFilter<"WorkingHour"> | number
-    dayOfWeek?: EnumDayOfWeekFilter<"WorkingHour"> | $Enums.DayOfWeek
-    startTime?: DateTimeFilter<"WorkingHour"> | Date | string
-    endTime?: DateTimeFilter<"WorkingHour"> | Date | string
-    createdAt?: DateTimeFilter<"WorkingHour"> | Date | string
-    updatedAt?: DateTimeFilter<"WorkingHour"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }
-
-  export type WorkingHourOrderByWithRelationInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    dayOfWeek?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    user?: UserOrderByWithRelationInput
-  }
-
-  export type WorkingHourWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: WorkingHourWhereInput | WorkingHourWhereInput[]
-    OR?: WorkingHourWhereInput[]
-    NOT?: WorkingHourWhereInput | WorkingHourWhereInput[]
-    userId?: IntFilter<"WorkingHour"> | number
-    dayOfWeek?: EnumDayOfWeekFilter<"WorkingHour"> | $Enums.DayOfWeek
-    startTime?: DateTimeFilter<"WorkingHour"> | Date | string
-    endTime?: DateTimeFilter<"WorkingHour"> | Date | string
-    createdAt?: DateTimeFilter<"WorkingHour"> | Date | string
-    updatedAt?: DateTimeFilter<"WorkingHour"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
-
-  export type WorkingHourOrderByWithAggregationInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    dayOfWeek?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: WorkingHourCountOrderByAggregateInput
-    _avg?: WorkingHourAvgOrderByAggregateInput
-    _max?: WorkingHourMaxOrderByAggregateInput
-    _min?: WorkingHourMinOrderByAggregateInput
-    _sum?: WorkingHourSumOrderByAggregateInput
-  }
-
-  export type WorkingHourScalarWhereWithAggregatesInput = {
-    AND?: WorkingHourScalarWhereWithAggregatesInput | WorkingHourScalarWhereWithAggregatesInput[]
-    OR?: WorkingHourScalarWhereWithAggregatesInput[]
-    NOT?: WorkingHourScalarWhereWithAggregatesInput | WorkingHourScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"WorkingHour"> | number
-    userId?: IntWithAggregatesFilter<"WorkingHour"> | number
-    dayOfWeek?: EnumDayOfWeekWithAggregatesFilter<"WorkingHour"> | $Enums.DayOfWeek
-    startTime?: DateTimeWithAggregatesFilter<"WorkingHour"> | Date | string
-    endTime?: DateTimeWithAggregatesFilter<"WorkingHour"> | Date | string
-    createdAt?: DateTimeWithAggregatesFilter<"WorkingHour"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"WorkingHour"> | Date | string
-  }
-
-  export type InventoryItemWhereInput = {
-    AND?: InventoryItemWhereInput | InventoryItemWhereInput[]
-    OR?: InventoryItemWhereInput[]
-    NOT?: InventoryItemWhereInput | InventoryItemWhereInput[]
-    id?: IntFilter<"InventoryItem"> | number
-    name?: StringFilter<"InventoryItem"> | string
-    quantity?: IntFilter<"InventoryItem"> | number
-    price?: FloatNullableFilter<"InventoryItem"> | number | null
-    shopId?: IntFilter<"InventoryItem"> | number
-    createdAt?: DateTimeFilter<"InventoryItem"> | Date | string
-    updatedAt?: DateTimeFilter<"InventoryItem"> | Date | string
-    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
-  }
-
-  export type InventoryItemOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    quantity?: SortOrder
-    price?: SortOrderInput | SortOrder
-    shopId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    shop?: ShopOrderByWithRelationInput
-  }
-
-  export type InventoryItemWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: InventoryItemWhereInput | InventoryItemWhereInput[]
-    OR?: InventoryItemWhereInput[]
-    NOT?: InventoryItemWhereInput | InventoryItemWhereInput[]
-    name?: StringFilter<"InventoryItem"> | string
-    quantity?: IntFilter<"InventoryItem"> | number
-    price?: FloatNullableFilter<"InventoryItem"> | number | null
-    shopId?: IntFilter<"InventoryItem"> | number
-    createdAt?: DateTimeFilter<"InventoryItem"> | Date | string
-    updatedAt?: DateTimeFilter<"InventoryItem"> | Date | string
-    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
-  }, "id">
-
-  export type InventoryItemOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    quantity?: SortOrder
-    price?: SortOrderInput | SortOrder
-    shopId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: InventoryItemCountOrderByAggregateInput
-    _avg?: InventoryItemAvgOrderByAggregateInput
-    _max?: InventoryItemMaxOrderByAggregateInput
-    _min?: InventoryItemMinOrderByAggregateInput
-    _sum?: InventoryItemSumOrderByAggregateInput
-  }
-
-  export type InventoryItemScalarWhereWithAggregatesInput = {
-    AND?: InventoryItemScalarWhereWithAggregatesInput | InventoryItemScalarWhereWithAggregatesInput[]
-    OR?: InventoryItemScalarWhereWithAggregatesInput[]
-    NOT?: InventoryItemScalarWhereWithAggregatesInput | InventoryItemScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"InventoryItem"> | number
-    name?: StringWithAggregatesFilter<"InventoryItem"> | string
-    quantity?: IntWithAggregatesFilter<"InventoryItem"> | number
-    price?: FloatNullableWithAggregatesFilter<"InventoryItem"> | number | null
-    shopId?: IntWithAggregatesFilter<"InventoryItem"> | number
-    createdAt?: DateTimeWithAggregatesFilter<"InventoryItem"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"InventoryItem"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -12172,19 +13431,11 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     subscription: $Enums.Subscription
-    role: $Enums.Role
     active?: boolean
-    bookable?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    owner?: UserCreateNestedOneWithoutUsersInput
-    users?: UserCreateNestedManyWithoutOwnerInput
-    shop?: ShopCreateNestedOneWithoutAssignedUsersInput
-    shops?: ShopCreateNestedManyWithoutOwnerInput
-    services?: ServiceCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceCreateNestedManyWithoutAssignedUsersInput
-    workingHours?: WorkingHourCreateNestedManyWithoutUserInput
-    bookings?: BookingCreateNestedManyWithoutUserInput
+    ownedShops?: ShopCreateNestedManyWithoutOwnerInput
+    memberships?: ShopUserCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -12193,19 +13444,11 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     subscription: $Enums.Subscription
-    role: $Enums.Role
     active?: boolean
-    bookable?: boolean
-    ownerId?: number | null
-    shopId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    users?: UserUncheckedCreateNestedManyWithoutOwnerInput
-    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
-    services?: ServiceUncheckedCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceUncheckedCreateNestedManyWithoutAssignedUsersInput
-    workingHours?: WorkingHourUncheckedCreateNestedManyWithoutUserInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutUserInput
+    ownedShops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
+    memberships?: ShopUserUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -12213,19 +13456,11 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneWithoutUsersNestedInput
-    users?: UserUpdateManyWithoutOwnerNestedInput
-    shop?: ShopUpdateOneWithoutAssignedUsersNestedInput
-    shops?: ShopUpdateManyWithoutOwnerNestedInput
-    services?: ServiceUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUpdateManyWithoutAssignedUsersNestedInput
-    workingHours?: WorkingHourUpdateManyWithoutUserNestedInput
-    bookings?: BookingUpdateManyWithoutUserNestedInput
+    ownedShops?: ShopUpdateManyWithoutOwnerNestedInput
+    memberships?: ShopUserUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -12234,19 +13469,11 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
-    ownerId?: NullableIntFieldUpdateOperationsInput | number | null
-    shopId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUncheckedUpdateManyWithoutOwnerNestedInput
-    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
-    services?: ServiceUncheckedUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUncheckedUpdateManyWithoutAssignedUsersNestedInput
-    workingHours?: WorkingHourUncheckedUpdateManyWithoutUserNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutUserNestedInput
+    ownedShops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
+    memberships?: ShopUserUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -12255,11 +13482,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     subscription: $Enums.Subscription
-    role: $Enums.Role
     active?: boolean
-    bookable?: boolean
-    ownerId?: number | null
-    shopId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12269,9 +13492,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12282,64 +13503,69 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
-    ownerId?: NullableIntFieldUpdateOperationsInput | number | null
-    shopId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ShopCreateInput = {
     name: string
+    address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    owner: UserCreateNestedOneWithoutShopsInput
-    assignedUsers?: UserCreateNestedManyWithoutShopInput
-    inventory?: InventoryItemCreateNestedManyWithoutShopInput
+    owner: UserCreateNestedOneWithoutOwnedShopsInput
+    members?: ShopUserCreateNestedManyWithoutShopInput
+    workingHours?: ShopWorkingHourCreateNestedManyWithoutShopInput
+    userWorkingHours?: UserWorkingHourCreateNestedManyWithoutShopInput
+    services?: ServiceCreateNestedManyWithoutShopInput
     bookings?: BookingCreateNestedManyWithoutShopInput
-    openingRanges?: ShopOpeningRangeCreateNestedManyWithoutShopInput
   }
 
   export type ShopUncheckedCreateInput = {
     id?: number
     name: string
+    address?: string | null
     ownerId: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    assignedUsers?: UserUncheckedCreateNestedManyWithoutShopInput
-    inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
+    members?: ShopUserUncheckedCreateNestedManyWithoutShopInput
+    workingHours?: ShopWorkingHourUncheckedCreateNestedManyWithoutShopInput
+    userWorkingHours?: UserWorkingHourUncheckedCreateNestedManyWithoutShopInput
+    services?: ServiceUncheckedCreateNestedManyWithoutShopInput
     bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
-    openingRanges?: ShopOpeningRangeUncheckedCreateNestedManyWithoutShopInput
   }
 
   export type ShopUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
-    assignedUsers?: UserUpdateManyWithoutShopNestedInput
-    inventory?: InventoryItemUpdateManyWithoutShopNestedInput
+    owner?: UserUpdateOneRequiredWithoutOwnedShopsNestedInput
+    members?: ShopUserUpdateManyWithoutShopNestedInput
+    workingHours?: ShopWorkingHourUpdateManyWithoutShopNestedInput
+    userWorkingHours?: UserWorkingHourUpdateManyWithoutShopNestedInput
+    services?: ServiceUpdateManyWithoutShopNestedInput
     bookings?: BookingUpdateManyWithoutShopNestedInput
-    openingRanges?: ShopOpeningRangeUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    assignedUsers?: UserUncheckedUpdateManyWithoutShopNestedInput
-    inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
+    members?: ShopUserUncheckedUpdateManyWithoutShopNestedInput
+    workingHours?: ShopWorkingHourUncheckedUpdateManyWithoutShopNestedInput
+    userWorkingHours?: UserWorkingHourUncheckedUpdateManyWithoutShopNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutShopNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
-    openingRanges?: ShopOpeningRangeUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type ShopCreateManyInput = {
     id?: number
     name: string
+    address?: string | null
     ownerId: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12347,6 +13573,7 @@ export namespace Prisma {
 
   export type ShopUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12354,82 +13581,246 @@ export namespace Prisma {
   export type ShopUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ShopOpeningRangeCreateInput = {
-    startDate: Date | string
-    endDate?: Date | string | null
-    dayOfWeek: $Enums.DayOfWeek
-    openTime: string
-    closeTime: string
-    isClosed?: boolean
-    shop: ShopCreateNestedOneWithoutOpeningRangesInput
+  export type ShopUserCreateInput = {
+    role: $Enums.ShopRole
+    active?: boolean
+    bookable?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shop: ShopCreateNestedOneWithoutMembersInput
+    user: UserCreateNestedOneWithoutMembershipsInput
+    workingHours?: UserWorkingHourCreateNestedManyWithoutShopUserInput
+    assignedServices?: ServiceAssignmentCreateNestedManyWithoutShopUserInput
+    bookings?: BookingCreateNestedManyWithoutProviderInput
   }
 
-  export type ShopOpeningRangeUncheckedCreateInput = {
+  export type ShopUserUncheckedCreateInput = {
     id?: number
     shopId: number
-    startDate: Date | string
-    endDate?: Date | string | null
-    dayOfWeek: $Enums.DayOfWeek
-    openTime: string
-    closeTime: string
-    isClosed?: boolean
+    userId: number
+    role: $Enums.ShopRole
+    active?: boolean
+    bookable?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workingHours?: UserWorkingHourUncheckedCreateNestedManyWithoutShopUserInput
+    assignedServices?: ServiceAssignmentUncheckedCreateNestedManyWithoutShopUserInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutProviderInput
   }
 
-  export type ShopOpeningRangeUpdateInput = {
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-    openTime?: StringFieldUpdateOperationsInput | string
-    closeTime?: StringFieldUpdateOperationsInput | string
-    isClosed?: BoolFieldUpdateOperationsInput | boolean
-    shop?: ShopUpdateOneRequiredWithoutOpeningRangesNestedInput
+  export type ShopUserUpdateInput = {
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
+    active?: BoolFieldUpdateOperationsInput | boolean
+    bookable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shop?: ShopUpdateOneRequiredWithoutMembersNestedInput
+    user?: UserUpdateOneRequiredWithoutMembershipsNestedInput
+    workingHours?: UserWorkingHourUpdateManyWithoutShopUserNestedInput
+    assignedServices?: ServiceAssignmentUpdateManyWithoutShopUserNestedInput
+    bookings?: BookingUpdateManyWithoutProviderNestedInput
   }
 
-  export type ShopOpeningRangeUncheckedUpdateInput = {
+  export type ShopUserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-    openTime?: StringFieldUpdateOperationsInput | string
-    closeTime?: StringFieldUpdateOperationsInput | string
-    isClosed?: BoolFieldUpdateOperationsInput | boolean
+    userId?: IntFieldUpdateOperationsInput | number
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
+    active?: BoolFieldUpdateOperationsInput | boolean
+    bookable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workingHours?: UserWorkingHourUncheckedUpdateManyWithoutShopUserNestedInput
+    assignedServices?: ServiceAssignmentUncheckedUpdateManyWithoutShopUserNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutProviderNestedInput
   }
 
-  export type ShopOpeningRangeCreateManyInput = {
+  export type ShopUserCreateManyInput = {
     id?: number
     shopId: number
-    startDate: Date | string
-    endDate?: Date | string | null
+    userId: number
+    role: $Enums.ShopRole
+    active?: boolean
+    bookable?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShopUserUpdateManyMutationInput = {
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
+    active?: BoolFieldUpdateOperationsInput | boolean
+    bookable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopUserUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
+    active?: BoolFieldUpdateOperationsInput | boolean
+    bookable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopWorkingHourCreateInput = {
     dayOfWeek: $Enums.DayOfWeek
     openTime: string
     closeTime: string
     isClosed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shop: ShopCreateNestedOneWithoutWorkingHoursInput
   }
 
-  export type ShopOpeningRangeUpdateManyMutationInput = {
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  export type ShopWorkingHourUncheckedCreateInput = {
+    id?: number
+    shopId: number
+    dayOfWeek: $Enums.DayOfWeek
+    openTime: string
+    closeTime: string
+    isClosed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShopWorkingHourUpdateInput = {
     dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
     openTime?: StringFieldUpdateOperationsInput | string
     closeTime?: StringFieldUpdateOperationsInput | string
     isClosed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shop?: ShopUpdateOneRequiredWithoutWorkingHoursNestedInput
   }
 
-  export type ShopOpeningRangeUncheckedUpdateManyInput = {
+  export type ShopWorkingHourUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
     openTime?: StringFieldUpdateOperationsInput | string
     closeTime?: StringFieldUpdateOperationsInput | string
     isClosed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopWorkingHourCreateManyInput = {
+    id?: number
+    shopId: number
+    dayOfWeek: $Enums.DayOfWeek
+    openTime: string
+    closeTime: string
+    isClosed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShopWorkingHourUpdateManyMutationInput = {
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopWorkingHourUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserWorkingHourCreateInput = {
+    dayOfWeek: $Enums.DayOfWeek
+    startTime: string
+    endTime: string
+    isOff?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shopUser: ShopUserCreateNestedOneWithoutWorkingHoursInput
+    shop: ShopCreateNestedOneWithoutUserWorkingHoursInput
+  }
+
+  export type UserWorkingHourUncheckedCreateInput = {
+    id?: number
+    shopUserId: number
+    shopId: number
+    dayOfWeek: $Enums.DayOfWeek
+    startTime: string
+    endTime: string
+    isOff?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserWorkingHourUpdateInput = {
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isOff?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shopUser?: ShopUserUpdateOneRequiredWithoutWorkingHoursNestedInput
+    shop?: ShopUpdateOneRequiredWithoutUserWorkingHoursNestedInput
+  }
+
+  export type UserWorkingHourUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopUserId?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isOff?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserWorkingHourCreateManyInput = {
+    id?: number
+    shopUserId: number
+    shopId: number
+    dayOfWeek: $Enums.DayOfWeek
+    startTime: string
+    endTime: string
+    isOff?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserWorkingHourUpdateManyMutationInput = {
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isOff?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserWorkingHourUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopUserId?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isOff?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ServiceCreateInput = {
@@ -12438,20 +13829,20 @@ export namespace Prisma {
     price: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    owner: UserCreateNestedOneWithoutServicesInput
-    assignedUsers?: UserCreateNestedManyWithoutAssignedServicesInput
+    shop: ShopCreateNestedOneWithoutServicesInput
+    assignedUsers?: ServiceAssignmentCreateNestedManyWithoutServiceInput
     bookings?: BookingCreateNestedManyWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateInput = {
     id?: number
+    shopId: number
     name: string
     duration: number
     price: number
-    ownerId: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    assignedUsers?: UserUncheckedCreateNestedManyWithoutAssignedServicesInput
+    assignedUsers?: ServiceAssignmentUncheckedCreateNestedManyWithoutServiceInput
     bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
   }
 
@@ -12461,29 +13852,29 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneRequiredWithoutServicesNestedInput
-    assignedUsers?: UserUpdateManyWithoutAssignedServicesNestedInput
+    shop?: ShopUpdateOneRequiredWithoutServicesNestedInput
+    assignedUsers?: ServiceAssignmentUpdateManyWithoutServiceNestedInput
     bookings?: BookingUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    ownerId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    assignedUsers?: UserUncheckedUpdateManyWithoutAssignedServicesNestedInput
+    assignedUsers?: ServiceAssignmentUncheckedUpdateManyWithoutServiceNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceCreateManyInput = {
     id?: number
+    shopId: number
     name: string
     duration: number
     price: number
-    ownerId: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12498,18 +13889,58 @@ export namespace Prisma {
 
   export type ServiceUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    ownerId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceAssignmentCreateInput = {
+    service: ServiceCreateNestedOneWithoutAssignedUsersInput
+    shopUser: ShopUserCreateNestedOneWithoutAssignedServicesInput
+  }
+
+  export type ServiceAssignmentUncheckedCreateInput = {
+    id?: number
+    serviceId: number
+    shopUserId: number
+  }
+
+  export type ServiceAssignmentUpdateInput = {
+    service?: ServiceUpdateOneRequiredWithoutAssignedUsersNestedInput
+    shopUser?: ShopUserUpdateOneRequiredWithoutAssignedServicesNestedInput
+  }
+
+  export type ServiceAssignmentUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    serviceId?: IntFieldUpdateOperationsInput | number
+    shopUserId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ServiceAssignmentCreateManyInput = {
+    id?: number
+    serviceId: number
+    shopUserId: number
+  }
+
+  export type ServiceAssignmentUpdateManyMutationInput = {
+
+  }
+
+  export type ServiceAssignmentUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    serviceId?: IntFieldUpdateOperationsInput | number
+    shopUserId?: IntFieldUpdateOperationsInput | number
   }
 
   export type CustomerCreateInput = {
     name: string
     phone: string
     email?: string | null
+    note?: string | null
+    banned?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     bookings?: BookingCreateNestedManyWithoutCustomerInput
@@ -12520,6 +13951,8 @@ export namespace Prisma {
     name: string
     phone: string
     email?: string | null
+    note?: string | null
+    banned?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     bookings?: BookingUncheckedCreateNestedManyWithoutCustomerInput
@@ -12529,6 +13962,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookings?: BookingUpdateManyWithoutCustomerNestedInput
@@ -12539,6 +13974,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookings?: BookingUncheckedUpdateManyWithoutCustomerNestedInput
@@ -12549,6 +13986,8 @@ export namespace Prisma {
     name: string
     phone: string
     email?: string | null
+    note?: string | null
+    banned?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12557,6 +13996,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12566,6 +14007,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12576,21 +14019,21 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    customer: CustomerCreateNestedOneWithoutBookingsInput
     shop: ShopCreateNestedOneWithoutBookingsInput
-    user: UserCreateNestedOneWithoutBookingsInput
     service: ServiceCreateNestedOneWithoutBookingsInput
+    provider?: ShopUserCreateNestedOneWithoutBookingsInput
+    customer: CustomerCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateInput = {
     id?: number
+    shopId: number
+    serviceId: number
+    providerId?: number | null
+    customerId: number
     startTime: Date | string
     endTime: Date | string
     status?: $Enums.BookingStatus
-    customerId: number
-    shopId: number
-    userId: number
-    serviceId: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12601,34 +14044,34 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
     shop?: ShopUpdateOneRequiredWithoutBookingsNestedInput
-    user?: UserUpdateOneRequiredWithoutBookingsNestedInput
     service?: ServiceUpdateOneRequiredWithoutBookingsNestedInput
+    provider?: ShopUserUpdateOneWithoutBookingsNestedInput
+    customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    serviceId?: IntFieldUpdateOperationsInput | number
+    providerId?: NullableIntFieldUpdateOperationsInput | number | null
+    customerId?: IntFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
-    customerId?: IntFieldUpdateOperationsInput | number
-    shopId?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    serviceId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingCreateManyInput = {
     id?: number
+    shopId: number
+    serviceId: number
+    providerId?: number | null
+    customerId: number
     startTime: Date | string
     endTime: Date | string
     status?: $Enums.BookingStatus
-    customerId: number
-    shopId: number
-    userId: number
-    serviceId: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12643,145 +14086,13 @@ export namespace Prisma {
 
   export type BookingUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    serviceId?: IntFieldUpdateOperationsInput | number
+    providerId?: NullableIntFieldUpdateOperationsInput | number | null
+    customerId?: IntFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
-    customerId?: IntFieldUpdateOperationsInput | number
-    shopId?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    serviceId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WorkingHourCreateInput = {
-    dayOfWeek: $Enums.DayOfWeek
-    startTime: Date | string
-    endTime: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutWorkingHoursInput
-  }
-
-  export type WorkingHourUncheckedCreateInput = {
-    id?: number
-    userId: number
-    dayOfWeek: $Enums.DayOfWeek
-    startTime: Date | string
-    endTime: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type WorkingHourUpdateInput = {
-    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutWorkingHoursNestedInput
-  }
-
-  export type WorkingHourUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WorkingHourCreateManyInput = {
-    id?: number
-    userId: number
-    dayOfWeek: $Enums.DayOfWeek
-    startTime: Date | string
-    endTime: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type WorkingHourUpdateManyMutationInput = {
-    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WorkingHourUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type InventoryItemCreateInput = {
-    name: string
-    quantity?: number
-    price?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shop: ShopCreateNestedOneWithoutInventoryInput
-  }
-
-  export type InventoryItemUncheckedCreateInput = {
-    id?: number
-    name: string
-    quantity?: number
-    price?: number | null
-    shopId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type InventoryItemUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
-    price?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shop?: ShopUpdateOneRequiredWithoutInventoryNestedInput
-  }
-
-  export type InventoryItemUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
-    price?: NullableFloatFieldUpdateOperationsInput | number | null
-    shopId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type InventoryItemCreateManyInput = {
-    id?: number
-    name: string
-    quantity?: number
-    price?: number | null
-    shopId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type InventoryItemUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
-    price?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type InventoryItemUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
-    price?: NullableFloatFieldUpdateOperationsInput | number | null
-    shopId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12819,27 +14130,9 @@ export namespace Prisma {
     not?: NestedEnumSubscriptionFilter<$PrismaModel> | $Enums.Subscription
   }
 
-  export type EnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
-  }
-
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -12853,68 +14146,23 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
-  }
-
-  export type UserListRelationFilter = {
-    every?: UserWhereInput
-    some?: UserWhereInput
-    none?: UserWhereInput
-  }
-
-  export type ShopNullableScalarRelationFilter = {
-    is?: ShopWhereInput | null
-    isNot?: ShopWhereInput | null
-  }
-
   export type ShopListRelationFilter = {
     every?: ShopWhereInput
     some?: ShopWhereInput
     none?: ShopWhereInput
   }
 
-  export type ServiceListRelationFilter = {
-    every?: ServiceWhereInput
-    some?: ServiceWhereInput
-    none?: ServiceWhereInput
-  }
-
-  export type WorkingHourListRelationFilter = {
-    every?: WorkingHourWhereInput
-    some?: WorkingHourWhereInput
-    none?: WorkingHourWhereInput
-  }
-
-  export type BookingListRelationFilter = {
-    every?: BookingWhereInput
-    some?: BookingWhereInput
-    none?: BookingWhereInput
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
-  }
-
-  export type UserOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type ShopUserListRelationFilter = {
+    every?: ShopUserWhereInput
+    some?: ShopUserWhereInput
+    none?: ShopUserWhereInput
   }
 
   export type ShopOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type ServiceOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type WorkingHourOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type BookingOrderByRelationAggregateInput = {
+  export type ShopUserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -12924,19 +14172,13 @@ export namespace Prisma {
     email?: SortOrder
     hashedPassword?: SortOrder
     subscription?: SortOrder
-    role?: SortOrder
     active?: SortOrder
-    bookable?: SortOrder
-    ownerId?: SortOrder
-    shopId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
     id?: SortOrder
-    ownerId?: SortOrder
-    shopId?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -12945,11 +14187,7 @@ export namespace Prisma {
     email?: SortOrder
     hashedPassword?: SortOrder
     subscription?: SortOrder
-    role?: SortOrder
     active?: SortOrder
-    bookable?: SortOrder
-    ownerId?: SortOrder
-    shopId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -12960,19 +14198,13 @@ export namespace Prisma {
     email?: SortOrder
     hashedPassword?: SortOrder
     subscription?: SortOrder
-    role?: SortOrder
     active?: SortOrder
-    bookable?: SortOrder
-    ownerId?: SortOrder
-    shopId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
     id?: SortOrder
-    ownerId?: SortOrder
-    shopId?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -13019,38 +14251,12 @@ export namespace Prisma {
     _max?: NestedEnumSubscriptionFilter<$PrismaModel>
   }
 
-  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -13065,226 +14271,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
-  }
-
-  export type InventoryItemListRelationFilter = {
-    every?: InventoryItemWhereInput
-    some?: InventoryItemWhereInput
-    none?: InventoryItemWhereInput
-  }
-
-  export type ShopOpeningRangeListRelationFilter = {
-    every?: ShopOpeningRangeWhereInput
-    some?: ShopOpeningRangeWhereInput
-    none?: ShopOpeningRangeWhereInput
-  }
-
-  export type InventoryItemOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ShopOpeningRangeOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ShopCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    ownerId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ShopAvgOrderByAggregateInput = {
-    id?: SortOrder
-    ownerId?: SortOrder
-  }
-
-  export type ShopMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    ownerId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ShopMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    ownerId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ShopSumOrderByAggregateInput = {
-    id?: SortOrder
-    ownerId?: SortOrder
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type EnumDayOfWeekFilter<$PrismaModel = never> = {
-    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
-    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    not?: NestedEnumDayOfWeekFilter<$PrismaModel> | $Enums.DayOfWeek
-  }
-
-  export type ShopScalarRelationFilter = {
-    is?: ShopWhereInput
-    isNot?: ShopWhereInput
-  }
-
-  export type ShopOpeningRangeCountOrderByAggregateInput = {
-    id?: SortOrder
-    shopId?: SortOrder
-    startDate?: SortOrder
-    endDate?: SortOrder
-    dayOfWeek?: SortOrder
-    openTime?: SortOrder
-    closeTime?: SortOrder
-    isClosed?: SortOrder
-  }
-
-  export type ShopOpeningRangeAvgOrderByAggregateInput = {
-    id?: SortOrder
-    shopId?: SortOrder
-  }
-
-  export type ShopOpeningRangeMaxOrderByAggregateInput = {
-    id?: SortOrder
-    shopId?: SortOrder
-    startDate?: SortOrder
-    endDate?: SortOrder
-    dayOfWeek?: SortOrder
-    openTime?: SortOrder
-    closeTime?: SortOrder
-    isClosed?: SortOrder
-  }
-
-  export type ShopOpeningRangeMinOrderByAggregateInput = {
-    id?: SortOrder
-    shopId?: SortOrder
-    startDate?: SortOrder
-    endDate?: SortOrder
-    dayOfWeek?: SortOrder
-    openTime?: SortOrder
-    closeTime?: SortOrder
-    isClosed?: SortOrder
-  }
-
-  export type ShopOpeningRangeSumOrderByAggregateInput = {
-    id?: SortOrder
-    shopId?: SortOrder
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type EnumDayOfWeekWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
-    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    not?: NestedEnumDayOfWeekWithAggregatesFilter<$PrismaModel> | $Enums.DayOfWeek
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumDayOfWeekFilter<$PrismaModel>
-    _max?: NestedEnumDayOfWeekFilter<$PrismaModel>
-  }
-
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type ServiceCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    duration?: SortOrder
-    price?: SortOrder
-    ownerId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ServiceAvgOrderByAggregateInput = {
-    id?: SortOrder
-    duration?: SortOrder
-    price?: SortOrder
-    ownerId?: SortOrder
-  }
-
-  export type ServiceMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    duration?: SortOrder
-    price?: SortOrder
-    ownerId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ServiceMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    duration?: SortOrder
-    price?: SortOrder
-    ownerId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ServiceSumOrderByAggregateInput = {
-    id?: SortOrder
-    duration?: SortOrder
-    price?: SortOrder
-    ownerId?: SortOrder
-  }
-
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
@@ -13302,39 +14288,91 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type CustomerCountOrderByAggregateInput = {
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type ShopWorkingHourListRelationFilter = {
+    every?: ShopWorkingHourWhereInput
+    some?: ShopWorkingHourWhereInput
+    none?: ShopWorkingHourWhereInput
+  }
+
+  export type UserWorkingHourListRelationFilter = {
+    every?: UserWorkingHourWhereInput
+    some?: UserWorkingHourWhereInput
+    none?: UserWorkingHourWhereInput
+  }
+
+  export type ServiceListRelationFilter = {
+    every?: ServiceWhereInput
+    some?: ServiceWhereInput
+    none?: ServiceWhereInput
+  }
+
+  export type BookingListRelationFilter = {
+    every?: BookingWhereInput
+    some?: BookingWhereInput
+    none?: BookingWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type ShopWorkingHourOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserWorkingHourOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ServiceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BookingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ShopCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    phone?: SortOrder
-    email?: SortOrder
+    address?: SortOrder
+    ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type CustomerAvgOrderByAggregateInput = {
+  export type ShopAvgOrderByAggregateInput = {
     id?: SortOrder
+    ownerId?: SortOrder
   }
 
-  export type CustomerMaxOrderByAggregateInput = {
+  export type ShopMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    phone?: SortOrder
-    email?: SortOrder
+    address?: SortOrder
+    ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type CustomerMinOrderByAggregateInput = {
+  export type ShopMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    phone?: SortOrder
-    email?: SortOrder
+    address?: SortOrder
+    ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type CustomerSumOrderByAggregateInput = {
+  export type ShopSumOrderByAggregateInput = {
     id?: SortOrder
+    ownerId?: SortOrder
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -13355,16 +14393,270 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type EnumBookingStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.BookingStatus | EnumBookingStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumBookingStatusFilter<$PrismaModel> | $Enums.BookingStatus
+  export type EnumShopRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShopRole | EnumShopRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.ShopRole[] | ListEnumShopRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShopRole[] | ListEnumShopRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumShopRoleFilter<$PrismaModel> | $Enums.ShopRole
   }
 
-  export type CustomerScalarRelationFilter = {
-    is?: CustomerWhereInput
-    isNot?: CustomerWhereInput
+  export type ShopScalarRelationFilter = {
+    is?: ShopWhereInput
+    isNot?: ShopWhereInput
+  }
+
+  export type ServiceAssignmentListRelationFilter = {
+    every?: ServiceAssignmentWhereInput
+    some?: ServiceAssignmentWhereInput
+    none?: ServiceAssignmentWhereInput
+  }
+
+  export type ServiceAssignmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ShopUserShopIdUserIdCompoundUniqueInput = {
+    shopId: number
+    userId: number
+  }
+
+  export type ShopUserCountOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    userId?: SortOrder
+    role?: SortOrder
+    active?: SortOrder
+    bookable?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShopUserAvgOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ShopUserMaxOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    userId?: SortOrder
+    role?: SortOrder
+    active?: SortOrder
+    bookable?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShopUserMinOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    userId?: SortOrder
+    role?: SortOrder
+    active?: SortOrder
+    bookable?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShopUserSumOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type EnumShopRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShopRole | EnumShopRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.ShopRole[] | ListEnumShopRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShopRole[] | ListEnumShopRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumShopRoleWithAggregatesFilter<$PrismaModel> | $Enums.ShopRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumShopRoleFilter<$PrismaModel>
+    _max?: NestedEnumShopRoleFilter<$PrismaModel>
+  }
+
+  export type EnumDayOfWeekFilter<$PrismaModel = never> = {
+    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
+    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    not?: NestedEnumDayOfWeekFilter<$PrismaModel> | $Enums.DayOfWeek
+  }
+
+  export type ShopWorkingHourCountOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    dayOfWeek?: SortOrder
+    openTime?: SortOrder
+    closeTime?: SortOrder
+    isClosed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShopWorkingHourAvgOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+  }
+
+  export type ShopWorkingHourMaxOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    dayOfWeek?: SortOrder
+    openTime?: SortOrder
+    closeTime?: SortOrder
+    isClosed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShopWorkingHourMinOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    dayOfWeek?: SortOrder
+    openTime?: SortOrder
+    closeTime?: SortOrder
+    isClosed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShopWorkingHourSumOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+  }
+
+  export type EnumDayOfWeekWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
+    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    not?: NestedEnumDayOfWeekWithAggregatesFilter<$PrismaModel> | $Enums.DayOfWeek
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDayOfWeekFilter<$PrismaModel>
+    _max?: NestedEnumDayOfWeekFilter<$PrismaModel>
+  }
+
+  export type ShopUserScalarRelationFilter = {
+    is?: ShopUserWhereInput
+    isNot?: ShopUserWhereInput
+  }
+
+  export type UserWorkingHourCountOrderByAggregateInput = {
+    id?: SortOrder
+    shopUserId?: SortOrder
+    shopId?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    isOff?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserWorkingHourAvgOrderByAggregateInput = {
+    id?: SortOrder
+    shopUserId?: SortOrder
+    shopId?: SortOrder
+  }
+
+  export type UserWorkingHourMaxOrderByAggregateInput = {
+    id?: SortOrder
+    shopUserId?: SortOrder
+    shopId?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    isOff?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserWorkingHourMinOrderByAggregateInput = {
+    id?: SortOrder
+    shopUserId?: SortOrder
+    shopId?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    isOff?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserWorkingHourSumOrderByAggregateInput = {
+    id?: SortOrder
+    shopUserId?: SortOrder
+    shopId?: SortOrder
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type ServiceCountOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    name?: SortOrder
+    duration?: SortOrder
+    price?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ServiceAvgOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    duration?: SortOrder
+    price?: SortOrder
+  }
+
+  export type ServiceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    name?: SortOrder
+    duration?: SortOrder
+    price?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ServiceMinOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    name?: SortOrder
+    duration?: SortOrder
+    price?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ServiceSumOrderByAggregateInput = {
+    id?: SortOrder
+    shopId?: SortOrder
+    duration?: SortOrder
+    price?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type ServiceScalarRelationFilter = {
@@ -13372,59 +14664,179 @@ export namespace Prisma {
     isNot?: ServiceWhereInput
   }
 
+  export type ServiceAssignmentServiceIdShopUserIdCompoundUniqueInput = {
+    serviceId: number
+    shopUserId: number
+  }
+
+  export type ServiceAssignmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    shopUserId?: SortOrder
+  }
+
+  export type ServiceAssignmentAvgOrderByAggregateInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    shopUserId?: SortOrder
+  }
+
+  export type ServiceAssignmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    shopUserId?: SortOrder
+  }
+
+  export type ServiceAssignmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    shopUserId?: SortOrder
+  }
+
+  export type ServiceAssignmentSumOrderByAggregateInput = {
+    id?: SortOrder
+    serviceId?: SortOrder
+    shopUserId?: SortOrder
+  }
+
+  export type CustomerCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    note?: SortOrder
+    banned?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomerAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type CustomerMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    note?: SortOrder
+    banned?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomerMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    note?: SortOrder
+    banned?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CustomerSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type EnumBookingStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.BookingStatus | EnumBookingStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBookingStatusFilter<$PrismaModel> | $Enums.BookingStatus
+  }
+
+  export type ShopUserNullableScalarRelationFilter = {
+    is?: ShopUserWhereInput | null
+    isNot?: ShopUserWhereInput | null
+  }
+
+  export type CustomerScalarRelationFilter = {
+    is?: CustomerWhereInput
+    isNot?: CustomerWhereInput
+  }
+
   export type BookingCountOrderByAggregateInput = {
     id?: SortOrder
+    shopId?: SortOrder
+    serviceId?: SortOrder
+    providerId?: SortOrder
+    customerId?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     status?: SortOrder
-    customerId?: SortOrder
-    shopId?: SortOrder
-    userId?: SortOrder
-    serviceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type BookingAvgOrderByAggregateInput = {
     id?: SortOrder
-    customerId?: SortOrder
     shopId?: SortOrder
-    userId?: SortOrder
     serviceId?: SortOrder
+    providerId?: SortOrder
+    customerId?: SortOrder
   }
 
   export type BookingMaxOrderByAggregateInput = {
     id?: SortOrder
+    shopId?: SortOrder
+    serviceId?: SortOrder
+    providerId?: SortOrder
+    customerId?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     status?: SortOrder
-    customerId?: SortOrder
-    shopId?: SortOrder
-    userId?: SortOrder
-    serviceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type BookingMinOrderByAggregateInput = {
     id?: SortOrder
+    shopId?: SortOrder
+    serviceId?: SortOrder
+    providerId?: SortOrder
+    customerId?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     status?: SortOrder
-    customerId?: SortOrder
-    shopId?: SortOrder
-    userId?: SortOrder
-    serviceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type BookingSumOrderByAggregateInput = {
     id?: SortOrder
-    customerId?: SortOrder
     shopId?: SortOrder
-    userId?: SortOrder
     serviceId?: SortOrder
+    providerId?: SortOrder
+    customerId?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type EnumBookingStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -13437,136 +14849,6 @@ export namespace Prisma {
     _max?: NestedEnumBookingStatusFilter<$PrismaModel>
   }
 
-  export type WorkingHourCountOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    dayOfWeek?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type WorkingHourAvgOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-  }
-
-  export type WorkingHourMaxOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    dayOfWeek?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type WorkingHourMinOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    dayOfWeek?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type WorkingHourSumOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-  }
-
-  export type FloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type InventoryItemCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    quantity?: SortOrder
-    price?: SortOrder
-    shopId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type InventoryItemAvgOrderByAggregateInput = {
-    id?: SortOrder
-    quantity?: SortOrder
-    price?: SortOrder
-    shopId?: SortOrder
-  }
-
-  export type InventoryItemMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    quantity?: SortOrder
-    price?: SortOrder
-    shopId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type InventoryItemMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    quantity?: SortOrder
-    price?: SortOrder
-    shopId?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type InventoryItemSumOrderByAggregateInput = {
-    id?: SortOrder
-    quantity?: SortOrder
-    price?: SortOrder
-    shopId?: SortOrder
-  }
-
-  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
-  export type UserCreateNestedOneWithoutUsersInput = {
-    create?: XOR<UserCreateWithoutUsersInput, UserUncheckedCreateWithoutUsersInput>
-    connectOrCreate?: UserCreateOrConnectWithoutUsersInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type UserCreateNestedManyWithoutOwnerInput = {
-    create?: XOR<UserCreateWithoutOwnerInput, UserUncheckedCreateWithoutOwnerInput> | UserCreateWithoutOwnerInput[] | UserUncheckedCreateWithoutOwnerInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutOwnerInput | UserCreateOrConnectWithoutOwnerInput[]
-    createMany?: UserCreateManyOwnerInputEnvelope
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-  }
-
-  export type ShopCreateNestedOneWithoutAssignedUsersInput = {
-    create?: XOR<ShopCreateWithoutAssignedUsersInput, ShopUncheckedCreateWithoutAssignedUsersInput>
-    connectOrCreate?: ShopCreateOrConnectWithoutAssignedUsersInput
-    connect?: ShopWhereUniqueInput
-  }
-
   export type ShopCreateNestedManyWithoutOwnerInput = {
     create?: XOR<ShopCreateWithoutOwnerInput, ShopUncheckedCreateWithoutOwnerInput> | ShopCreateWithoutOwnerInput[] | ShopUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: ShopCreateOrConnectWithoutOwnerInput | ShopCreateOrConnectWithoutOwnerInput[]
@@ -13574,38 +14856,11 @@ export namespace Prisma {
     connect?: ShopWhereUniqueInput | ShopWhereUniqueInput[]
   }
 
-  export type ServiceCreateNestedManyWithoutOwnerInput = {
-    create?: XOR<ServiceCreateWithoutOwnerInput, ServiceUncheckedCreateWithoutOwnerInput> | ServiceCreateWithoutOwnerInput[] | ServiceUncheckedCreateWithoutOwnerInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutOwnerInput | ServiceCreateOrConnectWithoutOwnerInput[]
-    createMany?: ServiceCreateManyOwnerInputEnvelope
-    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-  }
-
-  export type ServiceCreateNestedManyWithoutAssignedUsersInput = {
-    create?: XOR<ServiceCreateWithoutAssignedUsersInput, ServiceUncheckedCreateWithoutAssignedUsersInput> | ServiceCreateWithoutAssignedUsersInput[] | ServiceUncheckedCreateWithoutAssignedUsersInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutAssignedUsersInput | ServiceCreateOrConnectWithoutAssignedUsersInput[]
-    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-  }
-
-  export type WorkingHourCreateNestedManyWithoutUserInput = {
-    create?: XOR<WorkingHourCreateWithoutUserInput, WorkingHourUncheckedCreateWithoutUserInput> | WorkingHourCreateWithoutUserInput[] | WorkingHourUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: WorkingHourCreateOrConnectWithoutUserInput | WorkingHourCreateOrConnectWithoutUserInput[]
-    createMany?: WorkingHourCreateManyUserInputEnvelope
-    connect?: WorkingHourWhereUniqueInput | WorkingHourWhereUniqueInput[]
-  }
-
-  export type BookingCreateNestedManyWithoutUserInput = {
-    create?: XOR<BookingCreateWithoutUserInput, BookingUncheckedCreateWithoutUserInput> | BookingCreateWithoutUserInput[] | BookingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutUserInput | BookingCreateOrConnectWithoutUserInput[]
-    createMany?: BookingCreateManyUserInputEnvelope
-    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-  }
-
-  export type UserUncheckedCreateNestedManyWithoutOwnerInput = {
-    create?: XOR<UserCreateWithoutOwnerInput, UserUncheckedCreateWithoutOwnerInput> | UserCreateWithoutOwnerInput[] | UserUncheckedCreateWithoutOwnerInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutOwnerInput | UserCreateOrConnectWithoutOwnerInput[]
-    createMany?: UserCreateManyOwnerInputEnvelope
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  export type ShopUserCreateNestedManyWithoutUserInput = {
+    create?: XOR<ShopUserCreateWithoutUserInput, ShopUserUncheckedCreateWithoutUserInput> | ShopUserCreateWithoutUserInput[] | ShopUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ShopUserCreateOrConnectWithoutUserInput | ShopUserCreateOrConnectWithoutUserInput[]
+    createMany?: ShopUserCreateManyUserInputEnvelope
+    connect?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
   }
 
   export type ShopUncheckedCreateNestedManyWithoutOwnerInput = {
@@ -13615,31 +14870,11 @@ export namespace Prisma {
     connect?: ShopWhereUniqueInput | ShopWhereUniqueInput[]
   }
 
-  export type ServiceUncheckedCreateNestedManyWithoutOwnerInput = {
-    create?: XOR<ServiceCreateWithoutOwnerInput, ServiceUncheckedCreateWithoutOwnerInput> | ServiceCreateWithoutOwnerInput[] | ServiceUncheckedCreateWithoutOwnerInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutOwnerInput | ServiceCreateOrConnectWithoutOwnerInput[]
-    createMany?: ServiceCreateManyOwnerInputEnvelope
-    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-  }
-
-  export type ServiceUncheckedCreateNestedManyWithoutAssignedUsersInput = {
-    create?: XOR<ServiceCreateWithoutAssignedUsersInput, ServiceUncheckedCreateWithoutAssignedUsersInput> | ServiceCreateWithoutAssignedUsersInput[] | ServiceUncheckedCreateWithoutAssignedUsersInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutAssignedUsersInput | ServiceCreateOrConnectWithoutAssignedUsersInput[]
-    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-  }
-
-  export type WorkingHourUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<WorkingHourCreateWithoutUserInput, WorkingHourUncheckedCreateWithoutUserInput> | WorkingHourCreateWithoutUserInput[] | WorkingHourUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: WorkingHourCreateOrConnectWithoutUserInput | WorkingHourCreateOrConnectWithoutUserInput[]
-    createMany?: WorkingHourCreateManyUserInputEnvelope
-    connect?: WorkingHourWhereUniqueInput | WorkingHourWhereUniqueInput[]
-  }
-
-  export type BookingUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<BookingCreateWithoutUserInput, BookingUncheckedCreateWithoutUserInput> | BookingCreateWithoutUserInput[] | BookingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutUserInput | BookingCreateOrConnectWithoutUserInput[]
-    createMany?: BookingCreateManyUserInputEnvelope
-    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  export type ShopUserUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ShopUserCreateWithoutUserInput, ShopUserUncheckedCreateWithoutUserInput> | ShopUserCreateWithoutUserInput[] | ShopUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ShopUserCreateOrConnectWithoutUserInput | ShopUserCreateOrConnectWithoutUserInput[]
+    createMany?: ShopUserCreateManyUserInputEnvelope
+    connect?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -13650,50 +14885,12 @@ export namespace Prisma {
     set?: $Enums.Subscription
   }
 
-  export type EnumRoleFieldUpdateOperationsInput = {
-    set?: $Enums.Role
-  }
-
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
-  }
-
-  export type UserUpdateOneWithoutUsersNestedInput = {
-    create?: XOR<UserCreateWithoutUsersInput, UserUncheckedCreateWithoutUsersInput>
-    connectOrCreate?: UserCreateOrConnectWithoutUsersInput
-    upsert?: UserUpsertWithoutUsersInput
-    disconnect?: UserWhereInput | boolean
-    delete?: UserWhereInput | boolean
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUsersInput, UserUpdateWithoutUsersInput>, UserUncheckedUpdateWithoutUsersInput>
-  }
-
-  export type UserUpdateManyWithoutOwnerNestedInput = {
-    create?: XOR<UserCreateWithoutOwnerInput, UserUncheckedCreateWithoutOwnerInput> | UserCreateWithoutOwnerInput[] | UserUncheckedCreateWithoutOwnerInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutOwnerInput | UserCreateOrConnectWithoutOwnerInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutOwnerInput | UserUpsertWithWhereUniqueWithoutOwnerInput[]
-    createMany?: UserCreateManyOwnerInputEnvelope
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutOwnerInput | UserUpdateWithWhereUniqueWithoutOwnerInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutOwnerInput | UserUpdateManyWithWhereWithoutOwnerInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
-  }
-
-  export type ShopUpdateOneWithoutAssignedUsersNestedInput = {
-    create?: XOR<ShopCreateWithoutAssignedUsersInput, ShopUncheckedCreateWithoutAssignedUsersInput>
-    connectOrCreate?: ShopCreateOrConnectWithoutAssignedUsersInput
-    upsert?: ShopUpsertWithoutAssignedUsersInput
-    disconnect?: ShopWhereInput | boolean
-    delete?: ShopWhereInput | boolean
-    connect?: ShopWhereUniqueInput
-    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutAssignedUsersInput, ShopUpdateWithoutAssignedUsersInput>, ShopUncheckedUpdateWithoutAssignedUsersInput>
   }
 
   export type ShopUpdateManyWithoutOwnerNestedInput = {
@@ -13710,59 +14907,18 @@ export namespace Prisma {
     deleteMany?: ShopScalarWhereInput | ShopScalarWhereInput[]
   }
 
-  export type ServiceUpdateManyWithoutOwnerNestedInput = {
-    create?: XOR<ServiceCreateWithoutOwnerInput, ServiceUncheckedCreateWithoutOwnerInput> | ServiceCreateWithoutOwnerInput[] | ServiceUncheckedCreateWithoutOwnerInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutOwnerInput | ServiceCreateOrConnectWithoutOwnerInput[]
-    upsert?: ServiceUpsertWithWhereUniqueWithoutOwnerInput | ServiceUpsertWithWhereUniqueWithoutOwnerInput[]
-    createMany?: ServiceCreateManyOwnerInputEnvelope
-    set?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    disconnect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    delete?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    update?: ServiceUpdateWithWhereUniqueWithoutOwnerInput | ServiceUpdateWithWhereUniqueWithoutOwnerInput[]
-    updateMany?: ServiceUpdateManyWithWhereWithoutOwnerInput | ServiceUpdateManyWithWhereWithoutOwnerInput[]
-    deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
-  }
-
-  export type ServiceUpdateManyWithoutAssignedUsersNestedInput = {
-    create?: XOR<ServiceCreateWithoutAssignedUsersInput, ServiceUncheckedCreateWithoutAssignedUsersInput> | ServiceCreateWithoutAssignedUsersInput[] | ServiceUncheckedCreateWithoutAssignedUsersInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutAssignedUsersInput | ServiceCreateOrConnectWithoutAssignedUsersInput[]
-    upsert?: ServiceUpsertWithWhereUniqueWithoutAssignedUsersInput | ServiceUpsertWithWhereUniqueWithoutAssignedUsersInput[]
-    set?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    disconnect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    delete?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    update?: ServiceUpdateWithWhereUniqueWithoutAssignedUsersInput | ServiceUpdateWithWhereUniqueWithoutAssignedUsersInput[]
-    updateMany?: ServiceUpdateManyWithWhereWithoutAssignedUsersInput | ServiceUpdateManyWithWhereWithoutAssignedUsersInput[]
-    deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
-  }
-
-  export type WorkingHourUpdateManyWithoutUserNestedInput = {
-    create?: XOR<WorkingHourCreateWithoutUserInput, WorkingHourUncheckedCreateWithoutUserInput> | WorkingHourCreateWithoutUserInput[] | WorkingHourUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: WorkingHourCreateOrConnectWithoutUserInput | WorkingHourCreateOrConnectWithoutUserInput[]
-    upsert?: WorkingHourUpsertWithWhereUniqueWithoutUserInput | WorkingHourUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: WorkingHourCreateManyUserInputEnvelope
-    set?: WorkingHourWhereUniqueInput | WorkingHourWhereUniqueInput[]
-    disconnect?: WorkingHourWhereUniqueInput | WorkingHourWhereUniqueInput[]
-    delete?: WorkingHourWhereUniqueInput | WorkingHourWhereUniqueInput[]
-    connect?: WorkingHourWhereUniqueInput | WorkingHourWhereUniqueInput[]
-    update?: WorkingHourUpdateWithWhereUniqueWithoutUserInput | WorkingHourUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: WorkingHourUpdateManyWithWhereWithoutUserInput | WorkingHourUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: WorkingHourScalarWhereInput | WorkingHourScalarWhereInput[]
-  }
-
-  export type BookingUpdateManyWithoutUserNestedInput = {
-    create?: XOR<BookingCreateWithoutUserInput, BookingUncheckedCreateWithoutUserInput> | BookingCreateWithoutUserInput[] | BookingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutUserInput | BookingCreateOrConnectWithoutUserInput[]
-    upsert?: BookingUpsertWithWhereUniqueWithoutUserInput | BookingUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: BookingCreateManyUserInputEnvelope
-    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    update?: BookingUpdateWithWhereUniqueWithoutUserInput | BookingUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: BookingUpdateManyWithWhereWithoutUserInput | BookingUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
+  export type ShopUserUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ShopUserCreateWithoutUserInput, ShopUserUncheckedCreateWithoutUserInput> | ShopUserCreateWithoutUserInput[] | ShopUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ShopUserCreateOrConnectWithoutUserInput | ShopUserCreateOrConnectWithoutUserInput[]
+    upsert?: ShopUserUpsertWithWhereUniqueWithoutUserInput | ShopUserUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ShopUserCreateManyUserInputEnvelope
+    set?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    disconnect?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    delete?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    connect?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    update?: ShopUserUpdateWithWhereUniqueWithoutUserInput | ShopUserUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ShopUserUpdateManyWithWhereWithoutUserInput | ShopUserUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ShopUserScalarWhereInput | ShopUserScalarWhereInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -13771,28 +14927,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
-  export type UserUncheckedUpdateManyWithoutOwnerNestedInput = {
-    create?: XOR<UserCreateWithoutOwnerInput, UserUncheckedCreateWithoutOwnerInput> | UserCreateWithoutOwnerInput[] | UserUncheckedCreateWithoutOwnerInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutOwnerInput | UserCreateOrConnectWithoutOwnerInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutOwnerInput | UserUpsertWithWhereUniqueWithoutOwnerInput[]
-    createMany?: UserCreateManyOwnerInputEnvelope
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutOwnerInput | UserUpdateWithWhereUniqueWithoutOwnerInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutOwnerInput | UserUpdateManyWithWhereWithoutOwnerInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
   export type ShopUncheckedUpdateManyWithoutOwnerNestedInput = {
@@ -13809,79 +14943,52 @@ export namespace Prisma {
     deleteMany?: ShopScalarWhereInput | ShopScalarWhereInput[]
   }
 
-  export type ServiceUncheckedUpdateManyWithoutOwnerNestedInput = {
-    create?: XOR<ServiceCreateWithoutOwnerInput, ServiceUncheckedCreateWithoutOwnerInput> | ServiceCreateWithoutOwnerInput[] | ServiceUncheckedCreateWithoutOwnerInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutOwnerInput | ServiceCreateOrConnectWithoutOwnerInput[]
-    upsert?: ServiceUpsertWithWhereUniqueWithoutOwnerInput | ServiceUpsertWithWhereUniqueWithoutOwnerInput[]
-    createMany?: ServiceCreateManyOwnerInputEnvelope
-    set?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    disconnect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    delete?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    update?: ServiceUpdateWithWhereUniqueWithoutOwnerInput | ServiceUpdateWithWhereUniqueWithoutOwnerInput[]
-    updateMany?: ServiceUpdateManyWithWhereWithoutOwnerInput | ServiceUpdateManyWithWhereWithoutOwnerInput[]
-    deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
+  export type ShopUserUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ShopUserCreateWithoutUserInput, ShopUserUncheckedCreateWithoutUserInput> | ShopUserCreateWithoutUserInput[] | ShopUserUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ShopUserCreateOrConnectWithoutUserInput | ShopUserCreateOrConnectWithoutUserInput[]
+    upsert?: ShopUserUpsertWithWhereUniqueWithoutUserInput | ShopUserUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ShopUserCreateManyUserInputEnvelope
+    set?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    disconnect?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    delete?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    connect?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    update?: ShopUserUpdateWithWhereUniqueWithoutUserInput | ShopUserUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ShopUserUpdateManyWithWhereWithoutUserInput | ShopUserUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ShopUserScalarWhereInput | ShopUserScalarWhereInput[]
   }
 
-  export type ServiceUncheckedUpdateManyWithoutAssignedUsersNestedInput = {
-    create?: XOR<ServiceCreateWithoutAssignedUsersInput, ServiceUncheckedCreateWithoutAssignedUsersInput> | ServiceCreateWithoutAssignedUsersInput[] | ServiceUncheckedCreateWithoutAssignedUsersInput[]
-    connectOrCreate?: ServiceCreateOrConnectWithoutAssignedUsersInput | ServiceCreateOrConnectWithoutAssignedUsersInput[]
-    upsert?: ServiceUpsertWithWhereUniqueWithoutAssignedUsersInput | ServiceUpsertWithWhereUniqueWithoutAssignedUsersInput[]
-    set?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    disconnect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    delete?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
-    update?: ServiceUpdateWithWhereUniqueWithoutAssignedUsersInput | ServiceUpdateWithWhereUniqueWithoutAssignedUsersInput[]
-    updateMany?: ServiceUpdateManyWithWhereWithoutAssignedUsersInput | ServiceUpdateManyWithWhereWithoutAssignedUsersInput[]
-    deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
-  }
-
-  export type WorkingHourUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<WorkingHourCreateWithoutUserInput, WorkingHourUncheckedCreateWithoutUserInput> | WorkingHourCreateWithoutUserInput[] | WorkingHourUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: WorkingHourCreateOrConnectWithoutUserInput | WorkingHourCreateOrConnectWithoutUserInput[]
-    upsert?: WorkingHourUpsertWithWhereUniqueWithoutUserInput | WorkingHourUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: WorkingHourCreateManyUserInputEnvelope
-    set?: WorkingHourWhereUniqueInput | WorkingHourWhereUniqueInput[]
-    disconnect?: WorkingHourWhereUniqueInput | WorkingHourWhereUniqueInput[]
-    delete?: WorkingHourWhereUniqueInput | WorkingHourWhereUniqueInput[]
-    connect?: WorkingHourWhereUniqueInput | WorkingHourWhereUniqueInput[]
-    update?: WorkingHourUpdateWithWhereUniqueWithoutUserInput | WorkingHourUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: WorkingHourUpdateManyWithWhereWithoutUserInput | WorkingHourUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: WorkingHourScalarWhereInput | WorkingHourScalarWhereInput[]
-  }
-
-  export type BookingUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<BookingCreateWithoutUserInput, BookingUncheckedCreateWithoutUserInput> | BookingCreateWithoutUserInput[] | BookingUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutUserInput | BookingCreateOrConnectWithoutUserInput[]
-    upsert?: BookingUpsertWithWhereUniqueWithoutUserInput | BookingUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: BookingCreateManyUserInputEnvelope
-    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    update?: BookingUpdateWithWhereUniqueWithoutUserInput | BookingUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: BookingUpdateManyWithWhereWithoutUserInput | BookingUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
-  }
-
-  export type UserCreateNestedOneWithoutShopsInput = {
-    create?: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutShopsInput
+  export type UserCreateNestedOneWithoutOwnedShopsInput = {
+    create?: XOR<UserCreateWithoutOwnedShopsInput, UserUncheckedCreateWithoutOwnedShopsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutOwnedShopsInput
     connect?: UserWhereUniqueInput
   }
 
-  export type UserCreateNestedManyWithoutShopInput = {
-    create?: XOR<UserCreateWithoutShopInput, UserUncheckedCreateWithoutShopInput> | UserCreateWithoutShopInput[] | UserUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutShopInput | UserCreateOrConnectWithoutShopInput[]
-    createMany?: UserCreateManyShopInputEnvelope
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  export type ShopUserCreateNestedManyWithoutShopInput = {
+    create?: XOR<ShopUserCreateWithoutShopInput, ShopUserUncheckedCreateWithoutShopInput> | ShopUserCreateWithoutShopInput[] | ShopUserUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ShopUserCreateOrConnectWithoutShopInput | ShopUserCreateOrConnectWithoutShopInput[]
+    createMany?: ShopUserCreateManyShopInputEnvelope
+    connect?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
   }
 
-  export type InventoryItemCreateNestedManyWithoutShopInput = {
-    create?: XOR<InventoryItemCreateWithoutShopInput, InventoryItemUncheckedCreateWithoutShopInput> | InventoryItemCreateWithoutShopInput[] | InventoryItemUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: InventoryItemCreateOrConnectWithoutShopInput | InventoryItemCreateOrConnectWithoutShopInput[]
-    createMany?: InventoryItemCreateManyShopInputEnvelope
-    connect?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
+  export type ShopWorkingHourCreateNestedManyWithoutShopInput = {
+    create?: XOR<ShopWorkingHourCreateWithoutShopInput, ShopWorkingHourUncheckedCreateWithoutShopInput> | ShopWorkingHourCreateWithoutShopInput[] | ShopWorkingHourUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ShopWorkingHourCreateOrConnectWithoutShopInput | ShopWorkingHourCreateOrConnectWithoutShopInput[]
+    createMany?: ShopWorkingHourCreateManyShopInputEnvelope
+    connect?: ShopWorkingHourWhereUniqueInput | ShopWorkingHourWhereUniqueInput[]
+  }
+
+  export type UserWorkingHourCreateNestedManyWithoutShopInput = {
+    create?: XOR<UserWorkingHourCreateWithoutShopInput, UserWorkingHourUncheckedCreateWithoutShopInput> | UserWorkingHourCreateWithoutShopInput[] | UserWorkingHourUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: UserWorkingHourCreateOrConnectWithoutShopInput | UserWorkingHourCreateOrConnectWithoutShopInput[]
+    createMany?: UserWorkingHourCreateManyShopInputEnvelope
+    connect?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+  }
+
+  export type ServiceCreateNestedManyWithoutShopInput = {
+    create?: XOR<ServiceCreateWithoutShopInput, ServiceUncheckedCreateWithoutShopInput> | ServiceCreateWithoutShopInput[] | ServiceUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutShopInput | ServiceCreateOrConnectWithoutShopInput[]
+    createMany?: ServiceCreateManyShopInputEnvelope
+    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
   }
 
   export type BookingCreateNestedManyWithoutShopInput = {
@@ -13891,25 +14998,32 @@ export namespace Prisma {
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
   }
 
-  export type ShopOpeningRangeCreateNestedManyWithoutShopInput = {
-    create?: XOR<ShopOpeningRangeCreateWithoutShopInput, ShopOpeningRangeUncheckedCreateWithoutShopInput> | ShopOpeningRangeCreateWithoutShopInput[] | ShopOpeningRangeUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: ShopOpeningRangeCreateOrConnectWithoutShopInput | ShopOpeningRangeCreateOrConnectWithoutShopInput[]
-    createMany?: ShopOpeningRangeCreateManyShopInputEnvelope
-    connect?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
+  export type ShopUserUncheckedCreateNestedManyWithoutShopInput = {
+    create?: XOR<ShopUserCreateWithoutShopInput, ShopUserUncheckedCreateWithoutShopInput> | ShopUserCreateWithoutShopInput[] | ShopUserUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ShopUserCreateOrConnectWithoutShopInput | ShopUserCreateOrConnectWithoutShopInput[]
+    createMany?: ShopUserCreateManyShopInputEnvelope
+    connect?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
   }
 
-  export type UserUncheckedCreateNestedManyWithoutShopInput = {
-    create?: XOR<UserCreateWithoutShopInput, UserUncheckedCreateWithoutShopInput> | UserCreateWithoutShopInput[] | UserUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutShopInput | UserCreateOrConnectWithoutShopInput[]
-    createMany?: UserCreateManyShopInputEnvelope
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  export type ShopWorkingHourUncheckedCreateNestedManyWithoutShopInput = {
+    create?: XOR<ShopWorkingHourCreateWithoutShopInput, ShopWorkingHourUncheckedCreateWithoutShopInput> | ShopWorkingHourCreateWithoutShopInput[] | ShopWorkingHourUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ShopWorkingHourCreateOrConnectWithoutShopInput | ShopWorkingHourCreateOrConnectWithoutShopInput[]
+    createMany?: ShopWorkingHourCreateManyShopInputEnvelope
+    connect?: ShopWorkingHourWhereUniqueInput | ShopWorkingHourWhereUniqueInput[]
   }
 
-  export type InventoryItemUncheckedCreateNestedManyWithoutShopInput = {
-    create?: XOR<InventoryItemCreateWithoutShopInput, InventoryItemUncheckedCreateWithoutShopInput> | InventoryItemCreateWithoutShopInput[] | InventoryItemUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: InventoryItemCreateOrConnectWithoutShopInput | InventoryItemCreateOrConnectWithoutShopInput[]
-    createMany?: InventoryItemCreateManyShopInputEnvelope
-    connect?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
+  export type UserWorkingHourUncheckedCreateNestedManyWithoutShopInput = {
+    create?: XOR<UserWorkingHourCreateWithoutShopInput, UserWorkingHourUncheckedCreateWithoutShopInput> | UserWorkingHourCreateWithoutShopInput[] | UserWorkingHourUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: UserWorkingHourCreateOrConnectWithoutShopInput | UserWorkingHourCreateOrConnectWithoutShopInput[]
+    createMany?: UserWorkingHourCreateManyShopInputEnvelope
+    connect?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+  }
+
+  export type ServiceUncheckedCreateNestedManyWithoutShopInput = {
+    create?: XOR<ServiceCreateWithoutShopInput, ServiceUncheckedCreateWithoutShopInput> | ServiceCreateWithoutShopInput[] | ServiceUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutShopInput | ServiceCreateOrConnectWithoutShopInput[]
+    createMany?: ServiceCreateManyShopInputEnvelope
+    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
   }
 
   export type BookingUncheckedCreateNestedManyWithoutShopInput = {
@@ -13919,47 +15033,72 @@ export namespace Prisma {
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
   }
 
-  export type ShopOpeningRangeUncheckedCreateNestedManyWithoutShopInput = {
-    create?: XOR<ShopOpeningRangeCreateWithoutShopInput, ShopOpeningRangeUncheckedCreateWithoutShopInput> | ShopOpeningRangeCreateWithoutShopInput[] | ShopOpeningRangeUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: ShopOpeningRangeCreateOrConnectWithoutShopInput | ShopOpeningRangeCreateOrConnectWithoutShopInput[]
-    createMany?: ShopOpeningRangeCreateManyShopInputEnvelope
-    connect?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
-  export type UserUpdateOneRequiredWithoutShopsNestedInput = {
-    create?: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutShopsInput
-    upsert?: UserUpsertWithoutShopsInput
+  export type UserUpdateOneRequiredWithoutOwnedShopsNestedInput = {
+    create?: XOR<UserCreateWithoutOwnedShopsInput, UserUncheckedCreateWithoutOwnedShopsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutOwnedShopsInput
+    upsert?: UserUpsertWithoutOwnedShopsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutShopsInput, UserUpdateWithoutShopsInput>, UserUncheckedUpdateWithoutShopsInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOwnedShopsInput, UserUpdateWithoutOwnedShopsInput>, UserUncheckedUpdateWithoutOwnedShopsInput>
   }
 
-  export type UserUpdateManyWithoutShopNestedInput = {
-    create?: XOR<UserCreateWithoutShopInput, UserUncheckedCreateWithoutShopInput> | UserCreateWithoutShopInput[] | UserUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutShopInput | UserCreateOrConnectWithoutShopInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutShopInput | UserUpsertWithWhereUniqueWithoutShopInput[]
-    createMany?: UserCreateManyShopInputEnvelope
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutShopInput | UserUpdateWithWhereUniqueWithoutShopInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutShopInput | UserUpdateManyWithWhereWithoutShopInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  export type ShopUserUpdateManyWithoutShopNestedInput = {
+    create?: XOR<ShopUserCreateWithoutShopInput, ShopUserUncheckedCreateWithoutShopInput> | ShopUserCreateWithoutShopInput[] | ShopUserUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ShopUserCreateOrConnectWithoutShopInput | ShopUserCreateOrConnectWithoutShopInput[]
+    upsert?: ShopUserUpsertWithWhereUniqueWithoutShopInput | ShopUserUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: ShopUserCreateManyShopInputEnvelope
+    set?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    disconnect?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    delete?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    connect?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    update?: ShopUserUpdateWithWhereUniqueWithoutShopInput | ShopUserUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: ShopUserUpdateManyWithWhereWithoutShopInput | ShopUserUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: ShopUserScalarWhereInput | ShopUserScalarWhereInput[]
   }
 
-  export type InventoryItemUpdateManyWithoutShopNestedInput = {
-    create?: XOR<InventoryItemCreateWithoutShopInput, InventoryItemUncheckedCreateWithoutShopInput> | InventoryItemCreateWithoutShopInput[] | InventoryItemUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: InventoryItemCreateOrConnectWithoutShopInput | InventoryItemCreateOrConnectWithoutShopInput[]
-    upsert?: InventoryItemUpsertWithWhereUniqueWithoutShopInput | InventoryItemUpsertWithWhereUniqueWithoutShopInput[]
-    createMany?: InventoryItemCreateManyShopInputEnvelope
-    set?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
-    disconnect?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
-    delete?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
-    connect?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
-    update?: InventoryItemUpdateWithWhereUniqueWithoutShopInput | InventoryItemUpdateWithWhereUniqueWithoutShopInput[]
-    updateMany?: InventoryItemUpdateManyWithWhereWithoutShopInput | InventoryItemUpdateManyWithWhereWithoutShopInput[]
-    deleteMany?: InventoryItemScalarWhereInput | InventoryItemScalarWhereInput[]
+  export type ShopWorkingHourUpdateManyWithoutShopNestedInput = {
+    create?: XOR<ShopWorkingHourCreateWithoutShopInput, ShopWorkingHourUncheckedCreateWithoutShopInput> | ShopWorkingHourCreateWithoutShopInput[] | ShopWorkingHourUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ShopWorkingHourCreateOrConnectWithoutShopInput | ShopWorkingHourCreateOrConnectWithoutShopInput[]
+    upsert?: ShopWorkingHourUpsertWithWhereUniqueWithoutShopInput | ShopWorkingHourUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: ShopWorkingHourCreateManyShopInputEnvelope
+    set?: ShopWorkingHourWhereUniqueInput | ShopWorkingHourWhereUniqueInput[]
+    disconnect?: ShopWorkingHourWhereUniqueInput | ShopWorkingHourWhereUniqueInput[]
+    delete?: ShopWorkingHourWhereUniqueInput | ShopWorkingHourWhereUniqueInput[]
+    connect?: ShopWorkingHourWhereUniqueInput | ShopWorkingHourWhereUniqueInput[]
+    update?: ShopWorkingHourUpdateWithWhereUniqueWithoutShopInput | ShopWorkingHourUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: ShopWorkingHourUpdateManyWithWhereWithoutShopInput | ShopWorkingHourUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: ShopWorkingHourScalarWhereInput | ShopWorkingHourScalarWhereInput[]
+  }
+
+  export type UserWorkingHourUpdateManyWithoutShopNestedInput = {
+    create?: XOR<UserWorkingHourCreateWithoutShopInput, UserWorkingHourUncheckedCreateWithoutShopInput> | UserWorkingHourCreateWithoutShopInput[] | UserWorkingHourUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: UserWorkingHourCreateOrConnectWithoutShopInput | UserWorkingHourCreateOrConnectWithoutShopInput[]
+    upsert?: UserWorkingHourUpsertWithWhereUniqueWithoutShopInput | UserWorkingHourUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: UserWorkingHourCreateManyShopInputEnvelope
+    set?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    disconnect?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    delete?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    connect?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    update?: UserWorkingHourUpdateWithWhereUniqueWithoutShopInput | UserWorkingHourUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: UserWorkingHourUpdateManyWithWhereWithoutShopInput | UserWorkingHourUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: UserWorkingHourScalarWhereInput | UserWorkingHourScalarWhereInput[]
+  }
+
+  export type ServiceUpdateManyWithoutShopNestedInput = {
+    create?: XOR<ServiceCreateWithoutShopInput, ServiceUncheckedCreateWithoutShopInput> | ServiceCreateWithoutShopInput[] | ServiceUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutShopInput | ServiceCreateOrConnectWithoutShopInput[]
+    upsert?: ServiceUpsertWithWhereUniqueWithoutShopInput | ServiceUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: ServiceCreateManyShopInputEnvelope
+    set?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    disconnect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    delete?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    update?: ServiceUpdateWithWhereUniqueWithoutShopInput | ServiceUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: ServiceUpdateManyWithWhereWithoutShopInput | ServiceUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
   }
 
   export type BookingUpdateManyWithoutShopNestedInput = {
@@ -13976,46 +15115,60 @@ export namespace Prisma {
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
-  export type ShopOpeningRangeUpdateManyWithoutShopNestedInput = {
-    create?: XOR<ShopOpeningRangeCreateWithoutShopInput, ShopOpeningRangeUncheckedCreateWithoutShopInput> | ShopOpeningRangeCreateWithoutShopInput[] | ShopOpeningRangeUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: ShopOpeningRangeCreateOrConnectWithoutShopInput | ShopOpeningRangeCreateOrConnectWithoutShopInput[]
-    upsert?: ShopOpeningRangeUpsertWithWhereUniqueWithoutShopInput | ShopOpeningRangeUpsertWithWhereUniqueWithoutShopInput[]
-    createMany?: ShopOpeningRangeCreateManyShopInputEnvelope
-    set?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
-    disconnect?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
-    delete?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
-    connect?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
-    update?: ShopOpeningRangeUpdateWithWhereUniqueWithoutShopInput | ShopOpeningRangeUpdateWithWhereUniqueWithoutShopInput[]
-    updateMany?: ShopOpeningRangeUpdateManyWithWhereWithoutShopInput | ShopOpeningRangeUpdateManyWithWhereWithoutShopInput[]
-    deleteMany?: ShopOpeningRangeScalarWhereInput | ShopOpeningRangeScalarWhereInput[]
+  export type ShopUserUncheckedUpdateManyWithoutShopNestedInput = {
+    create?: XOR<ShopUserCreateWithoutShopInput, ShopUserUncheckedCreateWithoutShopInput> | ShopUserCreateWithoutShopInput[] | ShopUserUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ShopUserCreateOrConnectWithoutShopInput | ShopUserCreateOrConnectWithoutShopInput[]
+    upsert?: ShopUserUpsertWithWhereUniqueWithoutShopInput | ShopUserUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: ShopUserCreateManyShopInputEnvelope
+    set?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    disconnect?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    delete?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    connect?: ShopUserWhereUniqueInput | ShopUserWhereUniqueInput[]
+    update?: ShopUserUpdateWithWhereUniqueWithoutShopInput | ShopUserUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: ShopUserUpdateManyWithWhereWithoutShopInput | ShopUserUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: ShopUserScalarWhereInput | ShopUserScalarWhereInput[]
   }
 
-  export type UserUncheckedUpdateManyWithoutShopNestedInput = {
-    create?: XOR<UserCreateWithoutShopInput, UserUncheckedCreateWithoutShopInput> | UserCreateWithoutShopInput[] | UserUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutShopInput | UserCreateOrConnectWithoutShopInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutShopInput | UserUpsertWithWhereUniqueWithoutShopInput[]
-    createMany?: UserCreateManyShopInputEnvelope
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutShopInput | UserUpdateWithWhereUniqueWithoutShopInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutShopInput | UserUpdateManyWithWhereWithoutShopInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  export type ShopWorkingHourUncheckedUpdateManyWithoutShopNestedInput = {
+    create?: XOR<ShopWorkingHourCreateWithoutShopInput, ShopWorkingHourUncheckedCreateWithoutShopInput> | ShopWorkingHourCreateWithoutShopInput[] | ShopWorkingHourUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ShopWorkingHourCreateOrConnectWithoutShopInput | ShopWorkingHourCreateOrConnectWithoutShopInput[]
+    upsert?: ShopWorkingHourUpsertWithWhereUniqueWithoutShopInput | ShopWorkingHourUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: ShopWorkingHourCreateManyShopInputEnvelope
+    set?: ShopWorkingHourWhereUniqueInput | ShopWorkingHourWhereUniqueInput[]
+    disconnect?: ShopWorkingHourWhereUniqueInput | ShopWorkingHourWhereUniqueInput[]
+    delete?: ShopWorkingHourWhereUniqueInput | ShopWorkingHourWhereUniqueInput[]
+    connect?: ShopWorkingHourWhereUniqueInput | ShopWorkingHourWhereUniqueInput[]
+    update?: ShopWorkingHourUpdateWithWhereUniqueWithoutShopInput | ShopWorkingHourUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: ShopWorkingHourUpdateManyWithWhereWithoutShopInput | ShopWorkingHourUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: ShopWorkingHourScalarWhereInput | ShopWorkingHourScalarWhereInput[]
   }
 
-  export type InventoryItemUncheckedUpdateManyWithoutShopNestedInput = {
-    create?: XOR<InventoryItemCreateWithoutShopInput, InventoryItemUncheckedCreateWithoutShopInput> | InventoryItemCreateWithoutShopInput[] | InventoryItemUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: InventoryItemCreateOrConnectWithoutShopInput | InventoryItemCreateOrConnectWithoutShopInput[]
-    upsert?: InventoryItemUpsertWithWhereUniqueWithoutShopInput | InventoryItemUpsertWithWhereUniqueWithoutShopInput[]
-    createMany?: InventoryItemCreateManyShopInputEnvelope
-    set?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
-    disconnect?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
-    delete?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
-    connect?: InventoryItemWhereUniqueInput | InventoryItemWhereUniqueInput[]
-    update?: InventoryItemUpdateWithWhereUniqueWithoutShopInput | InventoryItemUpdateWithWhereUniqueWithoutShopInput[]
-    updateMany?: InventoryItemUpdateManyWithWhereWithoutShopInput | InventoryItemUpdateManyWithWhereWithoutShopInput[]
-    deleteMany?: InventoryItemScalarWhereInput | InventoryItemScalarWhereInput[]
+  export type UserWorkingHourUncheckedUpdateManyWithoutShopNestedInput = {
+    create?: XOR<UserWorkingHourCreateWithoutShopInput, UserWorkingHourUncheckedCreateWithoutShopInput> | UserWorkingHourCreateWithoutShopInput[] | UserWorkingHourUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: UserWorkingHourCreateOrConnectWithoutShopInput | UserWorkingHourCreateOrConnectWithoutShopInput[]
+    upsert?: UserWorkingHourUpsertWithWhereUniqueWithoutShopInput | UserWorkingHourUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: UserWorkingHourCreateManyShopInputEnvelope
+    set?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    disconnect?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    delete?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    connect?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    update?: UserWorkingHourUpdateWithWhereUniqueWithoutShopInput | UserWorkingHourUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: UserWorkingHourUpdateManyWithWhereWithoutShopInput | UserWorkingHourUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: UserWorkingHourScalarWhereInput | UserWorkingHourScalarWhereInput[]
+  }
+
+  export type ServiceUncheckedUpdateManyWithoutShopNestedInput = {
+    create?: XOR<ServiceCreateWithoutShopInput, ServiceUncheckedCreateWithoutShopInput> | ServiceCreateWithoutShopInput[] | ServiceUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: ServiceCreateOrConnectWithoutShopInput | ServiceCreateOrConnectWithoutShopInput[]
+    upsert?: ServiceUpsertWithWhereUniqueWithoutShopInput | ServiceUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: ServiceCreateManyShopInputEnvelope
+    set?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    disconnect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    delete?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    connect?: ServiceWhereUniqueInput | ServiceWhereUniqueInput[]
+    update?: ServiceUpdateWithWhereUniqueWithoutShopInput | ServiceUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: ServiceUpdateManyWithWhereWithoutShopInput | ServiceUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
   }
 
   export type BookingUncheckedUpdateManyWithoutShopNestedInput = {
@@ -14032,52 +15185,221 @@ export namespace Prisma {
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
-  export type ShopOpeningRangeUncheckedUpdateManyWithoutShopNestedInput = {
-    create?: XOR<ShopOpeningRangeCreateWithoutShopInput, ShopOpeningRangeUncheckedCreateWithoutShopInput> | ShopOpeningRangeCreateWithoutShopInput[] | ShopOpeningRangeUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: ShopOpeningRangeCreateOrConnectWithoutShopInput | ShopOpeningRangeCreateOrConnectWithoutShopInput[]
-    upsert?: ShopOpeningRangeUpsertWithWhereUniqueWithoutShopInput | ShopOpeningRangeUpsertWithWhereUniqueWithoutShopInput[]
-    createMany?: ShopOpeningRangeCreateManyShopInputEnvelope
-    set?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
-    disconnect?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
-    delete?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
-    connect?: ShopOpeningRangeWhereUniqueInput | ShopOpeningRangeWhereUniqueInput[]
-    update?: ShopOpeningRangeUpdateWithWhereUniqueWithoutShopInput | ShopOpeningRangeUpdateWithWhereUniqueWithoutShopInput[]
-    updateMany?: ShopOpeningRangeUpdateManyWithWhereWithoutShopInput | ShopOpeningRangeUpdateManyWithWhereWithoutShopInput[]
-    deleteMany?: ShopOpeningRangeScalarWhereInput | ShopOpeningRangeScalarWhereInput[]
-  }
-
-  export type ShopCreateNestedOneWithoutOpeningRangesInput = {
-    create?: XOR<ShopCreateWithoutOpeningRangesInput, ShopUncheckedCreateWithoutOpeningRangesInput>
-    connectOrCreate?: ShopCreateOrConnectWithoutOpeningRangesInput
+  export type ShopCreateNestedOneWithoutMembersInput = {
+    create?: XOR<ShopCreateWithoutMembersInput, ShopUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutMembersInput
     connect?: ShopWhereUniqueInput
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
+  export type UserCreateNestedOneWithoutMembershipsInput = {
+    create?: XOR<UserCreateWithoutMembershipsInput, UserUncheckedCreateWithoutMembershipsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMembershipsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserWorkingHourCreateNestedManyWithoutShopUserInput = {
+    create?: XOR<UserWorkingHourCreateWithoutShopUserInput, UserWorkingHourUncheckedCreateWithoutShopUserInput> | UserWorkingHourCreateWithoutShopUserInput[] | UserWorkingHourUncheckedCreateWithoutShopUserInput[]
+    connectOrCreate?: UserWorkingHourCreateOrConnectWithoutShopUserInput | UserWorkingHourCreateOrConnectWithoutShopUserInput[]
+    createMany?: UserWorkingHourCreateManyShopUserInputEnvelope
+    connect?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+  }
+
+  export type ServiceAssignmentCreateNestedManyWithoutShopUserInput = {
+    create?: XOR<ServiceAssignmentCreateWithoutShopUserInput, ServiceAssignmentUncheckedCreateWithoutShopUserInput> | ServiceAssignmentCreateWithoutShopUserInput[] | ServiceAssignmentUncheckedCreateWithoutShopUserInput[]
+    connectOrCreate?: ServiceAssignmentCreateOrConnectWithoutShopUserInput | ServiceAssignmentCreateOrConnectWithoutShopUserInput[]
+    createMany?: ServiceAssignmentCreateManyShopUserInputEnvelope
+    connect?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+  }
+
+  export type BookingCreateNestedManyWithoutProviderInput = {
+    create?: XOR<BookingCreateWithoutProviderInput, BookingUncheckedCreateWithoutProviderInput> | BookingCreateWithoutProviderInput[] | BookingUncheckedCreateWithoutProviderInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutProviderInput | BookingCreateOrConnectWithoutProviderInput[]
+    createMany?: BookingCreateManyProviderInputEnvelope
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
+  export type UserWorkingHourUncheckedCreateNestedManyWithoutShopUserInput = {
+    create?: XOR<UserWorkingHourCreateWithoutShopUserInput, UserWorkingHourUncheckedCreateWithoutShopUserInput> | UserWorkingHourCreateWithoutShopUserInput[] | UserWorkingHourUncheckedCreateWithoutShopUserInput[]
+    connectOrCreate?: UserWorkingHourCreateOrConnectWithoutShopUserInput | UserWorkingHourCreateOrConnectWithoutShopUserInput[]
+    createMany?: UserWorkingHourCreateManyShopUserInputEnvelope
+    connect?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+  }
+
+  export type ServiceAssignmentUncheckedCreateNestedManyWithoutShopUserInput = {
+    create?: XOR<ServiceAssignmentCreateWithoutShopUserInput, ServiceAssignmentUncheckedCreateWithoutShopUserInput> | ServiceAssignmentCreateWithoutShopUserInput[] | ServiceAssignmentUncheckedCreateWithoutShopUserInput[]
+    connectOrCreate?: ServiceAssignmentCreateOrConnectWithoutShopUserInput | ServiceAssignmentCreateOrConnectWithoutShopUserInput[]
+    createMany?: ServiceAssignmentCreateManyShopUserInputEnvelope
+    connect?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+  }
+
+  export type BookingUncheckedCreateNestedManyWithoutProviderInput = {
+    create?: XOR<BookingCreateWithoutProviderInput, BookingUncheckedCreateWithoutProviderInput> | BookingCreateWithoutProviderInput[] | BookingUncheckedCreateWithoutProviderInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutProviderInput | BookingCreateOrConnectWithoutProviderInput[]
+    createMany?: BookingCreateManyProviderInputEnvelope
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
+  export type EnumShopRoleFieldUpdateOperationsInput = {
+    set?: $Enums.ShopRole
+  }
+
+  export type ShopUpdateOneRequiredWithoutMembersNestedInput = {
+    create?: XOR<ShopCreateWithoutMembersInput, ShopUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutMembersInput
+    upsert?: ShopUpsertWithoutMembersInput
+    connect?: ShopWhereUniqueInput
+    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutMembersInput, ShopUpdateWithoutMembersInput>, ShopUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutMembershipsNestedInput = {
+    create?: XOR<UserCreateWithoutMembershipsInput, UserUncheckedCreateWithoutMembershipsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMembershipsInput
+    upsert?: UserUpsertWithoutMembershipsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMembershipsInput, UserUpdateWithoutMembershipsInput>, UserUncheckedUpdateWithoutMembershipsInput>
+  }
+
+  export type UserWorkingHourUpdateManyWithoutShopUserNestedInput = {
+    create?: XOR<UserWorkingHourCreateWithoutShopUserInput, UserWorkingHourUncheckedCreateWithoutShopUserInput> | UserWorkingHourCreateWithoutShopUserInput[] | UserWorkingHourUncheckedCreateWithoutShopUserInput[]
+    connectOrCreate?: UserWorkingHourCreateOrConnectWithoutShopUserInput | UserWorkingHourCreateOrConnectWithoutShopUserInput[]
+    upsert?: UserWorkingHourUpsertWithWhereUniqueWithoutShopUserInput | UserWorkingHourUpsertWithWhereUniqueWithoutShopUserInput[]
+    createMany?: UserWorkingHourCreateManyShopUserInputEnvelope
+    set?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    disconnect?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    delete?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    connect?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    update?: UserWorkingHourUpdateWithWhereUniqueWithoutShopUserInput | UserWorkingHourUpdateWithWhereUniqueWithoutShopUserInput[]
+    updateMany?: UserWorkingHourUpdateManyWithWhereWithoutShopUserInput | UserWorkingHourUpdateManyWithWhereWithoutShopUserInput[]
+    deleteMany?: UserWorkingHourScalarWhereInput | UserWorkingHourScalarWhereInput[]
+  }
+
+  export type ServiceAssignmentUpdateManyWithoutShopUserNestedInput = {
+    create?: XOR<ServiceAssignmentCreateWithoutShopUserInput, ServiceAssignmentUncheckedCreateWithoutShopUserInput> | ServiceAssignmentCreateWithoutShopUserInput[] | ServiceAssignmentUncheckedCreateWithoutShopUserInput[]
+    connectOrCreate?: ServiceAssignmentCreateOrConnectWithoutShopUserInput | ServiceAssignmentCreateOrConnectWithoutShopUserInput[]
+    upsert?: ServiceAssignmentUpsertWithWhereUniqueWithoutShopUserInput | ServiceAssignmentUpsertWithWhereUniqueWithoutShopUserInput[]
+    createMany?: ServiceAssignmentCreateManyShopUserInputEnvelope
+    set?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    disconnect?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    delete?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    connect?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    update?: ServiceAssignmentUpdateWithWhereUniqueWithoutShopUserInput | ServiceAssignmentUpdateWithWhereUniqueWithoutShopUserInput[]
+    updateMany?: ServiceAssignmentUpdateManyWithWhereWithoutShopUserInput | ServiceAssignmentUpdateManyWithWhereWithoutShopUserInput[]
+    deleteMany?: ServiceAssignmentScalarWhereInput | ServiceAssignmentScalarWhereInput[]
+  }
+
+  export type BookingUpdateManyWithoutProviderNestedInput = {
+    create?: XOR<BookingCreateWithoutProviderInput, BookingUncheckedCreateWithoutProviderInput> | BookingCreateWithoutProviderInput[] | BookingUncheckedCreateWithoutProviderInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutProviderInput | BookingCreateOrConnectWithoutProviderInput[]
+    upsert?: BookingUpsertWithWhereUniqueWithoutProviderInput | BookingUpsertWithWhereUniqueWithoutProviderInput[]
+    createMany?: BookingCreateManyProviderInputEnvelope
+    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    update?: BookingUpdateWithWhereUniqueWithoutProviderInput | BookingUpdateWithWhereUniqueWithoutProviderInput[]
+    updateMany?: BookingUpdateManyWithWhereWithoutProviderInput | BookingUpdateManyWithWhereWithoutProviderInput[]
+    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
+  }
+
+  export type UserWorkingHourUncheckedUpdateManyWithoutShopUserNestedInput = {
+    create?: XOR<UserWorkingHourCreateWithoutShopUserInput, UserWorkingHourUncheckedCreateWithoutShopUserInput> | UserWorkingHourCreateWithoutShopUserInput[] | UserWorkingHourUncheckedCreateWithoutShopUserInput[]
+    connectOrCreate?: UserWorkingHourCreateOrConnectWithoutShopUserInput | UserWorkingHourCreateOrConnectWithoutShopUserInput[]
+    upsert?: UserWorkingHourUpsertWithWhereUniqueWithoutShopUserInput | UserWorkingHourUpsertWithWhereUniqueWithoutShopUserInput[]
+    createMany?: UserWorkingHourCreateManyShopUserInputEnvelope
+    set?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    disconnect?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    delete?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    connect?: UserWorkingHourWhereUniqueInput | UserWorkingHourWhereUniqueInput[]
+    update?: UserWorkingHourUpdateWithWhereUniqueWithoutShopUserInput | UserWorkingHourUpdateWithWhereUniqueWithoutShopUserInput[]
+    updateMany?: UserWorkingHourUpdateManyWithWhereWithoutShopUserInput | UserWorkingHourUpdateManyWithWhereWithoutShopUserInput[]
+    deleteMany?: UserWorkingHourScalarWhereInput | UserWorkingHourScalarWhereInput[]
+  }
+
+  export type ServiceAssignmentUncheckedUpdateManyWithoutShopUserNestedInput = {
+    create?: XOR<ServiceAssignmentCreateWithoutShopUserInput, ServiceAssignmentUncheckedCreateWithoutShopUserInput> | ServiceAssignmentCreateWithoutShopUserInput[] | ServiceAssignmentUncheckedCreateWithoutShopUserInput[]
+    connectOrCreate?: ServiceAssignmentCreateOrConnectWithoutShopUserInput | ServiceAssignmentCreateOrConnectWithoutShopUserInput[]
+    upsert?: ServiceAssignmentUpsertWithWhereUniqueWithoutShopUserInput | ServiceAssignmentUpsertWithWhereUniqueWithoutShopUserInput[]
+    createMany?: ServiceAssignmentCreateManyShopUserInputEnvelope
+    set?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    disconnect?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    delete?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    connect?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    update?: ServiceAssignmentUpdateWithWhereUniqueWithoutShopUserInput | ServiceAssignmentUpdateWithWhereUniqueWithoutShopUserInput[]
+    updateMany?: ServiceAssignmentUpdateManyWithWhereWithoutShopUserInput | ServiceAssignmentUpdateManyWithWhereWithoutShopUserInput[]
+    deleteMany?: ServiceAssignmentScalarWhereInput | ServiceAssignmentScalarWhereInput[]
+  }
+
+  export type BookingUncheckedUpdateManyWithoutProviderNestedInput = {
+    create?: XOR<BookingCreateWithoutProviderInput, BookingUncheckedCreateWithoutProviderInput> | BookingCreateWithoutProviderInput[] | BookingUncheckedCreateWithoutProviderInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutProviderInput | BookingCreateOrConnectWithoutProviderInput[]
+    upsert?: BookingUpsertWithWhereUniqueWithoutProviderInput | BookingUpsertWithWhereUniqueWithoutProviderInput[]
+    createMany?: BookingCreateManyProviderInputEnvelope
+    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    update?: BookingUpdateWithWhereUniqueWithoutProviderInput | BookingUpdateWithWhereUniqueWithoutProviderInput[]
+    updateMany?: BookingUpdateManyWithWhereWithoutProviderInput | BookingUpdateManyWithWhereWithoutProviderInput[]
+    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
+  }
+
+  export type ShopCreateNestedOneWithoutWorkingHoursInput = {
+    create?: XOR<ShopCreateWithoutWorkingHoursInput, ShopUncheckedCreateWithoutWorkingHoursInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutWorkingHoursInput
+    connect?: ShopWhereUniqueInput
   }
 
   export type EnumDayOfWeekFieldUpdateOperationsInput = {
     set?: $Enums.DayOfWeek
   }
 
-  export type ShopUpdateOneRequiredWithoutOpeningRangesNestedInput = {
-    create?: XOR<ShopCreateWithoutOpeningRangesInput, ShopUncheckedCreateWithoutOpeningRangesInput>
-    connectOrCreate?: ShopCreateOrConnectWithoutOpeningRangesInput
-    upsert?: ShopUpsertWithoutOpeningRangesInput
+  export type ShopUpdateOneRequiredWithoutWorkingHoursNestedInput = {
+    create?: XOR<ShopCreateWithoutWorkingHoursInput, ShopUncheckedCreateWithoutWorkingHoursInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutWorkingHoursInput
+    upsert?: ShopUpsertWithoutWorkingHoursInput
     connect?: ShopWhereUniqueInput
-    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutOpeningRangesInput, ShopUpdateWithoutOpeningRangesInput>, ShopUncheckedUpdateWithoutOpeningRangesInput>
+    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutWorkingHoursInput, ShopUpdateWithoutWorkingHoursInput>, ShopUncheckedUpdateWithoutWorkingHoursInput>
   }
 
-  export type UserCreateNestedOneWithoutServicesInput = {
-    create?: XOR<UserCreateWithoutServicesInput, UserUncheckedCreateWithoutServicesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutServicesInput
-    connect?: UserWhereUniqueInput
+  export type ShopUserCreateNestedOneWithoutWorkingHoursInput = {
+    create?: XOR<ShopUserCreateWithoutWorkingHoursInput, ShopUserUncheckedCreateWithoutWorkingHoursInput>
+    connectOrCreate?: ShopUserCreateOrConnectWithoutWorkingHoursInput
+    connect?: ShopUserWhereUniqueInput
   }
 
-  export type UserCreateNestedManyWithoutAssignedServicesInput = {
-    create?: XOR<UserCreateWithoutAssignedServicesInput, UserUncheckedCreateWithoutAssignedServicesInput> | UserCreateWithoutAssignedServicesInput[] | UserUncheckedCreateWithoutAssignedServicesInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutAssignedServicesInput | UserCreateOrConnectWithoutAssignedServicesInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  export type ShopCreateNestedOneWithoutUserWorkingHoursInput = {
+    create?: XOR<ShopCreateWithoutUserWorkingHoursInput, ShopUncheckedCreateWithoutUserWorkingHoursInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutUserWorkingHoursInput
+    connect?: ShopWhereUniqueInput
+  }
+
+  export type ShopUserUpdateOneRequiredWithoutWorkingHoursNestedInput = {
+    create?: XOR<ShopUserCreateWithoutWorkingHoursInput, ShopUserUncheckedCreateWithoutWorkingHoursInput>
+    connectOrCreate?: ShopUserCreateOrConnectWithoutWorkingHoursInput
+    upsert?: ShopUserUpsertWithoutWorkingHoursInput
+    connect?: ShopUserWhereUniqueInput
+    update?: XOR<XOR<ShopUserUpdateToOneWithWhereWithoutWorkingHoursInput, ShopUserUpdateWithoutWorkingHoursInput>, ShopUserUncheckedUpdateWithoutWorkingHoursInput>
+  }
+
+  export type ShopUpdateOneRequiredWithoutUserWorkingHoursNestedInput = {
+    create?: XOR<ShopCreateWithoutUserWorkingHoursInput, ShopUncheckedCreateWithoutUserWorkingHoursInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutUserWorkingHoursInput
+    upsert?: ShopUpsertWithoutUserWorkingHoursInput
+    connect?: ShopWhereUniqueInput
+    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutUserWorkingHoursInput, ShopUpdateWithoutUserWorkingHoursInput>, ShopUncheckedUpdateWithoutUserWorkingHoursInput>
+  }
+
+  export type ShopCreateNestedOneWithoutServicesInput = {
+    create?: XOR<ShopCreateWithoutServicesInput, ShopUncheckedCreateWithoutServicesInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutServicesInput
+    connect?: ShopWhereUniqueInput
+  }
+
+  export type ServiceAssignmentCreateNestedManyWithoutServiceInput = {
+    create?: XOR<ServiceAssignmentCreateWithoutServiceInput, ServiceAssignmentUncheckedCreateWithoutServiceInput> | ServiceAssignmentCreateWithoutServiceInput[] | ServiceAssignmentUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceAssignmentCreateOrConnectWithoutServiceInput | ServiceAssignmentCreateOrConnectWithoutServiceInput[]
+    createMany?: ServiceAssignmentCreateManyServiceInputEnvelope
+    connect?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
   }
 
   export type BookingCreateNestedManyWithoutServiceInput = {
@@ -14087,10 +15409,11 @@ export namespace Prisma {
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
   }
 
-  export type UserUncheckedCreateNestedManyWithoutAssignedServicesInput = {
-    create?: XOR<UserCreateWithoutAssignedServicesInput, UserUncheckedCreateWithoutAssignedServicesInput> | UserCreateWithoutAssignedServicesInput[] | UserUncheckedCreateWithoutAssignedServicesInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutAssignedServicesInput | UserCreateOrConnectWithoutAssignedServicesInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  export type ServiceAssignmentUncheckedCreateNestedManyWithoutServiceInput = {
+    create?: XOR<ServiceAssignmentCreateWithoutServiceInput, ServiceAssignmentUncheckedCreateWithoutServiceInput> | ServiceAssignmentCreateWithoutServiceInput[] | ServiceAssignmentUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceAssignmentCreateOrConnectWithoutServiceInput | ServiceAssignmentCreateOrConnectWithoutServiceInput[]
+    createMany?: ServiceAssignmentCreateManyServiceInputEnvelope
+    connect?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
   }
 
   export type BookingUncheckedCreateNestedManyWithoutServiceInput = {
@@ -14108,25 +15431,26 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type UserUpdateOneRequiredWithoutServicesNestedInput = {
-    create?: XOR<UserCreateWithoutServicesInput, UserUncheckedCreateWithoutServicesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutServicesInput
-    upsert?: UserUpsertWithoutServicesInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutServicesInput, UserUpdateWithoutServicesInput>, UserUncheckedUpdateWithoutServicesInput>
+  export type ShopUpdateOneRequiredWithoutServicesNestedInput = {
+    create?: XOR<ShopCreateWithoutServicesInput, ShopUncheckedCreateWithoutServicesInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutServicesInput
+    upsert?: ShopUpsertWithoutServicesInput
+    connect?: ShopWhereUniqueInput
+    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutServicesInput, ShopUpdateWithoutServicesInput>, ShopUncheckedUpdateWithoutServicesInput>
   }
 
-  export type UserUpdateManyWithoutAssignedServicesNestedInput = {
-    create?: XOR<UserCreateWithoutAssignedServicesInput, UserUncheckedCreateWithoutAssignedServicesInput> | UserCreateWithoutAssignedServicesInput[] | UserUncheckedCreateWithoutAssignedServicesInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutAssignedServicesInput | UserCreateOrConnectWithoutAssignedServicesInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutAssignedServicesInput | UserUpsertWithWhereUniqueWithoutAssignedServicesInput[]
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutAssignedServicesInput | UserUpdateWithWhereUniqueWithoutAssignedServicesInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutAssignedServicesInput | UserUpdateManyWithWhereWithoutAssignedServicesInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  export type ServiceAssignmentUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<ServiceAssignmentCreateWithoutServiceInput, ServiceAssignmentUncheckedCreateWithoutServiceInput> | ServiceAssignmentCreateWithoutServiceInput[] | ServiceAssignmentUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceAssignmentCreateOrConnectWithoutServiceInput | ServiceAssignmentCreateOrConnectWithoutServiceInput[]
+    upsert?: ServiceAssignmentUpsertWithWhereUniqueWithoutServiceInput | ServiceAssignmentUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: ServiceAssignmentCreateManyServiceInputEnvelope
+    set?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    disconnect?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    delete?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    connect?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    update?: ServiceAssignmentUpdateWithWhereUniqueWithoutServiceInput | ServiceAssignmentUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: ServiceAssignmentUpdateManyWithWhereWithoutServiceInput | ServiceAssignmentUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: ServiceAssignmentScalarWhereInput | ServiceAssignmentScalarWhereInput[]
   }
 
   export type BookingUpdateManyWithoutServiceNestedInput = {
@@ -14143,17 +15467,18 @@ export namespace Prisma {
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
-  export type UserUncheckedUpdateManyWithoutAssignedServicesNestedInput = {
-    create?: XOR<UserCreateWithoutAssignedServicesInput, UserUncheckedCreateWithoutAssignedServicesInput> | UserCreateWithoutAssignedServicesInput[] | UserUncheckedCreateWithoutAssignedServicesInput[]
-    connectOrCreate?: UserCreateOrConnectWithoutAssignedServicesInput | UserCreateOrConnectWithoutAssignedServicesInput[]
-    upsert?: UserUpsertWithWhereUniqueWithoutAssignedServicesInput | UserUpsertWithWhereUniqueWithoutAssignedServicesInput[]
-    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
-    update?: UserUpdateWithWhereUniqueWithoutAssignedServicesInput | UserUpdateWithWhereUniqueWithoutAssignedServicesInput[]
-    updateMany?: UserUpdateManyWithWhereWithoutAssignedServicesInput | UserUpdateManyWithWhereWithoutAssignedServicesInput[]
-    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  export type ServiceAssignmentUncheckedUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<ServiceAssignmentCreateWithoutServiceInput, ServiceAssignmentUncheckedCreateWithoutServiceInput> | ServiceAssignmentCreateWithoutServiceInput[] | ServiceAssignmentUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceAssignmentCreateOrConnectWithoutServiceInput | ServiceAssignmentCreateOrConnectWithoutServiceInput[]
+    upsert?: ServiceAssignmentUpsertWithWhereUniqueWithoutServiceInput | ServiceAssignmentUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: ServiceAssignmentCreateManyServiceInputEnvelope
+    set?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    disconnect?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    delete?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    connect?: ServiceAssignmentWhereUniqueInput | ServiceAssignmentWhereUniqueInput[]
+    update?: ServiceAssignmentUpdateWithWhereUniqueWithoutServiceInput | ServiceAssignmentUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: ServiceAssignmentUpdateManyWithWhereWithoutServiceInput | ServiceAssignmentUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: ServiceAssignmentScalarWhereInput | ServiceAssignmentScalarWhereInput[]
   }
 
   export type BookingUncheckedUpdateManyWithoutServiceNestedInput = {
@@ -14170,6 +15495,34 @@ export namespace Prisma {
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
+  export type ServiceCreateNestedOneWithoutAssignedUsersInput = {
+    create?: XOR<ServiceCreateWithoutAssignedUsersInput, ServiceUncheckedCreateWithoutAssignedUsersInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutAssignedUsersInput
+    connect?: ServiceWhereUniqueInput
+  }
+
+  export type ShopUserCreateNestedOneWithoutAssignedServicesInput = {
+    create?: XOR<ShopUserCreateWithoutAssignedServicesInput, ShopUserUncheckedCreateWithoutAssignedServicesInput>
+    connectOrCreate?: ShopUserCreateOrConnectWithoutAssignedServicesInput
+    connect?: ShopUserWhereUniqueInput
+  }
+
+  export type ServiceUpdateOneRequiredWithoutAssignedUsersNestedInput = {
+    create?: XOR<ServiceCreateWithoutAssignedUsersInput, ServiceUncheckedCreateWithoutAssignedUsersInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutAssignedUsersInput
+    upsert?: ServiceUpsertWithoutAssignedUsersInput
+    connect?: ServiceWhereUniqueInput
+    update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutAssignedUsersInput, ServiceUpdateWithoutAssignedUsersInput>, ServiceUncheckedUpdateWithoutAssignedUsersInput>
+  }
+
+  export type ShopUserUpdateOneRequiredWithoutAssignedServicesNestedInput = {
+    create?: XOR<ShopUserCreateWithoutAssignedServicesInput, ShopUserUncheckedCreateWithoutAssignedServicesInput>
+    connectOrCreate?: ShopUserCreateOrConnectWithoutAssignedServicesInput
+    upsert?: ShopUserUpsertWithoutAssignedServicesInput
+    connect?: ShopUserWhereUniqueInput
+    update?: XOR<XOR<ShopUserUpdateToOneWithWhereWithoutAssignedServicesInput, ShopUserUpdateWithoutAssignedServicesInput>, ShopUserUncheckedUpdateWithoutAssignedServicesInput>
+  }
+
   export type BookingCreateNestedManyWithoutCustomerInput = {
     create?: XOR<BookingCreateWithoutCustomerInput, BookingUncheckedCreateWithoutCustomerInput> | BookingCreateWithoutCustomerInput[] | BookingUncheckedCreateWithoutCustomerInput[]
     connectOrCreate?: BookingCreateOrConnectWithoutCustomerInput | BookingCreateOrConnectWithoutCustomerInput[]
@@ -14182,10 +15535,6 @@ export namespace Prisma {
     connectOrCreate?: BookingCreateOrConnectWithoutCustomerInput | BookingCreateOrConnectWithoutCustomerInput[]
     createMany?: BookingCreateManyCustomerInputEnvelope
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type BookingUpdateManyWithoutCustomerNestedInput = {
@@ -14216,22 +15565,10 @@ export namespace Prisma {
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
-  export type CustomerCreateNestedOneWithoutBookingsInput = {
-    create?: XOR<CustomerCreateWithoutBookingsInput, CustomerUncheckedCreateWithoutBookingsInput>
-    connectOrCreate?: CustomerCreateOrConnectWithoutBookingsInput
-    connect?: CustomerWhereUniqueInput
-  }
-
   export type ShopCreateNestedOneWithoutBookingsInput = {
     create?: XOR<ShopCreateWithoutBookingsInput, ShopUncheckedCreateWithoutBookingsInput>
     connectOrCreate?: ShopCreateOrConnectWithoutBookingsInput
     connect?: ShopWhereUniqueInput
-  }
-
-  export type UserCreateNestedOneWithoutBookingsInput = {
-    create?: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutBookingsInput
-    connect?: UserWhereUniqueInput
   }
 
   export type ServiceCreateNestedOneWithoutBookingsInput = {
@@ -14240,16 +15577,20 @@ export namespace Prisma {
     connect?: ServiceWhereUniqueInput
   }
 
-  export type EnumBookingStatusFieldUpdateOperationsInput = {
-    set?: $Enums.BookingStatus
+  export type ShopUserCreateNestedOneWithoutBookingsInput = {
+    create?: XOR<ShopUserCreateWithoutBookingsInput, ShopUserUncheckedCreateWithoutBookingsInput>
+    connectOrCreate?: ShopUserCreateOrConnectWithoutBookingsInput
+    connect?: ShopUserWhereUniqueInput
   }
 
-  export type CustomerUpdateOneRequiredWithoutBookingsNestedInput = {
+  export type CustomerCreateNestedOneWithoutBookingsInput = {
     create?: XOR<CustomerCreateWithoutBookingsInput, CustomerUncheckedCreateWithoutBookingsInput>
     connectOrCreate?: CustomerCreateOrConnectWithoutBookingsInput
-    upsert?: CustomerUpsertWithoutBookingsInput
     connect?: CustomerWhereUniqueInput
-    update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutBookingsInput, CustomerUpdateWithoutBookingsInput>, CustomerUncheckedUpdateWithoutBookingsInput>
+  }
+
+  export type EnumBookingStatusFieldUpdateOperationsInput = {
+    set?: $Enums.BookingStatus
   }
 
   export type ShopUpdateOneRequiredWithoutBookingsNestedInput = {
@@ -14260,14 +15601,6 @@ export namespace Prisma {
     update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutBookingsInput, ShopUpdateWithoutBookingsInput>, ShopUncheckedUpdateWithoutBookingsInput>
   }
 
-  export type UserUpdateOneRequiredWithoutBookingsNestedInput = {
-    create?: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutBookingsInput
-    upsert?: UserUpsertWithoutBookingsInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBookingsInput, UserUpdateWithoutBookingsInput>, UserUncheckedUpdateWithoutBookingsInput>
-  }
-
   export type ServiceUpdateOneRequiredWithoutBookingsNestedInput = {
     create?: XOR<ServiceCreateWithoutBookingsInput, ServiceUncheckedCreateWithoutBookingsInput>
     connectOrCreate?: ServiceCreateOrConnectWithoutBookingsInput
@@ -14276,40 +15609,30 @@ export namespace Prisma {
     update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutBookingsInput, ServiceUpdateWithoutBookingsInput>, ServiceUncheckedUpdateWithoutBookingsInput>
   }
 
-  export type UserCreateNestedOneWithoutWorkingHoursInput = {
-    create?: XOR<UserCreateWithoutWorkingHoursInput, UserUncheckedCreateWithoutWorkingHoursInput>
-    connectOrCreate?: UserCreateOrConnectWithoutWorkingHoursInput
-    connect?: UserWhereUniqueInput
+  export type ShopUserUpdateOneWithoutBookingsNestedInput = {
+    create?: XOR<ShopUserCreateWithoutBookingsInput, ShopUserUncheckedCreateWithoutBookingsInput>
+    connectOrCreate?: ShopUserCreateOrConnectWithoutBookingsInput
+    upsert?: ShopUserUpsertWithoutBookingsInput
+    disconnect?: ShopUserWhereInput | boolean
+    delete?: ShopUserWhereInput | boolean
+    connect?: ShopUserWhereUniqueInput
+    update?: XOR<XOR<ShopUserUpdateToOneWithWhereWithoutBookingsInput, ShopUserUpdateWithoutBookingsInput>, ShopUserUncheckedUpdateWithoutBookingsInput>
   }
 
-  export type UserUpdateOneRequiredWithoutWorkingHoursNestedInput = {
-    create?: XOR<UserCreateWithoutWorkingHoursInput, UserUncheckedCreateWithoutWorkingHoursInput>
-    connectOrCreate?: UserCreateOrConnectWithoutWorkingHoursInput
-    upsert?: UserUpsertWithoutWorkingHoursInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWorkingHoursInput, UserUpdateWithoutWorkingHoursInput>, UserUncheckedUpdateWithoutWorkingHoursInput>
+  export type CustomerUpdateOneRequiredWithoutBookingsNestedInput = {
+    create?: XOR<CustomerCreateWithoutBookingsInput, CustomerUncheckedCreateWithoutBookingsInput>
+    connectOrCreate?: CustomerCreateOrConnectWithoutBookingsInput
+    upsert?: CustomerUpsertWithoutBookingsInput
+    connect?: CustomerWhereUniqueInput
+    update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutBookingsInput, CustomerUpdateWithoutBookingsInput>, CustomerUncheckedUpdateWithoutBookingsInput>
   }
 
-  export type ShopCreateNestedOneWithoutInventoryInput = {
-    create?: XOR<ShopCreateWithoutInventoryInput, ShopUncheckedCreateWithoutInventoryInput>
-    connectOrCreate?: ShopCreateOrConnectWithoutInventoryInput
-    connect?: ShopWhereUniqueInput
-  }
-
-  export type NullableFloatFieldUpdateOperationsInput = {
+  export type NullableIntFieldUpdateOperationsInput = {
     set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type ShopUpdateOneRequiredWithoutInventoryNestedInput = {
-    create?: XOR<ShopCreateWithoutInventoryInput, ShopUncheckedCreateWithoutInventoryInput>
-    connectOrCreate?: ShopCreateOrConnectWithoutInventoryInput
-    upsert?: ShopUpsertWithoutInventoryInput
-    connect?: ShopWhereUniqueInput
-    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutInventoryInput, ShopUpdateWithoutInventoryInput>, ShopUncheckedUpdateWithoutInventoryInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -14344,27 +15667,9 @@ export namespace Prisma {
     not?: NestedEnumSubscriptionFilter<$PrismaModel> | $Enums.Subscription
   }
 
-  export type NestedEnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
-  }
-
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -14432,49 +15737,12 @@ export namespace Prisma {
     _max?: NestedEnumSubscriptionFilter<$PrismaModel>
   }
 
-  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -14489,64 +15757,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type NestedEnumDayOfWeekFilter<$PrismaModel = never> = {
-    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
-    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    not?: NestedEnumDayOfWeekFilter<$PrismaModel> | $Enums.DayOfWeek
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type NestedEnumDayOfWeekWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
-    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
-    not?: NestedEnumDayOfWeekWithAggregatesFilter<$PrismaModel> | $Enums.DayOfWeek
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumDayOfWeekFilter<$PrismaModel>
-    _max?: NestedEnumDayOfWeekFilter<$PrismaModel>
-  }
-
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -14580,11 +15790,99 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumShopRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShopRole | EnumShopRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.ShopRole[] | ListEnumShopRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShopRole[] | ListEnumShopRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumShopRoleFilter<$PrismaModel> | $Enums.ShopRole
+  }
+
+  export type NestedEnumShopRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShopRole | EnumShopRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.ShopRole[] | ListEnumShopRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShopRole[] | ListEnumShopRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumShopRoleWithAggregatesFilter<$PrismaModel> | $Enums.ShopRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumShopRoleFilter<$PrismaModel>
+    _max?: NestedEnumShopRoleFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDayOfWeekFilter<$PrismaModel = never> = {
+    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
+    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    not?: NestedEnumDayOfWeekFilter<$PrismaModel> | $Enums.DayOfWeek
+  }
+
+  export type NestedEnumDayOfWeekWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DayOfWeek | EnumDayOfWeekFieldRefInput<$PrismaModel>
+    in?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DayOfWeek[] | ListEnumDayOfWeekFieldRefInput<$PrismaModel>
+    not?: NestedEnumDayOfWeekWithAggregatesFilter<$PrismaModel> | $Enums.DayOfWeek
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDayOfWeekFilter<$PrismaModel>
+    _max?: NestedEnumDayOfWeekFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type NestedEnumBookingStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.BookingStatus | EnumBookingStatusFieldRefInput<$PrismaModel>
     in?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumBookingStatusFilter<$PrismaModel> | $Enums.BookingStatus
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumBookingStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -14597,160 +15895,29 @@ export namespace Prisma {
     _max?: NestedEnumBookingStatusFilter<$PrismaModel>
   }
 
-  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
-  export type UserCreateWithoutUsersInput = {
-    name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
-    active?: boolean
-    bookable?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    owner?: UserCreateNestedOneWithoutUsersInput
-    shop?: ShopCreateNestedOneWithoutAssignedUsersInput
-    shops?: ShopCreateNestedManyWithoutOwnerInput
-    services?: ServiceCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceCreateNestedManyWithoutAssignedUsersInput
-    workingHours?: WorkingHourCreateNestedManyWithoutUserInput
-    bookings?: BookingCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutUsersInput = {
-    id?: number
-    name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
-    active?: boolean
-    bookable?: boolean
-    ownerId?: number | null
-    shopId?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
-    services?: ServiceUncheckedCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceUncheckedCreateNestedManyWithoutAssignedUsersInput
-    workingHours?: WorkingHourUncheckedCreateNestedManyWithoutUserInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutUsersInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutUsersInput, UserUncheckedCreateWithoutUsersInput>
-  }
-
-  export type UserCreateWithoutOwnerInput = {
-    name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
-    active?: boolean
-    bookable?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserCreateNestedManyWithoutOwnerInput
-    shop?: ShopCreateNestedOneWithoutAssignedUsersInput
-    shops?: ShopCreateNestedManyWithoutOwnerInput
-    services?: ServiceCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceCreateNestedManyWithoutAssignedUsersInput
-    workingHours?: WorkingHourCreateNestedManyWithoutUserInput
-    bookings?: BookingCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutOwnerInput = {
-    id?: number
-    name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
-    active?: boolean
-    bookable?: boolean
-    shopId?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserUncheckedCreateNestedManyWithoutOwnerInput
-    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
-    services?: ServiceUncheckedCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceUncheckedCreateNestedManyWithoutAssignedUsersInput
-    workingHours?: WorkingHourUncheckedCreateNestedManyWithoutUserInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutOwnerInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutOwnerInput, UserUncheckedCreateWithoutOwnerInput>
-  }
-
-  export type UserCreateManyOwnerInputEnvelope = {
-    data: UserCreateManyOwnerInput | UserCreateManyOwnerInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ShopCreateWithoutAssignedUsersInput = {
-    name: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    owner: UserCreateNestedOneWithoutShopsInput
-    inventory?: InventoryItemCreateNestedManyWithoutShopInput
-    bookings?: BookingCreateNestedManyWithoutShopInput
-    openingRanges?: ShopOpeningRangeCreateNestedManyWithoutShopInput
-  }
-
-  export type ShopUncheckedCreateWithoutAssignedUsersInput = {
-    id?: number
-    name: string
-    ownerId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
-    openingRanges?: ShopOpeningRangeUncheckedCreateNestedManyWithoutShopInput
-  }
-
-  export type ShopCreateOrConnectWithoutAssignedUsersInput = {
-    where: ShopWhereUniqueInput
-    create: XOR<ShopCreateWithoutAssignedUsersInput, ShopUncheckedCreateWithoutAssignedUsersInput>
-  }
-
   export type ShopCreateWithoutOwnerInput = {
     name: string
+    address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    assignedUsers?: UserCreateNestedManyWithoutShopInput
-    inventory?: InventoryItemCreateNestedManyWithoutShopInput
+    members?: ShopUserCreateNestedManyWithoutShopInput
+    workingHours?: ShopWorkingHourCreateNestedManyWithoutShopInput
+    userWorkingHours?: UserWorkingHourCreateNestedManyWithoutShopInput
+    services?: ServiceCreateNestedManyWithoutShopInput
     bookings?: BookingCreateNestedManyWithoutShopInput
-    openingRanges?: ShopOpeningRangeCreateNestedManyWithoutShopInput
   }
 
   export type ShopUncheckedCreateWithoutOwnerInput = {
     id?: number
     name: string
+    address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    assignedUsers?: UserUncheckedCreateNestedManyWithoutShopInput
-    inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
+    members?: ShopUserUncheckedCreateNestedManyWithoutShopInput
+    workingHours?: ShopWorkingHourUncheckedCreateNestedManyWithoutShopInput
+    userWorkingHours?: UserWorkingHourUncheckedCreateNestedManyWithoutShopInput
+    services?: ServiceUncheckedCreateNestedManyWithoutShopInput
     bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
-    openingRanges?: ShopOpeningRangeUncheckedCreateNestedManyWithoutShopInput
   }
 
   export type ShopCreateOrConnectWithoutOwnerInput = {
@@ -14763,237 +15930,39 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ServiceCreateWithoutOwnerInput = {
-    name: string
-    duration: number
-    price: number
+  export type ShopUserCreateWithoutUserInput = {
+    role: $Enums.ShopRole
+    active?: boolean
+    bookable?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    assignedUsers?: UserCreateNestedManyWithoutAssignedServicesInput
-    bookings?: BookingCreateNestedManyWithoutServiceInput
+    shop: ShopCreateNestedOneWithoutMembersInput
+    workingHours?: UserWorkingHourCreateNestedManyWithoutShopUserInput
+    assignedServices?: ServiceAssignmentCreateNestedManyWithoutShopUserInput
+    bookings?: BookingCreateNestedManyWithoutProviderInput
   }
 
-  export type ServiceUncheckedCreateWithoutOwnerInput = {
+  export type ShopUserUncheckedCreateWithoutUserInput = {
     id?: number
-    name: string
-    duration: number
-    price: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    assignedUsers?: UserUncheckedCreateNestedManyWithoutAssignedServicesInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
-  }
-
-  export type ServiceCreateOrConnectWithoutOwnerInput = {
-    where: ServiceWhereUniqueInput
-    create: XOR<ServiceCreateWithoutOwnerInput, ServiceUncheckedCreateWithoutOwnerInput>
-  }
-
-  export type ServiceCreateManyOwnerInputEnvelope = {
-    data: ServiceCreateManyOwnerInput | ServiceCreateManyOwnerInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ServiceCreateWithoutAssignedUsersInput = {
-    name: string
-    duration: number
-    price: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    owner: UserCreateNestedOneWithoutServicesInput
-    bookings?: BookingCreateNestedManyWithoutServiceInput
-  }
-
-  export type ServiceUncheckedCreateWithoutAssignedUsersInput = {
-    id?: number
-    name: string
-    duration: number
-    price: number
-    ownerId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
-  }
-
-  export type ServiceCreateOrConnectWithoutAssignedUsersInput = {
-    where: ServiceWhereUniqueInput
-    create: XOR<ServiceCreateWithoutAssignedUsersInput, ServiceUncheckedCreateWithoutAssignedUsersInput>
-  }
-
-  export type WorkingHourCreateWithoutUserInput = {
-    dayOfWeek: $Enums.DayOfWeek
-    startTime: Date | string
-    endTime: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type WorkingHourUncheckedCreateWithoutUserInput = {
-    id?: number
-    dayOfWeek: $Enums.DayOfWeek
-    startTime: Date | string
-    endTime: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type WorkingHourCreateOrConnectWithoutUserInput = {
-    where: WorkingHourWhereUniqueInput
-    create: XOR<WorkingHourCreateWithoutUserInput, WorkingHourUncheckedCreateWithoutUserInput>
-  }
-
-  export type WorkingHourCreateManyUserInputEnvelope = {
-    data: WorkingHourCreateManyUserInput | WorkingHourCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type BookingCreateWithoutUserInput = {
-    startTime: Date | string
-    endTime: Date | string
-    status?: $Enums.BookingStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    customer: CustomerCreateNestedOneWithoutBookingsInput
-    shop: ShopCreateNestedOneWithoutBookingsInput
-    service: ServiceCreateNestedOneWithoutBookingsInput
-  }
-
-  export type BookingUncheckedCreateWithoutUserInput = {
-    id?: number
-    startTime: Date | string
-    endTime: Date | string
-    status?: $Enums.BookingStatus
-    customerId: number
     shopId: number
-    serviceId: number
+    role: $Enums.ShopRole
+    active?: boolean
+    bookable?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    workingHours?: UserWorkingHourUncheckedCreateNestedManyWithoutShopUserInput
+    assignedServices?: ServiceAssignmentUncheckedCreateNestedManyWithoutShopUserInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutProviderInput
   }
 
-  export type BookingCreateOrConnectWithoutUserInput = {
-    where: BookingWhereUniqueInput
-    create: XOR<BookingCreateWithoutUserInput, BookingUncheckedCreateWithoutUserInput>
+  export type ShopUserCreateOrConnectWithoutUserInput = {
+    where: ShopUserWhereUniqueInput
+    create: XOR<ShopUserCreateWithoutUserInput, ShopUserUncheckedCreateWithoutUserInput>
   }
 
-  export type BookingCreateManyUserInputEnvelope = {
-    data: BookingCreateManyUserInput | BookingCreateManyUserInput[]
+  export type ShopUserCreateManyUserInputEnvelope = {
+    data: ShopUserCreateManyUserInput | ShopUserCreateManyUserInput[]
     skipDuplicates?: boolean
-  }
-
-  export type UserUpsertWithoutUsersInput = {
-    update: XOR<UserUpdateWithoutUsersInput, UserUncheckedUpdateWithoutUsersInput>
-    create: XOR<UserCreateWithoutUsersInput, UserUncheckedCreateWithoutUsersInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutUsersInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutUsersInput, UserUncheckedUpdateWithoutUsersInput>
-  }
-
-  export type UserUpdateWithoutUsersInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneWithoutUsersNestedInput
-    shop?: ShopUpdateOneWithoutAssignedUsersNestedInput
-    shops?: ShopUpdateManyWithoutOwnerNestedInput
-    services?: ServiceUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUpdateManyWithoutAssignedUsersNestedInput
-    workingHours?: WorkingHourUpdateManyWithoutUserNestedInput
-    bookings?: BookingUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutUsersInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
-    ownerId?: NullableIntFieldUpdateOperationsInput | number | null
-    shopId?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
-    services?: ServiceUncheckedUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUncheckedUpdateManyWithoutAssignedUsersNestedInput
-    workingHours?: WorkingHourUncheckedUpdateManyWithoutUserNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUpsertWithWhereUniqueWithoutOwnerInput = {
-    where: UserWhereUniqueInput
-    update: XOR<UserUpdateWithoutOwnerInput, UserUncheckedUpdateWithoutOwnerInput>
-    create: XOR<UserCreateWithoutOwnerInput, UserUncheckedCreateWithoutOwnerInput>
-  }
-
-  export type UserUpdateWithWhereUniqueWithoutOwnerInput = {
-    where: UserWhereUniqueInput
-    data: XOR<UserUpdateWithoutOwnerInput, UserUncheckedUpdateWithoutOwnerInput>
-  }
-
-  export type UserUpdateManyWithWhereWithoutOwnerInput = {
-    where: UserScalarWhereInput
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutOwnerInput>
-  }
-
-  export type UserScalarWhereInput = {
-    AND?: UserScalarWhereInput | UserScalarWhereInput[]
-    OR?: UserScalarWhereInput[]
-    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
-    id?: IntFilter<"User"> | number
-    name?: StringFilter<"User"> | string
-    email?: StringFilter<"User"> | string
-    hashedPassword?: StringFilter<"User"> | string
-    subscription?: EnumSubscriptionFilter<"User"> | $Enums.Subscription
-    role?: EnumRoleFilter<"User"> | $Enums.Role
-    active?: BoolFilter<"User"> | boolean
-    bookable?: BoolFilter<"User"> | boolean
-    ownerId?: IntNullableFilter<"User"> | number | null
-    shopId?: IntNullableFilter<"User"> | number | null
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-  }
-
-  export type ShopUpsertWithoutAssignedUsersInput = {
-    update: XOR<ShopUpdateWithoutAssignedUsersInput, ShopUncheckedUpdateWithoutAssignedUsersInput>
-    create: XOR<ShopCreateWithoutAssignedUsersInput, ShopUncheckedCreateWithoutAssignedUsersInput>
-    where?: ShopWhereInput
-  }
-
-  export type ShopUpdateToOneWithWhereWithoutAssignedUsersInput = {
-    where?: ShopWhereInput
-    data: XOR<ShopUpdateWithoutAssignedUsersInput, ShopUncheckedUpdateWithoutAssignedUsersInput>
-  }
-
-  export type ShopUpdateWithoutAssignedUsersInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
-    inventory?: InventoryItemUpdateManyWithoutShopNestedInput
-    bookings?: BookingUpdateManyWithoutShopNestedInput
-    openingRanges?: ShopOpeningRangeUpdateManyWithoutShopNestedInput
-  }
-
-  export type ShopUncheckedUpdateWithoutAssignedUsersInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    ownerId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
-    openingRanges?: ShopOpeningRangeUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUpsertWithWhereUniqueWithoutOwnerInput = {
@@ -15018,234 +15987,193 @@ export namespace Prisma {
     NOT?: ShopScalarWhereInput | ShopScalarWhereInput[]
     id?: IntFilter<"Shop"> | number
     name?: StringFilter<"Shop"> | string
+    address?: StringNullableFilter<"Shop"> | string | null
     ownerId?: IntFilter<"Shop"> | number
     createdAt?: DateTimeFilter<"Shop"> | Date | string
     updatedAt?: DateTimeFilter<"Shop"> | Date | string
   }
 
-  export type ServiceUpsertWithWhereUniqueWithoutOwnerInput = {
-    where: ServiceWhereUniqueInput
-    update: XOR<ServiceUpdateWithoutOwnerInput, ServiceUncheckedUpdateWithoutOwnerInput>
-    create: XOR<ServiceCreateWithoutOwnerInput, ServiceUncheckedCreateWithoutOwnerInput>
+  export type ShopUserUpsertWithWhereUniqueWithoutUserInput = {
+    where: ShopUserWhereUniqueInput
+    update: XOR<ShopUserUpdateWithoutUserInput, ShopUserUncheckedUpdateWithoutUserInput>
+    create: XOR<ShopUserCreateWithoutUserInput, ShopUserUncheckedCreateWithoutUserInput>
   }
 
-  export type ServiceUpdateWithWhereUniqueWithoutOwnerInput = {
-    where: ServiceWhereUniqueInput
-    data: XOR<ServiceUpdateWithoutOwnerInput, ServiceUncheckedUpdateWithoutOwnerInput>
+  export type ShopUserUpdateWithWhereUniqueWithoutUserInput = {
+    where: ShopUserWhereUniqueInput
+    data: XOR<ShopUserUpdateWithoutUserInput, ShopUserUncheckedUpdateWithoutUserInput>
   }
 
-  export type ServiceUpdateManyWithWhereWithoutOwnerInput = {
-    where: ServiceScalarWhereInput
-    data: XOR<ServiceUpdateManyMutationInput, ServiceUncheckedUpdateManyWithoutOwnerInput>
+  export type ShopUserUpdateManyWithWhereWithoutUserInput = {
+    where: ShopUserScalarWhereInput
+    data: XOR<ShopUserUpdateManyMutationInput, ShopUserUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type ServiceScalarWhereInput = {
-    AND?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
-    OR?: ServiceScalarWhereInput[]
-    NOT?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
-    id?: IntFilter<"Service"> | number
-    name?: StringFilter<"Service"> | string
-    duration?: IntFilter<"Service"> | number
-    price?: FloatFilter<"Service"> | number
-    ownerId?: IntFilter<"Service"> | number
-    createdAt?: DateTimeFilter<"Service"> | Date | string
-    updatedAt?: DateTimeFilter<"Service"> | Date | string
+  export type ShopUserScalarWhereInput = {
+    AND?: ShopUserScalarWhereInput | ShopUserScalarWhereInput[]
+    OR?: ShopUserScalarWhereInput[]
+    NOT?: ShopUserScalarWhereInput | ShopUserScalarWhereInput[]
+    id?: IntFilter<"ShopUser"> | number
+    shopId?: IntFilter<"ShopUser"> | number
+    userId?: IntFilter<"ShopUser"> | number
+    role?: EnumShopRoleFilter<"ShopUser"> | $Enums.ShopRole
+    active?: BoolFilter<"ShopUser"> | boolean
+    bookable?: BoolFilter<"ShopUser"> | boolean
+    createdAt?: DateTimeFilter<"ShopUser"> | Date | string
+    updatedAt?: DateTimeFilter<"ShopUser"> | Date | string
   }
 
-  export type ServiceUpsertWithWhereUniqueWithoutAssignedUsersInput = {
-    where: ServiceWhereUniqueInput
-    update: XOR<ServiceUpdateWithoutAssignedUsersInput, ServiceUncheckedUpdateWithoutAssignedUsersInput>
-    create: XOR<ServiceCreateWithoutAssignedUsersInput, ServiceUncheckedCreateWithoutAssignedUsersInput>
-  }
-
-  export type ServiceUpdateWithWhereUniqueWithoutAssignedUsersInput = {
-    where: ServiceWhereUniqueInput
-    data: XOR<ServiceUpdateWithoutAssignedUsersInput, ServiceUncheckedUpdateWithoutAssignedUsersInput>
-  }
-
-  export type ServiceUpdateManyWithWhereWithoutAssignedUsersInput = {
-    where: ServiceScalarWhereInput
-    data: XOR<ServiceUpdateManyMutationInput, ServiceUncheckedUpdateManyWithoutAssignedUsersInput>
-  }
-
-  export type WorkingHourUpsertWithWhereUniqueWithoutUserInput = {
-    where: WorkingHourWhereUniqueInput
-    update: XOR<WorkingHourUpdateWithoutUserInput, WorkingHourUncheckedUpdateWithoutUserInput>
-    create: XOR<WorkingHourCreateWithoutUserInput, WorkingHourUncheckedCreateWithoutUserInput>
-  }
-
-  export type WorkingHourUpdateWithWhereUniqueWithoutUserInput = {
-    where: WorkingHourWhereUniqueInput
-    data: XOR<WorkingHourUpdateWithoutUserInput, WorkingHourUncheckedUpdateWithoutUserInput>
-  }
-
-  export type WorkingHourUpdateManyWithWhereWithoutUserInput = {
-    where: WorkingHourScalarWhereInput
-    data: XOR<WorkingHourUpdateManyMutationInput, WorkingHourUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type WorkingHourScalarWhereInput = {
-    AND?: WorkingHourScalarWhereInput | WorkingHourScalarWhereInput[]
-    OR?: WorkingHourScalarWhereInput[]
-    NOT?: WorkingHourScalarWhereInput | WorkingHourScalarWhereInput[]
-    id?: IntFilter<"WorkingHour"> | number
-    userId?: IntFilter<"WorkingHour"> | number
-    dayOfWeek?: EnumDayOfWeekFilter<"WorkingHour"> | $Enums.DayOfWeek
-    startTime?: DateTimeFilter<"WorkingHour"> | Date | string
-    endTime?: DateTimeFilter<"WorkingHour"> | Date | string
-    createdAt?: DateTimeFilter<"WorkingHour"> | Date | string
-    updatedAt?: DateTimeFilter<"WorkingHour"> | Date | string
-  }
-
-  export type BookingUpsertWithWhereUniqueWithoutUserInput = {
-    where: BookingWhereUniqueInput
-    update: XOR<BookingUpdateWithoutUserInput, BookingUncheckedUpdateWithoutUserInput>
-    create: XOR<BookingCreateWithoutUserInput, BookingUncheckedCreateWithoutUserInput>
-  }
-
-  export type BookingUpdateWithWhereUniqueWithoutUserInput = {
-    where: BookingWhereUniqueInput
-    data: XOR<BookingUpdateWithoutUserInput, BookingUncheckedUpdateWithoutUserInput>
-  }
-
-  export type BookingUpdateManyWithWhereWithoutUserInput = {
-    where: BookingScalarWhereInput
-    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type BookingScalarWhereInput = {
-    AND?: BookingScalarWhereInput | BookingScalarWhereInput[]
-    OR?: BookingScalarWhereInput[]
-    NOT?: BookingScalarWhereInput | BookingScalarWhereInput[]
-    id?: IntFilter<"Booking"> | number
-    startTime?: DateTimeFilter<"Booking"> | Date | string
-    endTime?: DateTimeFilter<"Booking"> | Date | string
-    status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
-    customerId?: IntFilter<"Booking"> | number
-    shopId?: IntFilter<"Booking"> | number
-    userId?: IntFilter<"Booking"> | number
-    serviceId?: IntFilter<"Booking"> | number
-    createdAt?: DateTimeFilter<"Booking"> | Date | string
-    updatedAt?: DateTimeFilter<"Booking"> | Date | string
-  }
-
-  export type UserCreateWithoutShopsInput = {
+  export type UserCreateWithoutOwnedShopsInput = {
     name: string
     email: string
     hashedPassword: string
     subscription: $Enums.Subscription
-    role: $Enums.Role
     active?: boolean
-    bookable?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    owner?: UserCreateNestedOneWithoutUsersInput
-    users?: UserCreateNestedManyWithoutOwnerInput
-    shop?: ShopCreateNestedOneWithoutAssignedUsersInput
-    services?: ServiceCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceCreateNestedManyWithoutAssignedUsersInput
-    workingHours?: WorkingHourCreateNestedManyWithoutUserInput
-    bookings?: BookingCreateNestedManyWithoutUserInput
+    memberships?: ShopUserCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutShopsInput = {
+  export type UserUncheckedCreateWithoutOwnedShopsInput = {
     id?: number
     name: string
     email: string
     hashedPassword: string
     subscription: $Enums.Subscription
-    role: $Enums.Role
     active?: boolean
-    bookable?: boolean
-    ownerId?: number | null
-    shopId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    users?: UserUncheckedCreateNestedManyWithoutOwnerInput
-    services?: ServiceUncheckedCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceUncheckedCreateNestedManyWithoutAssignedUsersInput
-    workingHours?: WorkingHourUncheckedCreateNestedManyWithoutUserInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutUserInput
+    memberships?: ShopUserUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutShopsInput = {
+  export type UserCreateOrConnectWithoutOwnedShopsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
+    create: XOR<UserCreateWithoutOwnedShopsInput, UserUncheckedCreateWithoutOwnedShopsInput>
   }
 
-  export type UserCreateWithoutShopInput = {
-    name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
+  export type ShopUserCreateWithoutShopInput = {
+    role: $Enums.ShopRole
     active?: boolean
     bookable?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    owner?: UserCreateNestedOneWithoutUsersInput
-    users?: UserCreateNestedManyWithoutOwnerInput
-    shops?: ShopCreateNestedManyWithoutOwnerInput
-    services?: ServiceCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceCreateNestedManyWithoutAssignedUsersInput
-    workingHours?: WorkingHourCreateNestedManyWithoutUserInput
-    bookings?: BookingCreateNestedManyWithoutUserInput
+    user: UserCreateNestedOneWithoutMembershipsInput
+    workingHours?: UserWorkingHourCreateNestedManyWithoutShopUserInput
+    assignedServices?: ServiceAssignmentCreateNestedManyWithoutShopUserInput
+    bookings?: BookingCreateNestedManyWithoutProviderInput
   }
 
-  export type UserUncheckedCreateWithoutShopInput = {
+  export type ShopUserUncheckedCreateWithoutShopInput = {
     id?: number
-    name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
+    userId: number
+    role: $Enums.ShopRole
     active?: boolean
     bookable?: boolean
-    ownerId?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    users?: UserUncheckedCreateNestedManyWithoutOwnerInput
-    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
-    services?: ServiceUncheckedCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceUncheckedCreateNestedManyWithoutAssignedUsersInput
-    workingHours?: WorkingHourUncheckedCreateNestedManyWithoutUserInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutUserInput
+    workingHours?: UserWorkingHourUncheckedCreateNestedManyWithoutShopUserInput
+    assignedServices?: ServiceAssignmentUncheckedCreateNestedManyWithoutShopUserInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutProviderInput
   }
 
-  export type UserCreateOrConnectWithoutShopInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutShopInput, UserUncheckedCreateWithoutShopInput>
+  export type ShopUserCreateOrConnectWithoutShopInput = {
+    where: ShopUserWhereUniqueInput
+    create: XOR<ShopUserCreateWithoutShopInput, ShopUserUncheckedCreateWithoutShopInput>
   }
 
-  export type UserCreateManyShopInputEnvelope = {
-    data: UserCreateManyShopInput | UserCreateManyShopInput[]
+  export type ShopUserCreateManyShopInputEnvelope = {
+    data: ShopUserCreateManyShopInput | ShopUserCreateManyShopInput[]
     skipDuplicates?: boolean
   }
 
-  export type InventoryItemCreateWithoutShopInput = {
-    name: string
-    quantity?: number
-    price?: number | null
+  export type ShopWorkingHourCreateWithoutShopInput = {
+    dayOfWeek: $Enums.DayOfWeek
+    openTime: string
+    closeTime: string
+    isClosed?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type InventoryItemUncheckedCreateWithoutShopInput = {
+  export type ShopWorkingHourUncheckedCreateWithoutShopInput = {
+    id?: number
+    dayOfWeek: $Enums.DayOfWeek
+    openTime: string
+    closeTime: string
+    isClosed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShopWorkingHourCreateOrConnectWithoutShopInput = {
+    where: ShopWorkingHourWhereUniqueInput
+    create: XOR<ShopWorkingHourCreateWithoutShopInput, ShopWorkingHourUncheckedCreateWithoutShopInput>
+  }
+
+  export type ShopWorkingHourCreateManyShopInputEnvelope = {
+    data: ShopWorkingHourCreateManyShopInput | ShopWorkingHourCreateManyShopInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserWorkingHourCreateWithoutShopInput = {
+    dayOfWeek: $Enums.DayOfWeek
+    startTime: string
+    endTime: string
+    isOff?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shopUser: ShopUserCreateNestedOneWithoutWorkingHoursInput
+  }
+
+  export type UserWorkingHourUncheckedCreateWithoutShopInput = {
+    id?: number
+    shopUserId: number
+    dayOfWeek: $Enums.DayOfWeek
+    startTime: string
+    endTime: string
+    isOff?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserWorkingHourCreateOrConnectWithoutShopInput = {
+    where: UserWorkingHourWhereUniqueInput
+    create: XOR<UserWorkingHourCreateWithoutShopInput, UserWorkingHourUncheckedCreateWithoutShopInput>
+  }
+
+  export type UserWorkingHourCreateManyShopInputEnvelope = {
+    data: UserWorkingHourCreateManyShopInput | UserWorkingHourCreateManyShopInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ServiceCreateWithoutShopInput = {
+    name: string
+    duration: number
+    price: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignedUsers?: ServiceAssignmentCreateNestedManyWithoutServiceInput
+    bookings?: BookingCreateNestedManyWithoutServiceInput
+  }
+
+  export type ServiceUncheckedCreateWithoutShopInput = {
     id?: number
     name: string
-    quantity?: number
-    price?: number | null
+    duration: number
+    price: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    assignedUsers?: ServiceAssignmentUncheckedCreateNestedManyWithoutServiceInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
   }
 
-  export type InventoryItemCreateOrConnectWithoutShopInput = {
-    where: InventoryItemWhereUniqueInput
-    create: XOR<InventoryItemCreateWithoutShopInput, InventoryItemUncheckedCreateWithoutShopInput>
+  export type ServiceCreateOrConnectWithoutShopInput = {
+    where: ServiceWhereUniqueInput
+    create: XOR<ServiceCreateWithoutShopInput, ServiceUncheckedCreateWithoutShopInput>
   }
 
-  export type InventoryItemCreateManyShopInputEnvelope = {
-    data: InventoryItemCreateManyShopInput | InventoryItemCreateManyShopInput[]
+  export type ServiceCreateManyShopInputEnvelope = {
+    data: ServiceCreateManyShopInput | ServiceCreateManyShopInput[]
     skipDuplicates?: boolean
   }
 
@@ -15255,19 +16183,19 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    customer: CustomerCreateNestedOneWithoutBookingsInput
-    user: UserCreateNestedOneWithoutBookingsInput
     service: ServiceCreateNestedOneWithoutBookingsInput
+    provider?: ShopUserCreateNestedOneWithoutBookingsInput
+    customer: CustomerCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateWithoutShopInput = {
     id?: number
+    serviceId: number
+    providerId?: number | null
+    customerId: number
     startTime: Date | string
     endTime: Date | string
     status?: $Enums.BookingStatus
-    customerId: number
-    userId: number
-    serviceId: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15282,128 +16210,144 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ShopOpeningRangeCreateWithoutShopInput = {
-    startDate: Date | string
-    endDate?: Date | string | null
-    dayOfWeek: $Enums.DayOfWeek
-    openTime: string
-    closeTime: string
-    isClosed?: boolean
-  }
-
-  export type ShopOpeningRangeUncheckedCreateWithoutShopInput = {
-    id?: number
-    startDate: Date | string
-    endDate?: Date | string | null
-    dayOfWeek: $Enums.DayOfWeek
-    openTime: string
-    closeTime: string
-    isClosed?: boolean
-  }
-
-  export type ShopOpeningRangeCreateOrConnectWithoutShopInput = {
-    where: ShopOpeningRangeWhereUniqueInput
-    create: XOR<ShopOpeningRangeCreateWithoutShopInput, ShopOpeningRangeUncheckedCreateWithoutShopInput>
-  }
-
-  export type ShopOpeningRangeCreateManyShopInputEnvelope = {
-    data: ShopOpeningRangeCreateManyShopInput | ShopOpeningRangeCreateManyShopInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UserUpsertWithoutShopsInput = {
-    update: XOR<UserUpdateWithoutShopsInput, UserUncheckedUpdateWithoutShopsInput>
-    create: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
+  export type UserUpsertWithoutOwnedShopsInput = {
+    update: XOR<UserUpdateWithoutOwnedShopsInput, UserUncheckedUpdateWithoutOwnedShopsInput>
+    create: XOR<UserCreateWithoutOwnedShopsInput, UserUncheckedCreateWithoutOwnedShopsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutShopsInput = {
+  export type UserUpdateToOneWithWhereWithoutOwnedShopsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutShopsInput, UserUncheckedUpdateWithoutShopsInput>
+    data: XOR<UserUpdateWithoutOwnedShopsInput, UserUncheckedUpdateWithoutOwnedShopsInput>
   }
 
-  export type UserUpdateWithoutShopsInput = {
+  export type UserUpdateWithoutOwnedShopsInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneWithoutUsersNestedInput
-    users?: UserUpdateManyWithoutOwnerNestedInput
-    shop?: ShopUpdateOneWithoutAssignedUsersNestedInput
-    services?: ServiceUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUpdateManyWithoutAssignedUsersNestedInput
-    workingHours?: WorkingHourUpdateManyWithoutUserNestedInput
-    bookings?: BookingUpdateManyWithoutUserNestedInput
+    memberships?: ShopUserUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutShopsInput = {
+  export type UserUncheckedUpdateWithoutOwnedShopsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
-    ownerId?: NullableIntFieldUpdateOperationsInput | number | null
-    shopId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUncheckedUpdateManyWithoutOwnerNestedInput
-    services?: ServiceUncheckedUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUncheckedUpdateManyWithoutAssignedUsersNestedInput
-    workingHours?: WorkingHourUncheckedUpdateManyWithoutUserNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutUserNestedInput
+    memberships?: ShopUserUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUpsertWithWhereUniqueWithoutShopInput = {
-    where: UserWhereUniqueInput
-    update: XOR<UserUpdateWithoutShopInput, UserUncheckedUpdateWithoutShopInput>
-    create: XOR<UserCreateWithoutShopInput, UserUncheckedCreateWithoutShopInput>
+  export type ShopUserUpsertWithWhereUniqueWithoutShopInput = {
+    where: ShopUserWhereUniqueInput
+    update: XOR<ShopUserUpdateWithoutShopInput, ShopUserUncheckedUpdateWithoutShopInput>
+    create: XOR<ShopUserCreateWithoutShopInput, ShopUserUncheckedCreateWithoutShopInput>
   }
 
-  export type UserUpdateWithWhereUniqueWithoutShopInput = {
-    where: UserWhereUniqueInput
-    data: XOR<UserUpdateWithoutShopInput, UserUncheckedUpdateWithoutShopInput>
+  export type ShopUserUpdateWithWhereUniqueWithoutShopInput = {
+    where: ShopUserWhereUniqueInput
+    data: XOR<ShopUserUpdateWithoutShopInput, ShopUserUncheckedUpdateWithoutShopInput>
   }
 
-  export type UserUpdateManyWithWhereWithoutShopInput = {
-    where: UserScalarWhereInput
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutShopInput>
+  export type ShopUserUpdateManyWithWhereWithoutShopInput = {
+    where: ShopUserScalarWhereInput
+    data: XOR<ShopUserUpdateManyMutationInput, ShopUserUncheckedUpdateManyWithoutShopInput>
   }
 
-  export type InventoryItemUpsertWithWhereUniqueWithoutShopInput = {
-    where: InventoryItemWhereUniqueInput
-    update: XOR<InventoryItemUpdateWithoutShopInput, InventoryItemUncheckedUpdateWithoutShopInput>
-    create: XOR<InventoryItemCreateWithoutShopInput, InventoryItemUncheckedCreateWithoutShopInput>
+  export type ShopWorkingHourUpsertWithWhereUniqueWithoutShopInput = {
+    where: ShopWorkingHourWhereUniqueInput
+    update: XOR<ShopWorkingHourUpdateWithoutShopInput, ShopWorkingHourUncheckedUpdateWithoutShopInput>
+    create: XOR<ShopWorkingHourCreateWithoutShopInput, ShopWorkingHourUncheckedCreateWithoutShopInput>
   }
 
-  export type InventoryItemUpdateWithWhereUniqueWithoutShopInput = {
-    where: InventoryItemWhereUniqueInput
-    data: XOR<InventoryItemUpdateWithoutShopInput, InventoryItemUncheckedUpdateWithoutShopInput>
+  export type ShopWorkingHourUpdateWithWhereUniqueWithoutShopInput = {
+    where: ShopWorkingHourWhereUniqueInput
+    data: XOR<ShopWorkingHourUpdateWithoutShopInput, ShopWorkingHourUncheckedUpdateWithoutShopInput>
   }
 
-  export type InventoryItemUpdateManyWithWhereWithoutShopInput = {
-    where: InventoryItemScalarWhereInput
-    data: XOR<InventoryItemUpdateManyMutationInput, InventoryItemUncheckedUpdateManyWithoutShopInput>
+  export type ShopWorkingHourUpdateManyWithWhereWithoutShopInput = {
+    where: ShopWorkingHourScalarWhereInput
+    data: XOR<ShopWorkingHourUpdateManyMutationInput, ShopWorkingHourUncheckedUpdateManyWithoutShopInput>
   }
 
-  export type InventoryItemScalarWhereInput = {
-    AND?: InventoryItemScalarWhereInput | InventoryItemScalarWhereInput[]
-    OR?: InventoryItemScalarWhereInput[]
-    NOT?: InventoryItemScalarWhereInput | InventoryItemScalarWhereInput[]
-    id?: IntFilter<"InventoryItem"> | number
-    name?: StringFilter<"InventoryItem"> | string
-    quantity?: IntFilter<"InventoryItem"> | number
-    price?: FloatNullableFilter<"InventoryItem"> | number | null
-    shopId?: IntFilter<"InventoryItem"> | number
-    createdAt?: DateTimeFilter<"InventoryItem"> | Date | string
-    updatedAt?: DateTimeFilter<"InventoryItem"> | Date | string
+  export type ShopWorkingHourScalarWhereInput = {
+    AND?: ShopWorkingHourScalarWhereInput | ShopWorkingHourScalarWhereInput[]
+    OR?: ShopWorkingHourScalarWhereInput[]
+    NOT?: ShopWorkingHourScalarWhereInput | ShopWorkingHourScalarWhereInput[]
+    id?: IntFilter<"ShopWorkingHour"> | number
+    shopId?: IntFilter<"ShopWorkingHour"> | number
+    dayOfWeek?: EnumDayOfWeekFilter<"ShopWorkingHour"> | $Enums.DayOfWeek
+    openTime?: StringFilter<"ShopWorkingHour"> | string
+    closeTime?: StringFilter<"ShopWorkingHour"> | string
+    isClosed?: BoolFilter<"ShopWorkingHour"> | boolean
+    createdAt?: DateTimeFilter<"ShopWorkingHour"> | Date | string
+    updatedAt?: DateTimeFilter<"ShopWorkingHour"> | Date | string
+  }
+
+  export type UserWorkingHourUpsertWithWhereUniqueWithoutShopInput = {
+    where: UserWorkingHourWhereUniqueInput
+    update: XOR<UserWorkingHourUpdateWithoutShopInput, UserWorkingHourUncheckedUpdateWithoutShopInput>
+    create: XOR<UserWorkingHourCreateWithoutShopInput, UserWorkingHourUncheckedCreateWithoutShopInput>
+  }
+
+  export type UserWorkingHourUpdateWithWhereUniqueWithoutShopInput = {
+    where: UserWorkingHourWhereUniqueInput
+    data: XOR<UserWorkingHourUpdateWithoutShopInput, UserWorkingHourUncheckedUpdateWithoutShopInput>
+  }
+
+  export type UserWorkingHourUpdateManyWithWhereWithoutShopInput = {
+    where: UserWorkingHourScalarWhereInput
+    data: XOR<UserWorkingHourUpdateManyMutationInput, UserWorkingHourUncheckedUpdateManyWithoutShopInput>
+  }
+
+  export type UserWorkingHourScalarWhereInput = {
+    AND?: UserWorkingHourScalarWhereInput | UserWorkingHourScalarWhereInput[]
+    OR?: UserWorkingHourScalarWhereInput[]
+    NOT?: UserWorkingHourScalarWhereInput | UserWorkingHourScalarWhereInput[]
+    id?: IntFilter<"UserWorkingHour"> | number
+    shopUserId?: IntFilter<"UserWorkingHour"> | number
+    shopId?: IntFilter<"UserWorkingHour"> | number
+    dayOfWeek?: EnumDayOfWeekFilter<"UserWorkingHour"> | $Enums.DayOfWeek
+    startTime?: StringFilter<"UserWorkingHour"> | string
+    endTime?: StringFilter<"UserWorkingHour"> | string
+    isOff?: BoolFilter<"UserWorkingHour"> | boolean
+    createdAt?: DateTimeFilter<"UserWorkingHour"> | Date | string
+    updatedAt?: DateTimeFilter<"UserWorkingHour"> | Date | string
+  }
+
+  export type ServiceUpsertWithWhereUniqueWithoutShopInput = {
+    where: ServiceWhereUniqueInput
+    update: XOR<ServiceUpdateWithoutShopInput, ServiceUncheckedUpdateWithoutShopInput>
+    create: XOR<ServiceCreateWithoutShopInput, ServiceUncheckedCreateWithoutShopInput>
+  }
+
+  export type ServiceUpdateWithWhereUniqueWithoutShopInput = {
+    where: ServiceWhereUniqueInput
+    data: XOR<ServiceUpdateWithoutShopInput, ServiceUncheckedUpdateWithoutShopInput>
+  }
+
+  export type ServiceUpdateManyWithWhereWithoutShopInput = {
+    where: ServiceScalarWhereInput
+    data: XOR<ServiceUpdateManyMutationInput, ServiceUncheckedUpdateManyWithoutShopInput>
+  }
+
+  export type ServiceScalarWhereInput = {
+    AND?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
+    OR?: ServiceScalarWhereInput[]
+    NOT?: ServiceScalarWhereInput | ServiceScalarWhereInput[]
+    id?: IntFilter<"Service"> | number
+    shopId?: IntFilter<"Service"> | number
+    name?: StringFilter<"Service"> | string
+    duration?: IntFilter<"Service"> | number
+    price?: FloatFilter<"Service"> | number
+    createdAt?: DateTimeFilter<"Service"> | Date | string
+    updatedAt?: DateTimeFilter<"Service"> | Date | string
   }
 
   export type BookingUpsertWithWhereUniqueWithoutShopInput = {
@@ -15422,180 +16366,535 @@ export namespace Prisma {
     data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutShopInput>
   }
 
-  export type ShopOpeningRangeUpsertWithWhereUniqueWithoutShopInput = {
-    where: ShopOpeningRangeWhereUniqueInput
-    update: XOR<ShopOpeningRangeUpdateWithoutShopInput, ShopOpeningRangeUncheckedUpdateWithoutShopInput>
-    create: XOR<ShopOpeningRangeCreateWithoutShopInput, ShopOpeningRangeUncheckedCreateWithoutShopInput>
+  export type BookingScalarWhereInput = {
+    AND?: BookingScalarWhereInput | BookingScalarWhereInput[]
+    OR?: BookingScalarWhereInput[]
+    NOT?: BookingScalarWhereInput | BookingScalarWhereInput[]
+    id?: IntFilter<"Booking"> | number
+    shopId?: IntFilter<"Booking"> | number
+    serviceId?: IntFilter<"Booking"> | number
+    providerId?: IntNullableFilter<"Booking"> | number | null
+    customerId?: IntFilter<"Booking"> | number
+    startTime?: DateTimeFilter<"Booking"> | Date | string
+    endTime?: DateTimeFilter<"Booking"> | Date | string
+    status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
+    createdAt?: DateTimeFilter<"Booking"> | Date | string
+    updatedAt?: DateTimeFilter<"Booking"> | Date | string
   }
 
-  export type ShopOpeningRangeUpdateWithWhereUniqueWithoutShopInput = {
-    where: ShopOpeningRangeWhereUniqueInput
-    data: XOR<ShopOpeningRangeUpdateWithoutShopInput, ShopOpeningRangeUncheckedUpdateWithoutShopInput>
-  }
-
-  export type ShopOpeningRangeUpdateManyWithWhereWithoutShopInput = {
-    where: ShopOpeningRangeScalarWhereInput
-    data: XOR<ShopOpeningRangeUpdateManyMutationInput, ShopOpeningRangeUncheckedUpdateManyWithoutShopInput>
-  }
-
-  export type ShopOpeningRangeScalarWhereInput = {
-    AND?: ShopOpeningRangeScalarWhereInput | ShopOpeningRangeScalarWhereInput[]
-    OR?: ShopOpeningRangeScalarWhereInput[]
-    NOT?: ShopOpeningRangeScalarWhereInput | ShopOpeningRangeScalarWhereInput[]
-    id?: IntFilter<"ShopOpeningRange"> | number
-    shopId?: IntFilter<"ShopOpeningRange"> | number
-    startDate?: DateTimeFilter<"ShopOpeningRange"> | Date | string
-    endDate?: DateTimeNullableFilter<"ShopOpeningRange"> | Date | string | null
-    dayOfWeek?: EnumDayOfWeekFilter<"ShopOpeningRange"> | $Enums.DayOfWeek
-    openTime?: StringFilter<"ShopOpeningRange"> | string
-    closeTime?: StringFilter<"ShopOpeningRange"> | string
-    isClosed?: BoolFilter<"ShopOpeningRange"> | boolean
-  }
-
-  export type ShopCreateWithoutOpeningRangesInput = {
+  export type ShopCreateWithoutMembersInput = {
     name: string
+    address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    owner: UserCreateNestedOneWithoutShopsInput
-    assignedUsers?: UserCreateNestedManyWithoutShopInput
-    inventory?: InventoryItemCreateNestedManyWithoutShopInput
+    owner: UserCreateNestedOneWithoutOwnedShopsInput
+    workingHours?: ShopWorkingHourCreateNestedManyWithoutShopInput
+    userWorkingHours?: UserWorkingHourCreateNestedManyWithoutShopInput
+    services?: ServiceCreateNestedManyWithoutShopInput
     bookings?: BookingCreateNestedManyWithoutShopInput
   }
 
-  export type ShopUncheckedCreateWithoutOpeningRangesInput = {
+  export type ShopUncheckedCreateWithoutMembersInput = {
     id?: number
     name: string
+    address?: string | null
     ownerId: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    assignedUsers?: UserUncheckedCreateNestedManyWithoutShopInput
-    inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
+    workingHours?: ShopWorkingHourUncheckedCreateNestedManyWithoutShopInput
+    userWorkingHours?: UserWorkingHourUncheckedCreateNestedManyWithoutShopInput
+    services?: ServiceUncheckedCreateNestedManyWithoutShopInput
     bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
   }
 
-  export type ShopCreateOrConnectWithoutOpeningRangesInput = {
+  export type ShopCreateOrConnectWithoutMembersInput = {
     where: ShopWhereUniqueInput
-    create: XOR<ShopCreateWithoutOpeningRangesInput, ShopUncheckedCreateWithoutOpeningRangesInput>
+    create: XOR<ShopCreateWithoutMembersInput, ShopUncheckedCreateWithoutMembersInput>
   }
 
-  export type ShopUpsertWithoutOpeningRangesInput = {
-    update: XOR<ShopUpdateWithoutOpeningRangesInput, ShopUncheckedUpdateWithoutOpeningRangesInput>
-    create: XOR<ShopCreateWithoutOpeningRangesInput, ShopUncheckedCreateWithoutOpeningRangesInput>
+  export type UserCreateWithoutMembershipsInput = {
+    name: string
+    email: string
+    hashedPassword: string
+    subscription: $Enums.Subscription
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ownedShops?: ShopCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserUncheckedCreateWithoutMembershipsInput = {
+    id?: number
+    name: string
+    email: string
+    hashedPassword: string
+    subscription: $Enums.Subscription
+    active?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ownedShops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserCreateOrConnectWithoutMembershipsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMembershipsInput, UserUncheckedCreateWithoutMembershipsInput>
+  }
+
+  export type UserWorkingHourCreateWithoutShopUserInput = {
+    dayOfWeek: $Enums.DayOfWeek
+    startTime: string
+    endTime: string
+    isOff?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shop: ShopCreateNestedOneWithoutUserWorkingHoursInput
+  }
+
+  export type UserWorkingHourUncheckedCreateWithoutShopUserInput = {
+    id?: number
+    shopId: number
+    dayOfWeek: $Enums.DayOfWeek
+    startTime: string
+    endTime: string
+    isOff?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserWorkingHourCreateOrConnectWithoutShopUserInput = {
+    where: UserWorkingHourWhereUniqueInput
+    create: XOR<UserWorkingHourCreateWithoutShopUserInput, UserWorkingHourUncheckedCreateWithoutShopUserInput>
+  }
+
+  export type UserWorkingHourCreateManyShopUserInputEnvelope = {
+    data: UserWorkingHourCreateManyShopUserInput | UserWorkingHourCreateManyShopUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ServiceAssignmentCreateWithoutShopUserInput = {
+    service: ServiceCreateNestedOneWithoutAssignedUsersInput
+  }
+
+  export type ServiceAssignmentUncheckedCreateWithoutShopUserInput = {
+    id?: number
+    serviceId: number
+  }
+
+  export type ServiceAssignmentCreateOrConnectWithoutShopUserInput = {
+    where: ServiceAssignmentWhereUniqueInput
+    create: XOR<ServiceAssignmentCreateWithoutShopUserInput, ServiceAssignmentUncheckedCreateWithoutShopUserInput>
+  }
+
+  export type ServiceAssignmentCreateManyShopUserInputEnvelope = {
+    data: ServiceAssignmentCreateManyShopUserInput | ServiceAssignmentCreateManyShopUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BookingCreateWithoutProviderInput = {
+    startTime: Date | string
+    endTime: Date | string
+    status?: $Enums.BookingStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shop: ShopCreateNestedOneWithoutBookingsInput
+    service: ServiceCreateNestedOneWithoutBookingsInput
+    customer: CustomerCreateNestedOneWithoutBookingsInput
+  }
+
+  export type BookingUncheckedCreateWithoutProviderInput = {
+    id?: number
+    shopId: number
+    serviceId: number
+    customerId: number
+    startTime: Date | string
+    endTime: Date | string
+    status?: $Enums.BookingStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BookingCreateOrConnectWithoutProviderInput = {
+    where: BookingWhereUniqueInput
+    create: XOR<BookingCreateWithoutProviderInput, BookingUncheckedCreateWithoutProviderInput>
+  }
+
+  export type BookingCreateManyProviderInputEnvelope = {
+    data: BookingCreateManyProviderInput | BookingCreateManyProviderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShopUpsertWithoutMembersInput = {
+    update: XOR<ShopUpdateWithoutMembersInput, ShopUncheckedUpdateWithoutMembersInput>
+    create: XOR<ShopCreateWithoutMembersInput, ShopUncheckedCreateWithoutMembersInput>
     where?: ShopWhereInput
   }
 
-  export type ShopUpdateToOneWithWhereWithoutOpeningRangesInput = {
+  export type ShopUpdateToOneWithWhereWithoutMembersInput = {
     where?: ShopWhereInput
-    data: XOR<ShopUpdateWithoutOpeningRangesInput, ShopUncheckedUpdateWithoutOpeningRangesInput>
+    data: XOR<ShopUpdateWithoutMembersInput, ShopUncheckedUpdateWithoutMembersInput>
   }
 
-  export type ShopUpdateWithoutOpeningRangesInput = {
+  export type ShopUpdateWithoutMembersInput = {
     name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
-    assignedUsers?: UserUpdateManyWithoutShopNestedInput
-    inventory?: InventoryItemUpdateManyWithoutShopNestedInput
+    owner?: UserUpdateOneRequiredWithoutOwnedShopsNestedInput
+    workingHours?: ShopWorkingHourUpdateManyWithoutShopNestedInput
+    userWorkingHours?: UserWorkingHourUpdateManyWithoutShopNestedInput
+    services?: ServiceUpdateManyWithoutShopNestedInput
     bookings?: BookingUpdateManyWithoutShopNestedInput
   }
 
-  export type ShopUncheckedUpdateWithoutOpeningRangesInput = {
+  export type ShopUncheckedUpdateWithoutMembersInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    assignedUsers?: UserUncheckedUpdateManyWithoutShopNestedInput
-    inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
+    workingHours?: ShopWorkingHourUncheckedUpdateManyWithoutShopNestedInput
+    userWorkingHours?: UserWorkingHourUncheckedUpdateManyWithoutShopNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutShopNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
   }
 
-  export type UserCreateWithoutServicesInput = {
-    name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
-    active?: boolean
-    bookable?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    owner?: UserCreateNestedOneWithoutUsersInput
-    users?: UserCreateNestedManyWithoutOwnerInput
-    shop?: ShopCreateNestedOneWithoutAssignedUsersInput
-    shops?: ShopCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceCreateNestedManyWithoutAssignedUsersInput
-    workingHours?: WorkingHourCreateNestedManyWithoutUserInput
-    bookings?: BookingCreateNestedManyWithoutUserInput
+  export type UserUpsertWithoutMembershipsInput = {
+    update: XOR<UserUpdateWithoutMembershipsInput, UserUncheckedUpdateWithoutMembershipsInput>
+    create: XOR<UserCreateWithoutMembershipsInput, UserUncheckedCreateWithoutMembershipsInput>
+    where?: UserWhereInput
   }
 
-  export type UserUncheckedCreateWithoutServicesInput = {
+  export type UserUpdateToOneWithWhereWithoutMembershipsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMembershipsInput, UserUncheckedUpdateWithoutMembershipsInput>
+  }
+
+  export type UserUpdateWithoutMembershipsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ownedShops?: ShopUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMembershipsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    hashedPassword?: StringFieldUpdateOperationsInput | string
+    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
+    active?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ownedShops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type UserWorkingHourUpsertWithWhereUniqueWithoutShopUserInput = {
+    where: UserWorkingHourWhereUniqueInput
+    update: XOR<UserWorkingHourUpdateWithoutShopUserInput, UserWorkingHourUncheckedUpdateWithoutShopUserInput>
+    create: XOR<UserWorkingHourCreateWithoutShopUserInput, UserWorkingHourUncheckedCreateWithoutShopUserInput>
+  }
+
+  export type UserWorkingHourUpdateWithWhereUniqueWithoutShopUserInput = {
+    where: UserWorkingHourWhereUniqueInput
+    data: XOR<UserWorkingHourUpdateWithoutShopUserInput, UserWorkingHourUncheckedUpdateWithoutShopUserInput>
+  }
+
+  export type UserWorkingHourUpdateManyWithWhereWithoutShopUserInput = {
+    where: UserWorkingHourScalarWhereInput
+    data: XOR<UserWorkingHourUpdateManyMutationInput, UserWorkingHourUncheckedUpdateManyWithoutShopUserInput>
+  }
+
+  export type ServiceAssignmentUpsertWithWhereUniqueWithoutShopUserInput = {
+    where: ServiceAssignmentWhereUniqueInput
+    update: XOR<ServiceAssignmentUpdateWithoutShopUserInput, ServiceAssignmentUncheckedUpdateWithoutShopUserInput>
+    create: XOR<ServiceAssignmentCreateWithoutShopUserInput, ServiceAssignmentUncheckedCreateWithoutShopUserInput>
+  }
+
+  export type ServiceAssignmentUpdateWithWhereUniqueWithoutShopUserInput = {
+    where: ServiceAssignmentWhereUniqueInput
+    data: XOR<ServiceAssignmentUpdateWithoutShopUserInput, ServiceAssignmentUncheckedUpdateWithoutShopUserInput>
+  }
+
+  export type ServiceAssignmentUpdateManyWithWhereWithoutShopUserInput = {
+    where: ServiceAssignmentScalarWhereInput
+    data: XOR<ServiceAssignmentUpdateManyMutationInput, ServiceAssignmentUncheckedUpdateManyWithoutShopUserInput>
+  }
+
+  export type ServiceAssignmentScalarWhereInput = {
+    AND?: ServiceAssignmentScalarWhereInput | ServiceAssignmentScalarWhereInput[]
+    OR?: ServiceAssignmentScalarWhereInput[]
+    NOT?: ServiceAssignmentScalarWhereInput | ServiceAssignmentScalarWhereInput[]
+    id?: IntFilter<"ServiceAssignment"> | number
+    serviceId?: IntFilter<"ServiceAssignment"> | number
+    shopUserId?: IntFilter<"ServiceAssignment"> | number
+  }
+
+  export type BookingUpsertWithWhereUniqueWithoutProviderInput = {
+    where: BookingWhereUniqueInput
+    update: XOR<BookingUpdateWithoutProviderInput, BookingUncheckedUpdateWithoutProviderInput>
+    create: XOR<BookingCreateWithoutProviderInput, BookingUncheckedCreateWithoutProviderInput>
+  }
+
+  export type BookingUpdateWithWhereUniqueWithoutProviderInput = {
+    where: BookingWhereUniqueInput
+    data: XOR<BookingUpdateWithoutProviderInput, BookingUncheckedUpdateWithoutProviderInput>
+  }
+
+  export type BookingUpdateManyWithWhereWithoutProviderInput = {
+    where: BookingScalarWhereInput
+    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutProviderInput>
+  }
+
+  export type ShopCreateWithoutWorkingHoursInput = {
+    name: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutOwnedShopsInput
+    members?: ShopUserCreateNestedManyWithoutShopInput
+    userWorkingHours?: UserWorkingHourCreateNestedManyWithoutShopInput
+    services?: ServiceCreateNestedManyWithoutShopInput
+    bookings?: BookingCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUncheckedCreateWithoutWorkingHoursInput = {
     id?: number
     name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
-    active?: boolean
-    bookable?: boolean
-    ownerId?: number | null
-    shopId?: number | null
+    address?: string | null
+    ownerId: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    users?: UserUncheckedCreateNestedManyWithoutOwnerInput
-    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceUncheckedCreateNestedManyWithoutAssignedUsersInput
-    workingHours?: WorkingHourUncheckedCreateNestedManyWithoutUserInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutUserInput
+    members?: ShopUserUncheckedCreateNestedManyWithoutShopInput
+    userWorkingHours?: UserWorkingHourUncheckedCreateNestedManyWithoutShopInput
+    services?: ServiceUncheckedCreateNestedManyWithoutShopInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
   }
 
-  export type UserCreateOrConnectWithoutServicesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutServicesInput, UserUncheckedCreateWithoutServicesInput>
+  export type ShopCreateOrConnectWithoutWorkingHoursInput = {
+    where: ShopWhereUniqueInput
+    create: XOR<ShopCreateWithoutWorkingHoursInput, ShopUncheckedCreateWithoutWorkingHoursInput>
   }
 
-  export type UserCreateWithoutAssignedServicesInput = {
+  export type ShopUpsertWithoutWorkingHoursInput = {
+    update: XOR<ShopUpdateWithoutWorkingHoursInput, ShopUncheckedUpdateWithoutWorkingHoursInput>
+    create: XOR<ShopCreateWithoutWorkingHoursInput, ShopUncheckedCreateWithoutWorkingHoursInput>
+    where?: ShopWhereInput
+  }
+
+  export type ShopUpdateToOneWithWhereWithoutWorkingHoursInput = {
+    where?: ShopWhereInput
+    data: XOR<ShopUpdateWithoutWorkingHoursInput, ShopUncheckedUpdateWithoutWorkingHoursInput>
+  }
+
+  export type ShopUpdateWithoutWorkingHoursInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutOwnedShopsNestedInput
+    members?: ShopUserUpdateManyWithoutShopNestedInput
+    userWorkingHours?: UserWorkingHourUpdateManyWithoutShopNestedInput
+    services?: ServiceUpdateManyWithoutShopNestedInput
+    bookings?: BookingUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateWithoutWorkingHoursInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: ShopUserUncheckedUpdateManyWithoutShopNestedInput
+    userWorkingHours?: UserWorkingHourUncheckedUpdateManyWithoutShopNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutShopNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUserCreateWithoutWorkingHoursInput = {
+    role: $Enums.ShopRole
+    active?: boolean
+    bookable?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shop: ShopCreateNestedOneWithoutMembersInput
+    user: UserCreateNestedOneWithoutMembershipsInput
+    assignedServices?: ServiceAssignmentCreateNestedManyWithoutShopUserInput
+    bookings?: BookingCreateNestedManyWithoutProviderInput
+  }
+
+  export type ShopUserUncheckedCreateWithoutWorkingHoursInput = {
+    id?: number
+    shopId: number
+    userId: number
+    role: $Enums.ShopRole
+    active?: boolean
+    bookable?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignedServices?: ServiceAssignmentUncheckedCreateNestedManyWithoutShopUserInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutProviderInput
+  }
+
+  export type ShopUserCreateOrConnectWithoutWorkingHoursInput = {
+    where: ShopUserWhereUniqueInput
+    create: XOR<ShopUserCreateWithoutWorkingHoursInput, ShopUserUncheckedCreateWithoutWorkingHoursInput>
+  }
+
+  export type ShopCreateWithoutUserWorkingHoursInput = {
     name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
-    active?: boolean
-    bookable?: boolean
+    address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    owner?: UserCreateNestedOneWithoutUsersInput
-    users?: UserCreateNestedManyWithoutOwnerInput
-    shop?: ShopCreateNestedOneWithoutAssignedUsersInput
-    shops?: ShopCreateNestedManyWithoutOwnerInput
-    services?: ServiceCreateNestedManyWithoutOwnerInput
-    workingHours?: WorkingHourCreateNestedManyWithoutUserInput
-    bookings?: BookingCreateNestedManyWithoutUserInput
+    owner: UserCreateNestedOneWithoutOwnedShopsInput
+    members?: ShopUserCreateNestedManyWithoutShopInput
+    workingHours?: ShopWorkingHourCreateNestedManyWithoutShopInput
+    services?: ServiceCreateNestedManyWithoutShopInput
+    bookings?: BookingCreateNestedManyWithoutShopInput
   }
 
-  export type UserUncheckedCreateWithoutAssignedServicesInput = {
+  export type ShopUncheckedCreateWithoutUserWorkingHoursInput = {
     id?: number
     name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
-    active?: boolean
-    bookable?: boolean
-    ownerId?: number | null
-    shopId?: number | null
+    address?: string | null
+    ownerId: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    users?: UserUncheckedCreateNestedManyWithoutOwnerInput
-    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
-    services?: ServiceUncheckedCreateNestedManyWithoutOwnerInput
-    workingHours?: WorkingHourUncheckedCreateNestedManyWithoutUserInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutUserInput
+    members?: ShopUserUncheckedCreateNestedManyWithoutShopInput
+    workingHours?: ShopWorkingHourUncheckedCreateNestedManyWithoutShopInput
+    services?: ServiceUncheckedCreateNestedManyWithoutShopInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
   }
 
-  export type UserCreateOrConnectWithoutAssignedServicesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutAssignedServicesInput, UserUncheckedCreateWithoutAssignedServicesInput>
+  export type ShopCreateOrConnectWithoutUserWorkingHoursInput = {
+    where: ShopWhereUniqueInput
+    create: XOR<ShopCreateWithoutUserWorkingHoursInput, ShopUncheckedCreateWithoutUserWorkingHoursInput>
+  }
+
+  export type ShopUserUpsertWithoutWorkingHoursInput = {
+    update: XOR<ShopUserUpdateWithoutWorkingHoursInput, ShopUserUncheckedUpdateWithoutWorkingHoursInput>
+    create: XOR<ShopUserCreateWithoutWorkingHoursInput, ShopUserUncheckedCreateWithoutWorkingHoursInput>
+    where?: ShopUserWhereInput
+  }
+
+  export type ShopUserUpdateToOneWithWhereWithoutWorkingHoursInput = {
+    where?: ShopUserWhereInput
+    data: XOR<ShopUserUpdateWithoutWorkingHoursInput, ShopUserUncheckedUpdateWithoutWorkingHoursInput>
+  }
+
+  export type ShopUserUpdateWithoutWorkingHoursInput = {
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
+    active?: BoolFieldUpdateOperationsInput | boolean
+    bookable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shop?: ShopUpdateOneRequiredWithoutMembersNestedInput
+    user?: UserUpdateOneRequiredWithoutMembershipsNestedInput
+    assignedServices?: ServiceAssignmentUpdateManyWithoutShopUserNestedInput
+    bookings?: BookingUpdateManyWithoutProviderNestedInput
+  }
+
+  export type ShopUserUncheckedUpdateWithoutWorkingHoursInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
+    active?: BoolFieldUpdateOperationsInput | boolean
+    bookable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignedServices?: ServiceAssignmentUncheckedUpdateManyWithoutShopUserNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutProviderNestedInput
+  }
+
+  export type ShopUpsertWithoutUserWorkingHoursInput = {
+    update: XOR<ShopUpdateWithoutUserWorkingHoursInput, ShopUncheckedUpdateWithoutUserWorkingHoursInput>
+    create: XOR<ShopCreateWithoutUserWorkingHoursInput, ShopUncheckedCreateWithoutUserWorkingHoursInput>
+    where?: ShopWhereInput
+  }
+
+  export type ShopUpdateToOneWithWhereWithoutUserWorkingHoursInput = {
+    where?: ShopWhereInput
+    data: XOR<ShopUpdateWithoutUserWorkingHoursInput, ShopUncheckedUpdateWithoutUserWorkingHoursInput>
+  }
+
+  export type ShopUpdateWithoutUserWorkingHoursInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutOwnedShopsNestedInput
+    members?: ShopUserUpdateManyWithoutShopNestedInput
+    workingHours?: ShopWorkingHourUpdateManyWithoutShopNestedInput
+    services?: ServiceUpdateManyWithoutShopNestedInput
+    bookings?: BookingUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateWithoutUserWorkingHoursInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: ShopUserUncheckedUpdateManyWithoutShopNestedInput
+    workingHours?: ShopWorkingHourUncheckedUpdateManyWithoutShopNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutShopNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopCreateWithoutServicesInput = {
+    name: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutOwnedShopsInput
+    members?: ShopUserCreateNestedManyWithoutShopInput
+    workingHours?: ShopWorkingHourCreateNestedManyWithoutShopInput
+    userWorkingHours?: UserWorkingHourCreateNestedManyWithoutShopInput
+    bookings?: BookingCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUncheckedCreateWithoutServicesInput = {
+    id?: number
+    name: string
+    address?: string | null
+    ownerId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: ShopUserUncheckedCreateNestedManyWithoutShopInput
+    workingHours?: ShopWorkingHourUncheckedCreateNestedManyWithoutShopInput
+    userWorkingHours?: UserWorkingHourUncheckedCreateNestedManyWithoutShopInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopCreateOrConnectWithoutServicesInput = {
+    where: ShopWhereUniqueInput
+    create: XOR<ShopCreateWithoutServicesInput, ShopUncheckedCreateWithoutServicesInput>
+  }
+
+  export type ServiceAssignmentCreateWithoutServiceInput = {
+    shopUser: ShopUserCreateNestedOneWithoutAssignedServicesInput
+  }
+
+  export type ServiceAssignmentUncheckedCreateWithoutServiceInput = {
+    id?: number
+    shopUserId: number
+  }
+
+  export type ServiceAssignmentCreateOrConnectWithoutServiceInput = {
+    where: ServiceAssignmentWhereUniqueInput
+    create: XOR<ServiceAssignmentCreateWithoutServiceInput, ServiceAssignmentUncheckedCreateWithoutServiceInput>
+  }
+
+  export type ServiceAssignmentCreateManyServiceInputEnvelope = {
+    data: ServiceAssignmentCreateManyServiceInput | ServiceAssignmentCreateManyServiceInput[]
+    skipDuplicates?: boolean
   }
 
   export type BookingCreateWithoutServiceInput = {
@@ -15604,19 +16903,19 @@ export namespace Prisma {
     status?: $Enums.BookingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    customer: CustomerCreateNestedOneWithoutBookingsInput
     shop: ShopCreateNestedOneWithoutBookingsInput
-    user: UserCreateNestedOneWithoutBookingsInput
+    provider?: ShopUserCreateNestedOneWithoutBookingsInput
+    customer: CustomerCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateWithoutServiceInput = {
     id?: number
+    shopId: number
+    providerId?: number | null
+    customerId: number
     startTime: Date | string
     endTime: Date | string
     status?: $Enums.BookingStatus
-    customerId: number
-    shopId: number
-    userId: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15631,70 +16930,56 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithoutServicesInput = {
-    update: XOR<UserUpdateWithoutServicesInput, UserUncheckedUpdateWithoutServicesInput>
-    create: XOR<UserCreateWithoutServicesInput, UserUncheckedCreateWithoutServicesInput>
-    where?: UserWhereInput
+  export type ShopUpsertWithoutServicesInput = {
+    update: XOR<ShopUpdateWithoutServicesInput, ShopUncheckedUpdateWithoutServicesInput>
+    create: XOR<ShopCreateWithoutServicesInput, ShopUncheckedCreateWithoutServicesInput>
+    where?: ShopWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutServicesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutServicesInput, UserUncheckedUpdateWithoutServicesInput>
+  export type ShopUpdateToOneWithWhereWithoutServicesInput = {
+    where?: ShopWhereInput
+    data: XOR<ShopUpdateWithoutServicesInput, ShopUncheckedUpdateWithoutServicesInput>
   }
 
-  export type UserUpdateWithoutServicesInput = {
+  export type ShopUpdateWithoutServicesInput = {
     name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneWithoutUsersNestedInput
-    users?: UserUpdateManyWithoutOwnerNestedInput
-    shop?: ShopUpdateOneWithoutAssignedUsersNestedInput
-    shops?: ShopUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUpdateManyWithoutAssignedUsersNestedInput
-    workingHours?: WorkingHourUpdateManyWithoutUserNestedInput
-    bookings?: BookingUpdateManyWithoutUserNestedInput
+    owner?: UserUpdateOneRequiredWithoutOwnedShopsNestedInput
+    members?: ShopUserUpdateManyWithoutShopNestedInput
+    workingHours?: ShopWorkingHourUpdateManyWithoutShopNestedInput
+    userWorkingHours?: UserWorkingHourUpdateManyWithoutShopNestedInput
+    bookings?: BookingUpdateManyWithoutShopNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutServicesInput = {
+  export type ShopUncheckedUpdateWithoutServicesInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
-    ownerId?: NullableIntFieldUpdateOperationsInput | number | null
-    shopId?: NullableIntFieldUpdateOperationsInput | number | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUncheckedUpdateManyWithoutOwnerNestedInput
-    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUncheckedUpdateManyWithoutAssignedUsersNestedInput
-    workingHours?: WorkingHourUncheckedUpdateManyWithoutUserNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutUserNestedInput
+    members?: ShopUserUncheckedUpdateManyWithoutShopNestedInput
+    workingHours?: ShopWorkingHourUncheckedUpdateManyWithoutShopNestedInput
+    userWorkingHours?: UserWorkingHourUncheckedUpdateManyWithoutShopNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
   }
 
-  export type UserUpsertWithWhereUniqueWithoutAssignedServicesInput = {
-    where: UserWhereUniqueInput
-    update: XOR<UserUpdateWithoutAssignedServicesInput, UserUncheckedUpdateWithoutAssignedServicesInput>
-    create: XOR<UserCreateWithoutAssignedServicesInput, UserUncheckedCreateWithoutAssignedServicesInput>
+  export type ServiceAssignmentUpsertWithWhereUniqueWithoutServiceInput = {
+    where: ServiceAssignmentWhereUniqueInput
+    update: XOR<ServiceAssignmentUpdateWithoutServiceInput, ServiceAssignmentUncheckedUpdateWithoutServiceInput>
+    create: XOR<ServiceAssignmentCreateWithoutServiceInput, ServiceAssignmentUncheckedCreateWithoutServiceInput>
   }
 
-  export type UserUpdateWithWhereUniqueWithoutAssignedServicesInput = {
-    where: UserWhereUniqueInput
-    data: XOR<UserUpdateWithoutAssignedServicesInput, UserUncheckedUpdateWithoutAssignedServicesInput>
+  export type ServiceAssignmentUpdateWithWhereUniqueWithoutServiceInput = {
+    where: ServiceAssignmentWhereUniqueInput
+    data: XOR<ServiceAssignmentUpdateWithoutServiceInput, ServiceAssignmentUncheckedUpdateWithoutServiceInput>
   }
 
-  export type UserUpdateManyWithWhereWithoutAssignedServicesInput = {
-    where: UserScalarWhereInput
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutAssignedServicesInput>
+  export type ServiceAssignmentUpdateManyWithWhereWithoutServiceInput = {
+    where: ServiceAssignmentScalarWhereInput
+    data: XOR<ServiceAssignmentUpdateManyMutationInput, ServiceAssignmentUncheckedUpdateManyWithoutServiceInput>
   }
 
   export type BookingUpsertWithWhereUniqueWithoutServiceInput = {
@@ -15713,6 +16998,130 @@ export namespace Prisma {
     data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutServiceInput>
   }
 
+  export type ServiceCreateWithoutAssignedUsersInput = {
+    name: string
+    duration: number
+    price: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shop: ShopCreateNestedOneWithoutServicesInput
+    bookings?: BookingCreateNestedManyWithoutServiceInput
+  }
+
+  export type ServiceUncheckedCreateWithoutAssignedUsersInput = {
+    id?: number
+    shopId: number
+    name: string
+    duration: number
+    price: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bookings?: BookingUncheckedCreateNestedManyWithoutServiceInput
+  }
+
+  export type ServiceCreateOrConnectWithoutAssignedUsersInput = {
+    where: ServiceWhereUniqueInput
+    create: XOR<ServiceCreateWithoutAssignedUsersInput, ServiceUncheckedCreateWithoutAssignedUsersInput>
+  }
+
+  export type ShopUserCreateWithoutAssignedServicesInput = {
+    role: $Enums.ShopRole
+    active?: boolean
+    bookable?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shop: ShopCreateNestedOneWithoutMembersInput
+    user: UserCreateNestedOneWithoutMembershipsInput
+    workingHours?: UserWorkingHourCreateNestedManyWithoutShopUserInput
+    bookings?: BookingCreateNestedManyWithoutProviderInput
+  }
+
+  export type ShopUserUncheckedCreateWithoutAssignedServicesInput = {
+    id?: number
+    shopId: number
+    userId: number
+    role: $Enums.ShopRole
+    active?: boolean
+    bookable?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workingHours?: UserWorkingHourUncheckedCreateNestedManyWithoutShopUserInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutProviderInput
+  }
+
+  export type ShopUserCreateOrConnectWithoutAssignedServicesInput = {
+    where: ShopUserWhereUniqueInput
+    create: XOR<ShopUserCreateWithoutAssignedServicesInput, ShopUserUncheckedCreateWithoutAssignedServicesInput>
+  }
+
+  export type ServiceUpsertWithoutAssignedUsersInput = {
+    update: XOR<ServiceUpdateWithoutAssignedUsersInput, ServiceUncheckedUpdateWithoutAssignedUsersInput>
+    create: XOR<ServiceCreateWithoutAssignedUsersInput, ServiceUncheckedCreateWithoutAssignedUsersInput>
+    where?: ServiceWhereInput
+  }
+
+  export type ServiceUpdateToOneWithWhereWithoutAssignedUsersInput = {
+    where?: ServiceWhereInput
+    data: XOR<ServiceUpdateWithoutAssignedUsersInput, ServiceUncheckedUpdateWithoutAssignedUsersInput>
+  }
+
+  export type ServiceUpdateWithoutAssignedUsersInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shop?: ShopUpdateOneRequiredWithoutServicesNestedInput
+    bookings?: BookingUpdateManyWithoutServiceNestedInput
+  }
+
+  export type ServiceUncheckedUpdateWithoutAssignedUsersInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
+  }
+
+  export type ShopUserUpsertWithoutAssignedServicesInput = {
+    update: XOR<ShopUserUpdateWithoutAssignedServicesInput, ShopUserUncheckedUpdateWithoutAssignedServicesInput>
+    create: XOR<ShopUserCreateWithoutAssignedServicesInput, ShopUserUncheckedCreateWithoutAssignedServicesInput>
+    where?: ShopUserWhereInput
+  }
+
+  export type ShopUserUpdateToOneWithWhereWithoutAssignedServicesInput = {
+    where?: ShopUserWhereInput
+    data: XOR<ShopUserUpdateWithoutAssignedServicesInput, ShopUserUncheckedUpdateWithoutAssignedServicesInput>
+  }
+
+  export type ShopUserUpdateWithoutAssignedServicesInput = {
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
+    active?: BoolFieldUpdateOperationsInput | boolean
+    bookable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shop?: ShopUpdateOneRequiredWithoutMembersNestedInput
+    user?: UserUpdateOneRequiredWithoutMembershipsNestedInput
+    workingHours?: UserWorkingHourUpdateManyWithoutShopUserNestedInput
+    bookings?: BookingUpdateManyWithoutProviderNestedInput
+  }
+
+  export type ShopUserUncheckedUpdateWithoutAssignedServicesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
+    active?: BoolFieldUpdateOperationsInput | boolean
+    bookable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workingHours?: UserWorkingHourUncheckedUpdateManyWithoutShopUserNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutProviderNestedInput
+  }
+
   export type BookingCreateWithoutCustomerInput = {
     startTime: Date | string
     endTime: Date | string
@@ -15720,18 +17129,18 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     shop: ShopCreateNestedOneWithoutBookingsInput
-    user: UserCreateNestedOneWithoutBookingsInput
     service: ServiceCreateNestedOneWithoutBookingsInput
+    provider?: ShopUserCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateWithoutCustomerInput = {
     id?: number
+    shopId: number
+    serviceId: number
+    providerId?: number | null
     startTime: Date | string
     endTime: Date | string
     status?: $Enums.BookingStatus
-    shopId: number
-    userId: number
-    serviceId: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15762,10 +17171,98 @@ export namespace Prisma {
     data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutCustomerInput>
   }
 
+  export type ShopCreateWithoutBookingsInput = {
+    name: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutOwnedShopsInput
+    members?: ShopUserCreateNestedManyWithoutShopInput
+    workingHours?: ShopWorkingHourCreateNestedManyWithoutShopInput
+    userWorkingHours?: UserWorkingHourCreateNestedManyWithoutShopInput
+    services?: ServiceCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUncheckedCreateWithoutBookingsInput = {
+    id?: number
+    name: string
+    address?: string | null
+    ownerId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: ShopUserUncheckedCreateNestedManyWithoutShopInput
+    workingHours?: ShopWorkingHourUncheckedCreateNestedManyWithoutShopInput
+    userWorkingHours?: UserWorkingHourUncheckedCreateNestedManyWithoutShopInput
+    services?: ServiceUncheckedCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopCreateOrConnectWithoutBookingsInput = {
+    where: ShopWhereUniqueInput
+    create: XOR<ShopCreateWithoutBookingsInput, ShopUncheckedCreateWithoutBookingsInput>
+  }
+
+  export type ServiceCreateWithoutBookingsInput = {
+    name: string
+    duration: number
+    price: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shop: ShopCreateNestedOneWithoutServicesInput
+    assignedUsers?: ServiceAssignmentCreateNestedManyWithoutServiceInput
+  }
+
+  export type ServiceUncheckedCreateWithoutBookingsInput = {
+    id?: number
+    shopId: number
+    name: string
+    duration: number
+    price: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    assignedUsers?: ServiceAssignmentUncheckedCreateNestedManyWithoutServiceInput
+  }
+
+  export type ServiceCreateOrConnectWithoutBookingsInput = {
+    where: ServiceWhereUniqueInput
+    create: XOR<ServiceCreateWithoutBookingsInput, ServiceUncheckedCreateWithoutBookingsInput>
+  }
+
+  export type ShopUserCreateWithoutBookingsInput = {
+    role: $Enums.ShopRole
+    active?: boolean
+    bookable?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shop: ShopCreateNestedOneWithoutMembersInput
+    user: UserCreateNestedOneWithoutMembershipsInput
+    workingHours?: UserWorkingHourCreateNestedManyWithoutShopUserInput
+    assignedServices?: ServiceAssignmentCreateNestedManyWithoutShopUserInput
+  }
+
+  export type ShopUserUncheckedCreateWithoutBookingsInput = {
+    id?: number
+    shopId: number
+    userId: number
+    role: $Enums.ShopRole
+    active?: boolean
+    bookable?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workingHours?: UserWorkingHourUncheckedCreateNestedManyWithoutShopUserInput
+    assignedServices?: ServiceAssignmentUncheckedCreateNestedManyWithoutShopUserInput
+  }
+
+  export type ShopUserCreateOrConnectWithoutBookingsInput = {
+    where: ShopUserWhereUniqueInput
+    create: XOR<ShopUserCreateWithoutBookingsInput, ShopUserUncheckedCreateWithoutBookingsInput>
+  }
+
   export type CustomerCreateWithoutBookingsInput = {
     name: string
     phone: string
     email?: string | null
+    note?: string | null
+    banned?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15775,6 +17272,8 @@ export namespace Prisma {
     name: string
     phone: string
     email?: string | null
+    note?: string | null
+    banned?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -15782,130 +17281,6 @@ export namespace Prisma {
   export type CustomerCreateOrConnectWithoutBookingsInput = {
     where: CustomerWhereUniqueInput
     create: XOR<CustomerCreateWithoutBookingsInput, CustomerUncheckedCreateWithoutBookingsInput>
-  }
-
-  export type ShopCreateWithoutBookingsInput = {
-    name: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    owner: UserCreateNestedOneWithoutShopsInput
-    assignedUsers?: UserCreateNestedManyWithoutShopInput
-    inventory?: InventoryItemCreateNestedManyWithoutShopInput
-    openingRanges?: ShopOpeningRangeCreateNestedManyWithoutShopInput
-  }
-
-  export type ShopUncheckedCreateWithoutBookingsInput = {
-    id?: number
-    name: string
-    ownerId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    assignedUsers?: UserUncheckedCreateNestedManyWithoutShopInput
-    inventory?: InventoryItemUncheckedCreateNestedManyWithoutShopInput
-    openingRanges?: ShopOpeningRangeUncheckedCreateNestedManyWithoutShopInput
-  }
-
-  export type ShopCreateOrConnectWithoutBookingsInput = {
-    where: ShopWhereUniqueInput
-    create: XOR<ShopCreateWithoutBookingsInput, ShopUncheckedCreateWithoutBookingsInput>
-  }
-
-  export type UserCreateWithoutBookingsInput = {
-    name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
-    active?: boolean
-    bookable?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    owner?: UserCreateNestedOneWithoutUsersInput
-    users?: UserCreateNestedManyWithoutOwnerInput
-    shop?: ShopCreateNestedOneWithoutAssignedUsersInput
-    shops?: ShopCreateNestedManyWithoutOwnerInput
-    services?: ServiceCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceCreateNestedManyWithoutAssignedUsersInput
-    workingHours?: WorkingHourCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutBookingsInput = {
-    id?: number
-    name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
-    active?: boolean
-    bookable?: boolean
-    ownerId?: number | null
-    shopId?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserUncheckedCreateNestedManyWithoutOwnerInput
-    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
-    services?: ServiceUncheckedCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceUncheckedCreateNestedManyWithoutAssignedUsersInput
-    workingHours?: WorkingHourUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutBookingsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
-  }
-
-  export type ServiceCreateWithoutBookingsInput = {
-    name: string
-    duration: number
-    price: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    owner: UserCreateNestedOneWithoutServicesInput
-    assignedUsers?: UserCreateNestedManyWithoutAssignedServicesInput
-  }
-
-  export type ServiceUncheckedCreateWithoutBookingsInput = {
-    id?: number
-    name: string
-    duration: number
-    price: number
-    ownerId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    assignedUsers?: UserUncheckedCreateNestedManyWithoutAssignedServicesInput
-  }
-
-  export type ServiceCreateOrConnectWithoutBookingsInput = {
-    where: ServiceWhereUniqueInput
-    create: XOR<ServiceCreateWithoutBookingsInput, ServiceUncheckedCreateWithoutBookingsInput>
-  }
-
-  export type CustomerUpsertWithoutBookingsInput = {
-    update: XOR<CustomerUpdateWithoutBookingsInput, CustomerUncheckedUpdateWithoutBookingsInput>
-    create: XOR<CustomerCreateWithoutBookingsInput, CustomerUncheckedCreateWithoutBookingsInput>
-    where?: CustomerWhereInput
-  }
-
-  export type CustomerUpdateToOneWithWhereWithoutBookingsInput = {
-    where?: CustomerWhereInput
-    data: XOR<CustomerUpdateWithoutBookingsInput, CustomerUncheckedUpdateWithoutBookingsInput>
-  }
-
-  export type CustomerUpdateWithoutBookingsInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CustomerUncheckedUpdateWithoutBookingsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ShopUpsertWithoutBookingsInput = {
@@ -15921,73 +17296,27 @@ export namespace Prisma {
 
   export type ShopUpdateWithoutBookingsInput = {
     name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
-    assignedUsers?: UserUpdateManyWithoutShopNestedInput
-    inventory?: InventoryItemUpdateManyWithoutShopNestedInput
-    openingRanges?: ShopOpeningRangeUpdateManyWithoutShopNestedInput
+    owner?: UserUpdateOneRequiredWithoutOwnedShopsNestedInput
+    members?: ShopUserUpdateManyWithoutShopNestedInput
+    workingHours?: ShopWorkingHourUpdateManyWithoutShopNestedInput
+    userWorkingHours?: UserWorkingHourUpdateManyWithoutShopNestedInput
+    services?: ServiceUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateWithoutBookingsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     ownerId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    assignedUsers?: UserUncheckedUpdateManyWithoutShopNestedInput
-    inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
-    openingRanges?: ShopOpeningRangeUncheckedUpdateManyWithoutShopNestedInput
-  }
-
-  export type UserUpsertWithoutBookingsInput = {
-    update: XOR<UserUpdateWithoutBookingsInput, UserUncheckedUpdateWithoutBookingsInput>
-    create: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutBookingsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutBookingsInput, UserUncheckedUpdateWithoutBookingsInput>
-  }
-
-  export type UserUpdateWithoutBookingsInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneWithoutUsersNestedInput
-    users?: UserUpdateManyWithoutOwnerNestedInput
-    shop?: ShopUpdateOneWithoutAssignedUsersNestedInput
-    shops?: ShopUpdateManyWithoutOwnerNestedInput
-    services?: ServiceUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUpdateManyWithoutAssignedUsersNestedInput
-    workingHours?: WorkingHourUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutBookingsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
-    ownerId?: NullableIntFieldUpdateOperationsInput | number | null
-    shopId?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUncheckedUpdateManyWithoutOwnerNestedInput
-    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
-    services?: ServiceUncheckedUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUncheckedUpdateManyWithoutAssignedUsersNestedInput
-    workingHours?: WorkingHourUncheckedUpdateManyWithoutUserNestedInput
+    members?: ShopUserUncheckedUpdateManyWithoutShopNestedInput
+    workingHours?: ShopWorkingHourUncheckedUpdateManyWithoutShopNestedInput
+    userWorkingHours?: UserWorkingHourUncheckedUpdateManyWithoutShopNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type ServiceUpsertWithoutBookingsInput = {
@@ -16007,195 +17336,207 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneRequiredWithoutServicesNestedInput
-    assignedUsers?: UserUpdateManyWithoutAssignedServicesNestedInput
+    shop?: ShopUpdateOneRequiredWithoutServicesNestedInput
+    assignedUsers?: ServiceAssignmentUpdateManyWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutBookingsInput = {
     id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    ownerId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    assignedUsers?: UserUncheckedUpdateManyWithoutAssignedServicesNestedInput
+    assignedUsers?: ServiceAssignmentUncheckedUpdateManyWithoutServiceNestedInput
   }
 
-  export type UserCreateWithoutWorkingHoursInput = {
-    name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
-    active?: boolean
-    bookable?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    owner?: UserCreateNestedOneWithoutUsersInput
-    users?: UserCreateNestedManyWithoutOwnerInput
-    shop?: ShopCreateNestedOneWithoutAssignedUsersInput
-    shops?: ShopCreateNestedManyWithoutOwnerInput
-    services?: ServiceCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceCreateNestedManyWithoutAssignedUsersInput
-    bookings?: BookingCreateNestedManyWithoutUserInput
+  export type ShopUserUpsertWithoutBookingsInput = {
+    update: XOR<ShopUserUpdateWithoutBookingsInput, ShopUserUncheckedUpdateWithoutBookingsInput>
+    create: XOR<ShopUserCreateWithoutBookingsInput, ShopUserUncheckedCreateWithoutBookingsInput>
+    where?: ShopUserWhereInput
   }
 
-  export type UserUncheckedCreateWithoutWorkingHoursInput = {
-    id?: number
-    name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
-    active?: boolean
-    bookable?: boolean
-    ownerId?: number | null
-    shopId?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserUncheckedCreateNestedManyWithoutOwnerInput
-    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
-    services?: ServiceUncheckedCreateNestedManyWithoutOwnerInput
-    assignedServices?: ServiceUncheckedCreateNestedManyWithoutAssignedUsersInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutUserInput
+  export type ShopUserUpdateToOneWithWhereWithoutBookingsInput = {
+    where?: ShopUserWhereInput
+    data: XOR<ShopUserUpdateWithoutBookingsInput, ShopUserUncheckedUpdateWithoutBookingsInput>
   }
 
-  export type UserCreateOrConnectWithoutWorkingHoursInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutWorkingHoursInput, UserUncheckedCreateWithoutWorkingHoursInput>
-  }
-
-  export type UserUpsertWithoutWorkingHoursInput = {
-    update: XOR<UserUpdateWithoutWorkingHoursInput, UserUncheckedUpdateWithoutWorkingHoursInput>
-    create: XOR<UserCreateWithoutWorkingHoursInput, UserUncheckedCreateWithoutWorkingHoursInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutWorkingHoursInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutWorkingHoursInput, UserUncheckedUpdateWithoutWorkingHoursInput>
-  }
-
-  export type UserUpdateWithoutWorkingHoursInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  export type ShopUserUpdateWithoutBookingsInput = {
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
     active?: BoolFieldUpdateOperationsInput | boolean
     bookable?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneWithoutUsersNestedInput
-    users?: UserUpdateManyWithoutOwnerNestedInput
-    shop?: ShopUpdateOneWithoutAssignedUsersNestedInput
-    shops?: ShopUpdateManyWithoutOwnerNestedInput
-    services?: ServiceUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUpdateManyWithoutAssignedUsersNestedInput
-    bookings?: BookingUpdateManyWithoutUserNestedInput
+    shop?: ShopUpdateOneRequiredWithoutMembersNestedInput
+    user?: UserUpdateOneRequiredWithoutMembershipsNestedInput
+    workingHours?: UserWorkingHourUpdateManyWithoutShopUserNestedInput
+    assignedServices?: ServiceAssignmentUpdateManyWithoutShopUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutWorkingHoursInput = {
+  export type ShopUserUncheckedUpdateWithoutBookingsInput = {
     id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    shopId?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
     active?: BoolFieldUpdateOperationsInput | boolean
     bookable?: BoolFieldUpdateOperationsInput | boolean
-    ownerId?: NullableIntFieldUpdateOperationsInput | number | null
-    shopId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUncheckedUpdateManyWithoutOwnerNestedInput
-    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
-    services?: ServiceUncheckedUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUncheckedUpdateManyWithoutAssignedUsersNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutUserNestedInput
+    workingHours?: UserWorkingHourUncheckedUpdateManyWithoutShopUserNestedInput
+    assignedServices?: ServiceAssignmentUncheckedUpdateManyWithoutShopUserNestedInput
   }
 
-  export type ShopCreateWithoutInventoryInput = {
-    name: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    owner: UserCreateNestedOneWithoutShopsInput
-    assignedUsers?: UserCreateNestedManyWithoutShopInput
-    bookings?: BookingCreateNestedManyWithoutShopInput
-    openingRanges?: ShopOpeningRangeCreateNestedManyWithoutShopInput
+  export type CustomerUpsertWithoutBookingsInput = {
+    update: XOR<CustomerUpdateWithoutBookingsInput, CustomerUncheckedUpdateWithoutBookingsInput>
+    create: XOR<CustomerCreateWithoutBookingsInput, CustomerUncheckedCreateWithoutBookingsInput>
+    where?: CustomerWhereInput
   }
 
-  export type ShopUncheckedCreateWithoutInventoryInput = {
-    id?: number
-    name: string
-    ownerId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    assignedUsers?: UserUncheckedCreateNestedManyWithoutShopInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutShopInput
-    openingRanges?: ShopOpeningRangeUncheckedCreateNestedManyWithoutShopInput
+  export type CustomerUpdateToOneWithWhereWithoutBookingsInput = {
+    where?: CustomerWhereInput
+    data: XOR<CustomerUpdateWithoutBookingsInput, CustomerUncheckedUpdateWithoutBookingsInput>
   }
 
-  export type ShopCreateOrConnectWithoutInventoryInput = {
-    where: ShopWhereUniqueInput
-    create: XOR<ShopCreateWithoutInventoryInput, ShopUncheckedCreateWithoutInventoryInput>
-  }
-
-  export type ShopUpsertWithoutInventoryInput = {
-    update: XOR<ShopUpdateWithoutInventoryInput, ShopUncheckedUpdateWithoutInventoryInput>
-    create: XOR<ShopCreateWithoutInventoryInput, ShopUncheckedCreateWithoutInventoryInput>
-    where?: ShopWhereInput
-  }
-
-  export type ShopUpdateToOneWithWhereWithoutInventoryInput = {
-    where?: ShopWhereInput
-    data: XOR<ShopUpdateWithoutInventoryInput, ShopUncheckedUpdateWithoutInventoryInput>
-  }
-
-  export type ShopUpdateWithoutInventoryInput = {
+  export type CustomerUpdateWithoutBookingsInput = {
     name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
-    assignedUsers?: UserUpdateManyWithoutShopNestedInput
-    bookings?: BookingUpdateManyWithoutShopNestedInput
-    openingRanges?: ShopOpeningRangeUpdateManyWithoutShopNestedInput
   }
 
-  export type ShopUncheckedUpdateWithoutInventoryInput = {
+  export type CustomerUncheckedUpdateWithoutBookingsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    ownerId?: IntFieldUpdateOperationsInput | number
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    assignedUsers?: UserUncheckedUpdateManyWithoutShopNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
-    openingRanges?: ShopOpeningRangeUncheckedUpdateManyWithoutShopNestedInput
-  }
-
-  export type UserCreateManyOwnerInput = {
-    id?: number
-    name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
-    active?: boolean
-    bookable?: boolean
-    shopId?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type ShopCreateManyOwnerInput = {
     id?: number
     name: string
+    address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type ServiceCreateManyOwnerInput = {
+  export type ShopUserCreateManyUserInput = {
+    id?: number
+    shopId: number
+    role: $Enums.ShopRole
+    active?: boolean
+    bookable?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShopUpdateWithoutOwnerInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: ShopUserUpdateManyWithoutShopNestedInput
+    workingHours?: ShopWorkingHourUpdateManyWithoutShopNestedInput
+    userWorkingHours?: UserWorkingHourUpdateManyWithoutShopNestedInput
+    services?: ServiceUpdateManyWithoutShopNestedInput
+    bookings?: BookingUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateWithoutOwnerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: ShopUserUncheckedUpdateManyWithoutShopNestedInput
+    workingHours?: ShopWorkingHourUncheckedUpdateManyWithoutShopNestedInput
+    userWorkingHours?: UserWorkingHourUncheckedUpdateManyWithoutShopNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutShopNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateManyWithoutOwnerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopUserUpdateWithoutUserInput = {
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
+    active?: BoolFieldUpdateOperationsInput | boolean
+    bookable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shop?: ShopUpdateOneRequiredWithoutMembersNestedInput
+    workingHours?: UserWorkingHourUpdateManyWithoutShopUserNestedInput
+    assignedServices?: ServiceAssignmentUpdateManyWithoutShopUserNestedInput
+    bookings?: BookingUpdateManyWithoutProviderNestedInput
+  }
+
+  export type ShopUserUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
+    active?: BoolFieldUpdateOperationsInput | boolean
+    bookable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workingHours?: UserWorkingHourUncheckedUpdateManyWithoutShopUserNestedInput
+    assignedServices?: ServiceAssignmentUncheckedUpdateManyWithoutShopUserNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutProviderNestedInput
+  }
+
+  export type ShopUserUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
+    active?: BoolFieldUpdateOperationsInput | boolean
+    bookable?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopUserCreateManyShopInput = {
+    id?: number
+    userId: number
+    role: $Enums.ShopRole
+    active?: boolean
+    bookable?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShopWorkingHourCreateManyShopInput = {
+    id?: number
+    dayOfWeek: $Enums.DayOfWeek
+    openTime: string
+    closeTime: string
+    isClosed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserWorkingHourCreateManyShopInput = {
+    id?: number
+    shopUserId: number
+    dayOfWeek: $Enums.DayOfWeek
+    startTime: string
+    endTime: string
+    isOff?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServiceCreateManyShopInput = {
     id?: number
     name: string
     duration: number
@@ -16204,350 +17545,140 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type WorkingHourCreateManyUserInput = {
-    id?: number
-    dayOfWeek: $Enums.DayOfWeek
-    startTime: Date | string
-    endTime: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type BookingCreateManyUserInput = {
-    id?: number
-    startTime: Date | string
-    endTime: Date | string
-    status?: $Enums.BookingStatus
-    customerId: number
-    shopId: number
-    serviceId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type UserUpdateWithoutOwnerInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUpdateManyWithoutOwnerNestedInput
-    shop?: ShopUpdateOneWithoutAssignedUsersNestedInput
-    shops?: ShopUpdateManyWithoutOwnerNestedInput
-    services?: ServiceUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUpdateManyWithoutAssignedUsersNestedInput
-    workingHours?: WorkingHourUpdateManyWithoutUserNestedInput
-    bookings?: BookingUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutOwnerInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
-    shopId?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUncheckedUpdateManyWithoutOwnerNestedInput
-    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
-    services?: ServiceUncheckedUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUncheckedUpdateManyWithoutAssignedUsersNestedInput
-    workingHours?: WorkingHourUncheckedUpdateManyWithoutUserNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateManyWithoutOwnerInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
-    shopId?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ShopUpdateWithoutOwnerInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    assignedUsers?: UserUpdateManyWithoutShopNestedInput
-    inventory?: InventoryItemUpdateManyWithoutShopNestedInput
-    bookings?: BookingUpdateManyWithoutShopNestedInput
-    openingRanges?: ShopOpeningRangeUpdateManyWithoutShopNestedInput
-  }
-
-  export type ShopUncheckedUpdateWithoutOwnerInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    assignedUsers?: UserUncheckedUpdateManyWithoutShopNestedInput
-    inventory?: InventoryItemUncheckedUpdateManyWithoutShopNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutShopNestedInput
-    openingRanges?: ShopOpeningRangeUncheckedUpdateManyWithoutShopNestedInput
-  }
-
-  export type ShopUncheckedUpdateManyWithoutOwnerInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ServiceUpdateWithoutOwnerInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    price?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    assignedUsers?: UserUpdateManyWithoutAssignedServicesNestedInput
-    bookings?: BookingUpdateManyWithoutServiceNestedInput
-  }
-
-  export type ServiceUncheckedUpdateWithoutOwnerInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    price?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    assignedUsers?: UserUncheckedUpdateManyWithoutAssignedServicesNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
-  }
-
-  export type ServiceUncheckedUpdateManyWithoutOwnerInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    price?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ServiceUpdateWithoutAssignedUsersInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    price?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneRequiredWithoutServicesNestedInput
-    bookings?: BookingUpdateManyWithoutServiceNestedInput
-  }
-
-  export type ServiceUncheckedUpdateWithoutAssignedUsersInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    price?: FloatFieldUpdateOperationsInput | number
-    ownerId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
-  }
-
-  export type ServiceUncheckedUpdateManyWithoutAssignedUsersInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    price?: FloatFieldUpdateOperationsInput | number
-    ownerId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WorkingHourUpdateWithoutUserInput = {
-    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WorkingHourUncheckedUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WorkingHourUncheckedUpdateManyWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BookingUpdateWithoutUserInput = {
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
-    shop?: ShopUpdateOneRequiredWithoutBookingsNestedInput
-    service?: ServiceUpdateOneRequiredWithoutBookingsNestedInput
-  }
-
-  export type BookingUncheckedUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
-    customerId?: IntFieldUpdateOperationsInput | number
-    shopId?: IntFieldUpdateOperationsInput | number
-    serviceId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BookingUncheckedUpdateManyWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
-    customerId?: IntFieldUpdateOperationsInput | number
-    shopId?: IntFieldUpdateOperationsInput | number
-    serviceId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UserCreateManyShopInput = {
-    id?: number
-    name: string
-    email: string
-    hashedPassword: string
-    subscription: $Enums.Subscription
-    role: $Enums.Role
-    active?: boolean
-    bookable?: boolean
-    ownerId?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type InventoryItemCreateManyShopInput = {
-    id?: number
-    name: string
-    quantity?: number
-    price?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
   export type BookingCreateManyShopInput = {
     id?: number
+    serviceId: number
+    providerId?: number | null
+    customerId: number
     startTime: Date | string
     endTime: Date | string
     status?: $Enums.BookingStatus
-    customerId: number
-    userId: number
-    serviceId: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type ShopOpeningRangeCreateManyShopInput = {
-    id?: number
-    startDate: Date | string
-    endDate?: Date | string | null
-    dayOfWeek: $Enums.DayOfWeek
-    openTime: string
-    closeTime: string
-    isClosed?: boolean
-  }
-
-  export type UserUpdateWithoutShopInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  export type ShopUserUpdateWithoutShopInput = {
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
     active?: BoolFieldUpdateOperationsInput | boolean
     bookable?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneWithoutUsersNestedInput
-    users?: UserUpdateManyWithoutOwnerNestedInput
-    shops?: ShopUpdateManyWithoutOwnerNestedInput
-    services?: ServiceUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUpdateManyWithoutAssignedUsersNestedInput
-    workingHours?: WorkingHourUpdateManyWithoutUserNestedInput
-    bookings?: BookingUpdateManyWithoutUserNestedInput
+    user?: UserUpdateOneRequiredWithoutMembershipsNestedInput
+    workingHours?: UserWorkingHourUpdateManyWithoutShopUserNestedInput
+    assignedServices?: ServiceAssignmentUpdateManyWithoutShopUserNestedInput
+    bookings?: BookingUpdateManyWithoutProviderNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutShopInput = {
+  export type ShopUserUncheckedUpdateWithoutShopInput = {
     id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    userId?: IntFieldUpdateOperationsInput | number
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
     active?: BoolFieldUpdateOperationsInput | boolean
     bookable?: BoolFieldUpdateOperationsInput | boolean
-    ownerId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUncheckedUpdateManyWithoutOwnerNestedInput
-    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
-    services?: ServiceUncheckedUpdateManyWithoutOwnerNestedInput
-    assignedServices?: ServiceUncheckedUpdateManyWithoutAssignedUsersNestedInput
-    workingHours?: WorkingHourUncheckedUpdateManyWithoutUserNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutUserNestedInput
+    workingHours?: UserWorkingHourUncheckedUpdateManyWithoutShopUserNestedInput
+    assignedServices?: ServiceAssignmentUncheckedUpdateManyWithoutShopUserNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutProviderNestedInput
   }
 
-  export type UserUncheckedUpdateManyWithoutShopInput = {
+  export type ShopUserUncheckedUpdateManyWithoutShopInput = {
     id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    userId?: IntFieldUpdateOperationsInput | number
+    role?: EnumShopRoleFieldUpdateOperationsInput | $Enums.ShopRole
     active?: BoolFieldUpdateOperationsInput | boolean
     bookable?: BoolFieldUpdateOperationsInput | boolean
-    ownerId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type InventoryItemUpdateWithoutShopInput = {
+  export type ShopWorkingHourUpdateWithoutShopInput = {
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopWorkingHourUncheckedUpdateWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopWorkingHourUncheckedUpdateManyWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    openTime?: StringFieldUpdateOperationsInput | string
+    closeTime?: StringFieldUpdateOperationsInput | string
+    isClosed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserWorkingHourUpdateWithoutShopInput = {
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isOff?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shopUser?: ShopUserUpdateOneRequiredWithoutWorkingHoursNestedInput
+  }
+
+  export type UserWorkingHourUncheckedUpdateWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopUserId?: IntFieldUpdateOperationsInput | number
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isOff?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserWorkingHourUncheckedUpdateManyWithoutShopInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopUserId?: IntFieldUpdateOperationsInput | number
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isOff?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceUpdateWithoutShopInput = {
     name?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
-    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    duration?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignedUsers?: ServiceAssignmentUpdateManyWithoutServiceNestedInput
+    bookings?: BookingUpdateManyWithoutServiceNestedInput
   }
 
-  export type InventoryItemUncheckedUpdateWithoutShopInput = {
+  export type ServiceUncheckedUpdateWithoutShopInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
-    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    duration?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignedUsers?: ServiceAssignmentUncheckedUpdateManyWithoutServiceNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutServiceNestedInput
   }
 
-  export type InventoryItemUncheckedUpdateManyWithoutShopInput = {
+  export type ServiceUncheckedUpdateManyWithoutShopInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
-    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    duration?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16558,128 +17689,173 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
-    user?: UserUpdateOneRequiredWithoutBookingsNestedInput
     service?: ServiceUpdateOneRequiredWithoutBookingsNestedInput
+    provider?: ShopUserUpdateOneWithoutBookingsNestedInput
+    customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutShopInput = {
     id?: IntFieldUpdateOperationsInput | number
+    serviceId?: IntFieldUpdateOperationsInput | number
+    providerId?: NullableIntFieldUpdateOperationsInput | number | null
+    customerId?: IntFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
-    customerId?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    serviceId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingUncheckedUpdateManyWithoutShopInput = {
     id?: IntFieldUpdateOperationsInput | number
+    serviceId?: IntFieldUpdateOperationsInput | number
+    providerId?: NullableIntFieldUpdateOperationsInput | number | null
+    customerId?: IntFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
-    customerId?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    serviceId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ShopOpeningRangeUpdateWithoutShopInput = {
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-    openTime?: StringFieldUpdateOperationsInput | string
-    closeTime?: StringFieldUpdateOperationsInput | string
-    isClosed?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type ShopOpeningRangeUncheckedUpdateWithoutShopInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-    openTime?: StringFieldUpdateOperationsInput | string
-    closeTime?: StringFieldUpdateOperationsInput | string
-    isClosed?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type ShopOpeningRangeUncheckedUpdateManyWithoutShopInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-    openTime?: StringFieldUpdateOperationsInput | string
-    closeTime?: StringFieldUpdateOperationsInput | string
-    isClosed?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type BookingCreateManyServiceInput = {
+  export type UserWorkingHourCreateManyShopUserInput = {
     id?: number
-    startTime: Date | string
-    endTime: Date | string
-    status?: $Enums.BookingStatus
-    customerId: number
     shopId: number
-    userId: number
+    dayOfWeek: $Enums.DayOfWeek
+    startTime: string
+    endTime: string
+    isOff?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type UserUpdateWithoutAssignedServicesInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneWithoutUsersNestedInput
-    users?: UserUpdateManyWithoutOwnerNestedInput
-    shop?: ShopUpdateOneWithoutAssignedUsersNestedInput
-    shops?: ShopUpdateManyWithoutOwnerNestedInput
-    services?: ServiceUpdateManyWithoutOwnerNestedInput
-    workingHours?: WorkingHourUpdateManyWithoutUserNestedInput
-    bookings?: BookingUpdateManyWithoutUserNestedInput
+  export type ServiceAssignmentCreateManyShopUserInput = {
+    id?: number
+    serviceId: number
   }
 
-  export type UserUncheckedUpdateWithoutAssignedServicesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
-    ownerId?: NullableIntFieldUpdateOperationsInput | number | null
-    shopId?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUncheckedUpdateManyWithoutOwnerNestedInput
-    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
-    services?: ServiceUncheckedUpdateManyWithoutOwnerNestedInput
-    workingHours?: WorkingHourUncheckedUpdateManyWithoutUserNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutUserNestedInput
+  export type BookingCreateManyProviderInput = {
+    id?: number
+    shopId: number
+    serviceId: number
+    customerId: number
+    startTime: Date | string
+    endTime: Date | string
+    status?: $Enums.BookingStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type UserUncheckedUpdateManyWithoutAssignedServicesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    hashedPassword?: StringFieldUpdateOperationsInput | string
-    subscription?: EnumSubscriptionFieldUpdateOperationsInput | $Enums.Subscription
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    active?: BoolFieldUpdateOperationsInput | boolean
-    bookable?: BoolFieldUpdateOperationsInput | boolean
-    ownerId?: NullableIntFieldUpdateOperationsInput | number | null
-    shopId?: NullableIntFieldUpdateOperationsInput | number | null
+  export type UserWorkingHourUpdateWithoutShopUserInput = {
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isOff?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shop?: ShopUpdateOneRequiredWithoutUserWorkingHoursNestedInput
+  }
+
+  export type UserWorkingHourUncheckedUpdateWithoutShopUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isOff?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserWorkingHourUncheckedUpdateManyWithoutShopUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    dayOfWeek?: EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    isOff?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceAssignmentUpdateWithoutShopUserInput = {
+    service?: ServiceUpdateOneRequiredWithoutAssignedUsersNestedInput
+  }
+
+  export type ServiceAssignmentUncheckedUpdateWithoutShopUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    serviceId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ServiceAssignmentUncheckedUpdateManyWithoutShopUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    serviceId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BookingUpdateWithoutProviderInput = {
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shop?: ShopUpdateOneRequiredWithoutBookingsNestedInput
+    service?: ServiceUpdateOneRequiredWithoutBookingsNestedInput
+    customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
+  }
+
+  export type BookingUncheckedUpdateWithoutProviderInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    serviceId?: IntFieldUpdateOperationsInput | number
+    customerId?: IntFieldUpdateOperationsInput | number
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BookingUncheckedUpdateManyWithoutProviderInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    serviceId?: IntFieldUpdateOperationsInput | number
+    customerId?: IntFieldUpdateOperationsInput | number
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceAssignmentCreateManyServiceInput = {
+    id?: number
+    shopUserId: number
+  }
+
+  export type BookingCreateManyServiceInput = {
+    id?: number
+    shopId: number
+    providerId?: number | null
+    customerId: number
+    startTime: Date | string
+    endTime: Date | string
+    status?: $Enums.BookingStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServiceAssignmentUpdateWithoutServiceInput = {
+    shopUser?: ShopUserUpdateOneRequiredWithoutAssignedServicesNestedInput
+  }
+
+  export type ServiceAssignmentUncheckedUpdateWithoutServiceInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopUserId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ServiceAssignmentUncheckedUpdateManyWithoutServiceInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    shopUserId?: IntFieldUpdateOperationsInput | number
   }
 
   export type BookingUpdateWithoutServiceInput = {
@@ -16688,43 +17864,43 @@ export namespace Prisma {
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
     shop?: ShopUpdateOneRequiredWithoutBookingsNestedInput
-    user?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    provider?: ShopUserUpdateOneWithoutBookingsNestedInput
+    customer?: CustomerUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutServiceInput = {
     id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    providerId?: NullableIntFieldUpdateOperationsInput | number | null
+    customerId?: IntFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
-    customerId?: IntFieldUpdateOperationsInput | number
-    shopId?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingUncheckedUpdateManyWithoutServiceInput = {
     id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    providerId?: NullableIntFieldUpdateOperationsInput | number | null
+    customerId?: IntFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
-    customerId?: IntFieldUpdateOperationsInput | number
-    shopId?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingCreateManyCustomerInput = {
     id?: number
+    shopId: number
+    serviceId: number
+    providerId?: number | null
     startTime: Date | string
     endTime: Date | string
     status?: $Enums.BookingStatus
-    shopId: number
-    userId: number
-    serviceId: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -16736,30 +17912,30 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shop?: ShopUpdateOneRequiredWithoutBookingsNestedInput
-    user?: UserUpdateOneRequiredWithoutBookingsNestedInput
     service?: ServiceUpdateOneRequiredWithoutBookingsNestedInput
+    provider?: ShopUserUpdateOneWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutCustomerInput = {
     id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    serviceId?: IntFieldUpdateOperationsInput | number
+    providerId?: NullableIntFieldUpdateOperationsInput | number | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
-    shopId?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    serviceId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingUncheckedUpdateManyWithoutCustomerInput = {
     id?: IntFieldUpdateOperationsInput | number
+    shopId?: IntFieldUpdateOperationsInput | number
+    serviceId?: IntFieldUpdateOperationsInput | number
+    providerId?: NullableIntFieldUpdateOperationsInput | number | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
-    shopId?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    serviceId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
